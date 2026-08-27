@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6上國語 L1 跑道 | 學習城堡冒險單元</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B6B;
+            --primary-dark: #E53E3E;
+            --secondary: #4A90E2;
+            --accent: #FFD166;
+            --bg-gradient: linear-gradient(135deg, #FFF5F5 0%, #FED7D7 50%, #FEEBC8 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2D3748;
+            --text-muted: #718096;
+            --border-color: #FEB2B2;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --shadow-md: 0 10px 25px -5px rgba(229, 62, 62, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #2D3748 0%, #1A202C 100%);
+            --card-bg: rgba(45, 55, 72, 0.92);
+            --text-main: #F7FAFC;
+            --text-muted: #CBD5E0;
+            --border-color: #4A5568;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 30px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .hero-banner {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            text-align: center;
+            border: 3px solid var(--primary);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 25px;
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .vocab-item {
+            background: rgba(255, 107, 107, 0.08);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .vocab-word {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .vocab-def {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .quiz-option {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .quiz-option.correct {
+            background: #C6F6D5 !important;
+            border-color: #38A169 !important;
+            color: #22543D !important;
+        }
+
+        .quiz-option.wrong {
+            background: #FED7D7 !important;
+            border-color: #E53E3E !important;
+            color: #742A2A !important;
+        }
+
+        .score-box {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header-nav">
+            <a href="index.html" class="back-btn">
+                <span>🏠</span>
+                <span>返回城堡主頁</span>
+            </a>
+            <span class="hero-badge">康軒 6 上國語・第一課</span>
+        </div>
+
+        <div class="hero-banner">
+            <h1 class="hero-title">🏃 第一課：跑道</h1>
+            <p style="color: var(--text-muted); margin-top: 6px;">作者：陳肇宜 | 文體：記敘文</p>
+        </div>
+
+        <div class="section-card">
+            <h2 class="section-title">📖 課文核心大意與精神</h2>
+            <p style="line-height: 1.8; font-size: 1.05rem;">
+                本課透過六年六班大拉鋸的四百公尺大接力賽，深刻描繪主角政彬因為被調整棒次而心中的失落、沉重與競爭情緒。但在看見隊友名揚受傷仍帶傷奮戰、彼此打氣的團隊精神後，政彬放下個人的得失心，全力以赴衝刺。最終從最初的「你贏了！」昇華為擁抱彼此說出「我們贏了！」，體會到團體榮耀超越個人得失的真諦。
+            </p>
+        </div>
+
+        <div class="section-card">
+            <h2 class="section-title">💡 重點成語與生字彙整</h2>
+            <div class="vocab-grid">
+                <div class="vocab-item">
+                    <div class="vocab-word">以偏概全</div>
+                    <div class="vocab-def">以少數的例證或特殊的情形，強行概括整體。</div>
+                </div>
+                <div class="vocab-item">
+                    <div class="vocab-word">屈指可數</div>
+                    <div class="vocab-def">彎曲手指即可數清，形容數量非常稀少。</div>
+                </div>
+                <div class="vocab-item">
+                    <div class="vocab-word">巧奪天工</div>
+                    <div class="vocab-def">人工製作精巧勝過天然，形容技藝神奇巧妙。</div>
+                </div>
+                <div class="vocab-item">
+                    <div class="vocab-word">相知恨晚</div>
+                    <div class="vocab-def">遺憾相識太晚，形容一見如故、意氣相投。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2 class="section-title">🎯 課文理解大挑戰</h2>
+            <div id="quizContainer">
+                <p id="questionText" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 12px;"></p>
+                <div id="optionsGroup"></div>
+                <div id="feedbackText" style="margin-top: 12px; font-weight: 700;"></div>
+            </div>
+            <div class="score-box" id="scoreDisplay">得分：0 分</div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "在《跑道》一課中，政彬最後說出的「我們贏了！」，代表了何種心境的轉變？",
+                options: [
+                    "從在意個人得失，昇華為體會團隊精神與共同榮耀",
+                    "因為獲得第一名而對同班同學感到驕傲炫耀",
+                    "證明自己跑第四棒比名揚還要優秀",
+                    "埋怨老師沒有安排他跑最後一棒"
+                ],
+                ans: 0
+            },
+            {
+                q: "下列哪一個成語是用來形容「人工技術極為精巧，甚至勝過天然」？",
+                options: ["以偏概全", "巧奪天工", "屈指可數", "相知恨晚"],
+                ans: 1
+            },
+            {
+                q: "政彬與名揚同為哪一個班級的接力賽選手？",
+                options: ["五年五班", "五年六班", "六年五班", "六年六班"],
+                ans: 3
+            }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            if (currentQ >= questions.length) {
+                document.getElementById('quizContainer').innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <h3 style="font-size: 1.8rem; color: var(--primary);">🎉 恭喜完成第一課學習挑戰！</h3>
+                        <p style="font-size: 1.2rem; margin-top: 10px;">你的最終得分：${score} / ${questions.length * 100} 分</p>
+                        <button onclick="location.reload()" style="margin-top: 15px; padding: 10px 20px; background: var(--primary); color:#fff; border:none; border-radius:20px; font-weight:700; cursor:pointer;">🔄 重新挑戰</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = questions[currentQ];
+            document.getElementById('questionText').textContent = `Q${currentQ + 1}. ${q.q}`;
+            const optionsGroup = document.getElementById('optionsGroup');
+            optionsGroup.innerHTML = '';
+            document.getElementById('feedbackText').textContent = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(idx, q.ans);
+                optionsGroup.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            const btns = document.querySelectorAll('.quiz-option');
+            btns.forEach(b => b.disabled = true);
+
+            if (selected === correct) {
+                btns[selected].classList.add('correct');
+                document.getElementById('feedbackText').textContent = '✅ 回答正確！太棒了！';
+                document.getElementById('feedbackText').style.color = '#276749';
+                score += 100;
+            } else {
+                btns[selected].classList.add('wrong');
+                btns[correct].classList.add('correct');
+                document.getElementById('feedbackText').textContent = '❌ 回答錯誤，要再仔細複習課文喔！';
+                document.getElementById('feedbackText').style.color = '#9B2C2C';
+            }
+
+            document.getElementById('scoreDisplay').textContent = `得分：${score} 分`;
+
+            setTimeout(() => {
+                currentQ++;
+                loadQuestion();
+            }, 1800);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadQuestion);
+    </script>
+</body>
+</html>

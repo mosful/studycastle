@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6上國語 期中評量大挑戰 | 學習城堡冒險單元</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #9333EA;
+            --primary-dark: #7E22CE;
+            --secondary: #4A90E2;
+            --bg-gradient: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 50%, #E9D5FF 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2D3748;
+            --text-muted: #718096;
+            --border-color: #E9D5FF;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --shadow-md: 0 10px 25px -5px rgba(147, 51, 234, 0.2);
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #581C87 0%, #1A202C 100%);
+            --card-bg: rgba(45, 55, 72, 0.92);
+            --text-main: #F7FAFC;
+            --text-muted: #CBD5E0;
+            --border-color: #6B21A8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 30px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .hero-banner {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            text-align: center;
+            border: 3px solid var(--primary);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 25px;
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 8px;
+        }
+
+        .quiz-option {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--primary);
+            background: rgba(147, 51, 234, 0.1);
+        }
+
+        .quiz-option.correct {
+            background: #C6F6D5 !important;
+            border-color: #38A169 !important;
+            color: #22543D !important;
+        }
+
+        .quiz-option.wrong {
+            background: #FED7D7 !important;
+            border-color: #E53E3E !important;
+            color: #742A2A !important;
+        }
+
+        .score-box {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header-nav">
+            <a href="index.html" class="back-btn">
+                <span>🏠</span>
+                <span>返回城堡主頁</span>
+            </a>
+            <span class="hero-badge">康軒 6 上國語・期中綜合評量</span>
+        </div>
+
+        <div class="hero-banner">
+            <h1 class="hero-title">🏆 6上國語期中大挑戰 (P.1~P.107)</h1>
+            <p style="color: var(--text-muted); margin-top: 6px;">涵蓋第一課至第六課生字成語、修辭、格言與閱讀理解題型</p>
+        </div>
+
+        <div class="section-card">
+            <h2 class="section-title">🎯 第一~六課 綜合測驗闖關</h2>
+            <div id="quizContainer">
+                <p id="questionText" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 12px;"></p>
+                <div id="optionsGroup"></div>
+                <div id="feedbackText" style="margin-top: 12px; font-weight: 700;"></div>
+            </div>
+            <div class="score-box" id="scoreDisplay">得分：0 分</div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                q: "「一粥一飯，當思來處不易；半絲半縷，恆念物力維艱。」這段格言主要傳達什麼觀念？",
+                options: [
+                    "珍惜物力資源，感恩得來不易的食物與物資",
+                    "叫人平時要多煮粥與縫補衣服",
+                    "說明絲線非常便宜，可以隨意購買",
+                    "鼓勵大家開餐廳做生意"
+                ],
+                ans: 0
+            },
+            {
+                q: "在《跑道》一課中，政彬最後與名揚相擁說「我們贏了！」，這展現了什麼？",
+                options: [
+                    "團體精神與超越個人得失的高尚情操",
+                    "政彬對自己跑第一棒的無比自豪",
+                    "名揚誇耀自己刺刺速度極快",
+                    "體育老師懲罰全班的結果"
+                ],
+                ans: 0
+            },
+            {
+                q: "「宜未雨而綢繆，毋臨渴而掘井」中的「綢繆」是指什麼意思？",
+                options: [
+                    "事先做好防備修補",
+                    "下大雨時淋雨",
+                    "急著挖井找水",
+                    "憂慮傷感"
+                ],
+                ans: 0
+            }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            if (currentQ >= questions.length) {
+                document.getElementById('quizContainer').innerHTML = `
+                    <div style="text-align: center; padding: 20px;">
+                        <h3 style="font-size: 1.8rem; color: var(--primary);">👑 恭喜你榮獲 6上國語期中王大獎！</h3>
+                        <p style="font-size: 1.2rem; margin-top: 10px;">你的最終得分：${score} / ${questions.length * 100} 分</p>
+                        <button onclick="location.reload()" style="margin-top: 15px; padding: 10px 20px; background: var(--primary); color:#fff; border:none; border-radius:20px; font-weight:700; cursor:pointer;">🔄 重新挑戰</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const q = questions[currentQ];
+            document.getElementById('questionText').textContent = `Q${currentQ + 1}. ${q.q}`;
+            const optionsGroup = document.getElementById('optionsGroup');
+            optionsGroup.innerHTML = '';
+            document.getElementById('feedbackText').textContent = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.textContent = opt;
+                btn.onclick = () => checkAnswer(idx, q.ans);
+                optionsGroup.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            const btns = document.querySelectorAll('.quiz-option');
+            btns.forEach(b => b.disabled = true);
+
+            if (selected === correct) {
+                btns[selected].classList.add('correct');
+                document.getElementById('feedbackText').textContent = '✅ 完全正確！國語高高手！';
+                document.getElementById('feedbackText').style.color = '#276749';
+                score += 100;
+            } else {
+                btns[selected].classList.add('wrong');
+                btns[correct].classList.add('correct');
+                document.getElementById('feedbackText').textContent = '❌ 回答錯誤，請多複習一~六課重點！';
+                document.getElementById('feedbackText').style.color = '#9B2C2C';
+            }
+
+            document.getElementById('scoreDisplay').textContent = `得分：${score} 分`;
+
+            setTimeout(() => {
+                currentQ++;
+                loadQuestion();
+            }, 1800);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadQuestion);
+    </script>
+</body>
+</html>
