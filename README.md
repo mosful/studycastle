@@ -1,8 +1,8 @@
-# 🏰 快樂學習冒險城堡 (Joyful Learning Adventure Castle)
+﻿# 🏰 快樂學習冒險城堡 (Joyful Learning Adventure Castle)
 
 專為國小與國中學生打造的互動式學習遊戲樂園！透過豐富的視覺主題、關卡式闖關冒險、即時答題回饋與成就激勵機制，讓孩子在趣味遊戲中輕鬆掌握核心數學與各學科知識。
 
-🔗 **線上體驗入口**：[mosful.github.io/portal.html](https://mosful.github.io/portal.html)
+🔗 **線上體驗入口**：[studycastle/portal.html](https://studycastle/studycastle/)
 
 ---
 
@@ -28,22 +28,22 @@
 ### 🧮 國小三年級上學期數學（南一版課本範圍 P.1 ~ P.117）
 | 單元 | 遊戲名稱 | 主題特色 | 檔案名稱 |
 |---|---|---|---|
-| **第①單元** | **數到10000 宇宙冒險** 🚀 | 萬以內位值辨認（千/百/十/個位）、數字合成、大小比較 | [math3_numbers.html](file:///c:/Code/mosful.github.io/math3_numbers.html) |
-| **第②單元** | **四位數加減法 城堡大冒險** 🏰 | 四位數直式計算、無進借位至多次進借位混合挑戰 | [math3_addition.html](file:///c:/Code/mosful.github.io/math3_addition.html) |
-| **第③單元** | **乘法小英雄 大冒險** 🦸 | 二位數×一位數乘法、乘法算式與積的速算闖關 | [math3_multiplication.html](file:///c:/Code/mosful.github.io/math3_multiplication.html) |
-| **第④單元** | **幾毫米 測量小達人** 📏 | 毫米認識、公分/公尺/毫米長度單位互換與量感建立 | [math3_measurement.html](file:///c:/Code/mosful.github.io/math3_measurement.html) |
-| **第⑤單元** | **角與幾何形狀 探索家** 📐 | 角與頂點邊識別、直角判斷、正方形與長方形幾何性質 | [math3_geometry.html](file:///c:/Code/mosful.github.io/math3_geometry.html) |
+| **第①單元** | **數到10000 宇宙冒險** 🚀 | 萬以內位值辨認（千/百/十/個位）、數字合成、大小比較 | [math3_numbers.html](file:///c:/Code/studycastle/math3_numbers.html) |
+| **第②單元** | **四位數加減法 城堡大冒險** 🏰 | 四位數直式計算、無進借位至多次進借位混合挑戰 | [math3_addition.html](file:///c:/Code/studycastle/math3_addition.html) |
+| **第③單元** | **乘法小英雄 大冒險** 🦸 | 二位數×一位數乘法、乘法算式與積的速算闖關 | [math3_multiplication.html](file:///c:/Code/studycastle/math3_multiplication.html) |
+| **第④單元** | **幾毫米 測量小達人** 📏 | 毫米認識、公分/公尺/毫米長度單位互換與量感建立 | [math3_measurement.html](file:///c:/Code/studycastle/math3_measurement.html) |
+| **第⑤單元** | **角與幾何形狀 探索家** 📐 | 角與頂點邊識別、直角判斷、正方形與長方形幾何性質 | [math3_geometry.html](file:///c:/Code/studycastle/math3_geometry.html) |
 
 ---
 
 ### 🌟 國小二年級 / 五六年級數學單元
 | 年級/領域 | 遊戲名稱 | 學習重點 | 檔案名稱 |
 |---|---|---|---|
-| **低年級** | **大耳狗九九乘法冒險** 🐶 | 2~9 各段乘法記憶、混合練習與生活素養應用題 | [2mathgame.html](file:///c:/Code/mosful.github.io/2mathgame.html) |
-| **中高年級** | **9是強 數學大冒險** 🚂 | 四則混合運算（先乘除後加減、括號優先）與火車冒險 | [5mathgame.html](file:///c:/Code/mosful.github.io/5mathgame.html) |
-| **高年級** | **質數大航海 尋寶記** 🧭 | 質數與合數判斷、短除法、最大公因數(GCD)與最小公倍數(LCM) | [prime.html](file:///c:/Code/mosful.github.io/prime.html) |
-| **高年級** | **分數廚師 大挑戰** 🍕 | 最簡分數、整數÷分數、分數÷分數、倒數與乘除互換 | [fraction-division.html](file:///c:/Code/mosful.github.io/fraction-division.html) |
-| **高年級** | **小數太空探險** 🚀 | 整數÷小數、小數÷小數、乘以10倍數魔法、四捨五入求概數 | [decimal-division.html](file:///c:/Code/mosful.github.io/decimal-division.html) |
+| **低年級** | **大耳狗九九乘法冒險** 🐶 | 2~9 各段乘法記憶、混合練習與生活素養應用題 | [2mathgame.html](file:///c:/Code/studycastle/2mathgame.html) |
+| **中高年級** | **9是強 數學大冒險** 🚂 | 四則混合運算（先乘除後加減、括號優先）與火車冒險 | [5mathgame.html](file:///c:/Code/studycastle/5mathgame.html) |
+| **高年級** | **質數大航海 尋寶記** 🧭 | 質數與合數判斷、短除法、最大公因數(GCD)與最小公倍數(LCM) | [prime.html](file:///c:/Code/studycastle/prime.html) |
+| **高年級** | **分數廚師 大挑戰** 🍕 | 最簡分數、整數÷分數、分數÷分數、倒數與乘除互換 | [fraction-division.html](file:///c:/Code/studycastle/fraction-division.html) |
+| **高年級** | **小數太空探險** 🚀 | 整數÷小數、小數÷小數、乘以10倍數魔法、四捨五入求概數 | [decimal-division.html](file:///c:/Code/studycastle/decimal-division.html) |
 
 ---
 
@@ -62,7 +62,7 @@
 ## 📂 檔案目錄結構
 
 ```text
-mosful.github.io/
+studycastle/
 ├── index.html                  # 個人首頁入口
 ├── portal.html                 # 🏰 學習樂園總覽入口網站 (支援搜尋、分類、收藏與計數器)
 ├── 2mathgame.html              # 二年級：大耳狗九九乘法
