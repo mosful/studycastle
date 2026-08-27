@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
     <!-- 不蒜子雲端去重訪客計數 -->
     <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <style>
@@ -21,13 +24,13 @@
             --accent-yellow: #FFD166;
             --accent-green: #06D6A0;
             --accent-purple: #8338EC;
-            
+
             --bg-gradient: linear-gradient(135deg, #EBF4FF 0%, #E6E6FA 50%, #FFF0F5 100%);
             --card-bg: rgba(255, 255, 255, 0.92);
             --text-main: #2D3748;
             --text-muted: #718096;
             --border-color: #E2E8F0;
-            
+
             --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             --shadow-md: 0 10px 20px -5px rgba(66, 153, 225, 0.15), 0 6px 10px -5px rgba(0, 0, 0, 0.04);
             --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -82,8 +85,13 @@
         }
 
         @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg); }
-            100% { transform: translateY(-200px) rotate(360deg); }
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-200px) rotate(360deg);
+            }
         }
 
         /* ==========================================
@@ -306,7 +314,8 @@
             transition: all 0.25s ease;
         }
 
-        .styled-select:hover, .styled-select:focus {
+        .styled-select:hover,
+        .styled-select:focus {
             border-color: var(--primary);
         }
 
@@ -442,7 +451,7 @@
             max-width: 80%;
             object-fit: contain;
             transition: transform 0.4s ease;
-            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
         }
 
         .game-card:hover .card-img {
@@ -453,7 +462,7 @@
             font-size: 5.5rem;
             user-select: none;
             transition: transform 0.4s ease;
-            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
         }
 
         .game-card:hover .card-emoji-icon {
@@ -469,7 +478,7 @@
             font-size: 0.82rem;
             font-weight: 700;
             color: #FFFFFF;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -488,7 +497,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.2s ease;
             z-index: 5;
         }
@@ -522,12 +531,12 @@
             border-radius: 12px;
             font-size: 0.78rem;
             font-weight: 700;
-            background: rgba(0,0,0,0.05);
+            background: rgba(0, 0, 0, 0.05);
             color: var(--text-muted);
         }
 
         [data-theme="dark"] .tag-pill {
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .card-title {
@@ -705,7 +714,9 @@
             margin-bottom: 6px;
         }
 
-        .feedback-input, .feedback-select, .feedback-textarea {
+        .feedback-input,
+        .feedback-select,
+        .feedback-textarea {
             width: 100%;
             padding: 10px 14px;
             border: 2px solid var(--border-color);
@@ -718,7 +729,9 @@
             font-family: inherit;
         }
 
-        .feedback-input:focus, .feedback-select:focus, .feedback-textarea:focus {
+        .feedback-input:focus,
+        .feedback-select:focus,
+        .feedback-textarea:focus {
             border-color: var(--primary);
         }
 
@@ -824,8 +837,13 @@
         }
 
         @keyframes bounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-15px); }
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-15px);
+            }
         }
 
         /* 響應式調整 (iPad / 平板與手機最佳化) */
@@ -835,15 +853,19 @@
                 font-size: 1rem;
                 min-height: 48px;
             }
+
             .play-btn {
                 min-height: 48px;
                 font-size: 1.05rem;
                 padding: 12px 20px;
             }
-            .styled-select, .action-btn {
+
+            .styled-select,
+            .action-btn {
                 min-height: 48px;
                 font-size: 1rem;
             }
+
             .fav-btn {
                 width: 48px;
                 height: 48px;
@@ -852,15 +874,34 @@
         }
 
         @media (max-width: 768px) {
-            header { padding: 20px 14px 10px; }
-            .hero-banner { padding: 30px 16px; }
-            .hero-title { font-size: 1.8rem; }
-            .controls-wrapper { padding: 16px; }
-            .cards-grid { grid-template-columns: 1fr; }
-            .search-input { font-size: 16px; /* 防止 iOS 縮放 */ }
+            header {
+                padding: 20px 14px 10px;
+            }
+
+            .hero-banner {
+                padding: 30px 16px;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .controls-wrapper {
+                padding: 16px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-input {
+                font-size: 16px;
+                /* 防止 iOS 縮放 */
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- 背景動態泡泡粒子 -->
@@ -895,13 +936,14 @@
 
     <!-- 主要內容區 -->
     <main class="main-container">
-        
+
         <!-- 搜尋與篩選列 -->
         <section class="controls-wrapper">
             <div class="search-and-grade-row">
                 <div class="search-box">
                     <span class="search-icon">🔍</span>
-                    <input type="text" id="searchInput" class="search-input" placeholder="搜尋遊戲名稱、關鍵字（如：乘法、質數、火車）..." autocomplete="off">
+                    <input type="text" id="searchInput" class="search-input" placeholder="搜尋遊戲名稱、關鍵字（如：乘法、質數、火車）..."
+                        autocomplete="off">
                 </div>
 
                 <div class="filter-select-group">
@@ -957,22 +999,11 @@
             </div>
             <div class="giscus-card">
                 <div class="giscus"></div>
-                <script src="https://giscus.app/client.js"
-                    data-repo="mosful/StudyCastle"
-                    
-                    data-category="General"
-                    
-                    data-mapping="pathname"
-                    data-strict="0"
-                    data-reactions-enabled="1"
-                    data-emit-metadata="0"
-                    data-input-position="top"
-                    data-theme="preferred_color_scheme"
-                    data-lang="zh-TW"
-                    data-loading="lazy"
-                    crossorigin="anonymous"
-                    async>
-                </script>
+                <script src="https://giscus.app/client.js" data-repo="mosful/StudyCastle" data-category="General"
+                    data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
+                    data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-TW" data-loading="lazy"
+                    crossorigin="anonymous" async>
+                    </script>
             </div>
         </section>
 
@@ -999,7 +1030,8 @@
                 <button class="action-btn btn-random" id="modalRerollBtn" style="flex:1;">🔄 再抽一次</button>
                 <a href="#" id="modalGoBtn" class="play-btn" style="flex:1.2;">🚀 立刻前往</a>
             </div>
-            <button id="modalCloseBtn" style="margin-top: 15px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem;">關閉視窗</button>
+            <button id="modalCloseBtn"
+                style="margin-top: 15px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem;">關閉視窗</button>
         </div>
     </div>
 
@@ -1013,10 +1045,12 @@
     <div class="modal-overlay" id="feedbackModal">
         <div class="modal-card" style="max-width: 480px; text-align: left;">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <h3 style="margin:0; font-size:1.3rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+                <h3
+                    style="margin:0; font-size:1.3rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">
                     💌 冒險反饋信箱
                 </h3>
-                <button id="closeFeedbackBtn" style="background:none; border:none; font-size:1.4rem; color:var(--text-muted); cursor:pointer; padding:4px 8px;">✕</button>
+                <button id="closeFeedbackBtn"
+                    style="background:none; border:none; font-size:1.4rem; color:var(--text-muted); cursor:pointer; padding:4px 8px;">✕</button>
             </div>
             <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px; line-height:1.6;">
                 遇到問題、有題目想建議，或是想許願新單元？歡迎告訴我們！
@@ -1049,11 +1083,13 @@
                 </div>
                 <div class="feedback-form-group">
                     <label>📝 詳細內容 <span style="color:var(--secondary)">*</span></label>
-                    <textarea class="feedback-textarea" id="fbContent" rows="3" placeholder="請詳細描述您的想法或遇到的狀況..." required></textarea>
+                    <textarea class="feedback-textarea" id="fbContent" rows="3" placeholder="請詳細描述您的想法或遇到的狀況..."
+                        required></textarea>
                 </div>
                 <div style="display:flex; gap:10px; margin-top:20px;">
                     <button type="button" class="action-btn" id="cancelFeedbackBtn" style="flex:1;">取消</button>
-                    <button type="submit" class="action-btn btn-primary" id="submitFeedbackBtn" style="flex:1.2;">🚀 送出反饋</button>
+                    <button type="submit" class="action-btn btn-primary" id="submitFeedbackBtn" style="flex:1.2;">🚀
+                        送出反饋</button>
                 </div>
             </form>
         </div>
@@ -1395,8 +1431,8 @@
             grid.innerHTML = filtered.map(game => {
                 const isFav = favorites.includes(game.id);
                 const tagPills = game.tags.map(t => `<span class="tag-pill">#${t}</span>`).join('');
-                
-                let mediaHtml = game.isEmoji 
+
+                let mediaHtml = game.isEmoji
                     ? `<span class="card-emoji-icon">${game.image}</span>`
                     : `<img src="${game.image}" alt="${game.title}" class="card-img">`;
 
@@ -1510,8 +1546,12 @@
                 if (e.target === fbModal) fbModal.classList.remove('active');
             });
 
-            fbForm.addEventListener('submit', (e) => {
+            // Google Apps Script 網頁應用程式 URL（請於取得後填入下方字串中）
+            const GOOGLE_FEEDBACK_API_URL = 'https://script.google.com/macros/s/AKfycbyzkEjLZYH8mt0-AfA7xlLTS1HXBPlx4IeQByEmh2F-TiF_Vqfiu4vs9sKzrKehj2806g/exec';
+
+            fbForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                const submitBtn = document.getElementById('submitFeedbackBtn');
                 const type = document.getElementById('fbType').value;
                 const unit = document.getElementById('fbUnit').value;
                 const name = document.getElementById('fbName').value.trim() || '熱心冒險家';
@@ -1519,18 +1559,54 @@
 
                 if (!content) return;
 
-                // 本機記錄備份
-                const logs = JSON.parse(localStorage.getItem('portal_feedback_logs') || '[]');
-                logs.push({
-                    time: new Date().toLocaleString(),
-                    type, unit, name, content
-                });
-                localStorage.setItem('portal_feedback_logs', JSON.stringify(logs));
+                // 1. 切換按鈕為傳送中狀態，避免重複提交
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '🚀 傳送中...';
 
-                // 提示感謝
-                alert(`🎉 感謝 ${name} 的反饋！\n\n您的寶貴建議我們已經收到，冒險城堡會持續改進！🏰✨`);
-                fbForm.reset();
-                fbModal.classList.remove('active');
+                // 2. 封裝反饋資料並留存於瀏覽器 localStorage 備份
+                const payload = {
+                    time: new Date().toLocaleString(),
+                    type,
+                    unit,
+                    name,
+                    content,
+                    sourceUrl: window.location.href
+                };
+
+                try {
+                    const logs = JSON.parse(localStorage.getItem('portal_feedback_logs') || '[]');
+                    logs.push(payload);
+                    localStorage.setItem('portal_feedback_logs', JSON.stringify(logs));
+                } catch (err) {
+                    console.warn('Local storage error:', err);
+                }
+
+                // 3. 發送至 Google Apps Script 雲端試算表與 Email 通知
+                try {
+                    if (GOOGLE_FEEDBACK_API_URL && GOOGLE_FEEDBACK_API_URL.startsWith('http')) {
+                        await fetch(GOOGLE_FEEDBACK_API_URL, {
+                            method: 'POST',
+                            mode: 'no-cors',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        alert(`🎉 感謝 ${name} 的反饋！\n\n您的寶貴建議已成功傳送，城堡管理員已收到通知，感謝您協助我們變得更好！🏰✨`);
+                    } else {
+                        // 若尚未設定 URL 則執行本機備份提示
+                        alert(`🎉 感謝 ${name} 的反饋！\n\n您的寶貴建議我們已經收到，冒險城堡會持續改進！🏰✨`);
+                    }
+                    fbForm.reset();
+                    fbModal.classList.remove('active');
+                } catch (err) {
+                    console.error('Feedback submit error:', err);
+                    alert(`🎉 感謝 ${name} 的反饋！\n\n您的建議已保存在本機備份中，我們會持續改進！🏰✨`);
+                    fbForm.reset();
+                    fbModal.classList.remove('active');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
             });
         }
 
@@ -1544,13 +1620,13 @@
         function rollRandomGame() {
             const availableGames = GAMES_DATA.filter(g => g.available);
             if (availableGames.length === 0) return;
-            
+
             const randomGame = availableGames[Math.floor(Math.random() * availableGames.length)];
-            
+
             document.getElementById('modalEmoji').textContent = randomGame.isEmoji ? randomGame.image : '🐶';
             document.getElementById('modalTitle').textContent = randomGame.title;
             document.getElementById('modalDesc').textContent = randomGame.description;
-            
+
             const goBtn = document.getElementById('modalGoBtn');
             goBtn.href = randomGame.url;
         }
@@ -1570,4 +1646,5 @@
         }
     </script>
 </body>
+
 </html>
