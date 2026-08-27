@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>數到10000宇宙冒險 🌌 | 南一版 3上數學 第①單元</title>
+<meta name="description" content="互動數學遊戲：數到10000。學習萬以內的位值、數字合成、大小比較，闖關宇宙冒險！">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+<style>
+:root {
+  --space-black: #060414;
+  --space-deep: #0D0B2A;
+  --space-mid: #1A1550;
+  --nebula-blue: #2563EB;
+  --nebula-purple: #7C3AED;
+  --star-gold: #FFD166;
+  --star-white: #E2E8F0;
+  --correct-green: #10B981;
+  --wrong-red: #F43F5E;
+  --glass-bg: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.15);
+  --shadow-glow: 0 0 30px rgba(124,58,237,0.35);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  min-height: 100vh; min-height: 100dvh;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(124,58,237,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(37,99,235,0.2) 0%, transparent 50%),
+    linear-gradient(160deg, var(--space-black) 0%, var(--space-deep) 40%, var(--space-mid) 100%);
+  font-family: 'Noto Sans TC', sans-serif;
+  color: var(--star-white);
+  display: flex; justify-content: center;
+  padding: 12px 10px;
+  padding-left: max(10px, env(safe-area-inset-left));
+  padding-right: max(10px, env(safe-area-inset-right));
+  padding-bottom: max(60px, calc(env(safe-area-inset-bottom) + 40px));
+  -webkit-tap-highlight-color: transparent;
+  position: relative; user-select: none;
+}
+.stars-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.star { position: absolute; border-radius: 50%; background: white; animation: twinkle linear infinite; }
+@keyframes twinkle {
+  0%,100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.4); }
+}
+.meteor {
+  position: absolute; width: 80px; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+  animation: meteorFall 4s linear infinite; border-radius: 2px;
+}
+@keyframes meteorFall {
+  0% { transform: translateX(-100px) translateY(-20px) rotate(-30deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.5; }
+  100% { transform: translateX(calc(100vw + 100px)) translateY(200px) rotate(-30deg); opacity: 0; }
+}
+.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 8px; position: relative; z-index: 1; }
+.nav-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+  background: var(--glass-bg); border: 1.5px solid var(--glass-border); border-radius: 20px;
+  color: var(--star-white); font-weight: 700; font-size: 0.9rem; text-decoration: none;
+  backdrop-filter: blur(8px); cursor: pointer; transition: all 0.2s ease; font-family: 'Noto Sans TC', sans-serif;
+}
+.nav-btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(124,58,237,0.4); }
+.unit-badge {
+  font-size: 0.8rem; font-weight: 700; padding: 6px 14px; border-radius: 16px;
+  background: linear-gradient(135deg, var(--nebula-purple), var(--nebula-blue));
+  border: 1px solid rgba(255,255,255,0.2); color: #FFF; letter-spacing: 0.5px;
+}
+.app { width: 100%; max-width: 780px; position: relative; z-index: 1; }
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── 開始畫面 ── */
+.start-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 28px;
+  padding: 36px 28px; text-align: center; backdrop-filter: blur(16px); box-shadow: var(--shadow-glow);
+}
+.game-hero-emoji {
+  font-size: 5.5rem; display: block; margin-bottom: 10px;
+  animation: rocketFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(99,102,241,0.8));
+}
+@keyframes rocketFloat {
+  0%,100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-12px) rotate(5deg); }
+}
+.game-title {
+  font-family: 'Baloo 2','Noto Sans TC',sans-serif;
+  font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 800;
+  background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 50%, var(--star-gold) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 8px; line-height: 1.2;
+}
+.game-subtitle { color: rgba(255,255,255,0.6); font-size: 1rem; margin-bottom: 28px; }
+.topic-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 28px; }
+.topic-card {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px; padding: 16px 10px; text-align: center;
+}
+.topic-card .tc-emoji { font-size: 2rem; display: block; margin-bottom: 6px; }
+.topic-card .tc-name { font-family: 'Fredoka',sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--star-gold); display: block; margin-bottom: 4px; }
+.topic-card .tc-desc { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.4; }
+.planets-preview { display: flex; justify-content: center; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
+.planet-dot { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.planet-dot .pd-emoji { font-size: 1.6rem; }
+.planet-dot .pd-name { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
+.start-btn {
+  width: 100%; max-width: 340px; padding: 18px 30px; border: none; border-radius: 50px;
+  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 1.3rem; font-weight: 800; cursor: pointer;
+  background: linear-gradient(135deg, var(--nebula-purple) 0%, #4F46E5 50%, var(--nebula-blue) 100%);
+  color: #FFF; letter-spacing: 0.5px;
+  box-shadow: 0 8px 0 rgba(79,70,229,0.5), 0 12px 30px rgba(124,58,237,0.5);
+  transition: all 0.15s ease; position: relative; overflow: hidden;
+}
+.start-btn:hover { transform: translateY(-3px); box-shadow: 0 11px 0 rgba(79,70,229,0.5), 0 16px 36px rgba(124,58,237,0.6); }
+.start-btn:active { transform: translateY(5px); box-shadow: 0 3px 0 rgba(79,70,229,0.5); }
+
+/* ── 遊戲 HUD ── */
+.game-hud { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.hud-score {
+  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px;
+  padding: 8px 16px; font-family: 'Baloo 2',sans-serif; font-weight: 800; font-size: 1.1rem;
+  color: var(--star-gold); display: flex; align-items: center; gap: 6px; backdrop-filter: blur(8px);
+}
+.combo-badge-game {
+  background: linear-gradient(135deg, #FF9E00, #FF0054); border-radius: 16px;
+  padding: 6px 12px; font-weight: 800; font-size: 0.9rem; color: #FFF;
+  display: none; align-items: center; gap: 4px; animation: comboPulse 0.5s ease;
+}
+.combo-badge-game.show { display: flex; }
+@keyframes comboPulse { 0% { transform: scale(1.4); } 100% { transform: scale(1); } }
+.stage-info { margin-left: auto; display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: rgba(255,255,255,0.7); font-weight: 700; }
+.progress-bar-wrap { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-bottom: 14px; overflow: hidden; }
+.progress-bar-fill {
+  height: 100%; border-radius: 4px;
+  background: linear-gradient(90deg, var(--nebula-blue), var(--nebula-purple), var(--star-gold));
+  transition: width 0.4s ease; box-shadow: 0 0 10px rgba(124,58,237,0.6);
+}
+.timer-bar-wrap { width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; margin-bottom: 18px; overflow: hidden; }
+.timer-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--correct-green), #06D6A0); transition: width 0.1s linear, background 0.3s ease; }
+.timer-bar-fill.urgent { background: linear-gradient(90deg, #FF4500, var(--wrong-red)); }
+
+/* ── 題目卡片 ── */
+.question-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px;
+  padding: 28px 24px; text-align: center; margin-bottom: 18px; backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-glow); position: relative; overflow: hidden; transition: border-color 0.3s ease;
+}
+.question-card.correct { border-color: var(--correct-green); box-shadow: 0 0 30px rgba(16,185,129,0.3); }
+.question-card.wrong { border-color: var(--wrong-red); box-shadow: 0 0 30px rgba(244,63,94,0.3); }
+.question-stage-label { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 700; background: rgba(255,255,255,0.08); border-radius: 12px; padding: 4px 12px; margin-bottom: 14px; color: rgba(255,255,255,0.7); }
+.question-type-badge { display: inline-block; font-size: 0.75rem; font-weight: 700; border-radius: 10px; padding: 3px 10px; margin-bottom: 12px; letter-spacing: 0.5px; }
+.badge-place { background: rgba(37,99,235,0.4); color: #93C5FD; border: 1px solid rgba(37,99,235,0.5); }
+.badge-compose { background: rgba(234,179,8,0.3); color: #FDE047; border: 1px solid rgba(234,179,8,0.4); }
+.badge-compare { background: rgba(16,185,129,0.3); color: #6EE7B7; border: 1px solid rgba(16,185,129,0.4); }
+.question-text { font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: clamp(1rem,3vw,1.4rem); font-weight: 700; color: rgba(255,255,255,0.85); line-height: 1.5; margin-bottom: 4px; }
+.question-highlight { color: var(--star-gold); font-size: clamp(2rem,5vw,3rem); font-family: 'Baloo 2',sans-serif; font-weight: 800; display: block; margin: 8px 0; text-shadow: 0 0 20px rgba(255,209,102,0.6); }
+.question-q { font-size: clamp(0.95rem,2.5vw,1.2rem); color: rgba(255,255,255,0.75); margin-top: 4px; font-weight: 700; }
+.feedback-icon { font-size: 2.5rem; display: none; animation: feedbackBounce 0.4s ease; margin-top: 8px; }
+.feedback-icon.show { display: block; }
+@keyframes feedbackBounce { 0% { transform: scale(0.5); opacity: 0; } 60% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
+.correct-tip { font-size: 0.88rem; color: rgba(255,255,255,0.55); margin-top: 6px; display: none; }
+.correct-tip.show { display: block; }
+
+/* ── 選項按鈕 ── */
+.options-grid { display: grid; gap: 10px; }
+.options-grid.grid-4 { grid-template-columns: 1fr 1fr; }
+.opt-btn {
+  padding: 16px 10px; border: 2px solid var(--glass-border); border-radius: 16px;
+  font-size: clamp(1rem,2.5vw,1.3rem); font-weight: 700;
+  font-family: 'Baloo 2','Noto Sans TC',sans-serif; cursor: pointer;
+  transition: all 0.2s ease; background: rgba(255,255,255,0.05);
+  color: var(--star-white); backdrop-filter: blur(8px);
+}
+.opt-btn:hover:not(:disabled) { border-color: var(--nebula-purple); background: rgba(124,58,237,0.2); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124,58,237,0.3); }
+.opt-btn:disabled { cursor: not-allowed; }
+.opt-btn.correct-ans { border-color: var(--correct-green); background: rgba(16,185,129,0.25); color: #6EE7B7; box-shadow: 0 0 20px rgba(16,185,129,0.4); }
+.opt-btn.wrong-ans { border-color: var(--wrong-red); background: rgba(244,63,94,0.2); color: #FCA5A5; }
+.compare-options { display: flex; gap: 12px; justify-content: center; margin-top: 10px; }
+.compare-btn {
+  width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--glass-border);
+  font-size: 1.8rem; font-weight: 900; cursor: pointer; background: rgba(255,255,255,0.06);
+  color: var(--star-white); transition: all 0.2s ease; backdrop-filter: blur(8px); font-family: 'Baloo 2',sans-serif;
+}
+.compare-btn:hover:not(:disabled) { transform: scale(1.12); box-shadow: 0 6px 20px rgba(124,58,237,0.4); border-color: var(--nebula-purple); }
+.compare-btn:disabled { cursor: not-allowed; }
+.compare-btn.correct-ans { background: rgba(16,185,129,0.3); border-color: var(--correct-green); }
+.compare-btn.wrong-ans { background: rgba(244,63,94,0.2); border-color: var(--wrong-red); }
+.question-counter { text-align: center; font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 14px; font-weight: 700; }
+.question-dots { display: flex; justify-content: center; gap: 6px; margin-top: 6px; }
+.q-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: all 0.3s ease; }
+.q-dot.answered-correct { background: var(--correct-green); }
+.q-dot.answered-wrong { background: var(--wrong-red); }
+.q-dot.current { background: var(--star-gold); transform: scale(1.3); }
+
+/* ── 過關畫面 ── */
+.stage-clear-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 28px;
+  padding: 40px 28px; text-align: center; backdrop-filter: blur(16px); box-shadow: var(--shadow-glow);
+}
+.stage-clear-planet { font-size: 5rem; animation: planetSpin 3s linear infinite; display: block; margin-bottom: 10px; }
+@keyframes planetSpin {
+  0% { filter: hue-rotate(0deg) drop-shadow(0 0 20px rgba(99,102,241,0.6)); }
+  100% { filter: hue-rotate(360deg) drop-shadow(0 0 20px rgba(99,102,241,0.6)); }
+}
+.stage-clear-title {
+  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 2rem; font-weight: 800;
+  background: linear-gradient(135deg, #60A5FA, #A78BFA, var(--star-gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 16px 0 8px;
+}
+.stage-clear-stats { display: flex; justify-content: center; gap: 20px; margin: 20px 0; flex-wrap: wrap; }
+.stat-bubble { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 12px 20px; text-align: center; }
+.stat-bubble .sb-val { font-family: 'Baloo 2',sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--star-gold); display: block; }
+.stat-bubble .sb-label { font-size: 0.78rem; color: rgba(255,255,255,0.55); }
+.next-btn {
+  padding: 16px 36px; border: none; border-radius: 50px;
+  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 1.2rem; font-weight: 800; cursor: pointer;
+  background: linear-gradient(135deg, var(--nebula-purple), #4F46E5); color: #FFF; margin-top: 10px;
+  box-shadow: 0 6px 0 rgba(79,70,229,0.5), 0 10px 25px rgba(124,58,237,0.4); transition: all 0.15s ease;
+}
+.next-btn:hover { transform: translateY(-3px); }
+.next-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(79,70,229,0.5); }
+
+/* ── 結果畫面 ── */
+.result-card {
+  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 28px;
+  padding: 36px 28px; text-align: center; backdrop-filter: blur(16px); box-shadow: var(--shadow-glow);
+}
+.result-emoji-big { font-size: 4.5rem; display: block; margin-bottom: 10px; animation: rocketFloat 3s ease-in-out infinite; }
+.result-title {
+  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: clamp(1.6rem,4vw,2.2rem); font-weight: 800;
+  background: linear-gradient(135deg, #60A5FA, #A78BFA, var(--star-gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px;
+}
+.result-subtitle { color: rgba(255,255,255,0.55); font-size: 0.95rem; margin-bottom: 24px; }
+.stars-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
+.star-icon { font-size: 2.8rem; filter: grayscale(1) opacity(0.3); transition: all 0.5s ease; }
+.star-icon.lit { filter: none; animation: starPop 0.5s ease; }
+@keyframes starPop { 0% { transform: scale(0); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
+.final-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 28px; }
+.final-stat { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 14px 10px; text-align: center; }
+.final-stat .fs-val { font-family: 'Baloo 2',sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--star-gold); display: block; }
+.final-stat .fs-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.high-score-banner { background: rgba(255,209,102,0.1); border: 1px solid rgba(255,209,102,0.3); border-radius: 16px; padding: 12px 20px; margin-bottom: 20px; font-weight: 700; color: var(--star-gold); font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.replay-btn {
+  padding: 14px 28px; border: none; border-radius: 50px;
+  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 1.1rem; font-weight: 800; cursor: pointer;
+  background: linear-gradient(135deg, var(--nebula-purple), var(--nebula-blue)); color: #FFF;
+  box-shadow: 0 6px 0 rgba(79,70,229,0.45), 0 10px 25px rgba(124,58,237,0.4); transition: all 0.15s ease;
+}
+.replay-btn:hover { transform: translateY(-3px); }
+.replay-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(79,70,229,0.45); }
+.portal-btn {
+  padding: 14px 24px; border-radius: 50px;
+  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer;
+  background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
+  text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;
+}
+.portal-btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+@media (max-width: 480px) {
+  .topic-cards { grid-template-columns: 1fr; }
+  .compare-btn { width: 68px; height: 68px; font-size: 1.5rem; }
+}
+
+/* 觸控與 iPad / 手機全面適配 */
+button, .opt-btn, .compare-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.opt-btn {
+  min-height: 56px;
+  padding: 16px 12px;
+}
+.device-support-badge {
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+</style>
+</head>
+<body>
+<div class="stars-bg" id="starsBg"></div>
+<div class="app">
+
+  <div class="top-bar">
+    <a href="portal.html" class="nav-btn">🏠 學習樂園</a>
+    <span class="unit-badge">🌌 3上・第①單元</span>
+  </div>
+
+  <!-- 開始畫面 -->
+  <div class="screen active" id="startScreen">
+    <div class="start-card">
+      <span class="game-hero-emoji">🚀</span>
+      <h1 class="game-title">數到10000<br>宇宙冒險</h1>
+      <p class="game-subtitle">南一版 3上數學 第①單元 ｜ 征服萬以內的數！</p>
+      <div class="topic-cards">
+        <div class="topic-card">
+          <span class="tc-emoji">🔢</span>
+          <span class="tc-name">位值辨認</span>
+          <span class="tc-desc">千、百、十、個位各是幾？</span>
+        </div>
+        <div class="topic-card">
+          <span class="tc-emoji">🧩</span>
+          <span class="tc-name">數字合成</span>
+          <span class="tc-desc">X千Y百Z十W = ?</span>
+        </div>
+        <div class="topic-card">
+          <span class="tc-emoji">⚖️</span>
+          <span class="tc-name">大小比較</span>
+          <span class="tc-desc">哪個數比較大？</span>
+        </div>
+      </div>
+      <div class="planets-preview">
+        <div class="planet-dot"><span class="pd-emoji">🔴</span><span class="pd-name">火星</span></div>
+        <div class="planet-dot"><span class="pd-emoji">🟠</span><span class="pd-name">木星</span></div>
+        <div class="planet-dot"><span class="pd-emoji">🟡</span><span class="pd-name">土星</span></div>
+        <div class="planet-dot"><span class="pd-emoji">🔵</span><span class="pd-name">天王星</span></div>
+        <div class="planet-dot"><span class="pd-emoji">🌌</span><span class="pd-name">海王星</span></div>
+      </div>
+      <button class="start-btn" id="startBtn">🚀 啟動火箭！出發冒險！</button>
+      <p style="margin-top:16px;color:rgba(255,255,255,0.4);font-size:0.8rem;">共 5 關 × 每關 8 題 ｜ 每題 20 秒 ｜ 答對 6/8 才能前進</p>
+      <div class="device-support-badge">
+        📱 支援 iPad / 平板、手機與電腦 ｜ 觸控大按鈕好操作
+      </div>
+    </div>
+  </div>
+
+  <!-- 遊戲畫面 -->
+  <div class="screen" id="gameScreen">
+    <div class="game-hud">
+      <div class="hud-score">⭐ <span id="scoreDisplay">0</span></div>
+      <div class="combo-badge-game" id="comboBadge">🔥 <span id="comboCount">2</span>x COMBO!</div>
+      <div class="stage-info"><span id="stageEmojiDisplay">🔴</span><span id="stageName">火星探索</span></div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
+    <div class="timer-bar-wrap"><div class="timer-bar-fill" id="timerBar" style="width:100%"></div></div>
+    <div class="question-card" id="questionCard">
+      <div class="question-stage-label" id="questionStageLabel">🔴 第 1 關</div>
+      <div class="question-type-badge badge-place" id="questionTypeBadge">🔢 位值辨認</div>
+      <div class="question-text" id="questionText">題目載入中...</div>
+      <span class="question-highlight" id="questionNumber">5432</span>
+      <div class="question-q" id="questionQ"></div>
+      <div class="feedback-icon" id="feedbackIcon"></div>
+      <div class="correct-tip" id="correctTip"></div>
+    </div>
+    <div class="options-grid grid-4" id="optionsGrid" style="margin-bottom:14px"></div>
+    <div class="compare-options" id="compareOptions" style="display:none">
+      <button class="compare-btn" id="cmpLess" data-val="&lt;">&lt;</button>
+      <button class="compare-btn" id="cmpEqual" data-val="=">=</button>
+      <button class="compare-btn" id="cmpGreater" data-val="&gt;">&gt;</button>
+    </div>
+    <div class="question-counter">第 <span id="qNumDisplay">1</span> / 8 題</div>
+    <div class="question-dots" id="questionDots"></div>
+  </div>
+
+  <!-- 過關畫面 -->
+  <div class="screen" id="stageClearScreen">
+    <div class="stage-clear-card">
+      <span class="stage-clear-planet" id="clearPlanetEmoji">🔴</span>
+      <div class="stage-clear-title" id="clearTitle">火星探索完成！</div>
+      <p style="color:rgba(255,255,255,0.6);margin-bottom:16px;" id="clearMsg">繼續向下一個星球出發！</p>
+      <div class="stage-clear-stats">
+        <div class="stat-bubble"><span class="sb-val" id="clearCorrect">0</span><span class="sb-label">答對題數</span></div>
+        <div class="stat-bubble"><span class="sb-val" id="clearScore">0</span><span class="sb-label">本關得分</span></div>
+        <div class="stat-bubble"><span class="sb-val" id="clearCombo">0</span><span class="sb-label">最高連擊</span></div>
+      </div>
+      <button class="next-btn" id="nextStageBtn">→ 前往下一個星球 🌟</button>
+    </div>
+  </div>
+
+  <!-- 結果畫面 -->
+  <div class="screen" id="resultScreen">
+    <div class="result-card">
+      <span class="result-emoji-big" id="resultEmoji">🚀</span>
+      <div class="result-title" id="resultTitle">宇宙冒險完成！</div>
+      <p class="result-subtitle" id="resultSubtitle">你征服了所有星球！</p>
+      <div class="stars-row" id="starsRow">
+        <span class="star-icon">⭐</span><span class="star-icon">⭐</span><span class="star-icon">⭐</span>
+      </div>
+      <div class="high-score-banner" id="highScoreBanner" style="display:none">
+        🏆 新紀錄！最高分 <span id="highScoreVal">0</span> 分！
+      </div>
+      <div class="final-stats">
+        <div class="final-stat"><span class="fs-val" id="finalScore">0</span><div class="fs-label">總得分</div></div>
+        <div class="final-stat"><span class="fs-val" id="finalCorrect">0</span><div class="fs-label">答對題數</div></div>
+        <div class="final-stat"><span class="fs-val" id="finalMaxCombo">0</span><div class="fs-label">最高連擊</div></div>
+      </div>
+      <div class="btn-row">
+        <button class="replay-btn" id="replayBtn">🔄 再闖一次！</button>
+        <a href="portal.html" class="portal-btn">🏠 返回學習樂園</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+<script>
+const STAGES = [
+  { id:1, name:"火星探索",   emoji:"🔴", topics:["place_value","place_value","compose","compare","place_value","compose","place_value","compare"], range:{min:1000,max:4999} },
+  { id:2, name:"木星歷險",   emoji:"🟠", topics:["place_value","compose","compose","compare","place_value","compare","compose","place_value"], range:{min:2000,max:6999} },
+  { id:3, name:"土星漫遊",   emoji:"🟡", topics:["place_value","compose","compare","compare","compose","place_value","compare","compose"], range:{min:3000,max:8999} },
+  { id:4, name:"天王星之謎", emoji:"🔵", topics:["place_value","compose","compare","place_value","compare","compose","compare","place_value"], range:{min:1000,max:9999} },
+  { id:5, name:"海王星決戰", emoji:"🌌", topics:["place_value","compose","compare","place_value","compose","compare","place_value","compose"], range:{min:5000,max:10000} }
+];
+const QUESTIONS_PER_STAGE = 8;
+const TIMER_SECONDS = 20;
+const PASS_THRESHOLD = 6;
+
+let state = { stage:0, qIndex:0, score:0, combo:0, maxCombo:0, totalCorrect:0, stageCorrect:0, stageScore:0, questions:[], currentQ:null, timerInterval:null, timerLeft:TIMER_SECONDS, answered:false, answers:[] };
+
+document.addEventListener('DOMContentLoaded', () => {
+  initStars();
+  document.getElementById('startBtn').addEventListener('click', startGame);
+  document.getElementById('replayBtn').addEventListener('click', () => showScreen('startScreen'));
+});
+
+function initStars() {
+  const bg = document.getElementById('starsBg');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div'); s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${Math.random()*4+2}s;animation-delay:${Math.random()*3}s;`;
+    bg.appendChild(s);
+  }
+  for (let i = 0; i < 3; i++) {
+    const m = document.createElement('div'); m.className = 'meteor';
+    m.style.cssText = `top:${Math.random()*40}%;left:${Math.random()*30}%;animation-delay:${i*3.5}s;animation-duration:${Math.random()*2+3}s;`;
+    bg.appendChild(m);
+  }
+}
+
+function randInt(min, max) { return Math.floor(Math.random()*(max-min+1))+min; }
+function shuffle(arr) { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function genPlaceValueQ(stage) {
+  const num = randInt(stage.range.min, stage.range.max);
+  const places = [
+    {name:'千位', div:1000}, {name:'百位', div:100},
+    {name:'十位', div:10},   {name:'個位', div:1}
+  ];
+  const p = places[randInt(0, num >= 10000 ? 2 : 3)];
+  const correct = Math.floor(num / p.div) % 10;
+  const allDigits = [Math.floor(num/1000)%10, Math.floor(num/100)%10, Math.floor(num/10)%10, num%10];
+  const wrongs = shuffle([...new Set(allDigits.filter(d=>d!==correct))]);
+  while (wrongs.length < 3) { const r=randInt(0,9); if(r!==correct&&!wrongs.includes(r)) wrongs.push(r); }
+  return { type:'place_value', number:num, text:`下面這個數字中`, question:`${p.name}上的數字是幾？`, correct, options:shuffle([correct,wrongs[0],wrongs[1],wrongs[2]]), explanation:`${num} 的 ${p.name} 是 ${correct}` };
+}
+
+function genComposeQ(stage) {
+  const num = randInt(stage.range.min, Math.min(stage.range.max, 9999));
+  const q=Math.floor(num/1000), b=Math.floor((num%1000)/100), t=Math.floor((num%100)/10), o=num%10;
+  let desc='';
+  if(q>0)desc+=`${q}千`;if(b>0)desc+=`${b}百`;if(t>0)desc+=`${t}十`;if(o>0)desc+=`${o}`;if(!desc)desc='0';
+  const wrongs=[q*1000+b*100+o*10+t, q*1000+t*100+b*10+o, b*1000+q*100+t*10+o].filter(n=>n!==num&&n>=1000);
+  while(wrongs.length<3){const r=randInt(stage.range.min,9999);if(r!==num&&!wrongs.includes(r))wrongs.push(r);}
+  return { type:'compose', number:null, text:`下面的算式代表哪個數？`, question:'', displayText:desc, correct:num, options:shuffle([num,wrongs[0],wrongs[1],wrongs[2]]), explanation:`${desc} = ${num}` };
+}
+
+function genCompareQ(stage) {
+  let a=randInt(stage.range.min,stage.range.max), b;
+  if(Math.random()<0.1){ b=a; }
+  else {
+    if(Math.random()>0.4&&a<9000){ b=Math.floor(a/1000)*1000+randInt(0,999); }
+    else { b=randInt(stage.range.min,stage.range.max); }
+    if(b===a) b=a+(Math.random()>0.5?1:-1);
+    b=Math.max(stage.range.min,Math.min(stage.range.max,b));
+  }
+  const correct=a>b?'>':a<b?'<':'=';
+  return { type:'compare', numberA:a, numberB:b, text:`比較兩個數的大小`, question:'○ 應填入什麼符號？', correct, explanation:`${a} ${correct} ${b}` };
+}
+
+function generateQuestions(stageIdx) {
+  const stage=STAGES[stageIdx];
+  return stage.topics.map(t=>{
+    if(t==='place_value') return genPlaceValueQ(stage);
+    if(t==='compose') return genComposeQ(stage);
+    return genCompareQ(stage);
+  });
+}
+
+function showScreen(id) { document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+function startGame() {
+  state={stage:0,qIndex:0,score:0,combo:0,maxCombo:0,totalCorrect:0,stageCorrect:0,stageScore:0,questions:[],currentQ:null,timerInterval:null,timerLeft:TIMER_SECONDS,answered:false,answers:[]};
+  loadStage(0); showScreen('gameScreen');
+}
+
+function loadStage(stageIdx) {
+  const stage=STAGES[stageIdx];
+  state.stage=stageIdx; state.qIndex=0; state.stageCorrect=0; state.stageScore=0; state.answers=[];
+  state.questions=generateQuestions(stageIdx);
+  document.getElementById('stageEmojiDisplay').textContent=stage.emoji;
+  document.getElementById('stageName').textContent=stage.name;
+  updateProgress(); loadQuestion();
+}
+
+function loadQuestion() {
+  const q=state.questions[state.qIndex]; state.currentQ=q; state.answered=false; state.timerLeft=TIMER_SECONDS;
+  document.getElementById('questionCard').className='question-card';
+  document.getElementById('feedbackIcon').className='feedback-icon';
+  document.getElementById('correctTip').className='correct-tip';
+  const stage=STAGES[state.stage];
+  document.getElementById('questionStageLabel').textContent=`${stage.emoji} 第 ${stage.id} 關`;
+  const badge=document.getElementById('questionTypeBadge');
+  if(q.type==='place_value'){badge.className='question-type-badge badge-place';badge.textContent='🔢 位值辨認';}
+  else if(q.type==='compose'){badge.className='question-type-badge badge-compose';badge.textContent='🧩 數字合成';}
+  else{badge.className='question-type-badge badge-compare';badge.textContent='⚖️ 大小比較';}
+  document.getElementById('questionText').textContent=q.text;
+  if(q.type==='place_value'){
+    document.getElementById('questionNumber').textContent=String(q.number);
+    document.getElementById('questionQ').textContent=q.question;
+    document.getElementById('questionNumber').style.display='block';
+    document.getElementById('optionsGrid').style.display='grid';
+    renderChoiceOptions(q.options,q.correct);
+    document.getElementById('compareOptions').style.display='none';
+  } else if(q.type==='compose'){
+    document.getElementById('questionNumber').textContent=q.displayText;
+    document.getElementById('questionQ').textContent='';
+    document.getElementById('questionNumber').style.display='block';
+    document.getElementById('optionsGrid').style.display='grid';
+    renderChoiceOptions(q.options,q.correct);
+    document.getElementById('compareOptions').style.display='none';
+  } else {
+    document.getElementById('questionNumber').textContent=`${q.numberA}   ○   ${q.numberB}`;
+    document.getElementById('questionQ').textContent=q.question;
+    document.getElementById('questionNumber').style.display='block';
+    document.getElementById('optionsGrid').innerHTML='';
+    document.getElementById('optionsGrid').style.display='none';
+    renderCompareOptions(q.correct);
+  }
+  updateQuestionDots();
+  document.getElementById('qNumDisplay').textContent=state.qIndex+1;
+  startTimer();
+}
+
+function renderChoiceOptions(options,correct){
+  const grid=document.getElementById('optionsGrid'); grid.innerHTML='';
+  options.forEach(opt=>{
+    const btn=document.createElement('button'); btn.className='opt-btn';
+    btn.textContent=String(opt);
+    btn.addEventListener('click',()=>handleAnswer(String(opt)===String(correct),btn,correct,'choice'));
+    grid.appendChild(btn);
+  });
+}
+
+function renderCompareOptions(correct){
+  const cmpDiv=document.getElementById('compareOptions'); cmpDiv.style.display='flex';
+  ['cmpLess','cmpEqual','cmpGreater'].forEach(id=>{
+    const btn=document.getElementById(id); btn.className='compare-btn'; btn.disabled=false;
+    const val=btn.dataset.val;
+    btn.onclick=()=>handleAnswer(val===correct,btn,correct,'compare');
+  });
+}
+
+function handleAnswer(isCorrect,clickedBtn,correct,mode){
+  if(state.answered)return; state.answered=true; stopTimer();
+  const card=document.getElementById('questionCard');
+  const fb=document.getElementById('feedbackIcon');
+  const tip=document.getElementById('correctTip');
+  if(mode==='choice'){
+    document.querySelectorAll('.opt-btn').forEach(btn=>{
+      btn.disabled=true;
+      if(btn.textContent===String(correct))btn.classList.add('correct-ans');
+    });
+    if(!isCorrect)clickedBtn.classList.add('wrong-ans');
+  } else {
+    ['cmpLess','cmpEqual','cmpGreater'].forEach(id=>{
+      const b=document.getElementById(id); b.disabled=true;
+      if(b.dataset.val===correct)b.classList.add('correct-ans');
+    });
+    if(!isCorrect)clickedBtn.classList.add('wrong-ans');
+  }
+  if(isCorrect){
+    card.classList.add('correct'); fb.textContent='✅'; fb.classList.add('show');
+    state.combo++; state.maxCombo=Math.max(state.maxCombo,state.combo);
+    state.stageCorrect++; state.totalCorrect++;
+    const timeBonus=state.timerLeft>15?60:state.timerLeft>10?30:0;
+    const comboBonus=state.combo>=3?(state.combo-2)*20:0;
+    const pts=100+timeBonus+comboBonus;
+    state.score+=pts; state.stageScore+=pts;
+    showCombo();
+  } else {
+    card.classList.add('wrong'); fb.textContent='❌'; fb.classList.add('show');
+    state.combo=0; hideComboBadge();
+    tip.textContent=`正確答案：${state.currentQ.explanation}`; tip.classList.add('show');
+  }
+  state.answers.push(isCorrect); updateScore(); updateQuestionDots();
+  setTimeout(()=>{ state.qIndex++; if(state.qIndex>=QUESTIONS_PER_STAGE)endStage(); else loadQuestion(); },1500);
+}
+
+function endStage(){
+  stopTimer();
+  const stage=STAGES[state.stage];
+  const passed=state.stageCorrect>=PASS_THRESHOLD;
+  document.getElementById('clearPlanetEmoji').textContent=stage.emoji;
+  document.getElementById('clearTitle').textContent=`${stage.name}完成！`;
+  document.getElementById('clearCorrect').textContent=`${state.stageCorrect}/8`;
+  document.getElementById('clearScore').textContent=state.stageScore;
+  document.getElementById('clearCombo').textContent=state.maxCombo;
+  if(passed){
+    document.getElementById('clearMsg').textContent=state.stage<4?'太棒了！繼續向下一個星球出發！🌟':'所有星球已征服！太厲害了！';
+  } else {
+    document.getElementById('clearMsg').textContent=`加油！只答對 ${state.stageCorrect}/8 題，再試一次吧！`;
+  }
+  const si=state.stage;
+  const nextBtn=document.getElementById('nextStageBtn');
+  if(si>=4){
+    nextBtn.textContent='🏆 查看最終成果！';
+    nextBtn.onclick=()=>showResult();
+  } else if(!passed){
+    nextBtn.textContent='🔄 重新挑戰本關';
+    nextBtn.onclick=()=>{ loadStage(si); showScreen('gameScreen'); };
+  } else {
+    nextBtn.textContent=`→ 前往${STAGES[si+1].name} ${STAGES[si+1].emoji}`;
+    nextBtn.onclick=()=>{ loadStage(si+1); showScreen('gameScreen'); };
+  }
+  showScreen('stageClearScreen');
+  if(passed) setTimeout(()=>{ try{ fireConfetti(); }catch(e){} }, 50);
+}
+
+function showResult(){
+  const total=STAGES.length*QUESTIONS_PER_STAGE;
+  const pct=state.totalCorrect/total;
+  let emoji,title,subtitle;
+  if(pct>=0.9){emoji='🚀';title='宇宙冠軍！';subtitle='所有星球都被你征服了！你是最強的宇宙探索者！';}
+  else if(pct>=0.75){emoji='⭐';title='星際英雄！';subtitle='成績非常優秀！繼續努力就能成為宇宙冠軍！';}
+  else if(pct>=0.6){emoji='🌙';title='月球冒險家！';subtitle='還不錯！多練習幾次就能更上一層樓喔！';}
+  else{emoji='🌍';title='地球出發！';subtitle='繼續加油！宇宙冒險還在等你！';}
+  document.getElementById('resultEmoji').textContent=emoji;
+  document.getElementById('resultTitle').textContent=title;
+  document.getElementById('resultSubtitle').textContent=subtitle;
+  document.getElementById('finalScore').textContent=state.score;
+  document.getElementById('finalCorrect').textContent=`${state.totalCorrect}/${total}`;
+  document.getElementById('finalMaxCombo').textContent=state.maxCombo;
+  const stars=pct>=0.9?3:pct>=0.7?2:pct>=0.5?1:0;
+  document.querySelectorAll('.star-icon').forEach((s,i)=>{
+    s.classList.remove('lit');
+    if(i<stars)setTimeout(()=>s.classList.add('lit'),i*300+300);
+  });
+  const prevBest=parseInt(localStorage.getItem('math3_numbers_best')||'0');
+  if(state.score>prevBest){
+    localStorage.setItem('math3_numbers_best',state.score);
+    document.getElementById('highScoreVal').textContent=state.score;
+    document.getElementById('highScoreBanner').style.display='flex';
+  } else { document.getElementById('highScoreBanner').style.display='none'; }
+  if(pct>=0.75)fireConfetti();
+  showScreen('resultScreen');
+}
+
+function startTimer(){
+  state.timerLeft=TIMER_SECONDS; updateTimerBar(1); clearInterval(state.timerInterval);
+  state.timerInterval=setInterval(()=>{
+    state.timerLeft--; updateTimerBar(state.timerLeft/TIMER_SECONDS);
+    if(state.timerLeft<=0){ clearInterval(state.timerInterval); handleTimeOut(); }
+  },1000);
+}
+function stopTimer(){ clearInterval(state.timerInterval); }
+function updateTimerBar(ratio){
+  const bar=document.getElementById('timerBar'); bar.style.width=`${ratio*100}%`;
+  if(ratio<0.3)bar.classList.add('urgent'); else bar.classList.remove('urgent');
+}
+function handleTimeOut(){
+  if(state.answered)return; state.answered=true;
+  const card=document.getElementById('questionCard');
+  card.classList.add('wrong');
+  document.getElementById('feedbackIcon').textContent='⏰';
+  document.getElementById('feedbackIcon').classList.add('show');
+  state.combo=0; hideComboBadge();
+  document.getElementById('correctTip').textContent=`時間到！正確答案：${state.currentQ.explanation}`;
+  document.getElementById('correctTip').classList.add('show');
+  document.querySelectorAll('.opt-btn').forEach(btn=>{
+    btn.disabled=true;
+    if(btn.textContent===String(state.currentQ.correct))btn.classList.add('correct-ans');
+  });
+  ['cmpLess','cmpEqual','cmpGreater'].forEach(id=>{
+    const b=document.getElementById(id); b.disabled=true;
+    if(b.dataset.val===state.currentQ.correct)b.classList.add('correct-ans');
+  });
+  state.answers.push(false); updateQuestionDots();
+  setTimeout(()=>{ state.qIndex++; if(state.qIndex>=QUESTIONS_PER_STAGE)endStage(); else loadQuestion(); },1800);
+}
+function updateScore(){ document.getElementById('scoreDisplay').textContent=state.score; }
+function updateProgress(){
+  const total=STAGES.length*QUESTIONS_PER_STAGE;
+  const done=state.stage*QUESTIONS_PER_STAGE+state.qIndex;
+  document.getElementById('progressBar').style.width=`${(done/total)*100}%`;
+}
+function updateQuestionDots(){
+  const dots=document.getElementById('questionDots'); dots.innerHTML='';
+  for(let i=0;i<QUESTIONS_PER_STAGE;i++){
+    const d=document.createElement('div'); d.className='q-dot';
+    if(i<state.answers.length) d.classList.add(state.answers[i]?'answered-correct':'answered-wrong');
+    else if(i===state.qIndex) d.classList.add('current');
+    dots.appendChild(d);
+  }
+}
+function showCombo(){
+  const badge=document.getElementById('comboBadge');
+  if(state.combo>=2){ document.getElementById('comboCount').textContent=state.combo; badge.classList.add('show'); }
+}
+function hideComboBadge(){ document.getElementById('comboBadge').classList.remove('show'); }
+function fireConfetti(){
+  if(typeof confetti !== 'function') return;
+  try {
+    confetti({particleCount:120,spread:80,origin:{y:0.5},colors:['#FFD166','#7C3AED','#2563EB','#10B981','#FFF']});
+    setTimeout(()=>confetti({particleCount:60,spread:100,origin:{x:0.2,y:0.6},colors:['#60A5FA','#A78BFA']}),350);
+    setTimeout(()=>confetti({particleCount:60,spread:100,origin:{x:0.8,y:0.6},colors:['#FFD166','#F43F5E']}),600);
+  } catch(e){ console.warn('confetti error:', e); }
+}
+</script>
+</body>
+</html>

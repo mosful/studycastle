@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快樂學習冒險城堡 | 互動學習遊戲總覽</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- 不蒜子雲端去重訪客計數 -->
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <style>
+        /* ==========================================
+           1. 全域變數與重置 (Variables & Reset)
+           ========================================== */
+        :root {
+            --primary: #4A90E2;
+            --primary-dark: #357ABD;
+            --secondary: #FF6B6B;
+            --accent-yellow: #FFD166;
+            --accent-green: #06D6A0;
+            --accent-purple: #8338EC;
+            
+            --bg-gradient: linear-gradient(135deg, #EBF4FF 0%, #E6E6FA 50%, #FFF0F5 100%);
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --text-main: #2D3748;
+            --text-muted: #718096;
+            --border-color: #E2E8F0;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-md: 0 10px 20px -5px rgba(66, 153, 225, 0.15), 0 6px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 10px;
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #111827 100%);
+            --card-bg: rgba(30, 41, 59, 0.85);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border-color: #334155;
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', 'Fredoka', sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 60px;
+            overflow-x: hidden;
+        }
+
+        /* 背景裝飾圓形浮動粒子 */
+        .bg-bubbles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            animation: floatUp 18s infinite linear;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-200px) rotate(360deg); }
+        }
+
+        /* ==========================================
+           2. 頁首頂欄 (Header Section)
+           ========================================== */
+        header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px 20px;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .back-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.25s ease;
+        }
+
+        .back-home-link:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .theme-toggle-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 10px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.25s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+        }
+
+        .hero-banner {
+            text-align: center;
+            padding: 40px 20px 30px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FF6B6B, #FFD166, #06D6A0, #118AB2, #8338EC);
+        }
+
+        .hero-title {
+            font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            font-weight: 700;
+            color: var(--primary);
+            background: linear-gradient(135deg, #3A7BD5 0%, #3A6073 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        [data-theme="dark"] .hero-title {
+            background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 24px;
+            line-height: 1.6;
+        }
+
+        .stats-pills {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .stat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(74, 144, 226, 0.1);
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+
+        /* ==========================================
+           3. 控制列與篩選器 (Filter & Search Controls)
+           ========================================== */
+        .main-container {
+            max-width: 1200px;
+            margin: 30px auto 0;
+            padding: 0 20px;
+        }
+
+        .controls-wrapper {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-and-grade-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 260px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            border-radius: 30px;
+            border: 2px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            font-family: inherit;
+            transition: all 0.25s ease;
+        }
+
+        [data-theme="dark"] .search-input {
+            background: rgba(15, 23, 42, 0.6);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .filter-select-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .styled-select {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 2px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .styled-select:hover, .styled-select:focus {
+            border-color: var(--primary);
+        }
+
+        .action-btn {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-random {
+            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);
+            color: #7A2846;
+        }
+
+        .btn-random:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-favorites {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-favorites.active {
+            border-color: #FFD166;
+            background: #FFF9E6;
+            color: #B48000;
+        }
+
+        /* 科目 Tab 標籤頁 */
+        .subject-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: thin;
+        }
+
+        .subject-tab {
+            padding: 10px 22px;
+            border-radius: 25px;
+            border: 2px solid transparent;
+            background: rgba(0, 0, 0, 0.04);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+        }
+
+        [data-theme="dark"] .subject-tab {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .subject-tab:hover {
+            color: var(--text-main);
+            background: rgba(74, 144, 226, 0.1);
+        }
+
+        .subject-tab.active {
+            background: var(--primary);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.35);
+        }
+
+        .subject-tab .badge-count {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        .subject-tab.active .badge-count {
+            background: rgba(255, 255, 255, 0.3);
+            color: #FFF;
+        }
+
+        /* ==========================================
+           4. 遊戲卡片網格 (Game Cards Grid)
+           ========================================== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+
+        .card-banner {
+            height: 180px;
+            background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-img {
+            max-height: 140px;
+            max-width: 80%;
+            object-fit: contain;
+            transition: transform 0.4s ease;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+        }
+
+        .game-card:hover .card-img {
+            transform: scale(1.1) rotate(-3deg);
+        }
+
+        .card-emoji-icon {
+            font-size: 5.5rem;
+            user-select: none;
+            transition: transform 0.4s ease;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+        }
+
+        .game-card:hover .card-emoji-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .fav-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+            z-index: 5;
+        }
+
+        .fav-btn:hover {
+            transform: scale(1.2);
+            background: #FFFFFF;
+        }
+
+        .fav-btn.is-fav {
+            color: #FFD166;
+            background: #FFF;
+        }
+
+        .card-body {
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .tag-pill {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: rgba(0,0,0,0.05);
+            color: var(--text-muted);
+        }
+
+        [data-theme="dark"] .tag-pill {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .card-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            line-height: 1.35;
+        }
+
+        .card-description {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .play-btn {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #FFFFFF;
+            text-decoration: none;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 6px 16px rgba(74, 144, 226, 0.3);
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .play-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.45);
+        }
+
+        /* 預告 / 未開放遊戲卡片 */
+        .game-card.coming-soon {
+            opacity: 0.85;
+            border-style: dashed;
+        }
+
+        .game-card.coming-soon .card-banner {
+            background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%);
+            filter: grayscale(0.5);
+        }
+
+        [data-theme="dark"] .game-card.coming-soon .card-banner {
+            background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+        }
+
+        .coming-soon-btn {
+            background: #CBD5E1;
+            color: #64748B;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .coming-soon-btn:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* 空搜尋狀態 */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 2px dashed var(--border-color);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .empty-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .empty-desc {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* 冒險家留言板 (Giscus) */
+        .comments-section {
+            max-width: 1200px;
+            margin: 50px auto 20px;
+            padding: 0 20px;
+        }
+
+        .comments-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .comments-header h2 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comments-header p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            margin-top: 6px;
+        }
+
+        .giscus-card {
+            background: var(--card-bg);
+            padding: 24px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            min-height: 180px;
+        }
+
+        /* 懸浮反饋按鈕 (FAB) */
+        .feedback-fab {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            cursor: pointer;
+            z-index: 990;
+            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            touch-action: manipulation;
+        }
+
+        .feedback-fab:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.5);
+        }
+
+        .feedback-form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .feedback-form-group label {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .feedback-input, .feedback-select, .feedback-textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            background: var(--card-bg);
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+            font-family: inherit;
+        }
+
+        .feedback-input:focus, .feedback-select:focus, .feedback-textarea:focus {
+            border-color: var(--primary);
+        }
+
+        /* 頁尾 */
+        footer {
+            max-width: 1200px;
+            margin: 50px auto 0;
+            padding: 24px 20px 40px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-device-tip {
+            margin-top: 10px;
+            font-size: 0.88rem;
+            color: var(--primary);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(74, 144, 226, 0.08);
+            padding: 8px 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+
+        .visitor-stats-bar {
+            margin-top: 12px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            opacity: 0.75;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 4px 14px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 15px;
+        }
+
+        [data-theme="dark"] .visitor-stats-bar {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .visitor-stats-bar strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .visitor-stats-bar .v-sep {
+            opacity: 0.4;
+        }
+
+        /* 隨機抽選 Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 36px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border: 2px solid var(--primary);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-emoji {
+            font-size: 5rem;
+            margin-bottom: 16px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-15px); }
+        }
+
+        /* 響應式調整 (iPad / 平板與手機最佳化) */
+        @media (max-width: 1024px) {
+            .subject-tab {
+                padding: 12px 20px;
+                font-size: 1rem;
+                min-height: 48px;
+            }
+            .play-btn {
+                min-height: 48px;
+                font-size: 1.05rem;
+                padding: 12px 20px;
+            }
+            .styled-select, .action-btn {
+                min-height: 48px;
+                font-size: 1rem;
+            }
+            .fav-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 20px 14px 10px; }
+            .hero-banner { padding: 30px 16px; }
+            .hero-title { font-size: 1.8rem; }
+            .controls-wrapper { padding: 16px; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .search-input { font-size: 16px; /* 防止 iOS 縮放 */ }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 背景動態泡泡粒子 -->
+    <div class="bg-bubbles" id="bgBubbles"></div>
+
+    <!-- 頂部導覽 Header -->
+    <header>
+        <div class="top-nav">
+            <a href="index.html" class="back-home-link">
+                <span>🏠</span>
+                <span>返回個人主頁</span>
+            </a>
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggleBtn">
+                    <span id="themeIcon">🌙</span>
+                    <span id="themeText">深色模式</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="hero-banner">
+            <h1 class="hero-title">🎮 快樂學習冒險城堡</h1>
+            <p class="hero-subtitle">專為國小與國中學生打造的互動式學習遊戲，在闖關冒險中掌握趣味數學與多元科目！</p>
+            <div class="stats-pills">
+                <span class="stat-badge">✨ 已上線 10 大冒險單元</span>
+                <span class="stat-badge">🎉 3上數學：5 單元全部完成！</span>
+                <span class="stat-badge">🧮 數學科（持續擴充中）</span>
+                <span class="stat-badge">🚀 支援手機/平板與電腦</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="main-container">
+        
+        <!-- 搜尋與篩選列 -->
+        <section class="controls-wrapper">
+            <div class="search-and-grade-row">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" class="search-input" placeholder="搜尋遊戲名稱、關鍵字（如：乘法、質數、火車）..." autocomplete="off">
+                </div>
+
+                <div class="filter-select-group">
+                    <select id="gradeSelect" class="styled-select">
+                        <option value="all">🎓 全部年級/難度</option>
+                        <option value="junior">低年級 (1-2年級)</option>
+                        <option value="middle">中年級 (3-4年級)</option>
+                        <option value="senior">高年級/國中 (5年級以上)</option>
+                    </select>
+
+                    <button class="action-btn btn-random" id="randomBtn">
+                        <span>🎲</span>
+                        <span>隨機選遊戲</span>
+                    </button>
+
+                    <button class="action-btn btn-favorites" id="favFilterBtn">
+                        <span>⭐</span>
+                        <span>最愛收藏</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 科目切換 Tabs -->
+            <div class="subject-tabs" id="subjectTabs">
+                <button class="subject-tab active" data-subject="all">
+                    <span>🌈</span> 全部科目 <span class="badge-count" id="countAll">10</span>
+                </button>
+                <button class="subject-tab" data-subject="math">
+                    <span>🧮</span> 數學科 <span class="badge-count" id="countMath">10</span>
+                </button>
+                <button class="subject-tab" data-subject="chinese">
+                    <span>📖</span> 國語文 <span class="badge-count">規劃中</span>
+                </button>
+                <button class="subject-tab" data-subject="science">
+                    <span>🧪</span> 自然科學 <span class="badge-count">規劃中</span>
+                </button>
+                <button class="subject-tab" data-subject="english">
+                    <span>🔤</span> 英語文 <span class="badge-count">規劃中</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 遊戲單元卡片區 -->
+        <section class="cards-grid" id="cardsGrid">
+            <!-- 由 JavaScript 動態渲染卡片 -->
+        </section>
+
+        <!-- 冒險家交流留言板 (Giscus) -->
+        <section class="comments-section" id="commentsSection">
+            <div class="comments-header">
+                <h2>💬 冒險家交流留言板</h2>
+                <p>歡迎留下您的通關心得、給小冒險家的加油打氣或學習建議！</p>
+            </div>
+            <div class="giscus-card">
+                <div class="giscus"></div>
+                <script src="https://giscus.app/client.js"
+                    data-repo="mosful/mosful.github.io"
+                    data-repo-id="R_kgDONqW7_A"
+                    data-category="General"
+                    data-category-id="DIC_kwDONqW7_M4Cm86-"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="0"
+                    data-input-position="top"
+                    data-theme="preferred_color_scheme"
+                    data-lang="zh-TW"
+                    data-loading="lazy"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p>© 2026 快樂學習冒險城堡 | 設計用於促進學生趣味學習與奠定學科基礎</p>
+        <p class="footer-device-tip">📱 支援 iPad / 平板、手機與電腦各式瀏覽器 ｜ 專為觸控操作最佳化</p>
+        <div class="visitor-stats-bar">
+            <span>👀 總瀏覽人次：<strong id="busuanzi_value_site_uv">載入中...</strong></span>
+            <span class="v-sep">｜</span>
+            <span>🌐 您的 IP：<span id="visitorIp">查詢中...</span></span>
+        </div>
+    </footer>
+
+    <!-- 隨機抽卡 Modal -->
+    <div class="modal-overlay" id="randomModal">
+        <div class="modal-card">
+            <div class="modal-emoji" id="modalEmoji">🎲</div>
+            <h2 class="empty-title" id="modalTitle">命運輪盤轉動中...</h2>
+            <p class="empty-desc" id="modalDesc">幫你挑選出最適合今天的學習大冒險！</p>
+            <div style="display: flex; gap: 12px; margin-top: 20px;">
+                <button class="action-btn btn-random" id="modalRerollBtn" style="flex:1;">🔄 再抽一次</button>
+                <a href="#" id="modalGoBtn" class="play-btn" style="flex:1.2;">🚀 立刻前往</a>
+            </div>
+            <button id="modalCloseBtn" style="margin-top: 15px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem;">關閉視窗</button>
+        </div>
+    </div>
+
+    <!-- 懸浮反饋按鈕 (FAB) -->
+    <button class="feedback-fab" id="openFeedbackBtn" title="意見反饋與建議">
+        <span>💬</span>
+        <span>意見反饋</span>
+    </button>
+
+    <!-- 反饋表單 Modal -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-card" style="max-width: 480px; text-align: left;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h3 style="margin:0; font-size:1.3rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+                    💌 冒險反饋信箱
+                </h3>
+                <button id="closeFeedbackBtn" style="background:none; border:none; font-size:1.4rem; color:var(--text-muted); cursor:pointer; padding:4px 8px;">✕</button>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px; line-height:1.6;">
+                遇到問題、有題目想建議，或是想許願新單元？歡迎告訴我們！
+            </p>
+            <form id="feedbackForm">
+                <div class="feedback-form-group">
+                    <label>📌 反饋類型</label>
+                    <select class="feedback-select" id="fbType" required>
+                        <option value="💡 題目與計算建議">💡 題目與計算建議</option>
+                        <option value="🐛 發現系統錯誤 (Bug)">🐛 發現系統錯誤 (Bug)</option>
+                        <option value="✨ 許願想玩的新單元">✨ 許願想玩的新單元</option>
+                        <option value="❤️ 給冒險城堡加油打氣">❤️ 給冒險城堡加油打氣</option>
+                    </select>
+                </div>
+                <div class="feedback-form-group">
+                    <label>📖 關聯單元（可選）</label>
+                    <select class="feedback-select" id="fbUnit">
+                        <option value="全站 / 首頁">全站 / 首頁</option>
+                        <option value="3上① 數到10000">3上① 數到10000</option>
+                        <option value="3上② 四位數加減">3上② 四位數加減</option>
+                        <option value="3上③ 乘法小英雄">3上③ 乘法小英雄</option>
+                        <option value="3上④ 幾毫米測量">3上④ 幾毫米測量</option>
+                        <option value="3上⑤ 角與幾何">3上⑤ 角與幾何</option>
+                        <option value="其他中高年級單元">其他中高年級單元</option>
+                    </select>
+                </div>
+                <div class="feedback-form-group">
+                    <label>👤 您的稱呼（選填）</label>
+                    <input type="text" class="feedback-input" id="fbName" placeholder="例如：三年二班小明、王媽媽、李老師">
+                </div>
+                <div class="feedback-form-group">
+                    <label>📝 詳細內容 <span style="color:var(--secondary)">*</span></label>
+                    <textarea class="feedback-textarea" id="fbContent" rows="3" placeholder="請詳細描述您的想法或遇到的狀況..." required></textarea>
+                </div>
+                <div style="display:flex; gap:10px; margin-top:20px;">
+                    <button type="button" class="action-btn" id="cancelFeedbackBtn" style="flex:1;">取消</button>
+                    <button type="submit" class="action-btn btn-primary" id="submitFeedbackBtn" style="flex:1.2;">🚀 送出反饋</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript 邏輯與擴充資料集 -->
+    <script>
+        /* =========================================================
+           未來新增單元說明 (Developer Guide):
+           若未來要新增新遊戲或單元，只需在下面的 `GAMES_DATA` 陣列中
+           加入一筆物件即可！無須改動任何 DOM 結構與渲染邏輯。
+           ========================================================= */
+        const GAMES_DATA = [
+            {
+                id: "2mathgame",
+                title: "大耳狗九九乘法：完整練習版",
+                subject: "math",
+                grade: "junior", // junior (低年級), middle (中年級), senior (高年級/國中)
+                tags: ["九九乘法", "2分鐘限時", "大耳狗", "基礎算術"],
+                url: "2mathgame.html",
+                image: "menu_cinnamoroll.png",
+                isEmoji: false,
+                bgGradient: "linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%)",
+                badgeText: "熱門練習",
+                badgeColor: "#FF6B6B",
+                description: "與大耳狗一同進行 2 分鐘九九乘法挑戰！培養基礎乘法反應力、記憶力與答題熟練度。",
+                available: true
+            },
+            {
+                id: "5mathgame",
+                title: "快樂火車數學大冒險 (5分鐘版)",
+                subject: "math",
+                grade: "middle",
+                tags: ["加減乘除", "火車冒險", "綜合運算", "5分鐘限時"],
+                url: "5mathgame.html",
+                image: "🚂",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #E0F7FA 0%, #80DEEA 100%)",
+                badgeText: "綜合挑戰",
+                badgeColor: "#4DD0E1",
+                description: "搭上快樂火車，在 5 分鐘內挑戰各式四則算術題目，累積得分並贏取數學榮譽勳章！",
+                available: true
+            },
+            {
+                id: "prime",
+                title: "質數海盜大冒險 ①",
+                subject: "math",
+                grade: "senior",
+                tags: ["質數與合數", "質因數分解", "短除法", "GCD/LCM", "第①單元"],
+                url: "prime.html",
+                image: "🏴‍☠️",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #FEF3C7 0%, #FDE047 100%)",
+                badgeText: "6上・第①單元",
+                badgeColor: "#F59E0B",
+                description: "化身勇敢海盜航向質數島！精通質數判斷、質因數分解與短除法，解開最大公因數和最小公倍數的航海密碼！",
+                available: true
+            },
+            {
+                id: "fraction-division",
+                title: "分數廚師大挑戰 ②",
+                subject: "math",
+                grade: "senior",
+                tags: ["分數除法", "最簡分數", "約分", "異分母", "第②單元"],
+                url: "fraction-division.html",
+                image: "🍕",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #FFF3E0 0%, #FF8F00 100%)",
+                badgeText: "6上・第②單元",
+                badgeColor: "#E65100",
+                description: "跟著大廚布蘭克學習分數除法！挑戰最簡分數、整數÷分數、異分母分數除法，5關闖關成為料理數學大師！",
+                available: true
+            },
+            {
+                id: "decimal-division",
+                title: "小數太空探險 ③",
+                subject: "math",
+                grade: "senior",
+                tags: ["小數除法", "四捨五入", "概數", "太空探險", "第③單元"],
+                url: "decimal-division.html",
+                image: "🚀",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #E8EAF6 0%, #3949AB 100%)",
+                badgeText: "6上・第③單元",
+                badgeColor: "#283593",
+                description: "搭乘太空船探索小數除法宇宙！用乘以10的魔法征服整數÷小數、小數÷小數，以及四捨五入概數，太空任務等你！",
+                available: true
+            },
+            // =========================================================
+            // 三年級上學期數學單元 (南一版 新超群 數學自修 3上，P.1–P.117)
+            // =========================================================
+            {
+                id: "math3_numbers",
+                title: "數到10000宇宙冒險 ①",
+                subject: "math",
+                grade: "middle",
+                tags: ["萬以內的數", "位值", "數線", "比大小", "3上第①單元"],
+                url: "math3_numbers.html",
+                image: "🌌",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #DBEAFE 0%, #3B82F6 100%)",
+                badgeText: "3上・第①單元",
+                badgeColor: "#1D4ED8",
+                description: "搭乘宇宙飛船探索萬以內的神秘星球！學習千位、百位、十位、個位的位值觀念，掌握數列順序與大小比較！",
+                available: true
+            },
+            {
+                id: "math3_addition",
+                title: "四位數加減法大挑戰 ②",
+                subject: "math",
+                grade: "middle",
+                tags: ["四位數加法", "四位數減法", "進位借位", "3上第②單元"],
+                url: "math3_addition.html",
+                image: "➕",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #DCFCE7 0%, #16A34A 100%)",
+                badgeText: "3上・第②單元",
+                badgeColor: "#15803D",
+                description: "挑戰四位數加減法！學習進位加法與借位減法的技巧，解開算術關卡成為萬位數計算小達人！",
+                available: true
+            },
+            {
+                id: "math3_multiplication",
+                title: "乘法小英雄大冒險 ③",
+                subject: "math",
+                grade: "middle",
+                tags: ["乘法", "兩位數乘法", "乘法算式", "積", "3上第③單元"],
+                url: "math3_multiplication.html",
+                image: "✖️",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #FEF9C3 0%, #EAB308 100%)",
+                badgeText: "3上・第③單元",
+                badgeColor: "#B45309",
+                description: "化身數學小英雄，征服二位數×一位數乘法！學習乘法算式與積的計算，透過闖關冒險提升乘法速算能力！",
+                available: true
+            },
+            {
+                id: "math3_measurement",
+                title: "幾毫米測量小達人 ④",
+                subject: "math",
+                grade: "middle",
+                tags: ["毫米", "長度測量", "公分公尺", "換算", "3上第④單元"],
+                url: "math3_measurement.html",
+                image: "📏",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #CCFBF1 0%, #0F766E 100%)",
+                badgeText: "3上・第④單元",
+                badgeColor: "#0F766E",
+                description: "拿起尺規成為測量達人！學習毫米的認識，公分與公尺的換算，透過實際測量任務培養長度量感！",
+                available: true
+            },
+            {
+                id: "math3_geometry",
+                title: "角與幾何形狀探索家 ⑤",
+                subject: "math",
+                grade: "middle",
+                tags: ["角", "直角", "正方形", "長方形", "幾何", "3上第⑤單元"],
+                url: "math3_geometry.html",
+                image: "📐",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #EDE9FE 0%, #7C3AED 100%)",
+                badgeText: "3上・第⑤單元",
+                badgeColor: "#5B21B6",
+                description: "探索角的神奇世界！認識角、直角，以及正方形和長方形的性質，用幾何眼光發現生活中的數學美！",
+                available: true
+            },
+            // 未來擴充預告單元 (Placeholders for Future Subject Units)
+            {
+                id: "idiom_game",
+                title: "成語接龍大挑戰",
+                subject: "chinese",
+                grade: "middle",
+                tags: ["成語辭典", "詞彙接龍", "國語文"],
+                url: "#",
+                image: "📖",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #FCE7F3 0%, #F472B6 100%)",
+                badgeText: "規劃中",
+                badgeColor: "#94A3B8",
+                description: "考驗你的成語儲備量！通過填字與接龍闖關，輕鬆累積豐厚成語詞彙庫。",
+                available: false
+            },
+            {
+                id: "element_game",
+                title: "元素週期表大探索",
+                subject: "science",
+                grade: "senior",
+                tags: ["化學元素", "自然科學", "實驗室"],
+                url: "#",
+                image: "🧪",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #DCFCE7 0%, #4ADE80 100%)",
+                badgeText: "規劃中",
+                badgeColor: "#94A3B8",
+                description: "探索常見化學元素符號與生活中的科學應用，打造屬於你的小小化學實驗室！",
+                available: false
+            },
+            {
+                id: "vocab_game",
+                title: "單字王奇幻冒險",
+                subject: "english",
+                grade: "junior",
+                tags: ["基礎英文", "生活單字", "聽力發音"],
+                url: "#",
+                image: "🔤",
+                isEmoji: true,
+                bgGradient: "linear-gradient(135deg, #EDE9FE 0%, #A78BFA 100%)",
+                badgeText: "規劃中",
+                badgeColor: "#94A3B8",
+                description: "從生活常用單字與基礎句型開始，配合圖片圖像化記憶，變身英語單字王！",
+                available: false
+            }
+        ];
+
+        // 本地儲存收藏夾
+        let favorites = JSON.parse(localStorage.getItem('portal_favorites') || '[]');
+        let currentSubject = 'all';
+        let currentGrade = 'all';
+        let isFavOnly = false;
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            initBackgroundBubbles();
+            initTheme();
+            renderCards();
+            setupEventListeners();
+            initVisitorIp();
+        });
+
+        // 浮動背景泡泡生成
+        function initBackgroundBubbles() {
+            const container = document.getElementById('bgBubbles');
+            const colors = ['#4A90E2', '#FF6B6B', '#FFD166', '#06D6A0', '#8338EC'];
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 80 + 30;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 100}%`;
+                bubble.style.background = colors[Math.floor(Math.random() * colors.length)];
+                bubble.style.animationDuration = `${Math.random() * 10 + 12}s`;
+                bubble.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(bubble);
+            }
+        }
+
+        // 取得使用者真實 IP
+        async function initVisitorIp() {
+            try {
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                if (ipRes.ok) {
+                    const ipData = await ipRes.json();
+                    document.getElementById('visitorIp').textContent = ipData.ip || '已保護';
+                }
+            } catch (e) {
+                document.getElementById('visitorIp').textContent = '已連線';
+            }
+        }
+
+        // 主題切換 (Dark / Light)
+        function initTheme() {
+            const savedTheme = localStorage.getItem('portal_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeUI(savedTheme);
+
+            document.getElementById('themeToggleBtn').addEventListener('click', () => {
+                const current = document.documentElement.getAttribute('data-theme');
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('portal_theme', next);
+                updateThemeUI(next);
+            });
+        }
+
+        function updateThemeUI(theme) {
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            if (theme === 'dark') {
+                icon.textContent = '☀️';
+                text.textContent = '淺色模式';
+            } else {
+                icon.textContent = '🌙';
+                text.textContent = '深色模式';
+            }
+            updateGiscusTheme(theme);
+        }
+
+        // 同步切換 Giscus 留言板主題
+        function updateGiscusTheme(theme) {
+            const iframe = document.querySelector('iframe.giscus-frame');
+            if (!iframe) return;
+            const giscusTheme = theme === 'dark' ? 'dark' : 'light';
+            iframe.contentWindow.postMessage(
+                { giscus: { setConfig: { theme: giscusTheme } } },
+                'https://giscus.app'
+            );
+        }
+
+        // 渲染單元卡片
+        function renderCards() {
+            const grid = document.getElementById('cardsGrid');
+            const searchKeyword = document.getElementById('searchInput').value.trim().toLowerCase();
+
+            // 篩選過濾邏輯
+            const filtered = GAMES_DATA.filter(game => {
+                // 科目
+                if (currentSubject !== 'all' && game.subject !== currentSubject) return false;
+                // 年級
+                if (currentGrade !== 'all') {
+                    if (currentGrade === 'junior' && game.grade !== 'junior') return false;
+                    if (currentGrade === 'middle' && game.grade !== 'middle' && game.grade !== 'junior') return false;
+                    if (currentGrade === 'senior' && game.grade !== 'senior') return false;
+                }
+                // 收藏
+                if (isFavOnly && !favorites.includes(game.id)) return false;
+                // 關鍵字搜尋
+                if (searchKeyword) {
+                    const inTitle = game.title.toLowerCase().includes(searchKeyword);
+                    const inDesc = game.description.toLowerCase().includes(searchKeyword);
+                    const inTags = game.tags.some(t => t.toLowerCase().includes(searchKeyword));
+                    if (!inTitle && !inDesc && !inTags) return false;
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h3 class="empty-title">找不到符合條件的學習單元</h3>
+                        <p class="empty-desc">請嘗試調整搜尋關鍵字、切換科目或重置年級篩選喔！</p>
+                        <button class="action-btn btn-random" onclick="resetFilters()">🔄 重置所有篩選條件</button>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(game => {
+                const isFav = favorites.includes(game.id);
+                const tagPills = game.tags.map(t => `<span class="tag-pill">#${t}</span>`).join('');
+                
+                let mediaHtml = game.isEmoji 
+                    ? `<span class="card-emoji-icon">${game.image}</span>`
+                    : `<img src="${game.image}" alt="${game.title}" class="card-img">`;
+
+                if (!game.available) {
+                    return `
+                        <div class="game-card coming-soon">
+                            <div class="card-banner" style="background: ${game.bgGradient};">
+                                <span class="card-badge" style="background: ${game.badgeColor};">${game.badgeText}</span>
+                                ${mediaHtml}
+                            </div>
+                            <div class="card-body">
+                                <div class="card-tags">${tagPills}</div>
+                                <h3 class="card-title">${game.title}</h3>
+                                <p class="card-description">${game.description}</p>
+                                <div class="card-footer">
+                                    <button class="play-btn coming-soon-btn" disabled>🔒 擴充建置中</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="game-card">
+                        <div class="card-banner" style="background: ${game.bgGradient};">
+                            <span class="card-badge" style="background: ${game.badgeColor};">${game.badgeText}</span>
+                            <button class="fav-btn ${isFav ? 'is-fav' : ''}" onclick="toggleFav('${game.id}', event)" title="收藏單元">
+                                ${isFav ? '★' : '☆'}
+                            </button>
+                            ${mediaHtml}
+                        </div>
+                        <div class="card-body">
+                            <div class="card-tags">${tagPills}</div>
+                            <h3 class="card-title">${game.title}</h3>
+                            <p class="card-description">${game.description}</p>
+                            <div class="card-footer">
+                                <a href="${game.url}" class="play-btn">
+                                    <span>🚀 開始冒險</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // 切換收藏狀態
+        function toggleFav(id, e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(item => item !== id);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('portal_favorites', JSON.stringify(favorites));
+            renderCards();
+        }
+
+        // 事件監聽綁定
+        function setupEventListeners() {
+            // 科目 Tabs
+            document.getElementById('subjectTabs').addEventListener('click', (e) => {
+                const tab = e.target.closest('.subject-tab');
+                if (!tab) return;
+                document.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentSubject = tab.dataset.subject;
+                renderCards();
+            });
+
+            // 年級選單
+            document.getElementById('gradeSelect').addEventListener('change', (e) => {
+                currentGrade = e.target.value;
+                renderCards();
+            });
+
+            // 關鍵字搜尋
+            document.getElementById('searchInput').addEventListener('input', () => {
+                renderCards();
+            });
+
+            // 收藏過濾按鈕
+            const favBtn = document.getElementById('favFilterBtn');
+            favBtn.addEventListener('click', () => {
+                isFavOnly = !isFavOnly;
+                favBtn.classList.toggle('active', isFavOnly);
+                renderCards();
+            });
+
+            // 隨機選遊戲 Modal
+            const modal = document.getElementById('randomModal');
+            document.getElementById('randomBtn').addEventListener('click', openRandomModal);
+            document.getElementById('modalRerollBtn').addEventListener('click', rollRandomGame);
+            document.getElementById('modalCloseBtn').addEventListener('click', () => modal.classList.remove('active'));
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+
+            // 反饋表單 Modal 互動
+            const fbModal = document.getElementById('feedbackModal');
+            const openFbBtn = document.getElementById('openFeedbackBtn');
+            const closeFbBtn = document.getElementById('closeFeedbackBtn');
+            const cancelFbBtn = document.getElementById('cancelFeedbackBtn');
+            const fbForm = document.getElementById('feedbackForm');
+
+            openFbBtn.addEventListener('click', () => fbModal.classList.add('active'));
+            closeFbBtn.addEventListener('click', () => fbModal.classList.remove('active'));
+            cancelFbBtn.addEventListener('click', () => fbModal.classList.remove('active'));
+            fbModal.addEventListener('click', (e) => {
+                if (e.target === fbModal) fbModal.classList.remove('active');
+            });
+
+            fbForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const type = document.getElementById('fbType').value;
+                const unit = document.getElementById('fbUnit').value;
+                const name = document.getElementById('fbName').value.trim() || '熱心冒險家';
+                const content = document.getElementById('fbContent').value.trim();
+
+                if (!content) return;
+
+                // 本機記錄備份
+                const logs = JSON.parse(localStorage.getItem('portal_feedback_logs') || '[]');
+                logs.push({
+                    time: new Date().toLocaleString(),
+                    type, unit, name, content
+                });
+                localStorage.setItem('portal_feedback_logs', JSON.stringify(logs));
+
+                // 提示感謝
+                alert(`🎉 感謝 ${name} 的反饋！\n\n您的寶貴建議我們已經收到，冒險城堡會持續改進！🏰✨`);
+                fbForm.reset();
+                fbModal.classList.remove('active');
+            });
+        }
+
+        // 隨機選遊戲邏輯
+        function openRandomModal() {
+            const modal = document.getElementById('randomModal');
+            modal.classList.add('active');
+            rollRandomGame();
+        }
+
+        function rollRandomGame() {
+            const availableGames = GAMES_DATA.filter(g => g.available);
+            if (availableGames.length === 0) return;
+            
+            const randomGame = availableGames[Math.floor(Math.random() * availableGames.length)];
+            
+            document.getElementById('modalEmoji').textContent = randomGame.isEmoji ? randomGame.image : '🐶';
+            document.getElementById('modalTitle').textContent = randomGame.title;
+            document.getElementById('modalDesc').textContent = randomGame.description;
+            
+            const goBtn = document.getElementById('modalGoBtn');
+            goBtn.href = randomGame.url;
+        }
+
+        // 重置所有篩選
+        function resetFilters() {
+            currentSubject = 'all';
+            currentGrade = 'all';
+            isFavOnly = false;
+            document.getElementById('searchInput').value = '';
+            document.getElementById('gradeSelect').value = 'all';
+            document.getElementById('favFilterBtn').classList.remove('active');
+            document.querySelectorAll('.subject-tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.subject === 'all');
+            });
+            renderCards();
+        }
+    </script>
+</body>
+</html>

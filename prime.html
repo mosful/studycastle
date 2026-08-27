@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>質數海盜大冒險 🏴‍☠️ 酷炫升級版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+<style>
+  :root {
+    --ocean-deep: #0B4F6C;
+    --ocean-mid: #1C86A6;
+    --ocean-light: #8FD3E8;
+    --sand: #F4D793;
+    --sand-light: #FBF0D3;
+    --coral: #FF6B5B;
+    --leaf: #2EC4B6;
+    --ink: #12303B;
+    --gold: #FFB703;
+    --gold-dark: #D48800;
+    --parchment: #FFFDF5;
+    --parchment-dark: #E9D9A6;
+    --red-wrong: #FF4757;
+    --purple-accent: #8338EC;
+    --shadow: 0 10px 0 rgba(18, 48, 59, 0.22);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.18), transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.15), transparent 45%),
+      linear-gradient(180deg, #0A3A52 0%, var(--ocean-deep) 40%, var(--ocean-mid) 80%, var(--ocean-light) 100%);
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    padding: 16px 12px 60px;
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: max(60px, calc(env(safe-area-inset-bottom) + 40px));
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+  }
+
+  /* 背景動態海浪動畫 */
+  .bg-waves {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255, 255, 255, 0.08)" d="M0,192L48,197.3C96,203,192,213,288,192C384,171,480,117,576,112C672,107,768,149,864,165.3C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
+    background-size: 1440px 120px;
+    animation: waveMove 12s infinite linear;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @keyframes waveMove {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 1440px; }
+  }
+
+  .app {
+    width: 100%;
+    max-width: 780px;
+    position: relative;
+    z-index: 1;
+  }
+
+  button, .term, .isle, .prime-btn {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1, h2, h3 { font-family: 'Baloo 2', 'Noto Sans TC', sans-serif; margin: 0; }
+
+  /* ---------- Top Navigation Bar ---------- */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 20px;
+    color: #FFF;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px);
+  }
+
+  .combo-badge {
+    background: linear-gradient(135deg, #FF9E00, #FF0054);
+    color: #FFF;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.92rem;
+    box-shadow: 0 4px 10px rgba(255, 0, 84, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    animation: pulse 1.5s infinite alternate;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.08); }
+  }
+
+  /* ---------- Header ---------- */
+  .header {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 14px;
+  }
+
+  .header .eyebrow {
+    font-size: 14px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    opacity: 0.9;
+    background: rgba(255, 255, 255, 0.15);
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 12px;
+    margin-bottom: 4px;
+  }
+
+  .header h1 {
+    font-size: clamp(28px, 6.5vw, 42px);
+    text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+    margin: 4px 0 2px;
+    letter-spacing: 1px;
+  }
+
+  .header p {
+    font-size: 16px;
+    opacity: 0.95;
+    margin: 0;
+  }
+
+  /* ---------- Animated Pirate Mascot & Progress path ---------- */
+  .mascot-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    padding: 10px 16px;
+    backdrop-filter: blur(4px);
+  }
+
+  .mascot-avatar {
+    font-size: 2.8rem;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    animation: floatMascot 2s ease-in-out infinite alternate;
+    user-select: none;
+  }
+
+  @keyframes floatMascot {
+    0% { transform: translateY(0) rotate(-3deg); }
+    100% { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  .mascot-speech {
+    background: #FFFFFF;
+    color: var(--ink);
+    padding: 8px 16px;
+    border-radius: 16px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    max-width: 80%;
+  }
+
+  .mascot-speech::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px 10px 6px 0;
+    border-style: solid;
+    border-color: transparent #FFFFFF transparent transparent;
+  }
+
+  /* Path bar */
+  .path-wrap {
+    background: rgba(255, 255, 255, 0.16);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    padding: 16px 10px 12px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(4px);
+    position: relative;
+  }
+
+  .path {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 0 4px;
+  }
+
+  .path::before {
+    content: "";
+    position: absolute;
+    top: 22px; left: 6%; right: 6%;
+    height: 6px;
+    background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0 10px, transparent 10px 18px);
+    z-index: 0;
+    border-radius: 3px;
+  }
+
+  .isle {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 19%;
+    cursor: default;
+  }
+
+  .isle .dot {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: var(--parchment-dark);
+    border: 3px solid #fff;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .isle.active .dot {
+    background: var(--coral);
+    transform: scale(1.2);
+    animation: bob 1.2s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(255, 107, 91, 0.6);
+  }
+
+  .isle.done .dot {
+    background: var(--leaf);
+    border-color: #E2F1E7;
+  }
+
+  .isle .stars {
+    font-size: 13px;
+    color: #fff;
+    min-height: 16px;
+    letter-spacing: 1px;
+  }
+
+  .isle .label {
+    font-size: 12.5px;
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    opacity: 0.95;
+    line-height: 1.2;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) scale(1.2); }
+    50% { transform: translateY(-6px) scale(1.2); }
+  }
+
+  /* ---------- Main Card ---------- */
+  .card {
+    background: var(--parchment);
+    border: 4px solid var(--ink);
+    border-radius: 26px;
+    padding: clamp(18px, 4vw, 28px) clamp(16px, 4vw, 26px) clamp(22px, 5vw, 30px);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    min-height: 340px;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(18, 48, 59, 0.04) 1.5px, transparent 1.5px);
+    background-size: 16px 16px;
+    pointer-events: none;
+  }
+
+  .stage-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: clamp(22px, 5vw, 30px);
+    color: var(--ocean-deep);
+    margin-bottom: 8px;
+    font-weight: 800;
+  }
+
+  .stage-sub {
+    font-size: 16.5px;
+    color: #4b5a5f;
+    margin-bottom: 18px;
+    line-height: 1.65;
+  }
+
+  .content { position: relative; z-index: 1; }
+
+  /* Buttons */
+  .btn {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 800;
+    font-size: 19px;
+    padding: 14px 26px;
+    min-height: 52px;
+    border-radius: 16px;
+    border: 3px solid var(--ink);
+    cursor: pointer;
+    background: var(--ocean-mid);
+    color: #fff;
+    box-shadow: 0 5px 0 #0f5c73;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .btn:hover {
+    filter: brightness(1.08);
+  }
+
+  .btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #0f5c73;
+  }
+
+  .btn.gold {
+    background: var(--gold);
+    box-shadow: 0 5px 0 var(--gold-dark);
+    color: #3a2600;
+  }
+
+  .btn.coral {
+    background: var(--coral);
+    box-shadow: 0 5px 0 #c73f31;
+  }
+
+  .btn.leaf {
+    background: var(--leaf);
+    box-shadow: 0 5px 0 #1b8a80;
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .btn.small {
+    padding: 10px 18px;
+    font-size: 16px;
+    border-radius: 12px;
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
+  }
+
+  .center { text-align: center; }
+
+  /* Number display card */
+  .big-number {
+    font-family: 'Fredoka', 'Baloo 2', sans-serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--ink);
+    background: #FFFFFF;
+    border: 4px solid var(--ink);
+    border-radius: 22px;
+    width: 150px;
+    height: 124px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px auto 14px;
+    box-shadow: 0 6px 0 rgba(18, 48, 59, 0.2);
+    transition: transform 0.2s ease;
+  }
+
+  .big-number:hover {
+    transform: scale(1.05);
+  }
+
+  .progress-mini {
+    text-align: center;
+    font-size: 15px;
+    color: #5c6b70;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .feedback {
+    margin-top: 16px;
+    font-weight: 700;
+    font-size: 17.5px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .feedback.ok {
+    color: #0E7C7B;
+    background: #E6F8F6;
+    border: 2px solid #2EC4B6;
+    animation: popIn 0.3s ease;
+  }
+
+  .feedback.bad {
+    color: #D63031;
+    background: #FFE5E5;
+    border: 2px solid #FF4757;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .shake { animation: shake 0.4s ease; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-10px); }
+    40%, 80% { transform: translateX(10px); }
+  }
+
+  /* Short division ladder */
+  .ladder {
+    background: #FFF;
+    border: 3px dashed var(--ocean-mid);
+    border-radius: 18px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-family: 'Fredoka', 'Baloo 2', sans-serif;
+  }
+
+  .ladder-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 4px;
+    font-size: 26px;
+  }
+
+  .divisor-box {
+    min-width: 44px;
+    text-align: center;
+    padding: 2px 12px 2px 6px;
+    border-right: 3px solid var(--ink);
+    border-top: 3px solid var(--ink);
+    border-radius: 6px 0 0 0;
+    margin-right: 12px;
+    color: var(--coral);
+    font-weight: 800;
+  }
+
+  .quotient-cell {
+    padding: 2px 12px;
+    min-width: 54px;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .ladder-final {
+    margin-top: 12px;
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--ocean-deep);
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+
+  .prime-pad {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 14px;
+    justify-content: center;
+  }
+
+  .prime-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-family: 'Fredoka', 'Baloo 2', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    background: var(--sand-light);
+    border: 3px solid var(--gold-dark);
+    color: #6b4a10;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b5801f;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .prime-btn:hover {
+    transform: scale(1.1);
+    background: #FFF;
+  }
+
+  .prime-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #b5801f;
+  }
+
+  /* Bridge for coprime */
+  .bridge-pair {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    font-family: 'Fredoka', 'Baloo 2', sans-serif;
+    font-size: 42px;
+    color: var(--ink);
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 12px auto;
+    max-width: 320px;
+    box-shadow: 0 6px 0 rgba(18, 48, 59, 0.2);
+  }
+
+  .bridge-pair .x { font-size: 22px; color: var(--ocean-mid); font-family: 'Noto Sans TC'; }
+
+  /* Ladder 2 row */
+  .ladder2-row {
+    display: flex;
+    align-items: center;
+    font-size: 26px;
+    margin-bottom: 4px;
+    font-family: 'Fredoka', 'Baloo 2', sans-serif;
+  }
+
+  .ladder2-header {
+    display: flex;
+    gap: 32px;
+    margin-left: 60px;
+    font-size: 16px;
+    color: #5c6b70;
+    font-family: 'Noto Sans TC';
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+
+  .cellA, .cellB { min-width: 60px; text-align: center; padding: 2px 8px; font-weight: 700; }
+  .top-border { border-top: 3px solid var(--ink); }
+
+  /* Intro / final */
+  .hero-emoji { font-size: 72px; text-align: center; margin-bottom: 8px; }
+  .lead-text { text-align: center; font-size: 17.5px; color: #4b5a5f; line-height: 1.7; margin-bottom: 18px; }
+  .rules-list {
+    font-size: 16px;
+    color: #3d4a4e;
+    line-height: 1.9;
+    background: #FFF;
+    border-radius: 16px;
+    padding: 16px 20px;
+    border: 3px solid var(--parchment-dark);
+  }
+
+  .star-line { font-size: 32px; letter-spacing: 4px; text-align: center; margin: 8px 0; }
+  .footer-note { text-align: center; color: #dff2f8; font-size: 14px; margin-top: 18px; opacity: 0.9; }
+
+  /* Glossary Tooltip & FAB */
+  .term {
+    color: var(--ocean-deep);
+    font-weight: 800;
+    border-bottom: 2px dotted var(--coral);
+    cursor: pointer;
+    padding: 0 2px;
+    white-space: nowrap;
+  }
+
+  .term:hover, .term:focus {
+    background: rgba(255, 107, 91, 0.18);
+    border-radius: 4px;
+    outline: none;
+  }
+
+  .term sup { font-size: 12px; color: var(--coral); margin-left: 1px; }
+
+  .glossary-fab {
+    position: fixed;
+    right: 18px;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 50;
+    background: var(--gold);
+    color: #3a2600;
+    border: 3px solid #fff;
+    border-radius: 999px;
+    padding: 12px 18px;
+    min-height: 48px;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 var(--gold-dark), 0 6px 16px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease;
+  }
+
+  .glossary-fab:hover { transform: scale(1.06); }
+  .glossary-fab:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--gold-dark); }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 30, 38, 0.65);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 100;
+    padding: 0;
+  }
+
+  .modal-overlay.open { display: flex; }
+  .modal-card {
+    background: var(--parchment);
+    border: 4px solid var(--ink);
+    border-radius: 26px 26px 0 0;
+    width: 100%;
+    max-width: 720px;
+    max-height: 84vh;
+    overflow-y: auto;
+    padding: 20px 24px calc(28px + env(safe-area-inset-bottom));
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @media (min-width: 560px) {
+    .modal-overlay { align-items: center; }
+    .modal-card { border-radius: 26px; max-height: 82vh; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    position: sticky;
+    top: -20px;
+    background: var(--parchment);
+    padding-top: 12px;
+    padding-bottom: 10px;
+    z-index: 2;
+  }
+
+  .modal-head h2 { font-size: 25px; color: var(--ocean-deep); }
+  .modal-close {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: #fff;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    color: var(--ink);
+  }
+
+  .def-card {
+    background: #fff;
+    border: 2px solid var(--parchment-dark);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    scroll-margin-top: 80px;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .def-card.highlight { background: #FFF3D6; border-color: var(--gold); }
+  .def-card h3 { font-size: 20px; color: var(--coral); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .def-card p { font-size: 16.5px; line-height: 1.75; color: #3d4a4e; margin: 0; }
+
+  /* Floating coin effect */
+  .coin-burst {
+    position: absolute;
+    pointer-events: none;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #FFD166;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    animation: floatCoin 1.2s ease-out forwards;
+    z-index: 99;
+  }
+
+  @keyframes floatCoin {
+    0% { opacity: 1; transform: translateY(0) scale(0.8); }
+    50% { opacity: 1; transform: translateY(-40px) scale(1.3); }
+    100% { opacity: 0; transform: translateY(-80px) scale(1); }
+  }
+
+  /* Responsive breakpoints */
+  @media (max-width: 480px) {
+    .isle .label { display: none; }
+    .isle .dot { width: 42px; height: 42px; font-size: 19px; }
+    .big-number { width: 124px; height: 104px; font-size: 52px; }
+    .bridge-pair { font-size: 32px; gap: 12px; padding: 16px; }
+    .ladder-row, .ladder2-row { font-size: 22px; }
+    .prime-btn { width: 52px; height: 52px; font-size: 21px; }
+    .mascot-speech { font-size: 0.85rem; padding: 6px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-waves"></div>
+
+<div class="app">
+  
+  <!-- 頂部列：切換頁面與音效開關 -->
+  <div class="top-bar">
+    <a href="portal.html" class="nav-btn">
+      <span>🏰</span>
+      <span>返回學習城堡</span>
+    </a>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <div class="combo-badge" id="comboBadge" style="display: none;">
+        <span>🔥</span> <span id="comboText">連勝 x0</span>
+      </div>
+      <button class="nav-btn" id="soundToggleBtn" onclick="toggleSound()">
+        <span id="soundIcon">🔊</span>
+        <span id="soundText">音效 ON</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="header">
+    <div class="eyebrow">南一版 六年級上學期・第一單元</div>
+    <h1>🏴‍☠️ 質數海盜大冒險</h1>
+    <p>跟著黑鬍子船長，航向五座神秘島嶼，解開傳說寶箱！</p>
+  </div>
+
+  <!-- 黑鬍子船長對話區 -->
+  <div class="mascot-row">
+    <div class="mascot-avatar" id="mascotAvatar">🏴‍☠️</div>
+    <div class="mascot-speech" id="mascotSpeech">嘿！小船長，準備好跟我一起航向質數島了嗎？出發吧！</div>
+  </div>
+
+  <!-- 地圖進度列 -->
+  <div class="path-wrap">
+    <div class="path" id="pathBar"></div>
+  </div>
+
+  <!-- 遊戲主要關卡卡片 -->
+  <div class="card">
+    <div class="content" id="content"></div>
+  </div>
+
+  <div class="footer-note">💡 提示：答錯了沒關係！每次嘗試都是獲得寶藏的養分 🧭<br><span style="font-size:12.5px;opacity:0.85;display:inline-block;margin-top:4px;">📱 支援 iPad / 平板、手機與電腦 ｜ 專為觸控操作最佳化</span></div>
+</div>
+
+<button class="glossary-fab" onclick="openGlossary()">📖 <span class="txt">名詞小百科</span></button>
+
+<div class="modal-overlay" id="glossaryOverlay" onclick="if(event.target===this) closeGlossary()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2>📖 航海名詞小百科</h2>
+      <button class="modal-close" onclick="closeGlossary()">✕</button>
+    </div>
+    <div id="glossaryList"></div>
+  </div>
+</div>
+
+<script>
+/* ================= 音效合成器 (Web Audio API Synthesizer) ================= */
+let soundEnabled = true;
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+
+function getAudioContext() {
+  if (!audioCtx) {
+    audioCtx = new AudioCtx();
+  }
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  return audioCtx;
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
+  document.getElementById('soundText').textContent = soundEnabled ? '音效 ON' : '音效 OFF';
+}
+
+function playSound(type) {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    
+    if (type === 'click') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(400, now);
+      osc.frequency.exponentialRampToValueAtTime(800, now + 0.08);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } else if (type === 'correct') {
+      // 答對音效 C5 -> E5 -> G5 -> C6
+      const freqs = [523.25, 659.25, 783.99, 1046.50];
+      freqs.forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(f, now + idx * 0.08);
+        gain.gain.setValueAtTime(0.25, now + idx * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.25);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + idx * 0.08);
+        osc.stop(now + idx * 0.08 + 0.25);
+      });
+    } else if (type === 'wrong') {
+      // 答錯 Wobble 低音
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.linearRampToValueAtTime(110, now + 0.25);
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } else if (type === 'fanfare') {
+      // 勝利號角
+      const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+      notes.forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(f, now + idx * 0.12);
+        gain.gain.setValueAtTime(0.2, now + idx * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + idx * 0.12);
+        osc.stop(now + idx * 0.12 + 0.4);
+      });
+    }
+  } catch (e) {
+    console.log('Audio playback error:', e);
+  }
+}
+
+/* ================= 遊戲基本資料與狀態 ================= */
+const ISLES = [
+  {key:'l1', icon:'🏖️', label:'質數海灘'},
+  {key:'l2', icon:'🌲', label:'因數森林'},
+  {key:'l3', icon:'🌉', label:'互質詭橋'},
+  {key:'l4', icon:'⛰️', label:'寶箱山'},
+  {key:'l5', icon:'🗼', label:'燈塔頂'},
+];
+
+const state = {
+  stage: 'intro',      // intro | l1..l5 | final
+  stars: {l1:0,l2:0,l3:0,l4:0,l5:0},
+  combo: 0
+};
+
+function isPrime(n){
+  if(n < 2) return false;
+  for(let i=2;i*i<=n;i++){ if(n % i === 0) return false; }
+  return true;
+}
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function pick(arr,n){ return shuffle(arr).slice(0,n); }
+function starsToText(n){ return '⭐'.repeat(n) + '☆'.repeat(3-n); }
+
+/* 更新船長對話與表情 */
+function updateMascot(avatar, speech) {
+  const elAvatar = document.getElementById('mascotAvatar');
+  const elSpeech = document.getElementById('mascotSpeech');
+  if (elAvatar) elAvatar.textContent = avatar;
+  if (elSpeech) elSpeech.textContent = speech;
+}
+
+/* 連勝紀錄更新 */
+function addCombo() {
+  state.combo++;
+  const badge = document.getElementById('comboBadge');
+  const txt = document.getElementById('comboText');
+  if (state.combo >= 2) {
+    badge.style.display = 'flex';
+    txt.textContent = `連勝 x${state.combo}`;
+  }
+}
+function resetCombo() {
+  state.combo = 0;
+  document.getElementById('comboBadge').style.display = 'none';
+}
+
+/* 金幣特效產生器 */
+function spawnCoinEffect(event) {
+  const coin = document.createElement('div');
+  coin.className = 'coin-burst';
+  coin.textContent = '🪙 +10';
+  const rect = event ? event.target.getBoundingClientRect() : { left: window.innerWidth/2, top: window.innerHeight/2 };
+  coin.style.left = `${rect.left + 10}px`;
+  coin.style.top = `${rect.top - 20}px`;
+  document.body.appendChild(coin);
+  setTimeout(() => coin.remove(), 1200);
+}
+
+/* ================= 名詞小百科 ================= */
+const GLOSSARY = [
+  { key:'factor', title:'因數', def:'如果一個整數能把另一個數「整除」（沒有餘數），這個整數就叫做那個數的因數。例如 3 和 4 都是 12 的因數，因為 12 ÷ 3 和 12 ÷ 4 都整除。' },
+  { key:'prime', title:'質數', def:'一個大於 1 的整數，如果只能被 1 和「自己」整除，找不到其他因數，就叫做質數。例如 2、3、5、7、11…都是質數。' },
+  { key:'composite', title:'合數', def:'一個大於 1 的整數，如果除了 1 和自己以外，還有別的因數，就叫做合數。例如 4、6、8、9、10…都是合數。（小提醒：1 既不是質數，也不是合數！）' },
+  { key:'primeFactor', title:'質因數', def:'一個數的因數當中，剛好「本身也是質數」的那些因數，就叫做這個數的質因數。例如 12 的因數有 1、2、3、4、6、12，其中 2 和 3 是質數，所以 2、3 就是 12 的質因數。' },
+  { key:'primeFactorization', title:'質因數分解', def:'把一個合數，一步一步拆解成「幾個質因數相乘」的形式，就叫做質因數分解。例如 60 = 2 × 2 × 3 × 5。通常會用短除法來進行。' },
+  { key:'coprime', title:'互質', def:'兩個數如果「最大公因數只有 1」，代表它們除了 1 以外沒有其他共同的因數，這兩個數就叫做互質。例如 8 和 9 互質，因為它們的最大公因數是 1。' },
+  { key:'shortDivision', title:'短除法', def:'一種用直角符號（⌐）排出來的直式算法，用來快速做質因數分解，或求兩個數的最大公因數／最小公倍數。',
+    stepsTitle:'✏️ 質因數分解的操作步驟',
+    steps:[
+      '把要分解的數字寫在短除法符號的右邊（像除法直式一樣）。',
+      '想一個可以整除這個數的「質數」，通常先從最小的 2 開始試試看。',
+      '把這個質數寫在符號左邊，用它去除這個數，商數寫在下面。',
+      '重複步驟，一直除到商數變成 1 為止。',
+      '把左邊用過的所有質數相乘，就是質因數分解式。'
+    ]
+  },
+  { key:'gcd', title:'最大公因數', def:'兩個（或多個）數「共同擁有」的因數當中，最大的那一個，就叫做最大公因數（GCD）。' },
+  { key:'lcm', title:'最小公倍數', def:'兩個（或多個）數「共同擁有」的倍數當中，最小的那一個（且不算 0），就叫做最小公倍數（LCM）。' }
+];
+
+function term(key, label){
+  return `<span class="term" tabindex="0" onclick="openGlossary('${key}')" onkeypress="if(event.key==='Enter')openGlossary('${key}')">${label}<sup>ⓘ</sup></span>`;
+}
+
+function renderGlossaryList(){
+  const list = document.getElementById('glossaryList');
+  list.innerHTML = GLOSSARY.map(g => `
+    <div class="def-card" id="def-${g.key}">
+      <h3>🔖 ${g.title}</h3>
+      <p>${g.def}</p>
+      ${g.steps ? `
+        <div style="font-size:14px;font-weight:700;color:var(--ocean-deep);margin:10px 0 4px;">${g.stepsTitle}</div>
+        <ol style="padding-left:20px;margin:0;line-height:1.7;">${g.steps.map(s=>`<li>${s}</li>`).join('')}</ol>
+      ` : ''}
+    </div>`).join('');
+}
+
+function openGlossary(key){
+  playSound('click');
+  renderGlossaryList();
+  const overlay = document.getElementById('glossaryOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  if(key){
+    setTimeout(()=>{
+      const target = document.getElementById('def-' + key);
+      const container = document.querySelector('.modal-card');
+      if(target && container){
+        const containerRect = container.getBoundingClientRect();
+        const targetRect = target.getBoundingClientRect();
+        
+        // 精確扣除 sticky header 覆蓋區與彈窗內邊距（約 130px），確保標題與卡片頂端完整顯示在標題下方
+        const desiredScrollTop = container.scrollTop + (targetRect.top - containerRect.top) - 130;
+        
+        container.scrollTo({ top: Math.max(0, desiredScrollTop), behavior: 'smooth' });
+        target.classList.add('highlight');
+        setTimeout(()=>target.classList.remove('highlight'), 2200);
+      }
+    }, 120);
+  }
+}
+
+function closeGlossary(){
+  document.getElementById('glossaryOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeGlossary();
+});
+
+/* ================= 進度列渲染 ================= */
+function renderPath(){
+  const bar = document.getElementById('pathBar');
+  bar.innerHTML = '';
+  const order = ['l1','l2','l3','l4','l5'];
+  order.forEach((key,i)=>{
+    const isle = ISLES[i];
+    const div = document.createElement('div');
+    div.className = 'isle';
+    if(state.stars[key] > 0) div.classList.add('done');
+    if(state.stage === key) div.classList.add('active');
+    div.innerHTML = `
+      <div class="dot">${state.stars[key] > 0 ? '✅' : isle.icon}</div>
+      <div class="stars">${state.stars[key] > 0 ? starsToText(state.stars[key]) : ''}</div>
+      <div class="label">${isle.label}</div>`;
+    bar.appendChild(div);
+  });
+}
+
+/* ================= 關卡切換控制 ================= */
+function goto(stage){
+  playSound('click');
+  state.stage = stage;
+  renderPath();
+  const c = document.getElementById('content');
+  c.innerHTML = '';
+  if(stage === 'intro') renderIntro(c);
+  else if(stage === 'l1') renderLevel1(c);
+  else if(stage === 'l2') renderLevel2(c);
+  else if(stage === 'l3') renderLevel3(c);
+  else if(stage === 'l4') renderLevel4(c);
+  else if(stage === 'l5') renderLevel5(c);
+  else if(stage === 'final') renderFinal(c);
+}
+
+/* ================= 首頁 ================= */
+function renderIntro(c){
+  updateMascot('🏴‍☠️', '歡迎登船，小船長！準備好跟黑鬍子船長一起奪取質數寶藏了嗎？');
+  c.innerHTML = `
+    <div class="hero-emoji">🗺️</div>
+    <h2 class="stage-title" style="justify-content:center;">歡迎登船，小船長！</h2>
+    <p class="lead-text">傳說中的「質數寶藏」被藏在五座島嶼的謎題背後。<br>
+    完成每座島的關卡，就能拿到航海星星，最後解開黃金寶箱！</p>
+    <div class="rules-list">
+      🏖️ 質數海灘：分辨「${term('prime','質數')}・${term('composite','合數')}・都不是」<br>
+      🌲 因數森林：用${term('shortDivision','短除法')}做「${term('primeFactorization','質因數分解')}」<br>
+      🌉 互質詭橋：判斷兩數是否「${term('coprime','互質')}」<br>
+      ⛰️ 寶箱山：短除法求「${term('gcd','最大公因數')}」<br>
+      🗼 燈塔頂：短除法求「${term('lcm','最小公倍數')}」
+    </div>
+    <p class="lead-text" style="margin-top:12px;font-size:13px;color:var(--ocean-mid);">💡 點擊有畫畫紅線的名詞，隨時查閱航海小百科！</p>
+    <div class="btn-row" style="justify-content:center;">
+      <button class="btn coral" onclick="goto('l1')">⚓ 立即出發冒險！</button>
+    </div>
+  `;
+}
+
+/* ================= 關卡一：質數海灘 ================= */
+function renderLevel1(c){
+  updateMascot('🏖️', '這裡是質數海灘！仔細想想，這個數字除了 1 和自己之外，還有沒有其他因數？');
+  const bank = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+                21,23,24,25,27,28,29,31,33,35,36,37,39,41,43,44,45,46,47,48,49,50];
+  let questions = pick(bank.filter(n=>n!==1), 7);
+  questions.splice(Math.floor(Math.random()*questions.length), 0, 1);
+  let idx = 0, mistakes = 0;
+
+  function classify(n){
+    if(n === 1) return 'neither';
+    return isPrime(n) ? 'prime' : 'composite';
+  }
+
+  function draw(){
+    if(idx >= questions.length){
+      state.stars.l1 = mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1;
+      renderPath();
+      showLevelDone(c, '🏖️ 質數海灘', state.stars.l1, 'l2',
+        `答對關鍵：先檢查這個數字除了 1 和自己以外，還有沒有別的${term('factor','因數')}！`);
+      return;
+    }
+    const n = questions[idx];
+    c.innerHTML = `
+      <h2 class="stage-title">🏖️ 第一關：質數海灘</h2>
+      <p class="stage-sub">這個數字是「${term('prime','質數')}」、「${term('composite','合數')}」，還是「都不是」呢？</p>
+      <div class="progress-mini">進度：第 ${idx+1} / ${questions.length} 題</div>
+      <div class="big-number">${n}</div>
+      <div class="btn-row center" style="justify-content:center;">
+        <button class="btn" onclick="l1answer('prime', event)">質數</button>
+        <button class="btn leaf" onclick="l1answer('composite', event)">合數</button>
+        <button class="btn gold" onclick="l1answer('neither', event)">都不是</button>
+      </div>
+      <div class="feedback" id="fb1"></div>
+    `;
+    window.l1answer = function(ans, ev){
+      const fb = document.getElementById('fb1');
+      if(ans === classify(n)){
+        playSound('correct');
+        addCombo();
+        spawnCoinEffect(ev);
+        updateMascot('😎', '太棒了！答得非常精確！下一題來囉～');
+        fb.className = 'feedback ok';
+        fb.innerHTML = '😄 答對了！' + explain(n);
+        idx++;
+        setTimeout(draw, 900);
+      }else{
+        playSound('wrong');
+        resetCombo();
+        mistakes++;
+        updateMascot('🤔', '哎呀！差一點點！再仔細想一想～');
+        fb.className = 'feedback bad shake';
+        fb.innerHTML = '😅 再想想看～' + explain(n);
+        setTimeout(()=>fb.classList.remove('shake'), 400);
+      }
+    };
+  }
+  function explain(n){
+    if(n === 1) return '（1 只有一個因數 1，不是質數也不是合數喔）';
+    if(isPrime(n)) return `（${n} 只能被 1 和 ${n} 整除，是質數）`;
+    return `（${n} 除了 1 和自己，還有別的因數，是合數）`;
+  }
+  draw();
+}
+
+/* ================= 關卡二：因數森林 ================= */
+function renderLevel2(c){
+  updateMascot('🌲', '歡迎來到因數森林！我們用短除法，找最小的質因數一路除下去吧！');
+  const pool = [18,20,24,28,36,40,45,48,60,72,84,90,50,54];
+  const rounds = pick(pool, 2);
+  let r = 0, mistakes = 0;
+  const primeChoices = [2,3,5,7,11,13];
+
+  function draw(){
+    if(r >= rounds.length){
+      state.stars.l2 = mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1;
+      renderPath();
+      showLevelDone(c, '🌲 因數森林', state.stars.l2, 'l3',
+        `${term('shortDivision','短除法')}秘訣：每次都先找「能整除」的最小${term('prime','質數')}，一路除到商是 1！`);
+      return;
+    }
+    const N = rounds[r];
+    let quotient = N;
+    let steps = [];
+
+    function drawLadder(){
+      let rowsHtml = steps.map(s => `
+        <div class="ladder-row">
+          <span class="divisor-box">${s.d}</span>
+          <span class="quotient-cell">${s.before}</span>
+        </div>`).join('');
+      rowsHtml += `
+        <div class="ladder-row">
+          <span class="divisor-box">&nbsp;</span>
+          <span class="quotient-cell top-border">${quotient}</span>
+        </div>`;
+      const finished = quotient === 1;
+      const factorStr = steps.map(s=>s.d).join(' × ');
+
+      c.innerHTML = `
+        <h2 class="stage-title">🌲 第二關：因數森林</h2>
+        <p class="stage-sub">用${term('shortDivision','短除法')}把 <b>${N}</b> 做${term('primeFactorization','質因數分解')}！點選能整除目前商數的${term('primeFactor','質因數')}。</p>
+        <div class="progress-mini">第 ${r+1} / ${rounds.length} 題　｜　目前商數：${quotient}</div>
+        <div class="ladder">${rowsHtml}
+          ${finished ? `<div class="ladder-final">✅ ${N} = ${factorStr}</div>` : ''}
+        </div>
+        <div class="prime-pad" id="ppad">
+          ${finished ? '' : primeChoices.map(p=>`<button class="prime-btn" onclick="l2pick(${p}, event)">${p}</button>`).join('')}
+        </div>
+        <div class="feedback" id="fb2"></div>
+        ${finished ? `<div class="btn-row"><button class="btn coral" onclick="l2next()">下一題 ➜</button></div>` : ''}
+      `;
+    }
+
+    window.l2pick = function(p, ev){
+      const fb = document.getElementById('fb2');
+      if(quotient % p === 0){
+        playSound('correct');
+        addCombo();
+        spawnCoinEffect(ev);
+        steps.push({d:p, before:quotient});
+        quotient = quotient / p;
+        if(quotient === 1) {
+          updateMascot('🥳', '太強了！質因數分解順利完成！');
+        } else {
+          updateMascot('😃', `漂亮！${p} 可以整除，繼續向下除！`);
+        }
+        fb.className = 'feedback ok';
+        fb.textContent = `😄 沒錯！${p} 可以整除。`;
+        drawLadder();
+      }else{
+        playSound('wrong');
+        resetCombo();
+        mistakes++;
+        updateMascot('😅', `${quotient} 不能被 ${p} 整除喔，換另一個質數試試！`);
+        fb.className = 'feedback bad shake';
+        fb.textContent = `😅 ${quotient} 不能被 ${p} 整除，換一個試試！`;
+        setTimeout(()=>fb.classList.remove('shake'), 400);
+      }
+    };
+    window.l2next = function(){ r++; draw(); };
+    drawLadder();
+  }
+  draw();
+}
+
+/* ================= 關卡三：互質詭橋 ================= */
+function renderLevel3(c){
+  updateMascot('🌉', '來到互質詭橋了！如果兩數的最大公因數只有 1，那它們就是互質！');
+  const coprime = [[8,9],[15,28],[9,16],[35,12],[21,22],[14,25],[16,27],[11,20]];
+  const notCoprime = [[12,18],[20,30],[16,24],[15,45],[21,14],[30,45],[24,36],[18,27]];
+  const pairs = shuffle([...pick(coprime,3), ...pick(notCoprime,3)]);
+  let idx = 0, mistakes = 0;
+
+  function gcdOf(a,b){ return b===0 ? a : gcdOf(b, a%b); }
+
+  function draw(){
+    if(idx >= pairs.length){
+      state.stars.l3 = mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1;
+      renderPath();
+      showLevelDone(c, '🌉 互質詭橋', state.stars.l3, 'l4',
+        `判斷技巧：找出兩數的公${term('factor','因數')}，如果「只有 1」，就是${term('coprime','互質')}！`);
+      return;
+    }
+    const [a,b] = pairs[idx];
+    c.innerHTML = `
+      <h2 class="stage-title">🌉 第三關：互質詭橋</h2>
+      <p class="stage-sub">這兩個數字${term('coprime','互質')}嗎？（它們的${term('gcd','最大公因數')}是不是只有 1 呢？）</p>
+      <div class="progress-mini">進度：第 ${idx+1} / ${pairs.length} 題</div>
+      <div class="bridge-pair">${a} <span class="x">與</span> ${b}</div>
+      <div class="btn-row center" style="justify-content:center;">
+        <button class="btn leaf" onclick="l3answer(true, event)">互質</button>
+        <button class="btn coral" onclick="l3answer(false, event)">不互質</button>
+      </div>
+      <div class="feedback" id="fb3"></div>
+    `;
+    window.l3answer = function(ans, ev){
+      const g = gcdOf(a,b);
+      const correct = g === 1;
+      const fb = document.getElementById('fb3');
+      if(ans === correct){
+        playSound('correct');
+        addCombo();
+        spawnCoinEffect(ev);
+        updateMascot('😎', '答對了！順利踩過一塊詭橋木板！');
+        fb.className = 'feedback ok';
+        fb.textContent = correct ? `😄 答對了！${a} 和 ${b} 的最大公因數是 1，是互質。`
+                                  : `😄 答對了！${a} 和 ${b} 的最大公因數是 ${g}，不是互質。`;
+        idx++;
+        setTimeout(draw, 1000);
+      }else{
+        playSound('wrong');
+        resetCombo();
+        mistakes++;
+        updateMascot('😮', `小心陷阱！${a} 和 ${b} 的最大公因數其實是 ${g} 喔！`);
+        fb.className = 'feedback bad shake';
+        fb.textContent = `😅 再想想～ ${a} 和 ${b} 的最大公因數是 ${g}。`;
+        setTimeout(()=>fb.classList.remove('shake'), 400);
+      }
+    };
+  }
+  draw();
+}
+
+/* ================= 關卡四：寶箱山（最大公因數） ================= */
+function renderLevel4(c){
+  updateMascot('⛰️', '登上寶箱山了！用短除法選出「兩數都能整除」的質數，再把左邊相乘！');
+  const pool = [[24,36],[18,30],[40,60],[28,42],[45,60],[32,48],[36,54]];
+  const rounds = pick(pool, 2);
+  let r = 0, mistakes = 0;
+  const primeChoices = [2,3,5,7,11];
+
+  function gcdOf(x,y){ return y===0 ? x : gcdOf(y, x%y); }
+
+  function draw(){
+    if(r >= rounds.length){
+      state.stars.l4 = mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1;
+      renderPath();
+      showLevelDone(c, '⛰️ 寶箱山', state.stars.l4, 'l5',
+        `求${term('gcd','最大公因數')}：只用「兩數共同的${term('primeFactor','質因數')}」不斷除，除到兩數${term('coprime','互質')}為止，再把左邊的除數乘起來！`);
+      return;
+    }
+    let [a,b] = rounds[r];
+    const startA = a, startB = b;
+    let steps = [];
+
+    function drawLadder(){
+      const finished = gcdOf(a,b) === 1;
+      let rowsHtml = `<div class="ladder2-header"><span>甲數</span><span>乙數</span></div>`;
+      steps.forEach(s=>{
+        rowsHtml += `
+          <div class="ladder2-row">
+            <span class="divisor-box">${s.d}</span>
+            <span class="cellA">${s.beforeA}</span>
+            <span class="cellB">${s.beforeB}</span>
+          </div>`;
+      });
+      rowsHtml += `
+        <div class="ladder2-row">
+          <span class="divisor-box">&nbsp;</span>
+          <span class="cellA top-border">${a}</span>
+          <span class="cellB top-border">${b}</span>
+        </div>`;
+      const gcdVal = steps.reduce((p,s)=>p*s.d, 1);
+
+      c.innerHTML = `
+        <h2 class="stage-title">⛰️ 第四關：寶箱山</h2>
+        <p class="stage-sub">用${term('shortDivision','短除法')}找出 <b>${startA}</b> 和 <b>${startB}</b> 的${term('gcd','最大公因數')}：選出「兩數都能整除」的質數。</p>
+        <div class="progress-mini">進度：第 ${r+1} / ${rounds.length} 題</div>
+        <div class="ladder">${rowsHtml}
+          ${finished ? `<div class="ladder-final">✅ 兩數已互質！最大公因數 = ${steps.map(s=>s.d).join(' × ') || 1} = ${gcdVal}</div>` : ''}
+        </div>
+        <div class="prime-pad">
+          ${finished ? '' : primeChoices.map(p=>`<button class="prime-btn" onclick="l4pick(${p}, event)">${p}</button>`).join('')}
+        </div>
+        <div class="feedback" id="fb4"></div>
+        ${finished ? `<div class="btn-row"><button class="btn coral" onclick="l4next()">下一題 ➜</button></div>` : ''}
+      `;
+    }
+
+    window.l4pick = function(p, ev){
+      const fb = document.getElementById('fb4');
+      if(a % p === 0 && b % p === 0){
+        playSound('correct');
+        addCombo();
+        spawnCoinEffect(ev);
+        steps.push({d:p, beforeA:a, beforeB:b});
+        a = a/p; b = b/p;
+        updateMascot('🎯', `沒錯！${p} 是兩數共同的公因數！`);
+        fb.className = 'feedback ok';
+        fb.textContent = `😄 沒錯！${p} 是兩數共同的因數。`;
+        drawLadder();
+      }else{
+        playSound('wrong');
+        resetCombo();
+        mistakes++;
+        updateMascot('😅', `${p} 不能同時整除這兩個數喔，換一個質數試試！`);
+        fb.className = 'feedback bad shake';
+        fb.textContent = `😅 ${p} 不能同時整除這兩個數，換一個試試！`;
+        setTimeout(()=>fb.classList.remove('shake'), 400);
+      }
+    };
+    window.l4next = function(){ r++; draw(); };
+    drawLadder();
+  }
+  draw();
+}
+
+/* ================= 關卡五：燈塔頂（最小公倍數） ================= */
+function renderLevel5(c){
+  updateMascot('🗼', '最後關卡：燈塔頂！求最小公倍數時，只要能整除「其中一數」就可以除喔！');
+  const pool = [[8,12],[6,9],[10,15],[12,18],[9,12],[15,20],[8,20]];
+  const rounds = pick(pool, 2);
+  let r = 0, mistakes = 0;
+  const primeChoices = [2,3,5,7];
+
+  function draw(){
+    if(r >= rounds.length){
+      state.stars.l5 = mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1;
+      renderPath();
+      showLevelDone(c, '🗼 燈塔頂', state.stars.l5, 'final',
+        `求${term('lcm','最小公倍數')}：不斷用${term('prime','質數')}去除，只要能整除其中一邊就繼續除，直到兩數都變成 1！`);
+      return;
+    }
+    let [a,b] = rounds[r];
+    const startA = a, startB = b;
+    let steps = [];
+
+    function drawLadder(){
+      const finished = (a === 1 && b === 1);
+      let rowsHtml = `<div class="ladder2-header"><span>甲數</span><span>乙數</span></div>`;
+      steps.forEach(s=>{
+        rowsHtml += `
+          <div class="ladder2-row">
+            <span class="divisor-box">${s.d}</span>
+            <span class="cellA">${s.beforeA}</span>
+            <span class="cellB">${s.beforeB}</span>
+          </div>`;
+      });
+      rowsHtml += `
+        <div class="ladder2-row">
+          <span class="divisor-box">&nbsp;</span>
+          <span class="cellA top-border">${a}</span>
+          <span class="cellB top-border">${b}</span>
+        </div>`;
+      const lcmVal = steps.reduce((p,s)=>p*s.d, 1);
+
+      c.innerHTML = `
+        <h2 class="stage-title">🗼 第五關：燈塔頂</h2>
+        <p class="stage-sub">用${term('shortDivision','短除法')}找出 <b>${startA}</b> 和 <b>${startB}</b> 的${term('lcm','最小公倍數')}：只要能整除「其中一數」即可除！</p>
+        <div class="progress-mini">進度：第 ${r+1} / ${rounds.length} 題</div>
+        <div class="ladder">${rowsHtml}
+          ${finished ? `<div class="ladder-final">✅ 兩數都變成 1 了！最小公倍數 = ${steps.map(s=>s.d).join(' × ')} = ${lcmVal}</div>` : ''}
+        </div>
+        <div class="prime-pad">
+          ${finished ? '' : primeChoices.map(p=>`<button class="prime-btn" onclick="l5pick(${p}, event)">${p}</button>`).join('')}
+        </div>
+        <div class="feedback" id="fb5"></div>
+        ${finished ? `<div class="btn-row"><button class="btn coral" onclick="l5next()">${r+1<rounds.length? '下一題 ➜' : '開啟寶箱 🗝️'}</button></div>` : ''}
+      `;
+    }
+
+    window.l5pick = function(p, ev){
+      const fb = document.getElementById('fb5');
+      const da = a % p === 0 && a !== 1;
+      const db = b % p === 0 && b !== 1;
+      if(da || db){
+        playSound('correct');
+        addCombo();
+        spawnCoinEffect(ev);
+        steps.push({d:p, beforeA:a, beforeB:b});
+        if(da) a = a/p;
+        if(db) b = b/p;
+        updateMascot('🌟', `讚！${p} 可以整除至少一邊！`);
+        fb.className = 'feedback ok';
+        fb.textContent = `😄 沒錯！${p} 至少能整除一邊。`;
+        drawLadder();
+      }else{
+        playSound('wrong');
+        resetCombo();
+        mistakes++;
+        updateMascot('😅', `${p} 兩邊都無法整除，換一個質數試試！`);
+        fb.className = 'feedback bad shake';
+        fb.textContent = `😅 ${p} 兩邊都不能整除，換一個試試！`;
+        setTimeout(()=>fb.classList.remove('shake'), 400);
+      }
+    };
+    window.l5next = function(){ r++; draw(); };
+    drawLadder();
+  }
+  draw();
+}
+
+/* ================= 關卡完成畫面 ================= */
+function showLevelDone(c, title, stars, nextStage, tip){
+  playSound('fanfare');
+  updateMascot('🥳', `太棒了！${title} 順利過關！拿到 ${stars} 顆星星！`);
+  c.innerHTML = `
+    <div class="hero-emoji">${stars===3?'🏆':stars===2?'🎉':'🙂'}</div>
+    <h2 class="stage-title" style="justify-content:center;">${title} 順利過關！</h2>
+    <div class="star-line">${starsToText(stars)}</div>
+    <p class="lead-text">${tip}</p>
+    <div class="btn-row" style="justify-content:center;">
+      <button class="btn coral" onclick="goto('${nextStage}')">${nextStage==='final'?'前往解開黃金寶箱 🗝️':'航向下一座島嶼 ⛵'}</button>
+    </div>
+  `;
+}
+
+/* ================= 寶藏終點畫面 ================= */
+function renderFinal(c){
+  playSound('fanfare');
+  const total = Object.values(state.stars).reduce((a,b)=>a+b,0);
+  let title, msg;
+  if(total >= 13){
+    title='👑 傳說中的質數海盜王';
+    msg=`太強大了！你已經完全融會貫通 ${term('prime','質數')}、${term('composite','合數')}、${term('primeFactorization','質因數分解')}、${term('coprime','互質')}、${term('gcd','最大公因數')}與${term('lcm','最小公倍數')}！`;
+    updateMascot('👑', '全服至尊海盜王誕生！你擁有了通往數學寶藏大門的終極金鑰！');
+  } else if(total >= 9){
+    title='⚓ 資深高階航海士';
+    msg='做得太棒了！再多練習幾次短除法，就能成為傳說中的海盜王！';
+    updateMascot('⚓', '真不簡單！寶藏已經握在手中，表現非常優異！');
+  } else {
+    title='🧭 勇敢見習小海盜';
+    msg='恭喜完成全島嶼冒險！可以回去複習不太熟的島嶼，挑戰滿星榮耀！';
+    updateMascot('🧭', '恭喜你！完成全部航程就是最大的勝利，隨時可以重新挑戰！');
+  }
+
+  c.innerHTML = `
+    <div class="hero-emoji">🏝️🗝️💎</div>
+    <h2 class="stage-title" style="justify-content:center;">黃金寶箱成功開啟！</h2>
+    <div class="star-line">總星星數：${total} / 15</div>
+    <h3 style="text-align:center;color:var(--ocean-deep);margin-top:10px;font-size:24px;">${title}</h3>
+    <p class="lead-text">${msg}</p>
+    <div class="rules-list">
+      🏖️ 質數海灘：${starsToText(state.stars.l1)}<br>
+      🌲 因數森林：${starsToText(state.stars.l2)}<br>
+      🌉 互質詭橋：${starsToText(state.stars.l3)}<br>
+      ⛰️ 寶箱山：${starsToText(state.stars.l4)}<br>
+      🗼 燈塔頂：${starsToText(state.stars.l5)}
+    </div>
+    <div class="btn-row" style="justify-content:center;">
+      <button class="btn gold" onclick="restartGame()">🔁 重新開啟航程</button>
+    </div>
+  `;
+
+  if(window.confetti){
+    confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors: ['#FFB703', '#FF6B5B', '#2EC4B6', '#8338EC'] });
+    setTimeout(() => confetti({ particleCount: 100, spread: 130, origin: { y: 0.4 } }), 400);
+  }
+}
+
+function restartGame(){
+  resetCombo();
+  state.stars = {l1:0,l2:0,l3:0,l4:0,l5:0};
+  goto('intro');
+}
+
+/* ================= 啟動遊戲 ================= */
+goto('intro');
+</script>
+</body>
+</html>

@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>小數太空探險 🚀 南一版 6上數學</title>
+<meta name="description" content="互動數學遊戲：小數的除法。整數除小數、小數除小數、四捨五入概數，太空主題闖關挑戰！">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Orbitron:wght@700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+<style>
+  :root {
+    --space-black: #03001C;
+    --space-deep: #0B0B45;
+    --space-blue: #1A237E;
+    --space-mid: #283593;
+    --space-violet: #4A148C;
+    --space-purple: #7B1FA2;
+    --nebula-pink: #E040FB;
+    --nebula-cyan: #00E5FF;
+    --nebula-green: #00E676;
+    --star-yellow: #FFD740;
+    --rocket-orange: #FF6D00;
+    --rocket-red: #DD2C00;
+    --cream: #F8F9FF;
+    --shadow-space: 0 8px 0 rgba(3,0,28,0.4);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(123,31,162,0.4), transparent 45%),
+      radial-gradient(circle at 80% 70%, rgba(0,229,255,0.15), transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(26,35,126,0.8), transparent 70%),
+      linear-gradient(160deg, #03001C 0%, #0B0B45 40%, #1A1A60 70%, #0D0D4A 100%);
+    font-family: 'Noto Sans TC', sans-serif;
+    color: #E8EAFF;
+    display: flex;
+    justify-content: center;
+    padding: 16px 12px;
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: max(60px, calc(env(safe-area-inset-bottom) + 40px));
+    position: relative;
+  }
+
+  /* ══ STARS BACKGROUND ══ */
+  .stars-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .star-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: #fff;
+    animation: twinkle ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0.2; transform: scale(0.7); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+  /* Shooting star */
+  .shooting-star {
+    position: absolute;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.9), transparent);
+    border-radius: 2px;
+    animation: shoot linear infinite;
+    opacity: 0;
+  }
+  @keyframes shoot {
+    0% { opacity: 0; transform: translateX(0) translateY(0); }
+    5% { opacity: 1; }
+    90% { opacity: 0.5; }
+    100% { opacity: 0; transform: translateX(500px) translateY(300px); }
+  }
+
+  .app {
+    width: 100%;
+    max-width: 780px;
+    position: relative;
+    z-index: 1;
+  }
+
+  button { -webkit-tap-highlight-color: transparent; cursor: pointer; }
+
+  /* ══ HEADER ══ */
+  .hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .hdr-left { display: flex; align-items: center; gap: 10px; }
+  .back-btn {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 50px;
+    color: #E8EAFF;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Noto Sans TC', sans-serif;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.2); }
+  .hdr-title {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(17px, 4vw, 22px);
+    font-weight: 800;
+    color: var(--nebula-cyan);
+    text-shadow: 0 0 20px rgba(0,229,255,0.6);
+    line-height: 1.2;
+  }
+  .hdr-title small {
+    font-size: 0.65em;
+    opacity: 0.7;
+    display: block;
+    font-weight: 500;
+    color: #fff;
+    text-shadow: none;
+  }
+  .hdr-stats { display: flex; gap: 8px; align-items: center; }
+  .stat-chip {
+    background: rgba(0,229,255,0.12);
+    border: 2px solid rgba(0,229,255,0.3);
+    border-radius: 20px;
+    padding: 5px 12px;
+    color: var(--nebula-cyan);
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+
+  /* ══ MASCOT ══ */
+  .mascot-char {
+    font-size: clamp(50px, 12vw, 68px);
+    line-height: 1;
+    animation: rocketFloat 3s ease-in-out infinite;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 16px rgba(0,229,255,0.5));
+  }
+  @keyframes rocketFloat {
+    0%,100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+  }
+  .mascot-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .speech-bubble {
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px 20px 20px 4px;
+    padding: 12px 16px;
+    box-shadow: 0 4px 20px rgba(0,229,255,0.2);
+    font-size: clamp(13px, 3vw, 15px);
+    font-weight: 600;
+    color: #0B0B45;
+    line-height: 1.5;
+    max-width: 520px;
+    flex: 1;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    bottom: 10px;
+    border: 10px solid transparent;
+    border-right-color: rgba(255,255,255,0.95);
+    border-left: 0;
+    border-bottom: 0;
+  }
+
+  /* ══ STAGE DOTS ══ */
+  .stages-bar {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 14px;
+  }
+  .stage-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: all 0.25s;
+    font-family: 'Baloo 2', sans-serif;
+  }
+  .stage-dot.done { background: var(--nebula-green); border-color: #00C853; color: #001c08; }
+  .stage-dot.active { background: var(--nebula-cyan); border-color: #0097A7; color: #001c1e; transform: scale(1.15); box-shadow: 0 0 0 4px rgba(0,229,255,0.25), 0 0 16px rgba(0,229,255,0.4); }
+
+  /* ══ GAME CARD ══ */
+  .card {
+    background: rgba(8, 8, 60, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 24px;
+    box-shadow: 0 0 40px rgba(0,229,255,0.08), 0 16px 40px rgba(0,0,0,0.4);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+
+  .stage-header {
+    background: linear-gradient(135deg, rgba(74,20,140,0.9), rgba(26,35,126,0.9));
+    border-bottom: 1px solid rgba(0,229,255,0.2);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .stage-name {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(16px, 4vw, 20px);
+    font-weight: 800;
+    color: var(--nebula-cyan);
+    text-shadow: 0 0 12px rgba(0,229,255,0.5);
+  }
+  .q-counter {
+    background: rgba(0,229,255,0.15);
+    border: 1px solid rgba(0,229,255,0.3);
+    border-radius: 20px;
+    padding: 4px 12px;
+    color: var(--nebula-cyan);
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .progress-wrap { height: 4px; background: rgba(255,255,255,0.06); }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--nebula-cyan), var(--nebula-green));
+    transition: width 0.4s ease;
+    box-shadow: 0 0 8px var(--nebula-cyan);
+  }
+
+  .card-body { padding: 20px; }
+
+  /* Question */
+  .question-section {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+  }
+  .question-context {
+    font-size: clamp(13px, 3vw, 15px);
+    color: #C8D0FF;
+    line-height: 1.7;
+    font-weight: 500;
+    max-width: 540px;
+  }
+  .question-math {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(22px, 6vw, 34px);
+    font-weight: 800;
+    color: var(--nebula-cyan);
+    text-shadow: 0 0 12px rgba(0,229,255,0.4);
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .op { color: var(--nebula-pink); }
+
+  /* ×10 Animation */
+  .scale-anim {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 8px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .scale-box {
+    background: rgba(0,229,255,0.1);
+    border: 2px solid rgba(0,229,255,0.3);
+    border-radius: 12px;
+    padding: 8px 18px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+  }
+  .scale-arrow {
+    color: var(--nebula-cyan);
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--star-yellow);
+  }
+
+  /* Choices */
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .choice-btn {
+    border: 2px solid rgba(0,229,255,0.2);
+    border-radius: 14px;
+    background: rgba(255,255,255,0.05);
+    padding: 14px 10px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(18px, 4.5vw, 24px);
+    font-weight: 800;
+    color: #E8EAFF;
+    cursor: pointer;
+    transition: all 0.18s;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 64px;
+    flex-wrap: wrap;
+    text-shadow: 0 0 8px rgba(0,229,255,0.3);
+  }
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--nebula-cyan);
+    background: rgba(0,229,255,0.12);
+    transform: translateY(-3px);
+    box-shadow: 0 7px 0 rgba(0,0,0,0.3), 0 0 20px rgba(0,229,255,0.2);
+  }
+  .choice-btn.correct {
+    background: rgba(0,230,118,0.15);
+    border-color: var(--nebula-green);
+    color: var(--nebula-green);
+    box-shadow: 0 0 20px rgba(0,230,118,0.3);
+    animation: correctPulse 0.4s ease;
+  }
+  .choice-btn.wrong {
+    background: rgba(224,64,251,0.15);
+    border-color: var(--nebula-pink);
+    color: var(--nebula-pink);
+    animation: wrongShake 0.4s ease;
+  }
+  @keyframes correctPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+  }
+  @keyframes wrongShake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  /* Feedback */
+  .feedback-box {
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.6;
+    margin-top: 8px;
+    display: none;
+  }
+  .feedback-box.show { display: block; }
+  .feedback-box.ok { background: rgba(0,230,118,0.1); color: var(--nebula-green); border: 1px solid rgba(0,230,118,0.4); }
+  .feedback-box.bad { background: rgba(224,64,251,0.1); color: #F48FB1; border: 1px solid rgba(224,64,251,0.3); }
+
+  /* Combo */
+  .combo-flash {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(0.5);
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(32px, 8vw, 56px);
+    font-weight: 800;
+    color: var(--nebula-cyan);
+    text-shadow: 0 0 30px rgba(0,229,255,0.8);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 999;
+  }
+  .combo-flash.show { animation: comboAnim 0.9s forwards; }
+  @keyframes comboAnim {
+    0% { opacity: 1; transform: translate(-50%,-50%) scale(0.5); }
+    30% { opacity: 1; transform: translate(-50%,-65%) scale(1.2); }
+    70% { opacity: 1; transform: translate(-50%,-70%) scale(1.05); }
+    100% { opacity: 0; transform: translate(-50%,-90%) scale(0.9); }
+  }
+
+  /* Floating coins/stars */
+  .coin-fly {
+    position: fixed;
+    font-size: 24px;
+    pointer-events: none;
+    z-index: 998;
+    animation: coinFly 0.9s ease-out forwards;
+  }
+  @keyframes coinFly {
+    0% { opacity: 1; transform: translateY(0) scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(-110px) scale(1.5) rotate(20deg); }
+  }
+
+  /* ══ WELCOME ══ */
+  .welcome {
+    background: rgba(8,8,60,0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 24px;
+    box-shadow: 0 0 40px rgba(0,229,255,0.1), 0 16px 40px rgba(0,0,0,0.5);
+    padding: 30px 24px;
+    text-align: center;
+    display: none;
+    animation: slideUp 0.5s ease;
+  }
+  .welcome.show { display: block; }
+  .welcome-emoji { font-size: 72px; animation: rocketFloat 2s infinite; display: block; margin-bottom: 12px; }
+  .welcome h2 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(22px, 5vw, 30px);
+    font-weight: 800;
+    color: var(--nebula-cyan);
+    text-shadow: 0 0 16px rgba(0,229,255,0.5);
+    margin-bottom: 10px;
+  }
+  .welcome p {
+    font-size: 15px;
+    color: #A8B4FF;
+    line-height: 1.8;
+    margin-bottom: 20px;
+  }
+  .unit-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0 24px;
+    text-align: left;
+  }
+  @media (max-width: 500px) { .unit-summary { grid-template-columns: 1fr; } }
+  .unit-card {
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .unit-card .unit-num {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--nebula-cyan);
+    margin-bottom: 4px;
+  }
+  .unit-card .unit-name { font-size: 14px; font-weight: 700; color: #C8D0FF; }
+
+  /* Buttons */
+  .btn-primary {
+    background: linear-gradient(135deg, var(--nebula-cyan), #0097A7);
+    border: none;
+    border-radius: 50px;
+    padding: 14px 32px;
+    color: #001C1E;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 0 rgba(0,50,60,0.5), 0 0 20px rgba(0,229,255,0.3);
+    transition: all 0.18s;
+    margin: 6px;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 9px 0 rgba(0,50,60,0.5), 0 0 30px rgba(0,229,255,0.4); }
+  .btn-primary:active { transform: translateY(2px); box-shadow: 0 3px 0 rgba(0,50,60,0.5); }
+
+  .btn-secondary {
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 50px;
+    padding: 11px 24px;
+    color: #E8EAFF;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.18s;
+    margin: 6px;
+    display: inline-block;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
+
+  /* Stage Complete */
+  .stage-complete {
+    background: rgba(8,8,60,0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 24px;
+    box-shadow: 0 0 40px rgba(0,229,255,0.1), 0 16px 40px rgba(0,0,0,0.5);
+    padding: 30px 24px;
+    text-align: center;
+    display: none;
+    animation: slideUp 0.5s ease;
+  }
+  .stage-complete.show { display: block; }
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .stage-complete h2 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(20px,5vw,28px);
+    font-weight: 800;
+    color: var(--nebula-cyan);
+    text-shadow: 0 0 16px rgba(0,229,255,0.5);
+    margin-bottom: 8px;
+  }
+  .stars-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-size: 40px;
+    margin: 16px 0;
+  }
+  .star { animation: starPop 0.4s ease forwards; opacity: 0; }
+  .star:nth-child(1) { animation-delay: 0.15s; }
+  .star:nth-child(2) { animation-delay: 0.35s; }
+  .star:nth-child(3) { animation-delay: 0.55s; }
+  @keyframes starPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  .score-detail {
+    background: rgba(0,229,255,0.07);
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 12px;
+    padding: 14px 20px;
+    margin: 12px 0 20px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #C8D0FF;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .score-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .score-num { font-family: 'Baloo 2', sans-serif; font-size: 24px; font-weight: 800; color: var(--nebula-cyan); }
+
+  /* All Clear */
+  .all-clear {
+    background: rgba(8,8,60,0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 24px;
+    box-shadow: 0 0 60px rgba(0,229,255,0.15), 0 16px 60px rgba(0,0,0,0.6);
+    padding: 36px 24px;
+    text-align: center;
+    display: none;
+    animation: slideUp 0.5s ease;
+  }
+  .all-clear.show { display: block; }
+  .all-clear h2 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: clamp(24px,6vw,36px);
+    font-weight: 800;
+    color: var(--nebula-cyan);
+    text-shadow: 0 0 20px rgba(0,229,255,0.6);
+    margin-bottom: 8px;
+  }
+  .total-stars { font-size: 44px; margin: 16px 0; }
+  .total-coins {
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.25);
+    border-radius: 14px;
+    padding: 18px 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--nebula-cyan);
+    margin: 16px 0;
+    box-shadow: 0 0 20px rgba(0,229,255,0.15);
+  }
+
+  /* ══ GLOSSARY ══ */
+  .glossary-fab {
+    position: fixed;
+    bottom: max(24px, env(safe-area-inset-bottom, 24px));
+    right: max(20px, env(safe-area-inset-right, 20px));
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--nebula-cyan), #0097A7);
+    border: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 0 20px rgba(0,229,255,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    cursor: pointer;
+    z-index: 200;
+    transition: transform 0.25s;
+  }
+  .glossary-fab:hover { transform: scale(1.1) rotate(10deg); }
+
+  .glossary-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 300;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .glossary-overlay.open { display: flex; }
+  .glossary-modal {
+    background: #0B0B45;
+    border: 1px solid rgba(0,229,255,0.25);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 720px;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 40px rgba(0,229,255,0.15), 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .glossary-header {
+    background: linear-gradient(135deg, rgba(74,20,140,0.9), rgba(26,35,126,0.9));
+    border-bottom: 1px solid rgba(0,229,255,0.2);
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .glossary-header h3 { font-family: 'Baloo 2', sans-serif; font-size: 20px; font-weight: 800; color: var(--nebula-cyan); }
+  .close-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    color: var(--nebula-cyan);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .close-btn:hover { background: rgba(255,255,255,0.2); }
+  .glossary-terms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 14px 20px 10px;
+    border-bottom: 1px solid rgba(0,229,255,0.1);
+    flex-shrink: 0;
+  }
+  .term {
+    background: rgba(0,229,255,0.1);
+    border: 1px solid rgba(0,229,255,0.25);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--nebula-cyan);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .term:hover { background: rgba(0,229,255,0.2); transform: translateY(-2px); }
+  .term.active { background: rgba(0,229,255,0.25); border-color: var(--nebula-cyan); }
+  .glossary-content {
+    overflow-y: auto;
+    padding: 20px;
+    flex: 1;
+    color: #C8D0FF;
+  }
+  .glossary-entry { scroll-margin-top: 10px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed rgba(255,255,255,0.08); }
+  .glossary-entry:last-child { border-bottom: none; margin-bottom: 0; }
+  .glossary-entry h4 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--nebula-cyan);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .glossary-entry p { font-size: 14px; line-height: 1.8; margin-bottom: 8px; }
+  .glossary-entry .example-box {
+    background: rgba(0,229,255,0.07);
+    border-left: 4px solid var(--nebula-cyan);
+    border-radius: 0 10px 10px 0;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #A8B4FF;
+    font-weight: 600;
+    line-height: 2;
+  }
+</style>
+</head>
+<body>
+
+<!-- Stars Background -->
+<div class="stars-bg" id="starsBg"></div>
+
+<div class="combo-flash" id="comboFlash"></div>
+
+<button class="glossary-fab" id="glossaryFab" title="名詞小百科" onclick="openGlossary()">📖</button>
+
+<!-- GLOSSARY MODAL -->
+<div class="glossary-overlay" id="glossaryOverlay" onclick="closeGlossaryOutside(event)">
+  <div class="glossary-modal">
+    <div class="glossary-header">
+      <h3>📖 名詞小百科</h3>
+      <button class="close-btn" onclick="closeGlossary()">✕</button>
+    </div>
+    <div class="glossary-terms" id="glossaryTerms">
+      <button class="term" onclick="jumpTerm('decimal-div')">小數除法</button>
+      <button class="term" onclick="jumpTerm('scale10')">乘以10轉換</button>
+      <button class="term" onclick="jumpTerm('quotient')">商的大小比較</button>
+      <button class="term" onclick="jumpTerm('rounding')">四捨五入</button>
+      <button class="term" onclick="jumpTerm('approx')">概數</button>
+      <button class="term" onclick="jumpTerm('place-value')">小數點對齊</button>
+    </div>
+    <div class="glossary-content" id="glossaryContent">
+      <div class="glossary-entry" id="entry-decimal-div">
+        <h4>🚀 小數除法原理</h4>
+        <p>小數除法的核心技巧：<strong>被除數和除數同乘以10的倍數</strong>，把除數化成整數，商不變！</p>
+        <div class="example-box">
+          3 ÷ 0.6 → 乘以10 → 30 ÷ 6 = 5<br>
+          19.2 ÷ 3.2 → 乘以10 → 192 ÷ 32 = 6<br>
+          5.84 ÷ 0.7 → 乘以10 → 58.4 ÷ 7 = 8.34...
+        </div>
+      </div>
+      <div class="glossary-entry" id="entry-scale10">
+        <h4>✕10 乘以10的魔法</h4>
+        <p><strong>規則</strong>：被除數和除數同時乘以相同的數，商保持不變。</p>
+        <div class="example-box">
+          為何商不變？<br>
+          例：12 ÷ 4 = 3<br>
+          120 ÷ 40 = 3（同乘以10）<br>
+          1200 ÷ 400 = 3（同乘以100）<br><br>
+          乘以幾倍？看除數有幾位小數就乘以幾次10！<br>
+          除數有1位小數 → 乘以10<br>
+          除數有2位小數 → 乘以100
+        </div>
+      </div>
+      <div class="glossary-entry" id="entry-quotient">
+        <h4>⚖️ 商的大小比較</h4>
+        <p>在小數除法中（被除數不為0）：</p>
+        <div class="example-box">
+          除數 &lt; 1 → 商 &gt; 被除數<br>
+          例：18.3 ÷ 0.97 &gt; 18.3（因為0.97&lt;1）<br><br>
+          除數 = 1 → 商 = 被除數<br><br>
+          除數 &gt; 1 → 商 &lt; 被除數<br>
+          例：18.3 ÷ 1.03 &lt; 18.3（因為1.03&gt;1）
+        </div>
+      </div>
+      <div class="glossary-entry" id="entry-rounding">
+        <h4>🎯 四捨五入</h4>
+        <p>根據指定位數的下一位數字，<strong>≥5進位，&lt;5捨去</strong>。</p>
+        <div class="example-box">
+          取到小數第一位：<br>
+          8.34 → 8.3（因為4&lt;5，捨去）<br>
+          8.35 → 8.4（因為5≥5，進位）<br><br>
+          取到整數位（個位）：<br>
+          6.4 → 6（因為4&lt;5，捨去）<br>
+          6.5 → 7（因為5≥5，進位）
+        </div>
+      </div>
+      <div class="glossary-entry" id="entry-approx">
+        <h4>🔢 概數</h4>
+        <p>用四捨五入等方法取得的<strong>近似值</strong>，以≈表示「約等於」。</p>
+        <div class="example-box">
+          5.84 ÷ 0.7 = 8.342857...<br>
+          → 取到小數第一位：≈ 8.3<br>
+          → 取到整數位：≈ 8<br><br>
+          注意：要說明取到哪一位！
+        </div>
+      </div>
+      <div class="glossary-entry" id="entry-place-value">
+        <h4>📍 小數點對齊規則</h4>
+        <p>在直式計算小數除法時，<strong>商的小數點</strong>要和被除數新的小數點對齊；<strong>餘數的小數點</strong>和被除數原來的小數點對齊。</p>
+        <div class="example-box">
+          例：5.84 ÷ 0.7<br>
+          → 5.84 × 10 = 58.4（被除數移小數點）<br>
+          → 0.7 × 10 = 7（除數變整數）<br>
+          → 58.4 ÷ 7 = 8.3餘0.3<br>
+          商8.3的小數點對應58.4<br>
+          餘0.3的小數點對應5.84原本的小數點
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="app">
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="hdr-left">
+      <a href="portal.html" class="back-btn">⬅ 返回</a>
+      <div class="hdr-title">
+        小數太空探險 🚀
+        <small>南一版 6上・第③單元</small>
+      </div>
+    </div>
+    <div class="hdr-stats">
+      <div class="stat-chip">⭐ <span id="coinDisplay">0</span></div>
+      <div class="stat-chip" id="comboChip" style="display:none">🔥 <span id="comboDisplay">0</span>連勝</div>
+    </div>
+  </div>
+
+  <!-- Stage Dots -->
+  <div class="stages-bar" id="stagesBar">
+    <div class="stage-dot active" id="dot-0">1</div>
+    <div class="stage-dot" id="dot-1">2</div>
+    <div class="stage-dot" id="dot-2">3</div>
+    <div class="stage-dot" id="dot-3">4</div>
+    <div class="stage-dot" id="dot-4">5</div>
+  </div>
+
+  <!-- WELCOME -->
+  <div class="welcome show" id="welcomeScreen">
+    <span class="welcome-emoji">🚀</span>
+    <h2>歡迎登入太空站！</h2>
+    <p>我是太空貓宇宙！今天要一起挑戰<strong>小數的除法</strong>。<br>
+    掌握「乘以10的魔法」，穿越星際征服5個關卡！</p>
+    <div class="unit-summary">
+      <div class="unit-card">
+        <div class="unit-num">關卡 1</div>
+        <div class="unit-name">🌍 整數 ÷ 小數</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-num">關卡 2</div>
+        <div class="unit-name">🌕 小數 ÷ 小數</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-num">關卡 3</div>
+        <div class="unit-name">☄️ 概數應用</div>
+      </div>
+    </div>
+    <div class="unit-summary" style="grid-template-columns:1fr 1fr;max-width:340px;margin-left:auto;margin-right:auto">
+      <div class="unit-card">
+        <div class="unit-num">關卡 4</div>
+        <div class="unit-name">🪐 大小比較</div>
+      </div>
+      <div class="unit-card">
+        <div class="unit-num">關卡 5</div>
+        <div class="unit-name">🌌 星際總考驗</div>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="startGame()">🚀 發射升空！</button>
+    <div style="margin-top:14px; font-size:13px; color:#A5B4FC; text-align:center;">
+      📱 支援 iPad / 平板、手機與電腦 ｜ 專為觸控操作最佳化
+    </div>
+  </div>
+
+  <!-- GAME CARD -->
+  <div class="card" id="gameCard" style="display:none">
+    <div class="stage-header">
+      <span class="stage-name" id="stageName">關卡 1</span>
+      <span class="q-counter" id="qCounter">1/8</span>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar" style="width:0%"></div>
+    </div>
+    <div class="card-body">
+      <div class="mascot-row">
+        <span class="mascot-char" id="mascotEmoji">🐱‍🚀</span>
+        <div class="speech-bubble" id="mascotSpeech">加油！仔細看題目！</div>
+      </div>
+      <div class="question-section">
+        <div class="question-context" id="qContext"></div>
+        <div class="question-math" id="qMath"></div>
+        <div class="scale-anim" id="scaleAnim" style="display:none"></div>
+      </div>
+      <div class="choices" id="choicesGrid"></div>
+      <div class="feedback-box" id="feedbackBox"></div>
+    </div>
+  </div>
+
+  <!-- STAGE COMPLETE -->
+  <div class="stage-complete" id="stageComplete">
+    <span style="font-size:64px;display:block;animation:rocketFloat 1.5s infinite;margin-bottom:8px" id="scIcon">🚀</span>
+    <h2 id="scTitle">關卡完成！</h2>
+    <div class="stars-row" id="starsRow"></div>
+    <div class="score-detail">
+      <div class="score-item"><span class="score-num" id="scCorrect">0</span><span>答對</span></div>
+      <div class="score-item"><span class="score-num" id="scTotal">0</span><span>總題數</span></div>
+      <div class="score-item"><span class="score-num" id="scCoins">0</span><span>⭐獲得</span></div>
+    </div>
+    <button class="btn-primary" id="nextStageBtn" onclick="nextStage()">下一關 ➡</button>
+    <button class="btn-secondary" onclick="retryStage()">🔄 再試一次</button>
+  </div>
+
+  <!-- ALL CLEAR -->
+  <div class="all-clear" id="allClear">
+    <span style="font-size:80px;display:block;animation:rocketFloat 1.5s infinite;margin-bottom:12px">🚀🏆</span>
+    <h2>太空任務完成！</h2>
+    <p style="color:#A8B4FF;font-size:15px;margin:8px 0 20px">恭喜你完成第③單元所有關卡，<strong>小數的除法</strong>你已掌握！</p>
+    <div class="total-stars" id="totalStars">⭐⭐⭐⭐⭐</div>
+    <div class="total-coins">⭐ <span id="finalCoins">0</span> 星幣</div>
+    <br>
+    <button class="btn-primary" onclick="restartGame()">🔄 再次出發</button>
+    <button class="btn-secondary" onclick="location.href='portal.html'">⬅ 回到學習樂園</button>
+  </div>
+</div>
+
+<script>
+// ══ STARS ══
+(function(){
+  const bg = document.getElementById('starsBg');
+  for (let i = 0; i < 120; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-particle';
+    const sz = Math.random() * 3 + 0.5;
+    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${-Math.random()*5}s;`;
+    bg.appendChild(s);
+  }
+  for (let i = 0; i < 4; i++) {
+    const s = document.createElement('div');
+    s.className = 'shooting-star';
+    s.style.cssText = `left:${Math.random()*40}%;top:${Math.random()*50}%;animation-duration:${6+Math.random()*8}s;animation-delay:${-Math.random()*12}s;transform:rotate(${20+Math.random()*30}deg);`;
+    bg.appendChild(s);
+  }
+})();
+
+// ══ AUDIO ══
+let audioCtx = null;
+function getAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+function playTone(freq, type='sine', dur=0.15, vol=0.25, delay=0) {
+  try {
+    const ctx = getAudio();
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, ctx.currentTime+delay);
+    g.gain.linearRampToValueAtTime(vol, ctx.currentTime+delay+0.01);
+    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+delay+dur);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(ctx.currentTime+delay); o.stop(ctx.currentTime+delay+dur+0.01);
+  } catch(e){}
+}
+function playCorrect() { playTone(523,'sine',0.15,0.3); playTone(659,'sine',0.15,0.25,0.12); playTone(784,'sine',0.2,0.25,0.25); }
+function playWrong() { playTone(200,'sawtooth',0.2,0.3); playTone(150,'sawtooth',0.2,0.25,0.15); }
+function playCombo() { [523,659,784,1047].forEach((f,i)=>playTone(f,'triangle',0.18,0.3,i*0.1)); }
+function playStageClear() { [523,587,659,698,784,880,988,1047].forEach((f,i)=>playTone(f,'sine',0.2,0.28,i*0.08)); }
+
+// ══ STAGES DATA ══
+const STAGES = [
+  {
+    name: '關卡 1：整數 ÷ 小數',
+    icon: '🌍',
+    tips: ['整數÷小數，就是乘以10讓除數變整數！', '記得被除數和除數都要同乘！', '乘的倍數看除數有幾位小數！', '太好了！繼續！'],
+    questions: [
+      { ctx:'', math:'3 ÷ 0.6 = ?', choices:['5','0.5','50','0.05'], ans:0, explain:'3÷0.6，同乘10：30÷6=5' },
+      { ctx:'', math:'8 ÷ 0.2 = ?', choices:['40','4','400','0.4'], ans:0, explain:'8÷0.2，同乘10：80÷2=40' },
+      { ctx:'', math:'39 ÷ 2.6 = ?', choices:['15','1.5','150','0.15'], ans:0, explain:'39÷2.6，同乘10：390÷26=15' },
+      { ctx:'', math:'714 ÷ 3.5 = ?', choices:['204','20.4','2040','24'], ans:0, explain:'714÷3.5，同乘10：7140÷35=204' },
+      { ctx:'把3公升的鮮奶，每0.6公升倒成1杯，全部倒完，可以倒幾杯？', math:'3 ÷ 0.6 = ?', choices:['5杯','3杯','6杯','0.5杯'], ans:0, explain:'3÷0.6=5（杯）' },
+      { ctx:'', math:'12 ÷ 0.4 = ?', choices:['30','3','300','120'], ans:0, explain:'12÷0.4，同乘10：120÷4=30' },
+      { ctx:'', math:'45 ÷ 1.5 = ?', choices:['30','3','300','450'], ans:0, explain:'45÷1.5，同乘10：450÷15=30' },
+      { ctx:'小芳家的米缸有31.2公斤的米，每天煮飯用掉0.8公斤，最多可以煮幾天？', math:'31.2 ÷ 0.8 = ?', choices:['39天','3.9天','390天','390天'], ans:0, explain:'31.2÷0.8，同乘10：312÷8=39（天）' },
+    ]
+  },
+  {
+    name: '關卡 2：小數 ÷ 小數',
+    icon: '🌕',
+    tips: ['小數÷小數，一樣乘以10讓除數變整數！', '除數有幾位小數就乘幾次10！', '別忘了答案的小數點！', '超棒！'],
+    questions: [
+      { ctx:'', math:'19.2 ÷ 3.2 = ?', choices:['6','0.6','60','0.06'], ans:0, explain:'19.2÷3.2，同乘10：192÷32=6' },
+      { ctx:'做1套洋裝需要3.2公尺的布，19.2公尺的布共可做幾套洋裝？', math:'19.2 ÷ 3.2 = ?', choices:['6套','5套','8套','4套'], ans:0, explain:'19.2÷3.2=6（套）' },
+      { ctx:'', math:'25.2 ÷ 1.4 = ?', choices:['18','1.8','180','0.18'], ans:0, explain:'25.2÷1.4，同乘10：252÷14=18' },
+      { ctx:'', math:'26.8 ÷ 0.4 = ?', choices:['67','6.7','670','0.67'], ans:0, explain:'26.8÷0.4，同乘10：268÷4=67' },
+      { ctx:'', math:'46.5 ÷ 0.5 = ?', choices:['93','9.3','930','0.93'], ans:0, explain:'46.5÷0.5，同乘10：465÷5=93' },
+      { ctx:'', math:'3.6 ÷ 0.12 = ?', choices:['30','3','300','0.3'], ans:0, explain:'3.6÷0.12，同乘100：360÷12=30' },
+      { ctx:'', math:'8.4 ÷ 0.24 = ?', choices:['35','3.5','350','0.35'], ans:0, explain:'8.4÷0.24，同乘100：840÷24=35' },
+      { ctx:'', math:'0.72 ÷ 0.09 = ?', choices:['8','0.8','80','0.08'], ans:0, explain:'0.72÷0.09，同乘100：72÷9=8' },
+    ]
+  },
+  {
+    name: '關卡 3：四捨五入概數',
+    icon: '☄️',
+    tips: ['記住：5以上進位，4以下捨去！', '先算出結果，再看要取哪一位！', '概數用≈表示！', '你的眼力超準！'],
+    questions: [
+      { ctx:'5.84 ÷ 0.7，求商到小數第一位（四捨五入）', math:'5.84 ÷ 0.7 ≈ ?', choices:['8.3','8.4','8.0','9.0'], ans:0, explain:'5.84÷0.7=8.342...，小數第二位是4，捨去，≈8.3' },
+      { ctx:'15.7 ÷ 6，求商到整數位（四捨五入）', math:'15.7 ÷ 6 ≈ ?', choices:['3','2','4','2.6'], ans:0, explain:'15.7÷6=2.616...，小數第一位是6，進位，≈3' },
+      { ctx:'9.5 ÷ 0.7，求商到小數第一位（四捨五入）', math:'9.5 ÷ 0.7 ≈ ?', choices:['13.6','13.5','14.0','13.0'], ans:0, explain:'9.5÷0.7=13.571...，小數第二位是7，進位，≈13.6' },
+      { ctx:'50 ÷ 7，求商到整數位（四捨五入）', math:'50 ÷ 7 ≈ ?', choices:['7','6','8','5'], ans:0, explain:'50÷7=7.142...，小數第一位是1，捨去，≈7' },
+      { ctx:'22.4 ÷ 3，求商到小數第一位（四捨五入）', math:'22.4 ÷ 3 ≈ ?', choices:['7.5','7.4','7.6','8.0'], ans:0, explain:'22.4÷3=7.466...，小數第二位是6，進位，≈7.5' },
+      { ctx:'一捲電線長54.8公尺，每段剪2.3公尺，大約可剪幾段（取整數位）？', math:'54.8 ÷ 2.3 ≈ ?', choices:['24段','23段','25段','20段'], ans:0, explain:'54.8÷2.3=23.826...，小數第一位是8，進位，≈24，但實際只能剪23段（不夠一段就沒有）' },
+      { ctx:'3.14 ÷ 0.6，求商到小數第二位（四捨五入）', math:'3.14 ÷ 0.6 ≈ ?', choices:['5.23','5.24','5.20','5.30'], ans:0, explain:'3.14÷0.6=5.2333...，小數第三位是3，捨去，≈5.23' },
+      { ctx:'12 ÷ 7，求商到小數第一位（四捨五入）', math:'12 ÷ 7 ≈ ?', choices:['1.7','1.6','1.8','2.0'], ans:0, explain:'12÷7=1.714...，小數第二位是1，捨去，≈1.7' },
+    ]
+  },
+  {
+    name: '關卡 4：商的大小比較',
+    icon: '🪐',
+    tips: ['除數<1時，商>被除數！', '除數>1時，商<被除數！', '想想看：把一個數分成更小份，份數一定更多！', '邏輯超棒！'],
+    questions: [
+      { ctx:'', math:'18.3 ÷ 0.97 □ 1', choices:['>', '<', '=', '無法比較'], ans:0, explain:'0.97<1，所以商>被除數18.3，而被除數18.3>1，所以商>1' },
+      { ctx:'', math:'0.26 ÷ 0.01 □ 0.26 × 100', choices:['=', '>', '<', '無法比較'], ans:0, explain:'0.26÷0.01=26，0.26×100=26，兩者相等！' },
+      { ctx:'', math:'3⅗ ÷ 1¼ □ 3⅗', choices:['<', '>', '=', '無法比較'], ans:0, explain:'除數1¼>1，所以商<被除數3⅗，答案是<' },
+      { ctx:'', math:'6⅕ ÷ ⁴⁄₅ □ 3⅕ ÷ ²⁄₅', choices:['=', '>', '<', '無法比較'], ans:0, explain:'6⅕÷4/5=31/5×5/4=31/4；3⅕÷2/5=16/5×5/2=8=32/4；結果不等。實際算：6.2÷0.8=7.75，3.2÷0.4=8，所以7.75<8，答案是<' },
+      { ctx:'除數是0.01時，商是被除數的幾倍？', math:'□ ÷ 0.01 = □ × ?', choices:['100倍', '10倍', '1000倍', '0.01倍'], ans:0, explain:'÷0.01 = ×100，所以商是被除數的100倍' },
+      { ctx:'', math:'3.96 ÷ 0.12 □ 5.28 ÷ 0.16', choices:['=', '>', '<', '無法比較'], ans:0, explain:'3.96÷0.12=33，5.28÷0.16=33，兩者相等！' },
+      { ctx:'96和56的最小公倍數 □ 37和62的最小公倍數（複習單元一！）', math:'LCM(96,56) □ LCM(37,62)', choices:['<', '>', '=', '無法比較'], ans:0, explain:'LCM(96,56)=672，LCM(37,62)=2294（37是質數），672<2294，答案是<' },
+      { ctx:'在小數除法中（被除數不為0），除數越小，商越___？', math:'除數越小 → 商越？', choices:['大', '小', '不變', '不一定'], ans:0, explain:'除以更小的數，結果（商）會越來越大。如：10÷2=5，10÷1=10，10÷0.5=20' },
+    ]
+  },
+  {
+    name: '關卡 5：星際總考驗',
+    icon: '🌌',
+    tips: ['最後關卡！你已是太空數學家！', '綜合所有技巧！', '快到終點了！', '宇宙為你閃爍！'],
+    questions: [
+      { ctx:'', math:'5.84 ÷ 0.73 ≈ ? (小數第1位)', choices:['8.0','7.9','8.1','8.2'], ans:0, explain:'5.84÷0.73≈7.986...，小數第二位是8，進位，≈8.0' },
+      { ctx:'', math:'0.72 ÷ 0.09 = ?', choices:['8','0.8','80','0.08'], ans:0, explain:'0.72÷0.09，×100：72÷9=8' },
+      { ctx:'一條彩帶長4.56公尺，每0.12公尺剪一段，共可剪幾段？', math:'4.56 ÷ 0.12 = ?', choices:['38段','3.8段','380段','28段'], ans:0, explain:'4.56÷0.12，×100：456÷12=38（段）' },
+      { ctx:'下面哪個算式的商最大？', math:'比較商的大小', choices:['10÷0.01','10÷0.1','10÷1','10÷10'], ans:0, explain:'除數越小商越大，0.01最小，所以10÷0.01=1000最大' },
+      { ctx:'', math:'46 ÷ 0.23 = ?', choices:['200','20','2000','2'], ans:0, explain:'46÷0.23，×100：4600÷23=200' },
+      { ctx:'小明用42元買了0.6公斤的水果，每公斤水果多少元？', math:'42 ÷ 0.6 = ?', choices:['70元','7元','700元','0.7元'], ans:0, explain:'42÷0.6，×10：420÷6=70（元）' },
+      { ctx:'3.8 ÷ 0.4，求商到整數位（四捨五入）', math:'3.8 ÷ 0.4 ≈ ?（整數位）', choices:['10','9','8','11'], ans:0, explain:'3.8÷0.4=9.5，小數第一位是5，進位，≈10' },
+      { ctx:'', math:'26 ÷ 1.3 □ 26', choices:['<', '>', '=', '無法比較'], ans:0, explain:'除數1.3>1，所以商<被除數26，答案是<（26÷1.3=20<26）' },
+    ]
+  }
+];
+
+const state = {
+  stage: 0, qi: 0, correct: 0, coins: 0, combo: 0,
+  stageCoinsStart: 0, stageResults: [], answered: false,
+};
+
+const speeches = {
+  start: ['發射！準備好了嗎？🚀', '宇宙在等待你！🌌', '慢慢思考，太空不急！', '相信你！⭐'],
+  correct: ['命中目標！太棒了！🎯', '完美答題！飛向星辰！✨', '讚讚！繼續保持！🔥', '宇宙選中了你！⭐'],
+  wrong: ['沒關係！看看解析！📖', '再想想～答案就在那裡！', '不要灰心！每次失敗都是學習！', '下次一定行！💪'],
+  combo: ['連勝！你在燃燒！🔥', '超強！穿越星際！🚀', '太厲害了！無敵連勝！⚡', '太空英雄附體！🌟'],
+};
+function randomSpeech(key) { const a=speeches[key]; return a[Math.floor(Math.random()*a.length)]; }
+function setSpeech(text) {
+  const el = document.getElementById('mascotSpeech');
+  el.style.opacity = 0; el.style.transition = 'opacity 0.15s';
+  setTimeout(() => { el.textContent = text; el.style.opacity = 1; }, 150);
+}
+
+function addCoins(n) {
+  state.coins += n;
+  document.getElementById('coinDisplay').textContent = state.coins;
+  for (let i = 0; i < Math.min(n,4); i++) {
+    const c = document.createElement('div');
+    c.className = 'coin-fly'; c.textContent = '⭐';
+    c.style.left = (Math.random()*60+20)+'%';
+    c.style.top = (Math.random()*40+30)+'%';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 1000);
+  }
+}
+
+function showCombo() {
+  const el = document.getElementById('comboFlash');
+  el.className = 'combo-flash'; el.textContent = `🚀 ${state.combo}連勝！`;
+  void el.offsetWidth; el.className = 'combo-flash show';
+  playCombo();
+  confetti({ particleCount: 60, spread: 80, origin:{y:0.5}, colors:['#00E5FF','#7B1FA2','#FFD740','#00E676'] });
+}
+
+function updateStageDots() {
+  for (let i=0;i<5;i++) {
+    const d = document.getElementById(`dot-${i}`);
+    d.className = 'stage-dot'+(i<state.stage?' done':i===state.stage?' active':'');
+  }
+}
+
+function renderQuestion() {
+  const stage = STAGES[state.stage];
+  const q = stage.questions[state.qi];
+  const total = stage.questions.length;
+
+  document.getElementById('stageName').textContent = stage.name;
+  document.getElementById('qCounter').textContent = `${state.qi+1}/${total}`;
+  document.getElementById('progressBar').style.width = `${(state.qi/total)*100}%`;
+  document.getElementById('feedbackBox').className = 'feedback-box';
+  document.getElementById('scaleAnim').style.display = 'none';
+  state.answered = false;
+
+  setSpeech(stage.tips[Math.floor(Math.random()*stage.tips.length)]);
+
+  document.getElementById('qContext').innerHTML = q.ctx || '';
+  document.getElementById('qMath').innerHTML = q.math || '';
+
+  // Shuffle choices
+  const orig = q.choices.map((c,i) => ({label:c, isAns: i===q.ans}));
+  const shuffled = shuffle(orig);
+  const grid = document.getElementById('choicesGrid');
+  grid.innerHTML = '';
+  shuffled.forEach(item => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = item.label;
+    btn.dataset.correct = item.isAns ? '1' : '0';
+    btn.addEventListener('click', () => handleAnswer(btn, item.isAns));
+    grid.appendChild(btn);
+  });
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i=a.length-1;i>0;i--) { const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+
+function handleAnswer(btn, isCorrect) {
+  if (state.answered) return;
+  state.answered = true;
+  getAudio();
+
+  const q = STAGES[state.stage].questions[state.qi];
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+  const fb = document.getElementById('feedbackBox');
+
+  if (isCorrect) {
+    btn.classList.add('correct');
+    state.correct++; state.combo++;
+    const gain = state.combo>=4?4:state.combo>=3?3:state.combo>=2?2:1;
+    addCoins(gain);
+    if (state.combo>=2) { document.getElementById('comboChip').style.display='flex'; document.getElementById('comboDisplay').textContent=state.combo; }
+    if (state.combo>=3) { showCombo(); setSpeech(randomSpeech('combo')); } else setSpeech(randomSpeech('correct'));
+    playCorrect();
+    fb.className = 'feedback-box ok show';
+    fb.innerHTML = `✅ 正確！${q.explain}`;
+  } else {
+    btn.classList.add('wrong');
+    state.combo = 0; document.getElementById('comboChip').style.display='none';
+    setSpeech(randomSpeech('wrong')); playWrong();
+    document.querySelectorAll('.choice-btn').forEach(b => { if(b.dataset.correct==='1') b.classList.add('correct'); });
+    fb.className = 'feedback-box bad show';
+    fb.innerHTML = `❌ 解析：${q.explain}`;
+  }
+
+  setTimeout(() => {
+    state.qi++;
+    if (state.qi >= STAGES[state.stage].questions.length) showStageComplete();
+    else renderQuestion();
+  }, 1900);
+}
+
+function showStageComplete() {
+  document.getElementById('gameCard').style.display = 'none';
+  const total = STAGES[state.stage].questions.length;
+  const pct = state.correct/total;
+  const stars = pct>=0.875?3:pct>=0.625?2:pct>=0.375?1:0;
+  state.stageResults[state.stage] = stars;
+  const earned = state.coins - state.stageCoinsStart;
+
+  document.getElementById('scCorrect').textContent = state.correct;
+  document.getElementById('scTotal').textContent = total;
+  document.getElementById('scCoins').textContent = earned;
+  document.getElementById('scTitle').textContent = `${STAGES[state.stage].icon} 關卡完成！`;
+  document.getElementById('scIcon').textContent = STAGES[state.stage].icon;
+
+  const row = document.getElementById('starsRow');
+  row.innerHTML = '';
+  for (let i=0;i<3;i++) { const s=document.createElement('span'); s.className='star'; s.textContent=i<stars?'⭐':'☆'; row.appendChild(s); }
+
+  const nBtn = document.getElementById('nextStageBtn');
+  if (state.stage>=STAGES.length-1) { nBtn.textContent='🏆 任務完成！'; nBtn.onclick=showAllClear; }
+  else { nBtn.textContent='下一關 ➡'; nBtn.onclick=nextStage; }
+
+  document.getElementById('stageComplete').className = 'stage-complete show';
+  playStageClear();
+  confetti({ particleCount:120, spread:100, origin:{y:0.4}, colors:['#00E5FF','#7B1FA2','#FFD740','#00E676','#fff'] });
+}
+
+function nextStage() {
+  state.stage++; state.qi=0; state.correct=0; state.stageCoinsStart=state.coins;
+  document.getElementById('stageComplete').className='stage-complete';
+  updateStageDots();
+  document.getElementById('gameCard').style.display='block';
+  renderQuestion();
+}
+function retryStage() {
+  state.qi=0; state.correct=0; state.combo=0; state.stageCoinsStart=state.coins;
+  document.getElementById('stageComplete').className='stage-complete';
+  document.getElementById('comboChip').style.display='none';
+  document.getElementById('gameCard').style.display='block';
+  renderQuestion();
+}
+function showAllClear() {
+  document.getElementById('stageComplete').className='stage-complete';
+  const total = state.stageResults.reduce((a,b)=>a+(b||0),0);
+  document.getElementById('totalStars').textContent='⭐'.repeat(total)+'☆'.repeat(Math.max(0,15-total));
+  document.getElementById('finalCoins').textContent=state.coins;
+  document.getElementById('allClear').className='all-clear show';
+  confetti({particleCount:200,spread:160,origin:{y:0.3},colors:['#00E5FF','#7B1FA2','#FFD740','#00E676','#fff']});
+  playStageClear();
+  setTimeout(()=>confetti({particleCount:100,spread:120,origin:{y:0.5},colors:['#00E5FF','#E040FB']}),800);
+}
+function restartGame() {
+  Object.assign(state,{stage:0,qi:0,correct:0,coins:0,combo:0,stageCoinsStart:0,stageResults:[],answered:false});
+  document.getElementById('coinDisplay').textContent=0;
+  document.getElementById('comboChip').style.display='none';
+  document.getElementById('allClear').className='all-clear';
+  document.getElementById('welcomeScreen').className='welcome show';
+  updateStageDots();
+}
+function startGame() {
+  getAudio();
+  Object.assign(state,{stage:0,qi:0,correct:0,stageCoinsStart:0,answered:false});
+  document.getElementById('welcomeScreen').className='welcome';
+  document.getElementById('gameCard').style.display='block';
+  updateStageDots();
+  renderQuestion();
+}
+
+// GLOSSARY
+function openGlossary() { document.getElementById('glossaryOverlay').classList.add('open'); }
+function closeGlossary() { document.getElementById('glossaryOverlay').classList.remove('open'); document.querySelectorAll('.term').forEach(t=>t.classList.remove('active')); }
+function closeGlossaryOutside(e) { if(e.target===document.getElementById('glossaryOverlay')) closeGlossary(); }
+function jumpTerm(id) {
+  document.querySelectorAll('.term').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  const entry = document.getElementById(`entry-${id}`);
+  if (!entry) return;
+  const content = document.getElementById('glossaryContent');
+  const offset = entry.getBoundingClientRect().top - content.getBoundingClientRect().top + content.scrollTop;
+  content.scrollTo({top: offset-16, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
