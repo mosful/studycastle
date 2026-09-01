@@ -3,26 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>小數太空探險 🚀 南一版 6上數學 第3單元</title>
-<meta name="description" content="南一版 6年級上學期 數學第3單元：小數的除法。掌握整數除小數、小數除小數、四捨五入求概數、商與被除數關係，5大闖關與作業簿第7-9回完整題庫！">
+<title>圓周長與圓面積奇幻王國 🌕 南一版 6上數學 第4單元</title>
+<meta name="description" content="南一版 6年級上學期 數學第4單元：圓周長和圓面積。認識圓周率 3.14、圓周長公式、圓面積計算、複合圖形塗色面積，5大闖關與作業簿第10-12回完整題庫！">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
 <style>
   :root {
-    --space-deep: #0D1B2A;
-    --space-mid: #1B263B;
-    --space-blue: #415A77;
-    --space-cyan: #00B4D8;
-    --ink: #0D1B2A;
+    --moon-purple: #5A189A;
+    --moon-dark: #240046;
+    --moon-violet: #7B2CBF;
+    --moon-gold: #FFB703;
+    --ink: #240046;
     --gold: #FFB703;
     --gold-dark: #D48800;
     --parchment: #FFFDF5;
     --parchment-dark: #E9D9A6;
-    --coral: #FF5A5F;
-    --leaf: #00B4D8;
-    --shadow: 0 10px 0 rgba(13, 27, 42, 0.25);
+    --coral: #9D4EDD;
+    --leaf: #06D6A0;
+    --shadow: 0 10px 0 rgba(36, 0, 70, 0.25);
   }
 
   * { box-sizing: border-box; }
@@ -35,8 +35,8 @@
     overflow-x: hidden;
     background:
       radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.18), transparent 40%),
-      radial-gradient(circle at 85% 85%, rgba(0, 180, 216, 0.15), transparent 45%),
-      linear-gradient(180deg, #050C1A 0%, #0D1B2A 40%, #1B263B 80%, #415A77 100%);
+      radial-gradient(circle at 85% 85%, rgba(255, 183, 3, 0.15), transparent 45%),
+      linear-gradient(180deg, #10002B 0%, #240046 40%, #5A189A 80%, #7B2CBF 100%);
     font-family: 'Noto Sans TC', sans-serif;
     color: var(--ink);
     display: flex;
@@ -49,14 +49,14 @@
     position: relative;
   }
 
-  /* 背景動態星空動畫 */
+  /* 背景動態波浪動畫 */
   .bg-waves {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 120px;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(0, 180, 216, 0.08)" d="M0,192L48,197.3C96,203,192,213,288,192C384,171,480,117,576,112C672,107,768,149,864,165.3C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255, 183, 3, 0.08)" d="M0,192L48,197.3C96,203,192,213,288,192C384,171,480,117,576,112C672,107,768,149,864,165.3C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
     background-size: 1440px 120px;
     animation: waveMove 12s infinite linear;
     pointer-events: none;
@@ -165,7 +165,7 @@
     margin: 0;
   }
 
-  /* ---------- Animated Astronaut Mascot & Progress path ---------- */
+  /* ---------- Animated Mascot & Progress path ---------- */
   .mascot-row {
     display: flex;
     align-items: center;
@@ -268,10 +268,10 @@
   }
 
   .isle.active .dot {
-    background: var(--space-cyan);
+    background: #FFB703;
     transform: scale(1.2);
     animation: bob 1.2s ease-in-out infinite;
-    box-shadow: 0 0 15px rgba(0, 180, 216, 0.6);
+    box-shadow: 0 0 15px rgba(255, 183, 3, 0.6);
   }
 
   .isle.done .dot {
@@ -317,7 +317,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(rgba(13, 27, 42, 0.04) 1.5px, transparent 1.5px);
+    background-image: radial-gradient(rgba(36, 0, 70, 0.04) 1.5px, transparent 1.5px);
     background-size: 16px 16px;
     pointer-events: none;
   }
@@ -327,7 +327,7 @@
     align-items: center;
     gap: 10px;
     font-size: clamp(22px, 5vw, 30px);
-    color: #0077B6;
+    color: var(--moon-purple);
     margin-bottom: 8px;
     font-weight: 800;
   }
@@ -351,9 +351,9 @@
     border-radius: 16px;
     border: 3px solid var(--ink);
     cursor: pointer;
-    background: #0077B6;
+    background: var(--moon-purple);
     color: #fff;
-    box-shadow: 0 5px 0 #00507A;
+    box-shadow: 0 5px 0 #3c096c;
     transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
     display: inline-flex;
     align-items: center;
@@ -362,11 +362,11 @@
   }
 
   .btn:hover { filter: brightness(1.08); }
-  .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #00507A; }
+  .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #3c096c; }
 
   .btn.gold { background: var(--gold); box-shadow: 0 5px 0 var(--gold-dark); color: #3a2600; }
-  .btn.coral { background: var(--coral); box-shadow: 0 5px 0 #C43B40; }
-  .btn.leaf { background: #00B4D8; box-shadow: 0 5px 0 #0077B6; }
+  .btn.coral { background: #9D4EDD; box-shadow: 0 5px 0 #5A189A; }
+  .btn.leaf { background: #06D6A0; box-shadow: 0 5px 0 #059669; }
 
   .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
   .btn.small { padding: 10px 18px; font-size: 16px; border-radius: 12px; box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25); }
@@ -396,15 +396,15 @@
 
   /* Glossary Tooltip & FAB */
   .term {
-    color: #0077B6;
+    color: var(--moon-purple);
     font-weight: 800;
-    border-bottom: 2px dotted #00B4D8;
+    border-bottom: 2px dotted #9D4EDD;
     cursor: pointer;
     padding: 0 2px;
     white-space: nowrap;
   }
-  .term:hover { background: rgba(0, 180, 216, 0.18); border-radius: 4px; }
-  .term sup { font-size: 12px; color: #0077B6; margin-left: 1px; }
+  .term:hover { background: rgba(157, 78, 221, 0.18); border-radius: 4px; }
+  .term sup { font-size: 12px; color: var(--moon-purple); margin-left: 1px; }
 
   .glossary-fab {
     position: fixed;
@@ -426,7 +426,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(13, 27, 42, 0.7);
+    background: rgba(36, 0, 70, 0.7);
     backdrop-filter: blur(4px);
     z-index: 100;
     align-items: center;
@@ -456,7 +456,7 @@
     padding: 16px;
     margin-bottom: 14px;
   }
-  .def-card h3 { font-size: 18px; color: #0077B6; margin-bottom: 6px; }
+  .def-card h3 { font-size: 18px; color: var(--moon-purple); margin-bottom: 6px; }
   .def-card p { font-size: 15px; line-height: 1.7; color: #3d4a4e; margin: 0; }
 
   /* Floating coin effect */
@@ -488,7 +488,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(13, 27, 42, 0.85);
+    background: rgba(36, 0, 70, 0.85);
     backdrop-filter: blur(8px);
     z-index: 1000;
     overflow-y: auto;
@@ -513,7 +513,7 @@
     padding-bottom: 12px;
     margin-bottom: 16px;
   }
-  .wb-title { font-size: 21px; font-weight: 800; color: #0077B6; display: flex; align-items: center; gap: 8px; }
+  .wb-title { font-size: 21px; font-weight: 800; color: var(--moon-purple); display: flex; align-items: center; gap: 8px; }
   .wb-close-btn {
     width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--ink); background: #FFF;
     font-weight: 900; font-size: 18px; cursor: pointer;
@@ -526,7 +526,7 @@
   }
   .wb-tab.active { background: var(--gold); border-color: var(--gold-dark); color: #3a2600; box-shadow: 0 4px 0 var(--gold-dark); }
   .wb-sec-card { background: #FFF; border: 2px solid var(--parchment-dark); border-radius: 16px; padding: 18px; margin-bottom: 16px; }
-  .wb-sec-title { font-size: 16px; font-weight: 800; color: #0077B6; margin-bottom: 12px; border-bottom: 1.5px dashed var(--parchment-dark); padding-bottom: 6px; }
+  .wb-sec-title { font-size: 16px; font-weight: 800; color: var(--moon-purple); margin-bottom: 12px; border-bottom: 1.5px dashed var(--parchment-dark); padding-bottom: 6px; }
   .wb-q-item { background: #FBF0D3; border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 2px solid var(--parchment-dark); transition: all 0.3s ease; position: relative; }
   .wb-q-item.is-correct { border: 3px solid #10B981 !important; background: #ECFDF5 !important; }
   .wb-q-item.is-wrong { border: 3px solid #EF4444 !important; background: #FEF2F2 !important; }
@@ -547,7 +547,7 @@
   }
   .wb-opt-btn {
     background: #FFFFFF;
-    border: 2px solid #00B4D8;
+    border: 2px solid var(--moon-purple);
     border-radius: 12px;
     padding: 10px 14px;
     font-size: 15px;
@@ -561,7 +561,7 @@
   }
   .wb-opt-btn:hover {
     background: #FFF3E0;
-    border-color: #0077B6;
+    border-color: var(--kitchen-red, #D9383A);
     transform: translateY(-2px);
     box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
   }
@@ -608,7 +608,7 @@
     padding: 14px 0 0; display: flex; justify-content: space-between; align-items: center;
     flex-wrap: wrap; gap: 10px; z-index: 10;
   }
-  .wb-score-text { font-size: 18px; font-weight: 800; color: #0077B6; }
+  .wb-score-text { font-size: 18px; font-weight: 800; color: var(--moon-purple); }
   .wb-btn-submit {
     background: linear-gradient(135deg, #2EC4B6 0%, #0E7C7B 100%);
     border: none; color: #FFF; font-weight: 800; font-size: 15px; padding: 10px 24px;
@@ -634,9 +634,9 @@
       <span>返回學習城堡</span>
     </a>
     <div style="display: flex; gap: 8px; align-items: center;">
-      <button class="nav-btn" style="background:linear-gradient(135deg,#0077B6,#00B4D8);color:#fff;border-color:#fff;" onclick="openDecWbModal()">
+      <button class="nav-btn" style="background:linear-gradient(135deg,#5A189A,#9D4EDD);color:#fff;border-color:#fff;" onclick="openCircleWbModal()">
         <span>📑</span>
-        <span>南一作業簿隨堂考 (第7~9回)</span>
+        <span>南一作業簿隨堂考 (第10~12回)</span>
       </button>
       <div class="combo-badge" id="comboBadge" style="display: none;">
         <span>🔥</span> <span id="comboText">連勝 x0</span>
@@ -649,15 +649,15 @@
   </div>
 
   <div class="header">
-    <div class="eyebrow">南一版 六年級上學期・第三單元</div>
-    <h1>🚀 小數太空探險</h1>
-    <p>搭乘小數探測飛船，征服整數除小數、小數直式除法與四捨五入星系！</p>
+    <div class="eyebrow">南一版 六年級上學期・第四單元</div>
+    <h1>🌕 圓周長與圓面積奇幻王國</h1>
+    <p>探索神秘圓形宇宙！掌握圓周率 3.14、圓周長與圓面積計算、複合塗色面積幾何奧祕！</p>
   </div>
 
-  <!-- 太空人吉祥物對話區 -->
+  <!-- 吉祥物對話區 -->
   <div class="mascot-row">
-    <div class="mascot-avatar" id="mascotAvatar">🧑‍🚀</div>
-    <div class="mascot-speech" id="mascotSpeech">太空探險家你好！除數有小數點時，記得把除數與被除數「同乘以 10 或 100」把小數點向右移喔！</div>
+    <div class="mascot-avatar" id="mascotAvatar">🦉</div>
+    <div class="mascot-speech" id="mascotSpeech">幾何冒險家你好！記住：圓周長 = 直徑 × 3.14，圓面積 = 半徑 × 半徑 × 3.14！出發挑戰吧！</div>
   </div>
 
   <!-- 地圖進度列 -->
@@ -670,7 +670,7 @@
     <div class="content" id="content"></div>
   </div>
 
-  <div class="footer-note">💡 提示：直式計算小數除法時，餘數的小數點要和「被除數原來的小數點」對齊喔！🧑‍🚀<br><span style="font-size:12.5px;opacity:0.85;display:inline-block;margin-top:4px;">📱 支援 iPad / 平板、手機與電腦 ｜ 專為觸控操作最佳化</span></div>
+  <div class="footer-note">💡 提示：算圓面積時千萬不要用直徑乘直徑，一定要先除以 2 找出半徑喔！🦉<br><span style="font-size:12.5px;opacity:0.85;display:inline-block;margin-top:4px;">📱 支援 iPad / 平板、手機與電腦 ｜ 專為觸控操作最佳化</span></div>
 </div>
 
 <button class="glossary-fab" onclick="openGlossary()">📖 <span class="txt">名詞小百科</span></button>
@@ -679,7 +679,7 @@
 <div class="modal-overlay" id="glossaryOverlay" onclick="if(event.target===this) closeGlossary()">
   <div class="modal-card">
     <div class="modal-head">
-      <h2>📖 小數太空名詞小百科</h2>
+      <h2>📖 圓形幾何名詞小百科</h2>
       <button class="modal-close" onclick="closeGlossary()">✕</button>
     </div>
     <div id="glossaryList"></div>
@@ -687,23 +687,23 @@
 </div>
 
 <!-- 南一作業簿隨堂測驗 Modal -->
-<div class="wb-modal-overlay" id="decWbModalOverlay">
+<div class="wb-modal-overlay" id="circleWbModalOverlay">
   <div class="wb-modal-content">
     <div class="wb-header">
-      <div class="wb-title">📑 南一 6上數學 作業簿隨堂測驗（第 3 單元 小數除法）</div>
-      <button class="wb-close-btn" onclick="closeDecWbModal()">✕</button>
+      <div class="wb-title">📑 南一 6上數學 作業簿隨堂測驗（第 4 單元 圓周長和圓面積）</div>
+      <button class="wb-close-btn" onclick="closeCircleWbModal()">✕</button>
     </div>
     <div class="wb-tabs">
-      <button class="wb-tab active" onclick="switchDecWbRev(7)">第 7 回 (3-1 整數除以小數)</button>
-      <button class="wb-tab" onclick="switchDecWbRev(8)">第 8 回 (3-2 小數除以小數)</button>
-      <button class="wb-tab" onclick="switchDecWbRev(9)">第 9 回 (3-3 商與被除數關係、3-4 概數與應用)</button>
+      <button class="wb-tab active" onclick="switchCircleWbRev(10)">第 10 回 (4-1 圓周率、4-2 圓周長應用)</button>
+      <button class="wb-tab" onclick="switchCircleWbRev(11)">第 11 回 (4-3 圓面積計算與應用)</button>
+      <button class="wb-tab" onclick="switchCircleWbRev(12)">第 12 回 (4-4 圓面積應用與塗色複合圖形)</button>
     </div>
-    <div id="decWbQuizBody"></div>
+    <div id="circleWbQuizBody"></div>
     <div class="wb-submit-bar">
-      <div class="wb-score-text" id="decWbScoreDisp">狀態：做題中（未交卷）</div>
+      <div class="wb-score-text" id="circleWbScoreDisp">狀態：做題中（未交卷）</div>
       <div style="display:flex; gap:10px;">
-        <button class="btn gold small" onclick="resetDecWbQuiz()">🔄 重填</button>
-        <button class="wb-btn-submit" onclick="gradeDecWbQuiz()">📝 交卷批改並看詳解</button>
+        <button class="btn gold small" onclick="resetCircleWbQuiz()">🔄 重填</button>
+        <button class="wb-btn-submit" onclick="gradeCircleWbQuiz()">📝 交卷批改並看詳解</button>
       </div>
     </div>
   </div>
@@ -736,8 +736,8 @@ function playSound(type) {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(420, now);
-      osc.frequency.exponentialRampToValueAtTime(840, now + 0.08);
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
       gain.gain.setValueAtTime(0.2, now);
       gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
       osc.connect(gain);
@@ -790,11 +790,11 @@ function playSound(type) {
 
 /* ================= 遊戲基本資料與狀態 ================= */
 const ISLES = [
-  {key:'l1', icon:'🛸', label:'小數放大鏡'},
-  {key:'l2', icon:'🌌', label:'整數除小數'},
-  {key:'l3', icon:'🛰️', label:'小數除小數'},
-  {key:'l4', icon:'🌠', label:'四捨五入星'},
-  {key:'l5', icon:'🏆', label:'太空總部'},
+  {key:'l1', icon:'🔍', label:'圓周率探索'},
+  {key:'l2', icon:'📏', label:'圓周長大挑戰'},
+  {key:'l3', icon:'🍕', label:'圓面積計算'},
+  {key:'l4', icon:'🎨', label:'塗色複合圖形'},
+  {key:'l5', icon:'🏆', label:'倍數奧秘殿堂'},
 ];
 
 const state = {
@@ -829,7 +829,7 @@ function resetCombo() {
 function spawnCoinEffect(event) {
   const coin = document.createElement('div');
   coin.className = 'coin-burst';
-  coin.textContent = '🚀 +10';
+  coin.textContent = '🌕 +10';
   const rect = event ? event.target.getBoundingClientRect() : { left: window.innerWidth/2, top: window.innerHeight/2 };
   coin.style.left = `${rect.left + 10}px`;
   coin.style.top = `${rect.top - 20}px`;
@@ -839,10 +839,11 @@ function spawnCoinEffect(event) {
 
 /* ================= 名詞小百科 ================= */
 const GLOSSARY = [
-  { key:'shiftDot', title:'小數點向右移 (同乘放大)', def:'當除數是小數時，將除數的小數點向右移幾位變成整數，被除數的小數點也要跟著向右移相同的位數。' },
-  { key:'verticalDiv', title:'小數直式除法', def:'商的小數點要和被除數「移動後的新小數點」對齊；如果有餘數，餘數的小數點要和「被除數原來的小數點」對齊。' },
-  { key:'rounding', title:'四捨五入求概數', def:'求商到小數點後第一位時，要計算到「小數點後第二位（百分位）」進行四捨五入；求到小數第二位時，要算到第三位（千分位）進行四捨五入。' },
-  { key:'quotientRelation', title:'小數除法商的大小關係', def:'當除數 > 1 時，商 < 被除數；當除數 < 1 時，商 > 被除數；當除數 = 1 時，商 = 被除數。' }
+  { key:'pi', title:'圓周率 (π ≈ 3.14)', def:'任何圓形的「圓周長除以直徑」所得的商都是一個固定常數，稱為圓周率，國小階段計算通常取 3.14。' },
+  { key:'circumference', title:'圓周長公式', def:'圓周長 = 直徑 × 圓周率 = 半徑 × 2 × 3.14。若已知圓周長求直徑，則 直徑 = 圓周長 ÷ 3.14。' },
+  { key:'circleArea', title:'圓面積公式', def:'圓面積 = 半徑 × 半徑 × 圓周率 (半徑 × 半徑 × 3.14)。' },
+  { key:'ringArea', title:'圓環面積', def:'圓環面積 = 外大圓面積 - 內小圓面積 = (大半徑² - 小半徑²) × 3.14。' },
+  { key:'ratioSquare', title:'半徑倍數與面積倍數', def:'當圓的半徑（或直徑）變成 N 倍時，圓周長會變成 N 倍，而圓面積會變成 N² 倍（N × N 倍）！' }
 ];
 
 function term(key, label){
@@ -907,97 +908,79 @@ function goto(stage){
 
 /* ================= 關卡實作 ================= */
 function renderIntro(c){
-  updateMascot('🧑‍🚀', '太空船準備發射！探索小數除法的五大星系，完成太空航行任務吧！');
+  updateMascot('🦉', '歡迎來到圓形幾何奇幻王國！解開圓周率、圓周長與圓面積的五大幾何奧秘吧！');
   c.innerHTML = `
-    <div class="hero-emoji">🚀🛸🌌</div>
-    <h2 class="stage-title" style="justify-content:center;">歡迎登上小數太空探測船！</h2>
-    <p class="lead-text">透過小數除法的魔法運算，穿越五大星系，解開宇宙能量水晶的秘密！</p>
+    <div class="hero-emoji">🌕📐🍕</div>
+    <h2 class="stage-title" style="justify-content:center;">歡迎來到圓形幾何王國！</h2>
+    <p class="lead-text">透過探索圓形規律與塗色複合圖形，掌握 3.14 幾何魔法，成為幾何大宗師！</p>
     <div class="rules-list">
-      🛸 小數放大鏡：掌握「${term('shiftDot','同乘 10 或 100')}」小數點右移秘訣<br>
-      🌌 整數除小數：精準運算「${term('verticalDiv','整數除以小數')}」<br>
-      🛰️ 小數除小數：掌握「${term('verticalDiv','小數除以小數')}」直式除法<br>
-      🌠 四捨五入星：征服「${term('rounding','四捨五入求商概數')}」<br>
-      🏆 太空總部：判定「${term('quotientRelation','商與被除數大小關係')}」
+      🔍 圓周率探索：認識「${term('pi','圓周率 3.14')}」的由來<br>
+      📏 圓周長挑戰：精熟「${term('circumference','圓周長 = 直徑 × 3.14')}」<br>
+      🍕 圓面積計算：掌握「${term('circleArea','圓面積 = 半徑 × 半徑 × 3.14')}」<br>
+      🎨 塗色複合圖形：解鎖「${term('ringArea','圓環與複合圖形塗色面積')}」<br>
+      🏆 倍數奧秘殿堂：掌握「${term('ratioSquare','半徑變 N 倍，面積變 N² 倍')}」
     </div>
     <div class="btn-row" style="justify-content:center;">
-      <button class="btn leaf" onclick="goto('l1')">🚀 立即啟動引擎發射！</button>
+      <button class="btn gold" onclick="goto('l1')">🌕 立即開始探索！</button>
     </div>
   `;
 }
 
 function renderLevel1(c){
-  updateMascot('🛸', '第一關：小數放大鏡！除數有 1 位小數就同乘 10，有 2 位小數就同乘 100！');
-  const pool = [
-    {q:'5 ÷ 0.1 = ( ? ) ÷ 1', ans:'50', note:'5 × 10 = 50'},
-    {q:'12 ÷ 0.3 = ( ? ) ÷ 3', ans:'120', note:'12 × 10 = 120'},
-    {q:'8 ÷ 0.01 = ( ? ) ÷ 1', ans:'800', note:'8 × 100 = 800'},
-    {q:'18 ÷ 0.06 = ( ? ) ÷ 6', ans:'1800', note:'18 × 100 = 1800'}
-  ];
-  let idx = 0;
-  function draw(){
-    if (idx >= pool.length) {
-      state.stars.l1 = 3;
-      showLevelDone(c, '🛸 小數放大鏡', 3, 'l2', '太棒了！小數點同乘移動概念非常清晰！');
-      return;
-    }
-    const item = pool[idx];
-    c.innerHTML = `
-      <h2 class="stage-title">🛸 第一關：小數放大鏡</h2>
-      <p class="stage-sub">請填入括號中的正確數值：（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="font-size:32px; font-weight:800; color:#0077B6; text-align:center; margin:20px 0;">${item.q}</div>
-      <div style="text-align:center; margin:14px 0;">
-        <input type="text" class="wb-input" id="l1Inp" style="font-size:24px; text-align:center; width:150px;" placeholder="數值">
-      </div>
-      <div class="btn-row" style="justify-content:center;">
-        <button class="btn gold" onclick="checkL1(event)">確認送出</button>
-      </div>
-      <div class="feedback" id="fb1"></div>
-    `;
-  }
+  updateMascot('🔍', '第一關：圓周率探索！任何圓的「圓周長 ÷ 直徑」大約是多少呢？');
+  c.innerHTML = `
+    <h2 class="stage-title">🔍 第一關：圓周率探索</h2>
+    <p class="stage-sub">一個圓的直徑是 10 公分，圓周長是 31.4 公分，請問它的圓周率（圓周長 ÷ 直徑）是多少？</p>
+    <div style="font-size:36px; font-weight:800; color:var(--moon-purple); text-align:center; margin:20px 0;">31.4 ÷ 10 = ?</div>
+    <div style="text-align:center; margin:14px 0;">
+      <input type="text" class="wb-input" id="l1Inp" style="font-size:24px; text-align:center; width:150px;" placeholder="數值">
+    </div>
+    <div class="btn-row" style="justify-content:center;">
+      <button class="btn gold" onclick="checkL1(event)">確認送出</button>
+    </div>
+    <div class="feedback" id="fb1"></div>
+  `;
   window.checkL1 = function(ev){
     const val = document.getElementById('l1Inp').value.trim();
-    const item = pool[idx];
     const fb = document.getElementById('fb1');
-    if (val === item.ans) {
+    if (val === '3.14') {
       playSound('correct');
       addCombo();
       spawnCoinEffect(ev);
       fb.className = 'feedback ok';
-      fb.textContent = `🎉 答對了！${item.note}`;
-      setTimeout(() => { idx++; draw(); }, 1000);
+      fb.textContent = `🎉 沒錯！圓周長除以直徑的商固定約為 3.14，這就是圓周率！`;
+      state.stars.l1 = 3;
+      setTimeout(() => { showLevelDone(c, '🔍 圓周率探索', 3, 'l2', '圓周率概念完全正確！'); }, 1000);
     } else {
       playSound('wrong');
       resetCombo();
       fb.className = 'feedback bad shake';
-      fb.textContent = `😅 再想一下！被除數也要同乘以10或100喔 (${item.note})`;
+      fb.textContent = `😅 再想一下！31.4 ÷ 10 = 3.14 喔！`;
       setTimeout(() => fb.classList.remove('shake'), 400);
     }
   };
-  draw();
 }
 
 function renderLevel2(c){
-  updateMascot('🌌', '第二關：整數除以小數！把小數點向右移後，進行直式除法！');
+  updateMascot('📏', '第二關：圓周長大挑戰！圓周長 = 直徑 × 3.14！');
   const pool = [
-    {q:'6 ÷ 0.1', ans:'60', steps:'60 ÷ 1 = 60'},
-    {q:'63 ÷ 0.7', ans:'90', steps:'630 ÷ 7 = 90'},
-    {q:'28 ÷ 0.07', ans:'400', steps:'2800 ÷ 7 = 400'},
-    {q:'84 ÷ 3.5', ans:'24', steps:'840 ÷ 35 = 24'}
+    {q:'直徑 12 公分的圓，周長大約是多少？', ans:'37.68', steps:'12 × 3.14 = 37.68'},
+    {q:'半徑 5 公分的圓，周長大約是多少？', ans:'31.4', steps:'5 × 2 × 3.14 = 31.4'},
+    {q:'圓周長 31.4 公分，直徑大約是多少？', ans:'10', steps:'31.4 ÷ 3.14 = 10'}
   ];
   let idx = 0;
   function draw(){
     if (idx >= pool.length) {
       state.stars.l2 = 3;
-      showLevelDone(c, '🌌 整數除小數', 3, 'l3', '任務成功！整數除小數運算完全精確！');
+      showLevelDone(c, '📏 圓周長大挑戰', 3, 'l3', '太棒了！圓周長運算精確無比！');
       return;
     }
     const item = pool[idx];
     c.innerHTML = `
-      <h2 class="stage-title">🌌 第二關：整數除小數</h2>
-      <p class="stage-sub">請計算算式結果：（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="font-size:36px; font-weight:800; color:#0077B6; text-align:center; margin:20px 0;">${item.q}</div>
-      <div style="text-align:center; margin:14px 0;">
-        <input type="text" class="wb-input" id="l2Inp" style="font-size:24px; text-align:center; width:150px;" placeholder="商數值">
+      <h2 class="stage-title">📏 第二關：圓周長計算</h2>
+      <p class="stage-sub">${item.q}（第 ${idx+1} / ${pool.length} 題）</p>
+      <div style="text-align:center; margin:20px 0;">
+        <input type="text" class="wb-input" id="l2Inp" style="font-size:24px; text-align:center; width:160px;" placeholder="數值">
       </div>
       <div class="btn-row" style="justify-content:center;">
         <button class="btn gold" onclick="checkL2(event)">確認送出</button>
@@ -1028,27 +1011,25 @@ function renderLevel2(c){
 }
 
 function renderLevel3(c){
-  updateMascot('🛰️', '第三關：小數除以小數！除數移幾位，被除數就移幾位！');
+  updateMascot('🍕', '第三關：圓面積計算！圓面積 = 半徑 × 半徑 × 3.14！');
   const pool = [
-    {q:'14.4 ÷ 1.2', ans:'12', steps:'144 ÷ 12 = 12'},
-    {q:'5.5 ÷ 0.25', ans:'22', steps:'550 ÷ 25 = 22'},
-    {q:'22.5 ÷ 2.5', ans:'9', steps:'225 ÷ 25 = 9'},
-    {q:'1.6 ÷ 0.32', ans:'5', steps:'160 ÷ 32 = 5'}
+    {q:'半徑 6 公尺的圓形，面積大約是幾平方公尺？', ans:'113.04', steps:'6 × 6 × 3.14 = 113.04'},
+    {q:'直徑 20 公分的圓形，面積大約是幾平方公分？', ans:'314', steps:'半徑 10 => 10 × 10 × 3.14 = 314'},
+    {q:'將圓規張開 5 公分畫圓，圓面積大約是多少平方公分？', ans:'78.5', steps:'半徑 5 => 5 × 5 × 3.14 = 78.5'}
   ];
   let idx = 0;
   function draw(){
     if (idx >= pool.length) {
       state.stars.l3 = 3;
-      showLevelDone(c, '🛰️ 小數除小數', 3, 'l4', '太強了！小數除小數直式難不倒太空探險家！');
+      showLevelDone(c, '🍕 圓面積計算', 3, 'l4', '太強了！圓面積公式運用自如！');
       return;
     }
     const item = pool[idx];
     c.innerHTML = `
-      <h2 class="stage-title">🛰️ 第三關：小數除小數</h2>
-      <p class="stage-sub">請計算算式結果：（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="font-size:36px; font-weight:800; color:#0077B6; text-align:center; margin:20px 0;">${item.q}</div>
-      <div style="text-align:center; margin:14px 0;">
-        <input type="text" class="wb-input" id="l3Inp" style="font-size:24px; text-align:center; width:150px;" placeholder="商數值">
+      <h2 class="stage-title">🍕 第三關：圓面積計算</h2>
+      <p class="stage-sub">${item.q}（第 ${idx+1} / ${pool.length} 題）</p>
+      <div style="text-align:center; margin:20px 0;">
+        <input type="text" class="wb-input" id="l3Inp" style="font-size:24px; text-align:center; width:160px;" placeholder="數值">
       </div>
       <div class="btn-row" style="justify-content:center;">
         <button class="btn gold" onclick="checkL3(event)">確認送出</button>
@@ -1065,13 +1046,13 @@ function renderLevel3(c){
       addCombo();
       spawnCoinEffect(ev);
       fb.className = 'feedback ok';
-      fb.textContent = `🎉 答對了！計算過程：${item.steps}`;
+      fb.textContent = `🎉 答對了！做法：${item.steps}`;
       setTimeout(() => { idx++; draw(); }, 1000);
     } else {
       playSound('wrong');
       resetCombo();
       fb.className = 'feedback bad shake';
-      fb.textContent = `😅 再算算看！${item.steps}`;
+      fb.textContent = `😅 記得用「半徑 × 半徑 × 3.14」！(${item.steps})`;
       setTimeout(() => fb.classList.remove('shake'), 400);
     }
   };
@@ -1079,25 +1060,24 @@ function renderLevel3(c){
 }
 
 function renderLevel4(c){
-  updateMascot('🌠', '第四關：四捨五入求概數！求到小數第一位，算到百分位看是否進位！');
+  updateMascot('🎨', '第四關：塗色複合圖形！外圍面積 扣除 內部圓面積！');
   const pool = [
-    {q:'12 ÷ 6.6 (求商到小數點後第一位)', ans:'1.8', steps:'12 ÷ 6.6 = 1.81... => 約 1.8'},
-    {q:'4.6 ÷ 9.35 (求商到小數點後第一位)', ans:'0.5', steps:'4.6 ÷ 9.35 = 0.49... => 約 0.5'},
-    {q:'2.4 ÷ 7 (求商到小數點後第二位)', ans:'0.34', steps:'2.4 ÷ 7 = 0.342... => 約 0.34'}
+    {q:'正方形邊長 16 公分，扣除直徑 16 公分的內切圓，塗色面積是多少？', ans:'55.04', steps:'16×16 - 8×8×3.14 = 256 - 200.96 = 55.04'},
+    {q:'外圓半徑 14 公尺、內圓半徑 7 公尺的圓環，塗色面積是多少？', ans:'461.58', steps:'14×14×3.14 - 7×7×3.14 = 615.44 - 153.86 = 461.58'}
   ];
   let idx = 0;
   function draw(){
     if (idx >= pool.length) {
       state.stars.l4 = 3;
-      showLevelDone(c, '🌠 四捨五入星', 3, 'l5', '太神了！四捨五入概數計算完全精準！');
+      showLevelDone(c, '🎨 塗色複合圖形', 3, 'l5', '幾何大師！複合圖形塗色面積完全征服！');
       return;
     }
     const item = pool[idx];
     c.innerHTML = `
-      <h2 class="stage-title">🌠 第四關：四捨五入求概數</h2>
+      <h2 class="stage-title">🎨 第四關：塗色複合圖形</h2>
       <p class="stage-sub">${item.q}（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="text-align:center; margin:14px 0;">
-        <input type="text" class="wb-input" id="l4Inp" style="font-size:24px; text-align:center; width:160px;" placeholder="輸入概數">
+      <div style="text-align:center; margin:20px 0;">
+        <input type="text" class="wb-input" id="l4Inp" style="font-size:24px; text-align:center; width:160px;" placeholder="平方公分/公尺">
       </div>
       <div class="btn-row" style="justify-content:center;">
         <button class="btn gold" onclick="checkL4(event)">確認送出</button>
@@ -1114,7 +1094,7 @@ function renderLevel4(c){
       addCombo();
       spawnCoinEffect(ev);
       fb.className = 'feedback ok';
-      fb.textContent = `🎉 答對了！${item.steps}`;
+      fb.textContent = `🎉 答對了！做法：${item.steps}`;
       setTimeout(() => { idx++; draw(); }, 1000);
     } else {
       playSound('wrong');
@@ -1128,47 +1108,47 @@ function renderLevel4(c){
 }
 
 function renderLevel5(c){
-  updateMascot('🏆', '第五關：商的大小關係！被除數除以小於1的數，商會比原本的數還大！');
+  updateMascot('🏆', '第五關：倍數奧秘！半徑變成 3 倍，圓面積會變成 3 × 3 = 9 倍！');
   const pool = [
-    {q:'12 ÷ 0.8 □ 12', ans:'>', note:'除數 0.8 < 1 => 商 > 12'},
-    {q:'217.9 ÷ 6.5 □ 217.9', ans:'<', note:'除數 6.5 > 1 => 商 < 217.9'},
-    {q:'3.2 ÷ 1 □ 3.2', ans:'=', note:'除數為 1 => 商 = 3.2'}
+    {q:'半徑 12 公尺的圓面積是半徑 4 公尺圓面積的幾倍？', ans:'9', steps:'(12 ÷ 4)² = 3² = 9 倍'},
+    {q:'直徑 50 公尺的圓面積是直徑 10 公尺圓面積的幾倍？', ans:'25', steps:'(50 ÷ 10)² = 5² = 25 倍'}
   ];
   let idx = 0;
   function draw(){
     if (idx >= pool.length) {
       state.stars.l5 = 3;
-      showLevelDone(c, '🏆 太空總部', 3, 'final', '恭喜你！完全征服小數除法太空星系！');
+      showLevelDone(c, '🏆 倍數奧秘殿堂', 3, 'final', '恭喜你！完整掌握圓形幾何的全部精髓！');
       return;
     }
     const item = pool[idx];
     c.innerHTML = `
-      <h2 class="stage-title">🏆 第五關：太空總部</h2>
-      <p class="stage-sub">請在 □ 填入 >、< 或 = ：（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="font-size:36px; font-weight:800; color:#0077B6; text-align:center; margin:20px 0;">${item.q}</div>
+      <h2 class="stage-title">🏆 第五關：倍數奧秘</h2>
+      <p class="stage-sub">${item.q}（第 ${idx+1} / ${pool.length} 題）</p>
+      <div style="text-align:center; margin:20px 0;">
+        <input type="text" class="wb-input" id="l5Inp" style="font-size:24px; text-align:center; width:140px;" placeholder="倍數">
+      </div>
       <div class="btn-row" style="justify-content:center;">
-        <button class="btn leaf" onclick="checkL5('>', event)">大於 (&gt;)</button>
-        <button class="btn gold" onclick="checkL5('=', event)">等於 (=)</button>
-        <button class="btn coral" onclick="checkL5('<', event)">小於 (&lt;)</button>
+        <button class="btn gold" onclick="checkL5(event)">確認送出</button>
       </div>
       <div class="feedback" id="fb5"></div>
     `;
   }
-  window.checkL5 = function(userPick, ev){
+  window.checkL5 = function(ev){
+    const val = document.getElementById('l5Inp').value.trim().replace(/倍/g, '');
     const item = pool[idx];
     const fb = document.getElementById('fb5');
-    if (userPick === item.ans) {
+    if (val === item.ans) {
       playSound('correct');
       addCombo();
       spawnCoinEffect(ev);
       fb.className = 'feedback ok';
-      fb.textContent = `🎉 答對了！${item.note}`;
+      fb.textContent = `🎉 答對了！${item.steps}`;
       setTimeout(() => { idx++; draw(); }, 1000);
     } else {
       playSound('wrong');
       resetCombo();
       fb.className = 'feedback bad shake';
-      fb.textContent = `😅 答錯囉！${item.note}`;
+      fb.textContent = `😅 記得半徑是 N 倍時，面積是 N × N 倍！(${item.steps})`;
       setTimeout(() => fb.classList.remove('shake'), 400);
     }
   };
@@ -1179,26 +1159,26 @@ function showLevelDone(c, title, stars, nextStage, tip){
   playSound('fanfare');
   updateMascot('🥳', `太棒了！${title} 順利過關！拿到 ${stars} 顆星星！`);
   c.innerHTML = `
-    <div class="hero-emoji">🚀🎉🏆</div>
+    <div class="hero-emoji">🌕🎉🏆</div>
     <h2 class="stage-title" style="justify-content:center;">${title} 順利過關！</h2>
     <div class="star-line">${starsToText(stars)}</div>
     <p class="lead-text">${tip}</p>
     <div class="btn-row" style="justify-content:center;">
-      <button class="btn leaf" onclick="goto('${nextStage}')">${nextStage==='final'?'前往領取太空榮譽勳章 🏅':'飛向下一個星系 🌌'}</button>
+      <button class="btn gold" onclick="goto('${nextStage}')">${nextStage==='final'?'前往領取幾何大宗師勳章 🏅':'探索下一個幾何領域 🌕'}</button>
     </div>
   `;
 }
 
 function renderFinal(c){
   playSound('fanfare');
-  updateMascot('👑', '特級宇宙探險指揮官誕生！你已經掌握小數除法的所有奧秘！');
+  updateMascot('👑', '幾何大宗師誕生！你已經完全通曉圓周長、圓面積與複合塗色面積的所有奧秘！');
   c.innerHTML = `
-    <div class="hero-emoji">🧑‍🚀🚀🏅</div>
-    <h2 class="stage-title" style="justify-content:center;">榮獲特級太空探險指揮官！</h2>
+    <div class="hero-emoji">🌕🦉🏅</div>
+    <h2 class="stage-title" style="justify-content:center;">榮獲圓形幾何大宗師！</h2>
     <div class="star-line">總星星數：15 / 15</div>
-    <p class="lead-text">太優秀了！你已經完全通曉整數除小數、小數直式除法、四捨五入求概數與商的大小關係！隨時可點擊上方「南一作業簿隨堂考」挑戰期中評量！</p>
+    <p class="lead-text">太震撼了！你已經完全掌握圓周率 3.14、圓周長公式、圓面積公式、圓環與塗色複合圖形計算！隨時可點擊上方「南一作業簿隨堂考」挑戰期中評量！</p>
     <div class="btn-row" style="justify-content:center;">
-      <button class="btn gold" onclick="openDecWbModal()">📑 挑戰南一作業簿隨堂考 (第7~9回)</button>
+      <button class="btn gold" onclick="openCircleWbModal()">📑 挑戰南一作業簿隨堂考 (第10~12回)</button>
       <button class="btn leaf" onclick="restartGame()">🔁 重新挑戰闖關</button>
     </div>
   `;
@@ -1212,33 +1192,33 @@ function restartGame(){
 }
 
 // 載入作業簿資料
-const U3_WB_DATA = {"unit_id": 3, "title": "小數的除法", "description": "整數除以小數、小數除以小數、商與被除數關係、四捨五入求概數與生活應用", "reviews": [{"review_id": 7, "range": "3-1 整數除以小數", "page": "P.14-15", "sections": [{"section_title": "一、填填看（同乘以10或100）", "type": "fill_in", "items": [{"q": "5 ÷ 0.1 = ( 50 ) ÷ 1 = ( 50 )", "ans": "50, 50"}, {"q": "12 ÷ 0.3 = ( 120 ) ÷ 3 = ( 40 )", "ans": "120, 40"}, {"q": "8 ÷ 0.01 = ( 800 ) ÷ 1 = ( 800 )", "ans": "800, 800"}, {"q": "18 ÷ 0.06 = ( 1800 ) ÷ 6 = ( 300 )", "ans": "1800, 300"}]}, {"section_title": "二、用直式算算看", "type": "vertical_division_calc", "items": [{"q": "6 ÷ 0.1", "ans": "60", "steps": "60 ÷ 1 = 60"}, {"q": "63 ÷ 0.7", "ans": "90", "steps": "630 ÷ 7 = 90"}, {"q": "28 ÷ 0.07", "ans": "400", "steps": "2800 ÷ 7 = 400"}, {"q": "18 ÷ 2.4", "ans": "7.5", "steps": "180 ÷ 24 = 7.5"}, {"q": "84 ÷ 3.5", "ans": "24", "steps": "840 ÷ 35 = 24"}, {"q": "27 ÷ 0.27", "ans": "100", "steps": "2700 ÷ 27 = 100"}, {"q": "5 ÷ 0.08", "ans": "62.5", "steps": "500 ÷ 8 = 62.5"}, {"q": "45 ÷ 2.25", "ans": "20", "steps": "4500 ÷ 225 = 20"}, {"q": "77 ÷ 0.35", "ans": "220", "steps": "7700 ÷ 35 = 220"}]}, {"section_title": "三、把做法用算式記下來（整數除以小數應用題）", "type": "word_problems", "items": [{"q": "(1) 把 48 公斤的紅豆，每 3.2 公斤裝成 1 袋，共可裝成幾袋？", "steps": "48 ÷ 3.2 = 15", "ans": "15袋"}, {"q": "(2) 小梅的體重是 30 公斤，姐姐的體重是 37.5 公斤，小梅的體重是姐姐的幾倍？", "steps": "30 ÷ 37.5 = 0.8", "ans": "0.8倍"}, {"q": "(3) 摺 1 朵紙花需要 0.85 公尺長的紙帶，51 公尺長的紙帶可摺幾朵紙花？", "steps": "51 ÷ 0.85 = 60", "ans": "60朵"}, {"q": "(4) 手機每分鐘通話費是 4.8 元，爸爸上個月的通話費 72 元，爸爸上個月手機通話幾分鐘？", "steps": "72 ÷ 4.8 = 15", "ans": "15分鐘"}, {"q": "(5) 1 公升的汽油是 29.5 元，哥哥加油剛好付了 118 元，哥哥加了幾公升的汽油？", "steps": "118 ÷ 29.5 = 4", "ans": "4公升"}, {"q": "(6) 有一個平行四邊形的面積是 18 平方公分，已知高是 2.25 公分，底是幾公分？", "steps": "18 ÷ 2.25 = 8", "ans": "8公分"}]}]}, {"review_id": 8, "range": "3-2 小數除以小數", "page": "P.16-17", "sections": [{"section_title": "一、用直式算算看（小數除以小數）", "type": "vertical_division_calc", "items": [{"q": "14.4 ÷ 1.2", "ans": "12", "steps": "144 ÷ 12 = 12"}, {"q": "5.5 ÷ 0.25", "ans": "22", "steps": "550 ÷ 25 = 22"}, {"q": "22.5 ÷ 2.5", "ans": "9", "steps": "225 ÷ 25 = 9"}, {"q": "2.8 ÷ 0.07", "ans": "40", "steps": "280 ÷ 7 = 40"}, {"q": "1.6 ÷ 0.32", "ans": "5", "steps": "160 ÷ 32 = 5"}, {"q": "37.5 ÷ 0.15", "ans": "250", "steps": "3750 ÷ 15 = 250"}, {"q": "16.4 ÷ 0.8", "ans": "20.5", "steps": "164 ÷ 8 = 20.5"}, {"q": "5.07 ÷ 1.3", "ans": "3.9", "steps": "50.7 ÷ 13 = 3.9"}, {"q": "29.7 ÷ 0.27", "ans": "110", "steps": "2970 ÷ 27 = 110"}, {"q": "84.8 ÷ 3.2", "ans": "26.5", "steps": "848 ÷ 32 = 26.5"}, {"q": "207.7 ÷ 6.7", "ans": "31", "steps": "2077 ÷ 67 = 31"}, {"q": "51.41 ÷ 5.3", "ans": "9.7", "steps": "514.1 ÷ 53 = 9.7"}]}, {"section_title": "二、把做法用算式記下來（小數除以小數應用題）", "type": "word_problems", "items": [{"q": "(1) 一個錢幣厚 0.2 公分，要疊到 3.6 公分的高度，需要幾個錢幣？", "steps": "3.6 ÷ 0.2 = 18", "ans": "18個"}, {"q": "(2) 1.5 包的米重 4.5 公斤，1 包米重幾公斤？", "steps": "4.5 ÷ 1.5 = 3", "ans": "3公斤"}, {"q": "(3) 摺 1 朵紙花需要 0.85 公尺長的紙帶，25.5 公尺長的紙帶可摺幾朵紙花？", "steps": "25.5 ÷ 0.85 = 30", "ans": "30朵"}, {"q": "(4) 姐姐買了 7.44 公尺的金色緞帶，每 1.86 公尺做 1 個蝴蝶結，共可以做幾個？", "steps": "7.44 ÷ 1.86 = 4", "ans": "4個"}, {"q": "(5) 有一根鐵棒重 24.66 公斤，已知這根鐵棒 1 公尺重 5.48 公斤，這根鐵棒長幾公尺？", "steps": "24.66 ÷ 5.48 = 4.5", "ans": "4.5公尺"}, {"q": "(6) 有 4.5 公斤的糖，每 0.6 公斤裝成 1 袋，共可裝成幾袋？", "steps": "4.5 ÷ 0.6 = 7.5", "ans": "7.5袋"}]}]}, {"review_id": 9, "range": "3-3 被除數、除數和商的關係、3-4 小數的概數和應用", "page": "P.18-19", "sections": [{"section_title": "一、用四捨五入法取概數到指定位數", "type": "table_rounding", "table_data": [{"num": "0.8361", "to_unit": "1", "to_tenth": "0.8", "to_hundredth": "0.84"}, {"num": "99.5991", "to_unit": "100", "to_tenth": "99.6", "to_hundredth": "99.60"}, {"num": "101.954", "to_unit": "102", "to_tenth": "102.0", "to_hundredth": "101.95"}]}, {"section_title": "二、在□中填入 >、< 或 =", "type": "comparison", "items": [{"q": "12 ÷ 0.8 □ 12", "ans": ">", "steps": "除數 0.8 < 1 => 商 > 12"}, {"q": "0.85 ÷ 1.7 □ 0.85 ÷ 0.7", "ans": "<", "steps": "被除數相同，除數 1.7 > 0.7 => 商反而較小"}, {"q": "217.9 ÷ 6.5 □ 217.9", "ans": "<", "steps": "除數 6.5 > 1 => 商 < 217.9"}, {"q": "25.6 ÷ 0.8 □ 25.6 ÷ 1.6", "ans": ">", "steps": "除數 0.8 < 1.6 => 商較大"}, {"q": "3.2 ÷ 1 □ 3.2", "ans": "=", "steps": "除數為 1 => 商 = 3.2"}, {"q": "14.3 ÷ 0.13 □ 14.3", "ans": ">", "steps": "除數 0.13 < 1 => 商 > 14.3"}]}, {"section_title": "三、用四捨五入法求商到小數點後第一位", "type": "rounding_quotient_1", "items": [{"q": "12 ÷ 6.6", "calc": "= 1.81......", "ans": "1.8", "steps": "12 ÷ 6.6 = 1.818...，看百分位 1 捨去 => 約 1.8"}, {"q": "47.3 ÷ 2.36", "calc": "= 20.04......", "ans": "20.0", "steps": "47.3 ÷ 2.36 = 20.042...，看百分位 4 捨去 => 約 20.0"}, {"q": "4.6 ÷ 9.35", "calc": "= 0.49......", "ans": "0.5", "steps": "4.6 ÷ 9.35 = 0.491...，看百分位 9 進位 => 約 0.5"}]}, {"section_title": "四、用四捨五入法求商到小數點後第二位", "type": "rounding_quotient_2", "items": [{"q": "2.4 ÷ 7", "calc": "= 0.342......", "ans": "0.34", "steps": "2.4 ÷ 7 = 0.3428...，看千分位 2 捨去 => 約 0.34"}, {"q": "3.5 ÷ 2.7", "calc": "= 1.296......", "ans": "1.30", "steps": "3.5 ÷ 2.7 = 1.2962...，看千分位 6 進位 => 約 1.30"}, {"q": "5.55 ÷ 1.3", "calc": "= 4.269......", "ans": "4.27", "steps": "5.55 ÷ 1.3 = 4.2692...，看千分位 9 進位 => 約 4.27"}]}, {"section_title": "五、將正確答案圈起來", "type": "circle_correct", "items": [{"q": "(1) 哪些數用四捨五入法取概數到小數點後第一位是 38.3？\n( 38.26  38.37  38.31  38.24  38.29  38.33 )", "ans": "38.26、38.31、38.29、38.33", "explanation": "範圍在 [38.25, 38.35) 之間：38.26, 38.31, 38.29, 38.33。"}, {"q": "(2) 哪些數用四捨五入法取概數到小數點後第二位是 9.00？\n( 8.995  9.002  8.998  9.008  8.999 )", "ans": "8.995、9.002、8.998、8.999", "explanation": "範圍在 [8.995, 9.005) 之間：8.995, 9.002, 8.998, 8.999。"}, {"q": "(3) 有一個一位小數「4.□」，用四捨五入法取概數到個位是 4，□中可填入下面哪些數字？\n( 1  2  3  4  5  6  7  8  9 )", "ans": "1、2、3、4", "explanation": "四捨五入到個位仍為 4，十分位需捨去（小於5）：1, 2, 3, 4。"}]}, {"section_title": "六、把做法用算式記下來（概數應用題）", "type": "word_problems", "items": [{"q": "(1) 小貓的體重是 6.57 公斤，小狗的體重是 8.9 公斤，小狗的體重大約是小貓的幾倍？（用四捨五入法求商到小數點後第一位）", "steps": "8.9 ÷ 6.57 = 1.35...\n1.35 ≈ 1.4", "ans": "約 1.4倍"}, {"q": "(2) 有一根長 3.55 公尺的鐵條，重 12.53 公斤，平均 1 公尺的鐵條大約重幾公斤？（用四捨五入法求商到小數點後第二位）", "steps": "12.53 ÷ 3.55 = 3.529...\n3.529 ≈ 3.53", "ans": "約 3.53公斤"}, {"q": "(3) 一坪大約 3.3 平方公尺，100 平方公尺大約是幾坪？（用四捨五入法求商到小數點後第一位）", "steps": "100 ÷ 3.3 = 30.30...\n30.30 ≈ 30.3", "ans": "約 30.3坪"}, {"q": "(4) 有 32.25 公斤的鹽，每 3.6 公斤裝成 1 包，大約可裝成幾包？（用四捨五入法求商到小數點後第二位）", "steps": "32.25 ÷ 3.6 = 8.958...\n8.958 ≈ 8.96", "ans": "約 8.96包"}]}]}]};
+const U4_WB_DATA = {"unit_id": 4, "title": "圓周長和圓面積", "description": "認識圓周長與圓周率 (3.14)、圓周長應用、圓面積計算、複合圖形與塗色面積應用", "reviews": [{"review_id": 10, "range": "4-1 認識圓周長和圓周率、4-2 圓周率的應用", "page": "P.20-21", "sections": [{"section_title": "一、算算看，各種物品的圓周長大約是直徑的幾倍？（用四捨五入法求商到小數點後第二位）", "type": "pi_table", "table_data": [{"item": "輪胎", "circumference": 251, "diameter": 80, "ratio": "3.14", "calc": "251 ÷ 80 = 3.1375 ≈ 3.14"}, {"item": "圓形錢幣", "circumference": 5.65, "diameter": 1.8, "ratio": "3.14", "calc": "5.65 ÷ 1.8 = 3.1388... ≈ 3.14"}, {"item": "杯蓋", "circumference": 25.1, "diameter": 8, "ratio": "3.14", "calc": "25.1 ÷ 8 = 3.1375 ≈ 3.14"}], "summary_fill": "每個圓的圓周長除以直徑的商大約是（ 3.14 ），在數學上，用這個數值表示為（ 圓周率 ）。"}, {"section_title": "二、看圖回答問題（半徑 7 cm 的圓）", "type": "diagram_qa", "items": [{"q": "(1) 圓的直徑長是（ ）公分。", "ans": "14", "steps": "7 × 2 = 14"}, {"q": "(2) 圓的圓周長大約是（ ）公分。", "ans": "43.96", "steps": "14 × 3.14 = 43.96"}]}, {"section_title": "三、找出下面各圓的圓周長，連連看", "type": "match_pairs", "items": [{"left": "(1) 直徑 12 公分", "right": "ㄉ. 大約 37.68 公分", "ans": "12 × 3.14 = 37.68"}, {"left": "(2) 半徑 5 公分", "right": "ㄅ. 大約 31.4 公分", "ans": "5 × 2 × 3.14 = 31.4"}, {"left": "(3) 直徑 25 公分", "right": "ㄌ. 大約 78.5 公分", "ans": "25 × 3.14 = 78.5"}, {"left": "(4) 半徑 10 公分", "right": "ㄆ. 大約 62.8 公分", "ans": "10 × 2 × 3.14 = 62.8"}, {"left": "(5) 直徑 18 公分", "right": "ㄊ. 大約 56.52 公分", "ans": "18 × 3.14 = 56.52"}, {"left": "(6) 半徑 18 公分", "right": "ㄈ. 大約 113.04 公分", "ans": "18 × 2 × 3.14 = 113.04"}]}, {"section_title": "四、把做法用算式記下來（圓周長應用題）", "type": "word_problems", "items": [{"q": "(1) 巧安把圓規張開 5 公分，然後畫一個圓，這個圓的周長大約是幾公分？", "steps": "半徑 = 5 公分\n5 × 2 × 3.14 = 31.4", "ans": "約 31.4公分"}, {"q": "(2) 半徑 25 公分的圓，周長大約是幾公分？", "steps": "25 × 2 × 3.14 = 157", "ans": "約 157公分"}, {"q": "(3) 圓形茶筒的底部圓周長是 31.4 公分，直徑大約是幾公分？", "steps": "31.4 ÷ 3.14 = 10", "ans": "約 10公分"}, {"q": "(4) 半徑 9 公尺的圓周長是半徑 3 公尺圓周長的幾倍？", "steps": "9 × 2 × 3.14 = 56.52\n3 × 2 × 3.14 = 18.84\n56.52 ÷ 18.84 = 3 (或 9 ÷ 3 = 3)", "ans": "3倍"}, {"q": "(5) 有大、小兩個圓，大圓的直徑是 20 公分，小圓的半徑是 3 公分，兩圓的周長大約相差多少？", "steps": "大圓周長：20 × 3.14 = 62.8\n小圓周長：3 × 2 × 3.14 = 18.84\n62.8 - 18.84 = 43.96", "ans": "約 43.96公分"}, {"q": "(6) 腳踏車的輪胎圓形周長是 125.6 公分，直徑大約是幾公分？半徑大約是幾公分？", "steps": "直徑：125.6 ÷ 3.14 = 40 (公分)\n半徑：40 ÷ 2 = 20 (公分)", "ans": "直徑約 40公分，半徑約 20公分"}]}]}, {"review_id": 11, "range": "4-3 圓面積", "page": "P.22-23", "sections": [{"section_title": "一、把做法用算式記下來（圓面積計算題）", "type": "word_problems", "items": [{"q": "(1) 半徑 6 公尺的圓形，面積大約是幾平方公尺？", "steps": "6 × 6 × 3.14 = 113.04", "ans": "約 113.04平方公尺"}, {"q": "(2) 有一個圓形舞臺，半徑是 10 公尺，面積大約是幾平方公尺？", "steps": "10 × 10 × 3.14 = 314", "ans": "約 314平方公尺"}, {"q": "(3) 將圓規張開 5 公分，接著畫一個圓，這個圓的面積大約是幾平方公分？", "steps": "5 × 5 × 3.14 = 78.5", "ans": "約 78.5平方公分"}, {"q": "(4) 一塊圓形蔥油餅的半徑是 13 公分，面積大約是幾平方公分？", "steps": "13 × 13 × 3.14 = 530.66", "ans": "約 530.66平方公分"}, {"q": "(5) 直徑 24 公分的圓形色紙，面積大約是幾平方公分？", "steps": "半徑 = 24 ÷ 2 = 12 (公分)\n12 × 12 × 3.14 = 452.16", "ans": "約 452.16平方公分"}, {"q": "(6) 有一個圓形披薩，直徑是 30 公分，面積大約是幾平方公分？", "steps": "半徑 = 30 ÷ 2 = 15 (公分)\n15 × 15 × 3.14 = 706.5", "ans": "約 706.5平方公分"}, {"q": "(7) 直徑 18 公尺的圓形水池，面積大約是幾平方公尺？", "steps": "半徑 = 18 ÷ 2 = 9 (公尺)\n9 × 9 × 3.14 = 254.34", "ans": "約 254.34平方公尺"}, {"q": "(8) 直徑 28 公尺的圓形溜冰場，面積大約是幾平方公尺？", "steps": "半徑 = 28 ÷ 2 = 14 (公尺)\n14 × 14 × 3.14 = 615.44", "ans": "約 615.44平方公尺"}, {"q": "(9) 時鐘的分針長 11 公分，分針轉 1 圈的圓面積大約是幾平方公分？", "steps": "11 × 11 × 3.14 = 379.94", "ans": "約 379.94平方公分"}, {"q": "(10) 一個半徑 8 公尺的圓，面積是半徑 4 公尺圓面積的幾倍？", "steps": "8 × 8 × 3.14 = 200.96\n4 × 4 × 3.14 = 50.24\n200.96 ÷ 50.24 = 4 (或 (8/4)² = 4)", "ans": "4倍"}]}]}, {"review_id": 12, "range": "4-4 圓面積的應用", "page": "P.24-25", "sections": [{"section_title": "一、算出下面各圖形塗色部分的面積", "type": "shaded_area_calc", "items": [{"id": "shaded_1", "title": "(1) 正方形內切圓之周圍四角塗色面積", "diagram": "正方形邊長 16cm，內切圓直徑 16cm", "steps": "正方形面積：16 × 16 = 256\n圓半徑：16 ÷ 2 = 8\n圓面積：8 × 8 × 3.14 = 200.96\n塗色面積：256 - 200.96 = 55.04", "ans": "約 55.04平方公分"}, {"id": "shaded_2", "title": "(2) 圓環塗色面積", "diagram": "大圓半徑 14m，小圓半徑 7m", "steps": "大圓面積：14 × 14 × 3.14 = 615.44\n小圓面積：7 × 7 × 3.14 = 153.86\n塗色面積：615.44 - 153.86 = 461.58 (或 (196-49)×3.14 = 461.58)", "ans": "約 461.58平方公尺"}, {"id": "shaded_3", "title": "(3) 直角三角形扣除內切圓之塗色面積", "diagram": "直角三角形底 120cm、高 100cm，內含半徑 20cm 之圓", "steps": "三角形面積：120 × 100 ÷ 2 = 6000\n圓面積：20 × 20 × 3.14 = 1256\n塗色面積：6000 - 1256 = 4744", "ans": "約 4744平方公分"}, {"id": "shaded_4", "title": "(4) 等腰梯形扣除內切圓之塗色面積", "diagram": "梯形上底 32cm、下底 52cm、高 30cm，內切圓直徑 30cm", "steps": "梯形面積：(32 + 52) × 30 ÷ 2 = 1260\n圓半徑：30 ÷ 2 = 15\n圓面積：15 × 15 × 3.14 = 706.5\n塗色面積：1260 - 706.5 = 553.5", "ans": "約 553.5平方公分"}, {"id": "shaded_5", "title": "(5) 長方形扣除內切圓之塗色面積", "diagram": "長方形長 160m、寬 90m，內含直徑 90m 之圓", "steps": "長方形面積：160 × 90 = 14400\n圓半徑：90 ÷ 2 = 45\n圓面積：45 × 45 × 3.14 = 6358.5\n塗色面積：14400 - 6358.5 = 8041.5", "ans": "約 8041.5平方公尺"}]}, {"section_title": "二、把做法用算式記下來（圓面積綜合應用題）", "type": "word_problems", "items": [{"q": "(1) 半徑 12 公尺的圓面積是半徑 4 公尺圓面積的幾倍？", "steps": "12 × 12 × 3.14 = 452.16\n4 × 4 × 3.14 = 50.24\n452.16 ÷ 50.24 = 9 (或 (12/4)² = 3² = 9)", "ans": "9倍"}, {"q": "(2) 靖雅剪了兩個直徑分別是 34 公分和 20 公分的圓，兩個圓的面積大約相差幾平方公分？", "steps": "半徑分別為 34 ÷ 2 = 17，20 ÷ 2 = 10\n(17 × 17 - 10 × 10) × 3.14 = (289 - 100) × 3.14 = 189 × 3.14 = 593.46", "ans": "約 593.46平方公分"}, {"q": "(3) 一隻牛被綁在草地上，如下圖，繩長 120 公分，牠可以吃到的草地面積大約是幾平方公分？", "steps": "120 × 120 × 3.14 = 45216", "ans": "約 45216平方公分"}, {"q": "(4) 邊長和直徑都是 50 公分的正方形和圓形，兩個圖形的面積大約相差幾平方公分？", "steps": "正方形面積：50 × 50 = 2500\n圓半徑：50 ÷ 2 = 25\n圓面積：25 × 25 × 3.14 = 1962.5\n相差：2500 - 1962.5 = 537.5", "ans": "約 537.5平方公分"}, {"q": "(5) 一個周長是 16 公分的正方形，在正方形裡畫出一個最大的圓，此圓的面積大約是幾平方公分？", "steps": "正方形邊長：16 ÷ 4 = 4 (公分) => 圓直徑 = 4 公分\n圓半徑：4 ÷ 2 = 2 (公分)\n圓面積：2 × 2 × 3.14 = 12.56", "ans": "約 12.56平方公分"}, {"q": "(6) 甲圓直徑 50 公尺，乙圓直徑 10 公尺，甲圓面積是乙圓面積的幾倍？", "steps": "甲半徑：50 ÷ 2 = 25，面積：25 × 25 × 3.14 = 1962.5\n乙半徑：10 ÷ 2 = 5，面積：5 × 5 × 3.14 = 78.5\n1962.5 ÷ 78.5 = 25 (或 (50/10)² = 25)", "ans": "25倍"}]}]}]};
 
-let decCurrentRevId = 7;
-let decAnswers = {};
+let circleCurrentRevId = 10;
+let circleAnswers = {};
 
-function openDecWbModal() {
+function openCircleWbModal() {
   playSound('click');
-  document.getElementById('decWbModalOverlay').classList.add('open');
+  document.getElementById('circleWbModalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
-  switchDecWbRev(7);
+  switchCircleWbRev(10);
 }
-function closeDecWbModal() {
-  document.getElementById('decWbModalOverlay').classList.remove('open');
+function closeCircleWbModal() {
+  document.getElementById('circleWbModalOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
 
-function switchDecWbRev(revId) {
-  decCurrentRevId = revId;
-  decAnswers = {};
-  document.querySelectorAll('#decWbModalOverlay .wb-tab').forEach((t, i) => t.classList.toggle('active', i + 7 === revId));
-  document.getElementById('decWbScoreDisp').textContent = '狀態：做題中（未交卷）';
-  renderDecWbQuizBody();
+function switchCircleWbRev(revId) {
+  circleCurrentRevId = revId;
+  circleAnswers = {};
+  document.querySelectorAll('#circleWbModalOverlay .wb-tab').forEach((t, i) => t.classList.toggle('active', i + 10 === revId));
+  document.getElementById('circleWbScoreDisp').textContent = '狀態：做題中（未交卷）';
+  renderCircleWbQuizBody();
 }
 
-function decPick(itemId, val, btnEl) {
+function circlePick(itemId, val, btnEl) {
   playSound('click');
-  decAnswers[itemId] = val;
+  circleAnswers[itemId] = val;
   const parent = btnEl.closest('.wb-opt-grid');
   if (parent) {
     parent.querySelectorAll('.wb-opt-btn').forEach(b => b.classList.remove('selected'));
@@ -1246,10 +1226,10 @@ function decPick(itemId, val, btnEl) {
   }
 }
 
-function renderDecWbQuizBody() {
-  if (!U3_WB_DATA) return;
-  const rev = U3_WB_DATA.reviews.find(r => r.review_id === decCurrentRevId);
-  const container = document.getElementById('decWbQuizBody');
+function renderCircleWbQuizBody() {
+  if (!U4_WB_DATA) return;
+  const rev = U4_WB_DATA.reviews.find(r => r.review_id === circleCurrentRevId);
+  const container = document.getElementById('circleWbQuizBody');
   if (!rev) return;
 
   let html = '';
@@ -1257,124 +1237,134 @@ function renderDecWbQuizBody() {
     html += `<div class="wb-sec-card">
       <div class="wb-sec-title">📌 ${sec.section_title}</div>`;
 
-    if (sec.type === 'table_rounding') {
+    if (sec.type === 'pi_table') {
       sec.table_data.forEach((row, rIdx) => {
-        const id1 = `u3_r${decCurrentRevId}_tab_${rIdx}_1`;
-        const id2 = `u3_r${decCurrentRevId}_tab_${rIdx}_2`;
-        const id3 = `u3_r${decCurrentRevId}_tab_${rIdx}_3`;
+        const id = `u4_r10_pi_${rIdx}`;
+        const opts = ['3.14', '3.15', '3.12', '3.16'];
         html += `
           <div class="wb-q-item">
-            <div class="wb-q-text">原數值：<b style="color:#0077B6; font-size:18px;">${row.num}</b></div>
-            <div style="margin-top:8px;">
-              <div style="font-weight:700; margin-bottom:4px;">(1) 取到個位：</div>
-              <div class="wb-opt-grid">
-                ${[row.to_unit, String(Number(row.to_unit)-1), String(Number(row.to_unit)+1)].map(opt => `
-                  <button type="button" class="wb-opt-btn ${decAnswers[id1] === opt ? 'selected' : ''}" onclick="decPick('${id1}', '${opt}', this)">${opt}</button>
-                `).join('')}
-              </div>
-              <div class="wb-sol-panel" id="sol_${id1}"><div class="wb-sol-ans">標準答案：${row.to_unit}</div></div>
+            <div class="wb-q-text">物品：<b>${row.item}</b> (圓周長: ${row.circumference} cm，直徑: ${row.diameter} cm)<br>計算：圓周長 ÷ 直徑 = ？</div>
+            <div class="wb-opt-grid">
+              ${opts.map(opt => `
+                <button type="button" class="wb-opt-btn ${circleAnswers[id] === opt ? 'selected' : ''}" onclick="circlePick('${id}', '${opt}', this)">
+                  ${opt}
+                </button>
+              `).join('')}
             </div>
-            <div style="margin-top:12px;">
-              <div style="font-weight:700; margin-bottom:4px;">(2) 取到小數第一位：</div>
-              <div class="wb-opt-grid">
-                ${[row.to_tenth, String((Number(row.to_tenth)-0.1).toFixed(1)), String((Number(row.to_tenth)+0.1).toFixed(1))].map(opt => `
-                  <button type="button" class="wb-opt-btn ${decAnswers[id2] === opt ? 'selected' : ''}" onclick="decPick('${id2}', '${opt}', this)">${opt}</button>
-                `).join('')}
-              </div>
-              <div class="wb-sol-panel" id="sol_${id2}"><div class="wb-sol-ans">標準答案：${row.to_tenth}</div></div>
-            </div>
-            <div style="margin-top:12px;">
-              <div style="font-weight:700; margin-bottom:4px;">(3) 取到小數第二位：</div>
-              <div class="wb-opt-grid">
-                ${[row.to_hundredth, String((Number(row.to_hundredth)-0.01).toFixed(2)), String((Number(row.to_hundredth)+0.01).toFixed(2))].map(opt => `
-                  <button type="button" class="wb-opt-btn ${decAnswers[id3] === opt ? 'selected' : ''}" onclick="decPick('${id3}', '${opt}', this)">${opt}</button>
-                `).join('')}
-              </div>
-              <div class="wb-sol-panel" id="sol_${id3}"><div class="wb-sol-ans">標準答案：${row.to_hundredth}</div></div>
-            </div>
+            <div class="wb-sol-panel" id="sol_${id}">標準答案：${row.ratio} (${row.calc})</div>
           </div>`;
       });
+      html += `
+        <div class="wb-q-item" style="background:#FFF;">
+          <div class="wb-q-text" style="color:var(--moon-purple); font-weight:800;">💡 ${sec.summary_fill}</div>
+        </div>`;
     } else {
       sec.items.forEach((item, iIdx) => {
-        const itemId = `u3_r${decCurrentRevId}_s${sIdx}_${iIdx}`;
+        const itemId = `u4_r${circleCurrentRevId}_s${sIdx}_${iIdx}`;
+        const qTitle = item.title ? `<b>${item.title}</b><br><small style="color:#5A189A;">${item.diagram || ''}</small>` : (item.q || `${item.left} ➜ 圓周長為？`);
+        
         let opts = [];
-        if (sec.type === 'comparison') {
-          opts = ['>', '<', '='];
-        } else if (sec.type === 'fill_in' && item.ans.includes(',')) {
-          opts = [item.ans, '5, 5', '500, 50', '50, 5'];
-        } else if (sec.type === 'circle_correct') {
-          opts = [item.ans, '38.26、38.37', '8.995、9.008', '5、6、7、8、9'];
+        const ansStr = String(item.ans);
+        const numMatch = ansStr.match(/[0-9\.]+/);
+        if (numMatch) {
+          const n = parseFloat(numMatch[0]);
+          const prefix = ansStr.startsWith('約') ? '約 ' : '';
+          const unit = ansStr.replace(/^[約\s]+|[0-9\.]/g, '');
+          opts = [
+            ansStr,
+            `${prefix}${(n * 2).toFixed(2).replace(/\.00$/, '')}${unit}`,
+            `${prefix}${(n + 10).toFixed(2).replace(/\.00$/, '')}${unit}`,
+            `${prefix}${Math.max(1, (n / 2)).toFixed(2).replace(/\.00$/, '')}${unit}`
+          ];
         } else {
-          const ansStr = String(item.ans);
-          const numMatch = ansStr.match(/[0-9\.]+/);
-          if (numMatch) {
-            const n = parseFloat(numMatch[0]);
-            const unit = ansStr.replace(/[0-9\.]/g, '');
-            opts = [
-              ansStr,
-              `${(n * 2).toFixed(1).replace(/\.0$/, '')}${unit}`,
-              `${(n + 1).toFixed(1).replace(/\.0$/, '')}${unit}`,
-              `${Math.max(1, (n - 1)).toFixed(1).replace(/\.0$/, '')}${unit}`
-            ];
-          } else {
-            opts = [item.ans, '12', '24', '6'];
-          }
+          opts = [item.ans, '31.4公分', '62.8公分', '15.7公分'];
         }
 
         html += `
           <div class="wb-q-item">
-            <div class="wb-q-text">${item.q}</div>
+            <div class="wb-q-text">${qTitle}</div>
             <div class="wb-opt-grid">
               ${opts.map(opt => `
-                <button type="button" class="wb-opt-btn ${decAnswers[itemId] === opt ? 'selected' : ''}" onclick="decPick('${itemId}', '${opt}', this)">
+                <button type="button" class="wb-opt-btn ${circleAnswers[itemId] === opt ? 'selected' : ''}" onclick="circlePick('${itemId}', '${opt}', this)">
                   ${opt}
                 </button>
               `).join('')}
             </div>
             <div class="wb-sol-panel" id="sol_${itemId}">
-              <div class="wb-sol-steps">${item.steps || item.calc || item.explanation || ''}</div>
+              <div class="wb-sol-steps">${item.steps || ''}</div>
               <div class="wb-sol-ans">標準答案：${item.ans}</div>
             </div>
           </div>`;
       });
     }
+
     html += '</div>';
   });
   container.innerHTML = html;
 }
 
-function gradeDecWbQuiz() {
-  if (!U3_WB_DATA) return;
-  const rev = U3_WB_DATA.reviews.find(r => r.review_id === decCurrentRevId);
+function gradeCircleWbQuiz() {
+  if (!U4_WB_DATA) return;
+  const rev = U4_WB_DATA.reviews.find(r => r.review_id === circleCurrentRevId);
   let total = 0, correct = 0;
 
   rev.sections.forEach((sec, sIdx) => {
-    if (sec.type === 'table_rounding') {
+    if (sec.type === 'pi_table') {
       sec.table_data.forEach((row, rIdx) => {
-        ['1', '2', '3'].forEach((k, colIdx) => {
-          total++;
-          const itemId = `u3_r${decCurrentRevId}_tab_${rIdx}_${k}`;
-          const expected = (colIdx === 0 ? row.to_unit : colIdx === 1 ? row.to_tenth : row.to_hundredth);
-          const userVal = (decAnswers[itemId] || '').trim();
-          const isRight = userVal === expected;
-          if (isRight) correct++;
+        total++;
+        const itemId = `u4_r10_pi_${rIdx}`;
+        const userVal = (circleAnswers[itemId] || '').trim();
+        const isRight = userVal === row.ratio;
+        if (isRight) correct++;
 
-          const panel = document.getElementById(`sol_${itemId}`);
-          if (panel) {
-            panel.classList.add('show');
-            panel.style.borderLeft = isRight ? '6px solid #10B981' : '6px solid #EF4444';
-          }
-        });
+        const panel = document.getElementById(`sol_${itemId}`);
+        const qItem = panel ? panel.closest('.wb-q-item') : null;
+        
+        if (qItem) {
+          qItem.classList.remove('is-correct', 'is-wrong');
+          qItem.classList.add(isRight ? 'is-correct' : 'is-wrong');
+          
+          const oldBadge = qItem.querySelector('.wb-q-badge');
+          if (oldBadge) oldBadge.remove();
+          
+          const badge = document.createElement('div');
+          badge.className = `wb-q-badge ${isRight ? 'correct' : 'wrong'}`;
+          badge.innerHTML = isRight ? '✓ 答對了！' : (userVal ? '✕ 答錯了！' : '⚠️ 未作答！');
+          qItem.insertBefore(badge, qItem.firstChild);
+
+          const btns = qItem.querySelectorAll('.wb-opt-btn');
+          btns.forEach(btn => {
+            btn.classList.remove('opt-correct', 'opt-wrong', 'opt-should-be');
+            const btnVal = btn.textContent.trim();
+            if (btnVal === userVal) {
+              if (isRight) {
+                btn.classList.add('opt-correct');
+                btn.innerHTML = `✓ ${btnVal}`;
+              } else {
+                btn.classList.add('opt-wrong');
+                btn.innerHTML = `✕ ${btnVal}`;
+              }
+            } else if (btnVal === row.ratio && !isRight) {
+              btn.classList.add('opt-should-be');
+              btn.innerHTML = `★ 正解：${btnVal}`;
+            }
+          });
+        }
+
+        if (panel) {
+          panel.classList.add('show');
+          panel.style.borderLeft = isRight ? '6px solid #10B981' : '6px solid #EF4444';
+        }
       });
     } else {
       sec.items.forEach((item, iIdx) => {
         total++;
-        const itemId = `u3_r${decCurrentRevId}_s${sIdx}_${iIdx}`;
-        const userVal = decAnswers[itemId] || '';
+        const itemId = `u4_r${circleCurrentRevId}_s${sIdx}_${iIdx}`;
+        const userVal = circleAnswers[itemId] || '';
         let isRight = false;
 
-        const cleanUser = userVal.replace(/[\s]/g, '').replace(/袋|倍|朵|分鐘|公升|公分|公尺|公斤|坪|包|約/g, '');
-        const cleanAns = String(item.ans).replace(/[\s]/g, '').replace(/袋|倍|朵|分鐘|公升|公分|公尺|公斤|坪|包|約/g, '');
+        const cleanUser = userVal.replace(/[\s]/g, '').replace(/約|公分|平方公分|公尺|平方公尺|倍|個|張|段|次|束|元/g, '');
+        const cleanAns = String(item.ans).replace(/[\s]/g, '').replace(/約|公分|平方公分|公尺|平方公尺|倍|個|張|段|次|束|元/g, '');
 
         if (cleanUser === cleanAns || cleanUser.includes(cleanAns)) {
           isRight = true;
@@ -1407,7 +1397,7 @@ function gradeDecWbQuiz() {
           btns.forEach(btn => {
             btn.classList.remove('opt-correct', 'opt-wrong', 'opt-should-be');
             const btnVal = btn.textContent.trim();
-            const cleanBtn = btnVal.replace(/[\s]/g, '').replace(/袋|倍|朵|分鐘|公升|公分|公尺|公斤|坪|包|約/g, '');
+            const cleanBtn = btnVal.replace(/[\s]/g, '').replace(/約|公分|平方公分|公尺|平方公尺|倍|個|張|段|次|束|元/g, '');
             
             if (btnVal === userVal) {
               if (isRight) {
@@ -1433,7 +1423,7 @@ function gradeDecWbQuiz() {
   });
 
   const score = Math.round((correct / total) * 100);
-  document.getElementById('decWbScoreDisp').innerHTML = `得分：<b>${score} 分</b> (${correct} / ${total} 題正確)`;
+  document.getElementById('circleWbScoreDisp').innerHTML = `得分：<b>${score} 分</b> (${correct} / ${total} 題正確)`;
   if (score >= 80) {
     playSound('fanfare');
     if (window.confetti) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
@@ -1443,10 +1433,10 @@ function gradeDecWbQuiz() {
   alert(`🎉 隨堂測驗批改完成！\n\n得分：${score} 分\n綠色為答對選項，紅色為答錯選項，綠色虛線為標準正解！✨`);
 }
 
-function resetDecWbQuiz() {
-  decAnswers = {};
-  renderDecWbQuizBody();
-  document.getElementById('decWbScoreDisp').textContent = '狀態：做題中（未交卷）';
+function resetCircleWbQuiz() {
+  circleAnswers = {};
+  renderCircleWbQuizBody();
+  document.getElementById('circleWbScoreDisp').textContent = '狀態：做題中（未交卷）';
 }
 
 goto('intro');

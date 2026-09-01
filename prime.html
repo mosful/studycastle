@@ -780,6 +780,10 @@
       <span>返回學習城堡</span>
     </a>
     <div style="display: flex; gap: 8px; align-items: center;">
+      <button class="nav-btn" style="background:linear-gradient(135deg,#FF6B5B,#FF8E53);color:#fff;border-color:#fff;" onclick="openWbModal()">
+        <span>📑</span>
+        <span>南一作業簿隨堂考 (第1~3回)</span>
+      </button>
       <div class="combo-badge" id="comboBadge" style="display: none;">
         <span>🔥</span> <span id="comboText">連勝 x0</span>
       </div>
@@ -1551,5 +1555,316 @@ function restartGame(){
 /* ================= 啟動遊戲 ================= */
 goto('intro');
 </script>
+
+<!-- 南一作業簿隨堂測驗 Modal -->
+<div class="wb-modal-overlay" id="wbModalOverlay">
+  <div class="wb-modal-content">
+    <div class="wb-header">
+      <div class="wb-title">📑 南一 6上數學 作業簿隨堂測驗（第 1 單元）</div>
+      <button class="wb-close-btn" onclick="closeWbModal()">✕</button>
+    </div>
+    <div class="wb-tabs" id="wbTabs">
+      <button class="wb-tab active" onclick="switchWbRev(1)">第 1 回 (1-1~1-4 質數與合數)</button>
+      <button class="wb-tab" onclick="switchWbRev(2)">第 2 回 (1-5 短除法求 GCD)</button>
+      <button class="wb-tab" onclick="switchWbRev(3)">第 3 回 (1-6 短除法求 LCM)</button>
+    </div>
+    <div id="wbQuizBody"></div>
+    <div class="wb-submit-bar">
+      <div class="wb-score-text" id="wbScoreDisp">狀態：做題中（未交卷）</div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn gold small" onclick="resetWbQuiz()">🔄 重填</button>
+        <button class="wb-btn-submit" onclick="gradeWbQuiz()">📝 交卷批改並看詳解</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.wb-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 79, 108, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px 12px 60px;
+}
+.wb-modal-overlay.open { display: block; }
+.wb-modal-content {
+  background: #FFFDF5;
+  border: 3px solid #1C86A6;
+  border-radius: 24px;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  color: #12303B;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+}
+.wb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #E9D9A6;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.wb-title { font-size: 20px; font-weight: 800; color: #0B4F6C; display: flex; align-items: center; gap: 8px; }
+.wb-close-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: 2px solid #12303B; background: #FFF;
+  font-weight: 900; font-size: 18px; cursor: pointer;
+}
+.wb-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.wb-tab {
+  flex: 1; min-width: 140px; padding: 10px 14px; border-radius: 12px; border: 2px solid #E9D9A6;
+  background: #FFF; font-weight: 800; font-size: 13.5px; cursor: pointer; color: #5C6B70;
+  text-align: center; transition: all 0.2s;
+}
+.wb-tab.active { background: #FFB703; border-color: #D48800; color: #12303B; box-shadow: 0 4px 0 #D48800; }
+.wb-sec-card { background: #FFF; border: 2px solid #E9D9A6; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+.wb-sec-title { font-size: 16px; font-weight: 800; color: #0B4F6C; margin-bottom: 12px; border-bottom: 1.5px dashed #E9D9A6; padding-bottom: 6px; }
+.wb-q-item { background: #FBF0D3; border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 2px solid #E9D9A6; transition: all 0.3s ease; position: relative; }
+.wb-q-item.is-correct { border: 3px solid #10B981 !important; background: #ECFDF5 !important; }
+.wb-q-item.is-wrong { border: 3px solid #EF4444 !important; background: #FEF2F2 !important; }
+.wb-q-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 8px; font-size: 13px; font-weight: 800; margin-bottom: 8px;
+}
+.wb-q-badge.correct { background: #10B981; color: #FFF; }
+.wb-q-badge.wrong { background: #EF4444; color: #FFF; }
+
+.wb-q-text { font-size: 15.5px; font-weight: 700; line-height: 1.6; margin-bottom: 10px; color: #12303B; }
+
+/* 作業簿選項大按鈕網格 (直接點選) */
+.wb-opt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+.wb-opt-btn {
+  background: #FFFFFF;
+  border: 2px solid #1C86A6;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #12303B;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+  user-select: none;
+}
+.wb-opt-btn:hover {
+  background: #FFF3E0;
+  border-color: #FF6B5B;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
+}
+.wb-opt-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+.wb-opt-btn.selected {
+  background: #FFB703 !important;
+  border-color: #D48800 !important;
+  color: #3A2600 !important;
+  box-shadow: 0 4px 0 #D48800 !important;
+  transform: scale(1.02);
+}
+
+/* 批改鮮明顏色：選對 (翠綠色)、選錯 (鮮紅色)、正確答案提示 (綠色虛線) */
+.wb-opt-btn.opt-correct {
+  background: linear-gradient(135deg, #10B981, #059669) !important;
+  color: #FFFFFF !important;
+  border: 3px solid #047857 !important;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6) !important;
+  transform: scale(1.03);
+}
+.wb-opt-btn.opt-wrong {
+  background: linear-gradient(135deg, #EF4444, #DC2626) !important;
+  color: #FFFFFF !important;
+  border: 3px solid #991B1B !important;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.6) !important;
+  transform: scale(1.03);
+}
+.wb-opt-btn.opt-should-be {
+  background: #D1FAE5 !important;
+  color: #065F46 !important;
+  border: 3px dashed #10B981 !important;
+  font-weight: 900 !important;
+}
+
+.wb-sol-panel { display: none; background: #E6F8F6; border: 2px solid #2EC4B6; border-radius: 10px; padding: 12px; margin-top: 12px; font-size: 14px; }
+.wb-sol-panel.show { display: block; }
+.wb-sol-steps { font-family: 'Fredoka', monospace; background: #FFF; padding: 8px; border-radius: 6px; margin: 6px 0; white-space: pre-wrap; color: #0B4F6C; font-weight: 700; }
+.wb-sol-ans { color: #047857; font-weight: 900; font-size: 15px; }
+.wb-submit-bar {
+  position: sticky; bottom: 0; background: #FFFDF5; border-top: 2px solid #E9D9A6;
+  padding: 14px 0 0; display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 10px; z-index: 10;
+}
+.wb-score-text { font-size: 18px; font-weight: 800; color: #0B4F6C; }
+.wb-btn-submit {
+  background: linear-gradient(135deg, #2EC4B6 0%, #0E7C7B 100%);
+  border: none; color: #FFF; font-weight: 800; font-size: 15px; padding: 10px 24px;
+  border-radius: 12px; cursor: pointer; box-shadow: 0 4px 0 #0A5A59;
+}
+</style>
+
+<script>
+const U1_WB_DATA = {"unit_id": 1, "title": "質因數分解和短除法", "description": "質數與合數、質因數分解、短除法求最大公因數 (GCD) 與最小公倍數 (LCM)", "reviews": [{"review_id": 1, "range": "1-1 質數和合數 ～ 1-4 互質", "page": "P.2-3", "sections": [{"section_title": "一、下面是質數的點選「○ 質數」，是合數的點選「✓ 合數」", "type": "prime_composite_check", "items": [{"num": 28, "answer": "composite", "label": "✓", "options": ["○ 質數", "✓ 合數"], "note": "合數 (因數有 1, 2, 4, 7, 14, 28)"}, {"num": 19, "answer": "prime", "label": "○", "options": ["○ 質數", "✓ 合數"], "note": "質數 (因數只有 1, 19)"}, {"num": 30, "answer": "composite", "label": "✓", "options": ["○ 質數", "✓ 合數"], "note": "合數"}, {"num": 13, "answer": "prime", "label": "○", "options": ["○ 質數", "✓ 合數"], "note": "質數"}, {"num": 32, "answer": "composite", "label": "✓", "options": ["○ 質數", "✓ 合數"], "note": "合數"}, {"num": 33, "answer": "composite", "label": "✓", "options": ["○ 質數", "✓ 合數"], "note": "合數 (3×11)"}, {"num": 27, "answer": "composite", "label": "✓", "options": ["○ 質數", "✓ 合數"], "note": "合數 (3×9)"}, {"num": 35, "answer": "composite", "label": "✓", "options": ["○ 質數", "✓ 合數"], "note": "合數 (5×7)"}, {"num": 36, "answer": "composite", "label": "✓", "options": ["○ 質數", "✓ 合數"], "note": "合數"}, {"num": 17, "answer": "prime", "label": "○", "options": ["○ 質數", "✓ 合數"], "note": "質數"}]}, {"section_title": "二、概念選擇題（請直接點選正確答案）", "type": "fill_in", "items": [{"q": "(1) 一個大於 1 的整數，除了 1 和本身以外，沒有其他的因數，這個整數叫作（ ）數。", "ans": "質數", "options": ["質數", "合數", "偶數", "奇數"], "explanation": "質數的定義：大於1且只有1和本身兩個因數。"}, {"q": "(2) 1～10 中，哪些數是質數？", "ans": "2、3、5、7", "options": ["2、3、5、7", "1、3、5、7", "2、4、6、8", "3、5、7、9"], "explanation": "1不是質數也不是合數；2, 3, 5, 7為質數。"}, {"q": "(3) 1～10 中，哪些數是合數？", "ans": "4、6、8、9、10", "options": ["4、6、8、9、10", "2、4、6、8、10", "1、4、6、8、10", "4、6、8、10"], "explanation": "4, 6, 8, 9, 10除了1和本身外還有其他因數。"}, {"q": "(4) 所有的質數中，只有（ ）是偶數。", "ans": "2", "options": ["2", "4", "0", "沒有偶數"], "explanation": "2是唯一既是偶數又是質數的數。"}, {"q": "(5) 17 的質因數有哪些？", "ans": "17", "options": ["17", "1", "1、17", "34"], "explanation": "17的因數只有1和17，其中17本身是質數。"}]}, {"section_title": "三、把下面各數分解成質因數的乘積（樹狀分解，請直接點選正確式子）", "type": "tree_factorization", "items": [{"num": 44, "tree": "44 = 2 × 22 = 2 × 2 × 11", "ans": "2×2×11", "options": ["2×2×11", "4×11", "2×22", "2×3×7"]}, {"num": 28, "tree": "28 = 2 × 14 = 2 × 2 × 7", "ans": "2×2×7", "options": ["2×2×7", "4×7", "2×14", "2×3×5"]}, {"num": 57, "tree": "57 = 3 × 19", "ans": "3×19", "options": ["3×19", "3×17", "57×1", "3×3×7"]}]}, {"section_title": "四、把下面各數做質因數分解（請直接點選）", "type": "prime_factorization", "items": [{"num": 54, "ans": "2×3×3×3", "options": ["2×3×3×3", "2×27", "6×9", "2×3×9"], "steps": "54 = 2 × 27 = 2 × 3 × 9 = 2 × 3 × 3 × 3"}, {"num": 78, "ans": "2×3×13", "options": ["2×3×13", "2×39", "6×13", "3×26"], "steps": "78 = 2 × 39 = 2 × 3 × 13"}, {"num": 126, "ans": "2×3×3×7", "options": ["2×3×3×7", "2×63", "9×14", "2×3×21"], "steps": "126 = 2 × 63 = 2 × 3 × 21 = 2 × 3 × 3 × 7"}, {"num": 133, "ans": "7×19", "options": ["7×19", "7×17", "3×43", "133×1"], "steps": "133 = 7 × 19"}]}, {"section_title": "五、用短除法做質因數分解（請直接點選正確式子）", "type": "short_division_factor", "items": [{"num": 35, "ans": "5×7", "options": ["5×7", "35×1", "3×11", "5×5"], "steps": "35 ÷ 5 = 7 => 35 = 5 × 7"}, {"num": 42, "ans": "2×3×7", "options": ["2×3×7", "6×7", "2×21", "3×14"], "steps": "42 ÷ 2 = 21, 21 ÷ 3 = 7 => 42 = 2 × 3 × 7"}, {"num": 84, "ans": "2×2×3×7", "options": ["2×2×3×7", "4×21", "2×6×7", "2×42"], "steps": "84 ÷ 2 = 42, 42 ÷ 2 = 21, 21 ÷ 3 = 7 => 84 = 2 × 2 × 3 × 7"}, {"num": 72, "ans": "2×2×2×3×3", "options": ["2×2×2×3×3", "8×9", "2×4×9", "4×18"], "steps": "72 ÷ 2 = 36, 36 ÷ 2 = 18, 18 ÷ 2 = 9, 9 ÷ 3 = 3 => 72 = 2 × 2 × 2 × 3 × 3"}, {"num": 105, "ans": "3×5×7", "options": ["3×5×7", "5×21", "15×7", "3×35"], "steps": "105 ÷ 3 = 35, 35 ÷ 5 = 7 => 105 = 3 × 5 × 7"}, {"num": 198, "ans": "2×3×3×11", "options": ["2×3×3×11", "2×9×11", "18×11", "6×33"], "steps": "198 ÷ 2 = 99, 99 ÷ 3 = 33, 33 ÷ 3 = 11 => 198 = 2 × 3 × 3 × 11"}]}, {"section_title": "六、判斷各組數是否互質（請直接點選）", "type": "coprime_check", "items": [{"pair": "6、9", "coprime": false, "ans": "✕ 沒有互質", "options": ["✓ 互質", "✕ 沒有互質"], "f1": "6的因數：1、2、3、6", "f2": "9的因數：1、3、9", "common": "6和9的公因數：1、3", "result": "公因數有3，所以沒有互質 (✕)"}, {"pair": "15、17", "coprime": true, "ans": "✓ 互質", "options": ["✓ 互質", "✕ 沒有互質"], "f1": "15的因數：1、3、5、15", "f2": "17的因數：1、17", "common": "15和17的公因數：1", "result": "公因數只有1，所以互質 (✓)"}, {"pair": "16、31", "coprime": true, "ans": "✓ 互質", "options": ["✓ 互質", "✕ 沒有互質"], "f1": "16的因數：1、2、4、8、16", "f2": "31的因數：1、31", "common": "16和31的公因數：1", "result": "公因數只有1，所以互質 (✓)"}, {"pair": "21、45", "coprime": false, "ans": "✕ 沒有互質", "options": ["✓ 互質", "✕ 沒有互質"], "f1": "21的因數：1、3、7、21", "f2": "45的因數：1、3、5、9、15、45", "common": "21和45的公因數：1、3", "result": "公因數有3，所以沒有互質 (✕)"}]}]}, {"review_id": 2, "range": "1-5 用短除法求最大公因數", "page": "P.4-5", "sections": [{"section_title": "一、找出下面各組數的最大公因數 (GCD)", "type": "short_division_gcd", "items": [{"pair": "30、84", "steps": "用2除得15, 42；再用3除得5, 14。最大公因數 = 2 × 3 = 6", "ans": "6", "options": ["6", "12", "3", "2"]}, {"pair": "34、85", "steps": "用17除得2, 5。最大公因數 = 17", "ans": "17", "options": ["17", "1", "34", "5"]}, {"pair": "44、198", "steps": "用2除得22, 99；再用11除得2, 9。最大公因數 = 2 × 11 = 22", "ans": "22", "options": ["22", "11", "44", "2"]}, {"pair": "63、105", "steps": "用3除得21, 35；再用7除得3, 5。最大公因數 = 3 × 7 = 21", "ans": "21", "options": ["21", "7", "3", "42"]}]}, {"section_title": "二、找出下面各組的最大公因數（標準分解式）", "type": "factor_expr_gcd", "items": [{"pair": "2×3×3×5 和 2×3×5×7", "common_factors": "2×3×5", "ans": "30", "options": ["30", "15", "6", "210"], "steps": "共同質因數為 2, 3, 5 => 2 × 3 × 5 = 30"}, {"pair": "2×2×3×3 和 3×3×5×7", "common_factors": "3×3", "ans": "9", "options": ["9", "3", "18", "6"], "steps": "共同質因數為 3, 3 => 3 × 3 = 9"}, {"pair": "2×2×2×7 和 2×2×3×7", "common_factors": "2×2×7", "ans": "28", "options": ["28", "14", "7", "56"], "steps": "共同質因數為 2, 2, 7 => 2 × 2 × 7 = 28"}, {"pair": "3×5×7×11 和 5×7×11×13", "common_factors": "5×7×11", "ans": "385", "options": ["385", "35", "77", "1155"], "steps": "共同質因數為 5, 7, 11 => 5 × 7 × 11 = 385"}]}, {"section_title": "三、生活應用題（請直接點選正確答案）", "type": "word_problems", "items": [{"q": "(1) 把一張長 48 公分、寬 36 公分的長方形紙版，全部剪成大小相同且邊長為整公分的正方形，正方形邊長最長是幾公分？", "steps": "(48, 36) 短除法求 GCD：2 × 2 × 3 = 12", "ans": "12公分", "options": ["12公分", "6公分", "24公分", "4公分"]}, {"q": "(2) 把 45 朵紅玫瑰和 36 朵白玫瑰平分包成若干束，每束的紅玫瑰一樣多，白玫瑰也一樣多，最多能包成幾束？", "steps": "(45, 36) 短除法求 GCD：3 × 3 = 9", "ans": "9束", "options": ["9束", "3束", "15束", "18束"]}, {"q": "(3) 把 54 枝鉛筆和 27 個橡皮擦平分給一些小朋友，每個小朋友分到的鉛筆和橡皮擦一樣多，且全部分完，最多可分給幾個小朋友？", "steps": "(54, 27) 短除法求 GCD：3 × 3 × 3 = 27", "ans": "27個", "options": ["27個", "9個", "18個", "54個"]}, {"q": "(4) 把 42 個蘋果和 70 個梨子平分給學生，每個學生分得的蘋果一樣多，梨子也一樣多，且剛好分完，最多可分給幾個學生？", "steps": "(42, 70) 短除法求 GCD：2 × 7 = 14 (個學生)", "ans": "14個", "options": ["14個", "7個", "21個", "28個"]}]}]}, {"review_id": 3, "range": "1-6 用短除法求最小公倍數", "page": "P.6-7", "sections": [{"section_title": "一、找出下面各組數的最小公倍數 (LCM)", "type": "short_division_lcm", "items": [{"pair": "66、165", "steps": "用3除得22, 55；用11除得2, 5。LCM = 3 × 11 × 2 × 5 = 330", "ans": "330", "options": ["330", "165", "660", "33"]}, {"pair": "24、80", "steps": "用2除得12, 40；用2除得6, 20；用2除得3, 10。LCM = 2 × 2 × 2 × 3 × 10 = 240", "ans": "240", "options": ["240", "120", "480", "80"]}, {"pair": "42、72", "steps": "用2除得21, 36；用3除得7, 12。LCM = 2 × 3 × 7 × 12 = 504", "ans": "504", "options": ["504", "252", "1008", "72"]}, {"pair": "45、105", "steps": "用3除得15, 35；用5除得3, 7。LCM = 3 × 5 × 3 × 7 = 315", "ans": "315", "options": ["315", "105", "630", "15"]}]}, {"section_title": "二、找出下面各組的最小公倍數（標準分解式）", "type": "factor_expr_lcm", "items": [{"pair": "2×2×3×5 和 2×3×5×5", "ans": "300", "options": ["300", "60", "150", "600"], "steps": "取所有質因數最高次方：2×2×3×5×5 = 300"}, {"pair": "2×2×2×2 和 2×2×2×5", "ans": "80", "options": ["80", "40", "160", "16"], "steps": "2×2×2×2×5 = 80"}, {"pair": "3×3×3×5 和 3×5×7", "ans": "945", "options": ["945", "135", "315", "1890"], "steps": "3×3×3×5×7 = 945"}, {"pair": "3×5×5 和 3×5×5×7", "ans": "525", "options": ["525", "75", "1050", "175"], "steps": "3×5×5×7 = 525"}]}, {"section_title": "三、生活應用題（請直接點選正確答案）", "type": "word_problems", "items": [{"q": "(1) 用每張長 5 公分、寬 3 公分的長方形紙卡拼成正方形，正方形邊長最短是幾公分？", "steps": "5和3互質，最小公倍數是 15 (公分)", "ans": "15公分", "options": ["15公分", "30公分", "8公分", "10公分"]}, {"q": "(2) 媽媽每 3 天去一次超市，阿姨每 4 天去一次超市，5 月 2 日兩人同時去超市，下次兩人同一天到超市是幾月幾日？", "steps": "3和4互質，最小公倍數是 12 (天)。2 + 12 = 14 (日)", "ans": "5月14日", "options": ["5月14日", "5月12日", "5月24日", "5月8日"]}, {"q": "(3) 柯南國小全校人數少於 500 人，每 14 人排成一排、每 21 人排成一排都剛好排完，柯南國小最多有幾人？", "steps": "[14, 21] = 42。500 ÷ 42 = 11 ... 38 => 42 × 11 = 462", "ans": "462個", "options": ["462個", "420個", "484個", "490個"]}, {"q": "(4) 存錢筒裡有一些 5 元錢幣，10 個一數、15 個一數都剛好會少 2 個，存錢筒裡最少有幾元？", "steps": "[10, 15] = 30。30 - 2 = 28 個硬幣。5 × 28 = 140 (元)", "ans": "140元", "options": ["140元", "150元", "130元", "28元"]}]}]}]};
+
+let wbCurrentRevId = 1;
+let wbAnswers = {};
+
+function openWbModal() {
+  playSound('click');
+  document.getElementById('wbModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchWbRev(1);
+}
+function closeWbModal() {
+  document.getElementById('wbModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchWbRev(revId) {
+  wbCurrentRevId = revId;
+  wbAnswers = {};
+  document.querySelectorAll('.wb-tab').forEach((t, i) => t.classList.toggle('active', i + 1 === revId));
+  document.getElementById('wbScoreDisp').textContent = '狀態：做題中（未交卷）';
+  renderWbQuizBody();
+}
+
+function wbPick(itemId, val, btnEl) {
+  playSound('click');
+  wbAnswers[itemId] = val;
+  const parent = btnEl.closest('.wb-opt-grid');
+  if (parent) {
+    parent.querySelectorAll('.wb-opt-btn').forEach(b => b.classList.remove('selected'));
+    btnEl.classList.add('selected');
+  }
+}
+
+function renderWbQuizBody() {
+  const rev = U1_WB_DATA.reviews.find(r => r.review_id === wbCurrentRevId);
+  const container = document.getElementById('wbQuizBody');
+  if (!rev) return;
+
+  let html = '';
+  rev.sections.forEach((sec, sIdx) => {
+    html += `<div class="wb-sec-card">
+      <div class="wb-sec-title">📌 ${sec.section_title}</div>`;
+
+    sec.items.forEach((item, iIdx) => {
+      const itemId = `u1_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
+      const qTitle = item.num ? `數字：<b>${item.num}</b>` : (item.pair ? `數組：<b>${item.pair}</b>` : item.q);
+      const opts = item.options || [item.ans, '12', '24', '6'];
+
+      html += `
+        <div class="wb-q-item">
+          <div class="wb-q-text">${qTitle}</div>
+          <div class="wb-opt-grid">
+            ${opts.map(opt => `
+              <button type="button" class="wb-opt-btn ${wbAnswers[itemId] === opt ? 'selected' : ''}" onclick="wbPick('${itemId}', '${opt}', this)">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div class="wb-sol-panel" id="sol_${itemId}">
+            <div class="wb-sol-steps">${item.steps || item.tree || item.common || item.explanation || ''}</div>
+            <div class="wb-sol-ans">標準答案：${item.ans || (item.label === '○' ? '○ 質數' : '✓ 合數')}</div>
+          </div>
+        </div>`;
+    });
+
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function gradeWbQuiz() {
+  const rev = U1_WB_DATA.reviews.find(r => r.review_id === wbCurrentRevId);
+  let total = 0, correct = 0;
+
+  rev.sections.forEach((sec, sIdx) => {
+    sec.items.forEach((item, iIdx) => {
+      total++;
+      const itemId = `u1_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
+      const userVal = wbAnswers[itemId] || '';
+      let isRight = false;
+
+      const targetAns = item.ans || (item.label === '○' ? '○ 質數' : '✓ 合數');
+      const cleanUser = userVal.replace(/[\s\*xX×]/g, '').replace(/公分|公尺|個|束|張|日|月|元|個學生|個蘋果和|個梨子/g, '');
+      const cleanAns = String(targetAns).replace(/[\s\*xX×]/g, '').replace(/公分|公尺|個|束|張|日|月|元|個學生|個蘋果和|個梨子/g, '');
+
+      if (cleanUser === cleanAns || cleanUser.includes(cleanAns)) {
+        isRight = true;
+      }
+
+      if (isRight) correct++;
+
+      const panel = document.getElementById(`sol_${itemId}`);
+      const qItem = panel ? panel.closest('.wb-q-item') : null;
+      
+      if (qItem) {
+        qItem.classList.remove('is-correct', 'is-wrong');
+        qItem.classList.add(isRight ? 'is-correct' : 'is-wrong');
+        
+        const oldBadge = qItem.querySelector('.wb-q-badge');
+        if (oldBadge) oldBadge.remove();
+        
+        const badge = document.createElement('div');
+        badge.className = `wb-q-badge ${isRight ? 'correct' : 'wrong'}`;
+        badge.innerHTML = isRight ? '✓ 答對了！' : (userVal ? '✕ 答錯了！' : '⚠️ 未作答！');
+        qItem.insertBefore(badge, qItem.firstChild);
+
+        const btns = qItem.querySelectorAll('.wb-opt-btn');
+        btns.forEach(btn => {
+          btn.classList.remove('opt-correct', 'opt-wrong', 'opt-should-be');
+          const btnVal = btn.textContent.trim();
+          const cleanBtn = btnVal.replace(/[\s\*xX×]/g, '').replace(/公分|公尺|個|束|張|日|月|元|個學生|個蘋果和|個梨子/g, '');
+          
+          if (btnVal === userVal) {
+            if (isRight) {
+              btn.classList.add('opt-correct');
+              btn.innerHTML = `✓ ${btnVal}`;
+            } else {
+              btn.classList.add('opt-wrong');
+              btn.innerHTML = `✕ ${btnVal}`;
+            }
+          } else if (cleanBtn === cleanAns && !isRight) {
+            btn.classList.add('opt-should-be');
+            btn.innerHTML = `★ 正解：${btnVal}`;
+          }
+        });
+      }
+
+      if (panel) {
+        panel.classList.add('show');
+        panel.style.borderLeft = isRight ? '6px solid #10B981' : '6px solid #EF4444';
+      }
+    });
+  });
+
+  const score = Math.round((correct / total) * 100);
+  document.getElementById('wbScoreDisp').innerHTML = `得分：<b>${score} 分</b> (${correct} / ${total} 題正確)`;
+  if (score >= 80) {
+    playSound('fanfare');
+    if (window.confetti) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+  } else {
+    playSound('correct');
+  }
+  alert(`🎉 隨堂測驗批改完成！\n\n得分：${score} 分\n綠色為答對選項，紅色為答錯選項，綠色虛線為標準正解！✨`);
+}
+
+function resetWbQuiz() {
+  wbAnswers = {};
+  renderWbQuizBody();
+  document.getElementById('wbScoreDisp').textContent = '狀態：做題中（未交卷）';
+}
+</script>
+
 </body>
 </html>

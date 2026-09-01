@@ -3,70 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>分數廚師大挑戰 🍕 南一版 6上數學</title>
-<meta name="description" content="互動數學遊戲：分數的除法。最簡分數、整數除分數、異分母分數除法，闖關挑戰，好玩又學習！">
+<title>分數廚師大挑戰 🍕 南一版 6上數學 第2單元</title>
+<meta name="description" content="南一版 6年級上學期 數學第2單元：分數的除法。最簡分數、整數除分數、異分母分數除法、被除數與商的關係，5大闖關與作業簿第4-6回完整題庫！">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
 <style>
   :root {
-    --kitchen-red: #E63946;
-    --kitchen-orange: #F4A261;
-    --kitchen-yellow: #FFD166;
-    --kitchen-cream: #FFF8F0;
-    --kitchen-brown: #5C3317;
-    --kitchen-dark: #2D1B0E;
-    --kitchen-green: #57CC99;
-    --kitchen-teal: #22A39F;
-    --kitchen-blue: #264653;
-    --gold: #FFD166;
-    --gold-dark: #C9A227;
-    --shadow-warm: 0 8px 0 rgba(92, 51, 23, 0.25);
-    --shadow-card: 0 12px 40px rgba(44, 27, 14, 0.18);
-    --parchment: #FFFDF8;
+    --kitchen-red: #D9383A;
+    --kitchen-orange: #E76F51;
+    --kitchen-yellow: #F4A261;
+    --kitchen-green: #2A9D8F;
+    --ink: #264653;
+    --gold: #FFB703;
+    --gold-dark: #D48800;
+    --parchment: #FFFDF5;
+    --parchment-dark: #E9D9A6;
+    --coral: #E76F51;
+    --leaf: #2A9D8F;
+    --shadow: 0 10px 0 rgba(38, 70, 83, 0.22);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
 
   body {
+    margin: 0;
     min-height: 100vh;
     min-height: 100dvh;
     overflow-x: hidden;
     background:
-      radial-gradient(circle at 10% 5%, rgba(255,255,200,0.2), transparent 35%),
-      radial-gradient(circle at 90% 90%, rgba(255,160,80,0.15), transparent 40%),
-      linear-gradient(160deg, #3D1C00 0%, #7B3F00 35%, #C1440E 70%, #E07030 100%);
+      radial-gradient(circle at 15% 10%, rgba(255, 255, 255, 0.18), transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(255, 255, 255, 0.15), transparent 45%),
+      linear-gradient(180deg, #4A1E00 0%, #8C3A00 40%, #D95D1E 80%, #F4A261 100%);
     font-family: 'Noto Sans TC', sans-serif;
-    color: var(--kitchen-dark);
+    color: var(--ink);
     display: flex;
     justify-content: center;
-    padding: 16px 12px;
+    padding: 16px 12px 60px;
     padding-left: max(12px, env(safe-area-inset-left));
     padding-right: max(12px, env(safe-area-inset-right));
     padding-bottom: max(60px, calc(env(safe-area-inset-bottom) + 40px));
+    -webkit-tap-highlight-color: transparent;
     position: relative;
   }
 
-  /* 背景動態蒸汽/泡泡 */
-  .bg-bubbles {
+  /* 背景動態烘焙泡泡動畫 */
+  .bg-waves {
     position: fixed;
-    inset: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255, 255, 255, 0.08)" d="M0,192L48,197.3C96,203,192,213,288,192C384,171,480,117,576,112C672,107,768,149,864,165.3C960,181,1056,171,1152,149.3C1248,128,1344,96,1392,80L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
+    background-size: 1440px 120px;
+    animation: waveMove 12s infinite linear;
     pointer-events: none;
     z-index: 0;
-    overflow: hidden;
   }
-  .bg-bubbles span {
-    position: absolute;
-    bottom: -60px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.07);
-    animation: bubbleRise linear infinite;
-  }
-  @keyframes bubbleRise {
-    0% { transform: translateY(0) scale(1); opacity: 0.7; }
-    100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+
+  @keyframes waveMove {
+    0% { background-position-x: 0; }
+    100% { background-position-x: 1440px; }
   }
 
   .app {
@@ -76,1334 +75,1377 @@
     z-index: 1;
   }
 
-  button, .term { -webkit-tap-highlight-color: transparent; cursor: pointer; }
+  button, .term, .isle {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
 
-  /* ══ HEADER ══ */
-  .hdr {
+  h1, h2, h3 { font-family: 'Baloo 2', 'Noto Sans TC', sans-serif; margin: 0; }
+
+  /* ---------- Top Navigation Bar ---------- */
+  .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 12px;
     gap: 8px;
-    margin-bottom: 14px;
     flex-wrap: wrap;
   }
-  .hdr-left { display: flex; align-items: center; gap: 10px; }
-  .back-btn {
-    background: rgba(255,255,255,0.15);
-    border: 2px solid rgba(255,255,255,0.35);
-    border-radius: 50px;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 6px 14px;
-    cursor: pointer;
-    transition: background 0.2s;
-    text-decoration: none;
-    display: inline-block;
-    font-family: 'Noto Sans TC', sans-serif;
-  }
-  .back-btn:hover { background: rgba(255,255,255,0.28); }
-  .hdr-title {
-    font-family: 'Baloo 2', sans-serif;
-    font-size: clamp(17px, 4vw, 22px);
-    font-weight: 800;
-    color: #fff;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.35);
-    line-height: 1.2;
-  }
-  .hdr-title small { font-size: 0.65em; opacity: 0.8; display: block; font-weight: 500; }
 
-  /* Coins / Stage */
-  .hdr-stats { display: flex; gap: 8px; align-items: center; }
-  .stat-chip {
-    background: rgba(255,255,255,0.18);
-    border: 2px solid rgba(255,255,255,0.3);
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.4);
     border-radius: 20px;
-    padding: 5px 12px;
-    color: #fff;
-    font-size: 14px;
+    color: #FFF;
     font-weight: 700;
+    font-size: 0.9rem;
+    text-decoration: none;
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px);
+  }
+
+  .combo-badge {
+    background: linear-gradient(135deg, #FF9E00, #FF0054);
+    color: #FFF;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.92rem;
+    box-shadow: 0 4px 10px rgba(255, 0, 84, 0.3);
     display: flex;
     align-items: center;
-    gap: 5px;
-    white-space: nowrap;
+    gap: 4px;
+    animation: pulse 1.5s infinite alternate;
   }
-  .coin-icon { font-size: 16px; }
 
-  /* ══ MASCOT ══ */
-  .mascot-wrap {
-    position: relative;
-    margin-bottom: 12px;
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.08); }
   }
+
+  /* ---------- Header ---------- */
+  .header {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 14px;
+  }
+
+  .header .eyebrow {
+    font-size: 14px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    opacity: 0.9;
+    background: rgba(255, 255, 255, 0.15);
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 12px;
+    margin-bottom: 4px;
+  }
+
+  .header h1 {
+    font-size: clamp(28px, 6.5vw, 42px);
+    text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
+    margin: 4px 0 2px;
+    letter-spacing: 1px;
+  }
+
+  .header p {
+    font-size: 16px;
+    opacity: 0.95;
+    margin: 0;
+  }
+
+  /* ---------- Animated Chef Mascot & Progress path ---------- */
   .mascot-row {
     display: flex;
-    align-items: flex-end;
-    gap: 12px;
-  }
-  .mascot-char {
-    font-size: clamp(52px, 12vw, 72px);
-    line-height: 1;
-    animation: chefBounce 2.8s ease-in-out infinite;
-    flex-shrink: 0;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.35));
-  }
-  @keyframes chefBounce {
-    0%,100% { transform: translateY(0) rotate(-3deg); }
-    50% { transform: translateY(-8px) rotate(3deg); }
-  }
-  .speech-bubble {
-    background: #fff;
-    border-radius: 20px 20px 20px 4px;
-    padding: 12px 16px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
-    font-size: clamp(13px, 3vw, 15px);
-    font-weight: 600;
-    color: var(--kitchen-brown);
-    line-height: 1.5;
-    max-width: 520px;
-    position: relative;
-    flex: 1;
-    min-height: 52px;
-    display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.18);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    padding: 10px 16px;
+    backdrop-filter: blur(4px);
   }
-  .speech-bubble::after {
+
+  .mascot-avatar {
+    font-size: 2.8rem;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    animation: floatMascot 2s ease-in-out infinite alternate;
+    user-select: none;
+  }
+
+  @keyframes floatMascot {
+    0% { transform: translateY(0) rotate(-3deg); }
+    100% { transform: translateY(-6px) rotate(3deg); }
+  }
+
+  .mascot-speech {
+    background: #FFFFFF;
+    color: var(--ink);
+    padding: 8px 16px;
+    border-radius: 16px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    max-width: 80%;
+  }
+
+  .mascot-speech::before {
     content: '';
     position: absolute;
     left: -10px;
-    bottom: 10px;
-    border: 10px solid transparent;
-    border-right-color: #fff;
-    border-left: 0;
-    border-bottom: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px 10px 6px 0;
+    border-style: solid;
+    border-color: transparent #FFFFFF transparent transparent;
   }
 
-  /* ══ STAGE PROGRESS ══ */
-  .stages-bar {
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-    margin-bottom: 14px;
-  }
-  .stage-dot {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.18);
-    border: 2px solid rgba(255,255,255,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 800;
-    color: rgba(255,255,255,0.6);
-    cursor: pointer;
-    transition: all 0.25s;
-    font-family: 'Baloo 2', sans-serif;
-  }
-  .stage-dot.done { background: var(--kitchen-green); border-color: #3AAF77; color: #fff; }
-  .stage-dot.active { background: var(--kitchen-yellow); border-color: var(--gold-dark); color: var(--kitchen-brown); transform: scale(1.15); box-shadow: 0 0 0 4px rgba(255,209,102,0.4); }
-
-  /* ══ GAME CARD ══ */
-  .card {
-    background: var(--parchment);
-    border-radius: 24px;
-    box-shadow: var(--shadow-card);
-    overflow: hidden;
-    margin-bottom: 16px;
+  /* Path bar */
+  .path-wrap {
+    background: rgba(255, 255, 255, 0.16);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+    padding: 16px 10px 12px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(4px);
+    position: relative;
   }
 
-  .stage-header {
-    background: linear-gradient(135deg, var(--kitchen-orange), var(--kitchen-red));
-    padding: 14px 20px;
+  .path {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-  }
-  .stage-name {
-    font-family: 'Baloo 2', sans-serif;
-    font-size: clamp(16px, 4vw, 20px);
-    font-weight: 800;
-    color: #fff;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.25);
-  }
-  .q-counter {
-    background: rgba(255,255,255,0.25);
-    border-radius: 20px;
-    padding: 4px 12px;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
+    position: relative;
+    padding: 0 4px;
   }
 
-  /* Progress bar */
-  .progress-wrap {
+  .path::before {
+    content: "";
+    position: absolute;
+    top: 22px; left: 6%; right: 6%;
     height: 6px;
-    background: rgba(0,0,0,0.08);
-  }
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--kitchen-green), #3EE8A0);
-    transition: width 0.4s ease;
+    background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0 10px, transparent 10px 18px);
+    z-index: 0;
+    border-radius: 3px;
   }
 
-  .card-body { padding: 20px; }
-
-  /* Question */
-  .question-section {
-    background: linear-gradient(135deg, #FFF3E0, #FFF8F0);
-    border-radius: 16px;
-    padding: 18px 20px;
-    margin-bottom: 16px;
-    border: 2px solid rgba(244,162,97,0.3);
-    min-height: 80px;
+  .isle {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 4px;
+    width: 19%;
+    cursor: pointer;
+  }
+
+  .isle .dot {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
     justify-content: center;
+    font-size: 22px;
+    background: var(--parchment-dark);
+    border: 3px solid #fff;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .isle.active .dot {
+    background: var(--kitchen-red);
+    transform: scale(1.2);
+    animation: bob 1.2s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(217, 56, 58, 0.6);
+  }
+
+  .isle.done .dot {
+    background: var(--leaf);
+    border-color: #E2F1E7;
+  }
+
+  .isle .stars {
+    font-size: 13px;
+    color: #fff;
+    min-height: 16px;
+    letter-spacing: 1px;
+  }
+
+  .isle .label {
+    font-size: 12.5px;
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    opacity: 0.95;
+    line-height: 1.2;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0) scale(1.2); }
+    50% { transform: translateY(-6px) scale(1.2); }
+  }
+
+  /* ---------- Main Card ---------- */
+  .card {
+    background: var(--parchment);
+    border: 4px solid var(--ink);
+    border-radius: 26px;
+    padding: clamp(18px, 4vw, 28px) clamp(16px, 4vw, 26px) clamp(22px, 5vw, 30px);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+    min-height: 340px;
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(38, 70, 83, 0.04) 1.5px, transparent 1.5px);
+    background-size: 16px 16px;
+    pointer-events: none;
+  }
+
+  .stage-title {
+    display: flex;
+    align-items: center;
     gap: 10px;
+    font-size: clamp(22px, 5vw, 30px);
+    color: var(--kitchen-red);
+    margin-bottom: 8px;
+    font-weight: 800;
+  }
+
+  .stage-sub {
+    font-size: 16.5px;
+    color: #4b5a5f;
+    margin-bottom: 18px;
+    line-height: 1.65;
+  }
+
+  .content { position: relative; z-index: 1; }
+
+  /* Buttons & Option Grid */
+  .btn {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 800;
+    font-size: 19px;
+    padding: 14px 26px;
+    min-height: 52px;
+    border-radius: 16px;
+    border: 3px solid var(--ink);
+    cursor: pointer;
+    background: var(--kitchen-orange);
+    color: #fff;
+    box-shadow: 0 5px 0 #9E4732;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .btn:hover { filter: brightness(1.08); }
+  .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #9E4732; }
+
+  .btn.gold { background: var(--gold); box-shadow: 0 5px 0 var(--gold-dark); color: #3a2600; }
+  .btn.coral { background: var(--kitchen-red); box-shadow: 0 5px 0 #8E2022; }
+  .btn.leaf { background: var(--leaf); box-shadow: 0 5px 0 #1b635a; }
+
+  .opt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+  }
+
+  .opt-btn {
+    font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    padding: 16px 20px;
+    border-radius: 18px;
+    border: 3px solid var(--ink);
+    background: #FFF;
+    color: var(--ink);
+    cursor: pointer;
+    box-shadow: 0 6px 0 rgba(38, 70, 83, 0.2);
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
   }
-  .question-context {
-    font-size: clamp(13px, 3vw, 15px);
-    color: #5C3317;
-    line-height: 1.6;
-    font-weight: 500;
-    max-width: 540px;
-  }
-  .question-math {
-    font-family: 'Baloo 2', sans-serif;
-    font-size: clamp(22px, 6vw, 34px);
-    font-weight: 800;
-    color: var(--kitchen-brown);
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .frac {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 0.75em;
-    line-height: 1;
-    vertical-align: middle;
-    margin: 0 2px;
-  }
-  .frac .num { border-bottom: 3px solid currentColor; padding: 1px 4px; }
-  .frac .den { padding: 1px 4px; }
-  .op { color: var(--kitchen-red); }
 
-  /* Visual fraction bar */
-  .frac-visual {
-    display: flex;
-    gap: 3px;
-    margin: 8px auto;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 420px;
+  .opt-btn:hover {
+    background: #FFF3E0;
+    border-color: var(--kitchen-orange);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 rgba(38, 70, 83, 0.25);
   }
-  .frac-bar {
-    height: 28px;
-    border-radius: 4px;
+
+  .opt-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 rgba(38, 70, 83, 0.2);
+  }
+
+  .btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+  .btn.small { padding: 10px 18px; font-size: 16px; border-radius: 12px; box-shadow: 0 3px 0 rgba(0, 0, 0, 0.25); }
+
+  /* Interactive Elements */
+  .fraction-display {
+    font-family: 'Fredoka', 'Baloo 2', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--ink);
+    background: #FFF;
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    padding: 18px 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin: 12px auto;
+    box-shadow: 0 6px 0 rgba(38, 70, 83, 0.2);
+  }
+
+  .feedback {
+    margin-top: 16px;
+    font-weight: 700;
+    font-size: 17.5px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 12px;
     transition: all 0.3s ease;
   }
-  .frac-bar.filled { background: linear-gradient(135deg, var(--kitchen-orange), var(--kitchen-red)); }
-  .frac-bar.empty { background: rgba(0,0,0,0.08); border: 2px dashed rgba(0,0,0,0.15); }
+  .feedback.ok { color: #0E7C7B; background: #E6F8F6; border: 2px solid #2EC4B6; }
+  .feedback.bad { color: #D63031; background: #FFE5E5; border: 2px solid #FF4757; }
 
-  /* Choices */
-  .choices {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 16px;
+  .shake { animation: shake 0.4s ease; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-10px); }
+    40%, 80% { transform: translateX(10px); }
   }
-  .choice-btn {
-    border: 3px solid rgba(244,162,97,0.3);
-    border-radius: 14px;
-    background: #fff;
-    padding: 14px 10px;
-    font-family: 'Baloo 2', sans-serif;
-    font-size: clamp(17px, 4vw, 22px);
+
+  /* Glossary Tooltip & FAB */
+  .term {
+    color: var(--kitchen-red);
     font-weight: 800;
-    color: var(--kitchen-brown);
+    border-bottom: 2px dotted var(--kitchen-orange);
     cursor: pointer;
-    transition: all 0.18s;
-    position: relative;
-    box-shadow: 0 4px 0 rgba(0,0,0,0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    min-height: 64px;
-    flex-wrap: wrap;
+    padding: 0 2px;
+    white-space: nowrap;
   }
-  .choice-btn:hover:not(:disabled) {
-    border-color: var(--kitchen-orange);
-    background: #FFF3E0;
-    transform: translateY(-3px);
-    box-shadow: 0 7px 0 rgba(0,0,0,0.1);
-  }
-  .choice-btn.correct {
-    background: linear-gradient(135deg, #D4EDDA, #A8DFBA);
-    border-color: #28A745;
-    color: #155724;
-    animation: correctPulse 0.4s ease;
-  }
-  .choice-btn.wrong {
-    background: linear-gradient(135deg, #F8D7DA, #F5B8BC);
-    border-color: #DC3545;
-    color: #721C24;
-    animation: wrongShake 0.4s ease;
-  }
-  @keyframes correctPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.06); }
-    100% { transform: scale(1); }
-  }
-  @keyframes wrongShake {
-    0%,100% { transform: translateX(0); }
-    25% { transform: translateX(-6px); }
-    75% { transform: translateX(6px); }
-  }
+  .term:hover { background: rgba(231, 111, 81, 0.18); border-radius: 4px; }
+  .term sup { font-size: 12px; color: var(--kitchen-red); margin-left: 1px; }
 
-  /* Feedback */
-  .feedback-box {
-    border-radius: 12px;
-    padding: 12px 16px;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.6;
-    margin-top: 8px;
-    display: none;
-  }
-  .feedback-box.show { display: block; }
-  .feedback-box.ok { background: #D4EDDA; color: #155724; border: 2px solid #C3E6CB; }
-  .feedback-box.bad { background: #F8D7DA; color: #721C24; border: 2px solid #F5C6CB; }
-
-  /* Combo */
-  .combo-flash {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%) scale(0.5);
-    font-family: 'Baloo 2', sans-serif;
-    font-size: clamp(32px, 8vw, 56px);
-    font-weight: 800;
-    color: var(--kitchen-yellow);
-    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    pointer-events: none;
-    opacity: 0;
-    z-index: 999;
-    transition: none;
-  }
-  .combo-flash.show {
-    animation: comboAnim 0.9s forwards;
-  }
-  @keyframes comboAnim {
-    0% { opacity: 1; transform: translate(-50%,-50%) scale(0.5); }
-    30% { opacity: 1; transform: translate(-50%,-65%) scale(1.2); }
-    70% { opacity: 1; transform: translate(-50%,-70%) scale(1.05); }
-    100% { opacity: 0; transform: translate(-50%,-90%) scale(0.9); }
-  }
-
-  /* Floating coins */
-  .coin-fly {
-    position: fixed;
-    font-size: 24px;
-    pointer-events: none;
-    z-index: 998;
-    animation: coinFly 0.9s ease-out forwards;
-  }
-  @keyframes coinFly {
-    0% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
-  }
-
-  /* ══ STAGE COMPLETE ══ */
-  .stage-complete {
-    background: var(--parchment);
-    border-radius: 24px;
-    box-shadow: var(--shadow-card);
-    padding: 30px 24px;
-    text-align: center;
-    display: none;
-    animation: slideUp 0.5s ease;
-  }
-  .stage-complete.show { display: block; }
-  @keyframes slideUp {
-    from { transform: translateY(30px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-  }
-  .stage-complete-icon { font-size: 64px; margin-bottom: 8px; animation: chefBounce 1.5s infinite; display: block; }
-  .stage-complete h2 {
-    font-family: 'Baloo 2', sans-serif;
-    font-size: clamp(20px, 5vw, 28px);
-    font-weight: 800;
-    color: var(--kitchen-brown);
-    margin-bottom: 8px;
-  }
-  .stars-row {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    font-size: 40px;
-    margin: 16px 0;
-  }
-  .star { animation: starPop 0.4s ease forwards; opacity: 0; }
-  .star:nth-child(1) { animation-delay: 0.15s; }
-  .star:nth-child(2) { animation-delay: 0.35s; }
-  .star:nth-child(3) { animation-delay: 0.55s; }
-  @keyframes starPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-  .score-detail {
-    background: linear-gradient(135deg, #FFF3E0, #FFE8CC);
-    border-radius: 12px;
-    padding: 14px 20px;
-    margin: 12px 0 20px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--kitchen-brown);
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-  .score-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-  .score-num { font-family: 'Baloo 2', sans-serif; font-size: 24px; font-weight: 800; color: var(--kitchen-red); }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--kitchen-orange), var(--kitchen-red));
-    border: none;
-    border-radius: 50px;
-    padding: 14px 32px;
-    color: #fff;
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 18px;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 6px 0 rgba(150,40,10,0.4);
-    transition: all 0.18s;
-    margin: 6px;
-    display: inline-block;
-  }
-  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 9px 0 rgba(150,40,10,0.4); }
-  .btn-primary:active { transform: translateY(2px); box-shadow: 0 3px 0 rgba(150,40,10,0.4); }
-  .btn-secondary {
-    background: #fff;
-    border: 3px solid var(--kitchen-orange);
-    border-radius: 50px;
-    padding: 11px 24px;
-    color: var(--kitchen-brown);
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.18s;
-    margin: 6px;
-    display: inline-block;
-  }
-  .btn-secondary:hover { background: #FFF3E0; transform: translateY(-2px); }
-
-  /* ══ GLOSSARY ══ */
   .glossary-fab {
     position: fixed;
-    bottom: max(24px, env(safe-area-inset-bottom, 24px));
-    right: max(20px, env(safe-area-inset-right, 20px));
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--kitchen-yellow), var(--kitchen-orange));
-    border: none;
+    right: 18px;
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    z-index: 50;
+    background: var(--gold);
+    color: #3a2600;
+    border: 3px solid #fff;
+    border-radius: 999px;
+    padding: 12px 18px;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 26px;
     cursor: pointer;
-    z-index: 200;
-    transition: transform 0.25s;
   }
-  .glossary-fab:hover { transform: scale(1.1) rotate(10deg); }
 
-  .glossary-overlay {
+  .modal-overlay {
+    display: none;
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 300;
-    display: none;
+    background: rgba(38, 70, 83, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 100;
     align-items: center;
     justify-content: center;
     padding: 16px;
   }
-  .glossary-overlay.open { display: flex; }
-  .glossary-modal {
+  .modal-overlay.open { display: flex; }
+
+  .modal-card {
     background: var(--parchment);
+    border: 4px solid var(--ink);
     border-radius: 24px;
+    max-width: 580px;
     width: 100%;
-    max-width: 720px;
-    max-height: 80vh;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 24px;
   }
-  .glossary-header {
-    background: linear-gradient(135deg, var(--kitchen-orange), var(--kitchen-red));
-    padding: 18px 22px;
+
+  .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .modal-close { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--ink); background: #fff; font-weight: 800; cursor: pointer; }
+
+  .def-card {
+    background: #fff;
+    border: 2px solid var(--parchment-dark);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .def-card h3 { font-size: 18px; color: var(--kitchen-red); margin-bottom: 6px; }
+  .def-card p { font-size: 15px; line-height: 1.7; color: #3d4a4e; margin: 0; }
+
+  /* Floating coin effect */
+  .coin-burst {
+    position: absolute;
+    pointer-events: none;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #FFD166;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    animation: floatCoin 1.2s ease-out forwards;
+    z-index: 99;
+  }
+  @keyframes floatCoin {
+    0% { opacity: 1; transform: translateY(0) scale(0.8); }
+    50% { opacity: 1; transform: translateY(-40px) scale(1.3); }
+    100% { opacity: 0; transform: translateY(-80px) scale(1); }
+  }
+
+  /* Intro / final */
+  .hero-emoji { font-size: 72px; text-align: center; margin-bottom: 8px; }
+  .lead-text { text-align: center; font-size: 17px; color: #4b5a5f; line-height: 1.7; margin-bottom: 18px; }
+  .rules-list { font-size: 15.5px; color: #3d4a4e; line-height: 1.9; background: #FFF; border-radius: 16px; padding: 16px 20px; border: 3px solid var(--parchment-dark); }
+  .star-line { font-size: 32px; letter-spacing: 4px; text-align: center; margin: 8px 0; }
+  .footer-note { text-align: center; color: #FFF; font-size: 14px; margin-top: 18px; opacity: 0.9; }
+
+  /* 作業簿隨堂考 Modal 與按鈕式選項 */
+  .wb-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(74, 30, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px 12px 60px;
+  }
+  .wb-modal-overlay.open { display: block; }
+  .wb-modal-content {
+    background: #FFFDF5;
+    border: 4px solid var(--ink);
+    border-radius: 24px;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 24px 20px;
+    color: var(--ink);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  }
+  .wb-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-shrink: 0;
+    border-bottom: 2px solid var(--parchment-dark);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
   }
-  .glossary-header h3 { font-family: 'Baloo 2', sans-serif; font-size: 20px; font-weight: 800; color: #fff; }
-  .close-btn {
-    background: rgba(255,255,255,0.25);
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .wb-title { font-size: 21px; font-weight: 800; color: var(--kitchen-red); display: flex; align-items: center; gap: 8px; }
+  .wb-close-btn {
+    width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--ink); background: #FFF;
+    font-weight: 900; font-size: 18px; cursor: pointer;
   }
-  .close-btn:hover { background: rgba(255,255,255,0.4); }
-  .glossary-terms {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 14px 20px 10px;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-    flex-shrink: 0;
+  .wb-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .wb-tab {
+    flex: 1; min-width: 140px; padding: 10px 14px; border-radius: 12px; border: 2px solid var(--parchment-dark);
+    background: #FFF; font-weight: 800; font-size: 13.5px; cursor: pointer; color: #5C6B70;
+    text-align: center; transition: all 0.2s;
   }
-  .term {
-    background: linear-gradient(135deg, var(--kitchen-yellow), #FFBA4D);
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--kitchen-brown);
-    border: none;
-    cursor: pointer;
-    transition: transform 0.15s;
-    box-shadow: 0 3px 0 rgba(0,0,0,0.12);
+  .wb-tab.active { background: var(--gold); border-color: var(--gold-dark); color: #3a2600; box-shadow: 0 4px 0 var(--gold-dark); }
+  .wb-sec-card { background: #FFF; border: 2px solid var(--parchment-dark); border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+  .wb-sec-title { font-size: 16px; font-weight: 800; color: var(--kitchen-red); margin-bottom: 12px; border-bottom: 1.5px dashed var(--parchment-dark); padding-bottom: 6px; }
+  .wb-q-item { background: #FBF0D3; border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 2px solid var(--parchment-dark); transition: all 0.3s ease; position: relative; }
+  .wb-q-item.is-correct { border: 3px solid #10B981 !important; background: #ECFDF5 !important; }
+  .wb-q-item.is-wrong { border: 3px solid #EF4444 !important; background: #FEF2F2 !important; }
+  .wb-q-badge {
+    display: inline-block; padding: 3px 10px; border-radius: 8px; font-size: 13px; font-weight: 800; margin-bottom: 8px;
   }
-  .term:hover { transform: translateY(-2px); }
-  .term.active { background: linear-gradient(135deg, var(--kitchen-red), var(--kitchen-orange)); color: #fff; }
-  .glossary-content {
-    overflow-y: auto;
-    padding: 20px;
-    flex: 1;
-  }
-  .glossary-entry {
-    scroll-margin-top: 10px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px dashed rgba(0,0,0,0.12);
-  }
-  .glossary-entry:last-child { border-bottom: none; margin-bottom: 0; }
-  .glossary-entry h4 {
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 17px;
-    font-weight: 800;
-    color: var(--kitchen-red);
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .glossary-entry p { font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 8px; }
-  .glossary-entry .example-box {
-    background: #FFF3E0;
-    border-left: 4px solid var(--kitchen-orange);
-    border-radius: 0 10px 10px 0;
-    padding: 10px 14px;
-    font-size: 14px;
-    color: var(--kitchen-brown);
-    font-weight: 600;
-    line-height: 2;
-  }
-
-  /* ══ WELCOME SCREEN ══ */
-  .welcome {
-    background: var(--parchment);
-    border-radius: 24px;
-    box-shadow: var(--shadow-card);
-    padding: 30px 24px;
-    text-align: center;
-    display: none;
-    animation: slideUp 0.5s ease;
-  }
-  .welcome.show { display: block; }
-  .welcome-emoji { font-size: 72px; animation: chefBounce 2s infinite; display: block; margin-bottom: 12px; }
-  .welcome h2 {
-    font-family: 'Baloo 2', sans-serif;
-    font-size: clamp(22px, 5vw, 30px);
-    font-weight: 800;
-    color: var(--kitchen-brown);
-    margin-bottom: 10px;
-  }
-  .welcome p {
-    font-size: 15px;
-    color: #6B4226;
-    line-height: 1.8;
-    margin-bottom: 20px;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .unit-summary {
+  .wb-q-badge.correct { background: #10B981; color: #FFF; }
+  .wb-q-badge.wrong { background: #EF4444; color: #FFF; }
+  
+  .wb-q-text { font-size: 15.5px; font-weight: 700; line-height: 1.6; margin-bottom: 10px; color: var(--ink); }
+  
+  /* 作業簿選項大按鈕網格 (直接點選) */
+  .wb-opt-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
     gap: 10px;
-    margin: 16px 0 24px;
-    text-align: left;
+    margin-top: 8px;
   }
-  @media (max-width: 500px) { .unit-summary { grid-template-columns: 1fr; } }
-  .unit-card {
-    background: linear-gradient(135deg, #FFF3E0, #FFE8CC);
+  .wb-opt-btn {
+    background: #FFFFFF;
+    border: 2px solid #E76F51;
     border-radius: 12px;
-    padding: 12px 14px;
-    border: 2px solid rgba(244,162,97,0.3);
-  }
-  .unit-card .unit-num {
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 13px;
+    padding: 10px 14px;
+    font-size: 15px;
     font-weight: 800;
-    color: var(--kitchen-orange);
-    margin-bottom: 4px;
-  }
-  .unit-card .unit-name { font-size: 14px; font-weight: 700; color: var(--kitchen-brown); }
-
-  /* ══ ALL CLEAR ══ */
-  .all-clear {
-    background: var(--parchment);
-    border-radius: 24px;
-    box-shadow: var(--shadow-card);
-    padding: 36px 24px;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.15s ease;
     text-align: center;
-    display: none;
-    animation: slideUp 0.5s ease;
+    box-shadow: 0 3px 0 rgba(38, 70, 83, 0.15);
+    user-select: none;
   }
-  .all-clear.show { display: block; }
-  .all-clear h2 {
-    font-family: 'Baloo 2', sans-serif;
-    font-size: clamp(24px, 6vw, 36px);
-    font-weight: 800;
-    color: var(--kitchen-red);
-    margin-bottom: 8px;
+  .wb-opt-btn:hover {
+    background: #FFF3E0;
+    border-color: var(--kitchen-red);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 rgba(38, 70, 83, 0.2);
   }
-  .total-stars { font-size: 50px; margin: 16px 0; }
-  .total-coins {
-    background: linear-gradient(135deg, #FFF3E0, #FFE8CC);
-    border-radius: 14px;
-    padding: 18px 24px;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 28px;
-    font-weight: 800;
-    color: var(--kitchen-brown);
-    margin: 16px 0;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  .wb-opt-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 rgba(38, 70, 83, 0.15);
+  }
+  .wb-opt-btn.selected {
+    background: var(--gold) !important;
+    border-color: var(--gold-dark) !important;
+    color: #3A2600 !important;
+    box-shadow: 0 4px 0 var(--gold-dark) !important;
+    transform: scale(1.02);
+  }
+
+  /* 批改鮮明顏色：選對 (翠綠色)、選錯 (鮮紅色)、正確答案提示 (綠色虛線) */
+  .wb-opt-btn.opt-correct {
+    background: linear-gradient(135deg, #10B981, #059669) !important;
+    color: #FFFFFF !important;
+    border: 3px solid #047857 !important;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.6) !important;
+    transform: scale(1.03);
+  }
+  .wb-opt-btn.opt-wrong {
+    background: linear-gradient(135deg, #EF4444, #DC2626) !important;
+    color: #FFFFFF !important;
+    border: 3px solid #991B1B !important;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.6) !important;
+    transform: scale(1.03);
+  }
+  .wb-opt-btn.opt-should-be {
+    background: #D1FAE5 !important;
+    color: #065F46 !important;
+    border: 3px dashed #10B981 !important;
+    font-weight: 900 !important;
+  }
+
+  .wb-sol-panel { display: none; background: #E6F8F6; border: 2px solid #2EC4B6; border-radius: 10px; padding: 12px; margin-top: 12px; font-size: 14px; }
+  .wb-sol-panel.show { display: block; }
+  .wb-sol-steps { font-family: 'Fredoka', monospace; background: #FFF; padding: 8px; border-radius: 6px; margin: 6px 0; white-space: pre-wrap; color: var(--ink); font-weight: 700; }
+  .wb-sol-ans { color: #047857; font-weight: 900; font-size: 15px; }
+  .wb-submit-bar {
+    position: sticky; bottom: 0; background: #FFFDF5; border-top: 2px solid var(--parchment-dark);
+    padding: 14px 0 0; display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px; z-index: 10;
+  }
+  .wb-score-text { font-size: 18px; font-weight: 800; color: var(--kitchen-red); }
+  .wb-btn-submit {
+    background: linear-gradient(135deg, #2EC4B6 0%, #0E7C7B 100%);
+    border: none; color: #FFF; font-weight: 800; font-size: 15px; padding: 10px 24px;
+    border-radius: 12px; cursor: pointer; box-shadow: 0 4px 0 #0A5A59;
+  }
+
+  @media (max-width: 480px) {
+    .isle .label { display: none; }
+    .isle .dot { width: 42px; height: 42px; font-size: 19px; }
+    .mascot-speech { font-size: 0.85rem; padding: 6px 12px; }
+    .opt-grid, .wb-opt-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<!-- 背景泡泡 -->
-<div class="bg-bubbles" id="bgBubbles"></div>
+<div class="bg-waves"></div>
 
-<div class="combo-flash" id="comboFlash"></div>
+<div class="app">
+  <!-- 頂部列：切換頁面、音效與作業簿 -->
+  <div class="top-bar">
+    <a href="index.html" class="nav-btn">
+      <span>🏰</span>
+      <span>返回學習城堡</span>
+    </a>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button class="nav-btn" style="background:linear-gradient(135deg,#D9383A,#E76F51);color:#fff;border-color:#fff;" onclick="openFracWbModal()">
+        <span>📑</span>
+        <span>南一作業簿隨堂考 (第4~6回)</span>
+      </button>
+      <div class="combo-badge" id="comboBadge" style="display: none;">
+        <span>🔥</span> <span id="comboText">連勝 x0</span>
+      </div>
+      <button class="nav-btn" id="soundToggleBtn" onclick="toggleSound()">
+        <span id="soundIcon">🔊</span>
+        <span id="soundText">音效 ON</span>
+      </button>
+    </div>
+  </div>
 
-<!-- ══ GLOSSARY FAB ══ -->
-<button class="glossary-fab" id="glossaryFab" title="名詞小百科" onclick="openGlossary()">📖</button>
+  <div class="header">
+    <div class="eyebrow">南一版 六年級上學期・第二單元</div>
+    <h1>🍕 分數廚師大挑戰</h1>
+    <p>跟著披薩大廚，掌握最簡分數、異分母除法與顛倒相乘料理秘笈！</p>
+  </div>
 
-<!-- ══ GLOSSARY MODAL ══ -->
-<div class="glossary-overlay" id="glossaryOverlay" onclick="closeGlossaryOutside(event)">
-  <div class="glossary-modal">
-    <div class="glossary-header">
-      <h3>📖 名詞小百科</h3>
-      <button class="close-btn" onclick="closeGlossary()">✕</button>
+  <!-- 主廚吉祥物對話區 -->
+  <div class="mascot-row">
+    <div class="mascot-avatar" id="mascotAvatar">👨‍🍳</div>
+    <div class="mascot-speech" id="mascotSpeech">哈囉！小小料理師，答案已為你全部列出，直接點擊美味答案卡片作答吧！</div>
+  </div>
+
+  <!-- 地圖進度列 -->
+  <div class="path-wrap">
+    <div class="path" id="pathBar"></div>
+  </div>
+
+  <!-- 主要關卡卡片 -->
+  <div class="card">
+    <div class="content" id="content"></div>
+  </div>
+
+  <div class="footer-note">💡 提示：作業簿所有題型均已列出選項，點擊即可完成做題！👨‍🍳<br><span style="font-size:12.5px;opacity:0.85;display:inline-block;margin-top:4px;">📱 支援 iPad / 平板、手機與電腦 ｜ 專為觸控操作最佳化</span></div>
+</div>
+
+<button class="glossary-fab" onclick="openGlossary()">📖 <span class="txt">名詞小百科</span></button>
+
+<!-- 名詞小百科 Modal -->
+<div class="modal-overlay" id="glossaryOverlay" onclick="if(event.target===this) closeGlossary()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2>📖 分數料理名詞小百科</h2>
+      <button class="modal-close" onclick="closeGlossary()">✕</button>
     </div>
-    <div class="glossary-terms" id="glossaryTerms">
-      <button class="term" onclick="jumpTerm('simplest-fraction')">最簡分數</button>
-      <button class="term" onclick="jumpTerm('reduce')">約分</button>
-      <button class="term" onclick="jumpTerm('frac-div')">分數除法</button>
-      <button class="term" onclick="jumpTerm('reciprocal')">倒數</button>
-      <button class="term" onclick="jumpTerm('mixed-num')">帶分數</button>
-      <button class="term" onclick="jumpTerm('compare')">商與被除數比較</button>
-    </div>
-    <div class="glossary-content" id="glossaryContent">
-      <div class="glossary-entry" id="entry-simplest-fraction">
-        <h4>🍰 最簡分數</h4>
-        <p>分子和分母<strong>互質</strong>（最大公因數為1），無法再約分的分數，叫作<strong>最簡分數</strong>。</p>
-        <div class="example-box">
-          例：60/90 → GCD(60,90)=30 → 60÷30=2，90÷30=3<br>
-          → 最簡分數 = <strong>2/3</strong>（2和3互質）
-        </div>
-      </div>
-      <div class="glossary-entry" id="entry-reduce">
-        <h4>✂️ 約分</h4>
-        <p>將分子和分母同除以它們的<strong>公因數</strong>，使分數變小但大小不變的過程。</p>
-        <div class="example-box">
-          做法一：逐步約（每次除以一個公因數）<br>
-          60/90 → ÷2 → 30/45 → ÷3 → 10/15 → ÷5 → <strong>2/3</strong><br><br>
-          做法二：直接用 GCD 一次約分（更快！）<br>
-          GCD(60,90) = 30，60÷30=2，90÷30=3 → <strong>2/3</strong>
-        </div>
-      </div>
-      <div class="glossary-entry" id="entry-frac-div">
-        <h4>➗ 分數除法</h4>
-        <p>分數除法的核心公式：<strong>除以一個分數 = 乘以它的倒數</strong></p>
-        <div class="example-box">
-          公式：A/B ÷ C/D = A/B × D/C<br><br>
-          範例：5 ÷ 3/4 = 5 × 4/3 = 20/3 = 6又2/3<br>
-          範例：3/8 ÷ 9/16 = 3/8 × 16/9 = (3×16)/(8×9) = 48/72 = 2/3
-        </div>
-      </div>
-      <div class="glossary-entry" id="entry-reciprocal">
-        <h4>🔄 倒數</h4>
-        <p>把一個分數的分子和分母<strong>對調</strong>，所得的分數就是原分數的<strong>倒數</strong>。兩個互為倒數的數相乘等於1。</p>
-        <div class="example-box">
-          3/4 的倒數 = 4/3（因為 3/4 × 4/3 = 12/12 = 1）<br>
-          2又1/3 = 7/3，倒數 = 3/7<br>
-          整數 5 的倒數 = 1/5
-        </div>
-      </div>
-      <div class="glossary-entry" id="entry-mixed-num">
-        <h4>🎂 帶分數</h4>
-        <p>由<strong>整數部分</strong>和<strong>真分數</strong>合在一起的分數，例如 2又3/4。在做除法前，通常先把帶分數化成假分數。</p>
-        <div class="example-box">
-          2又3/4 = (2×4+3)/4 = 11/4<br>
-          3又1/5 = (3×5+1)/5 = 16/5
-        </div>
-      </div>
-      <div class="glossary-entry" id="entry-compare">
-        <h4>⚖️ 商與被除數比較</h4>
-        <p>在分數除法中（被除數≠0）：</p>
-        <div class="example-box">
-          除數 &lt; 1 → 商 &gt; 被除數（例：6 ÷ 1/2 = 12 &gt; 6）<br>
-          除數 = 1 → 商 = 被除數<br>
-          除數 &gt; 1 → 商 &lt; 被除數（例：6 ÷ 3/2 = 4 &lt; 6）
-        </div>
-      </div>
-    </div>
+    <div id="glossaryList"></div>
   </div>
 </div>
 
-<div class="app">
-  <!-- ══ HEADER ══ -->
-  <div class="hdr">
-    <div class="hdr-left">
-      <a href="portal.html" class="back-btn">⬅ 返回</a>
-      <div class="hdr-title">
-        分數廚師大挑戰 🍕
-        <small>南一版 6上・第②單元</small>
+<!-- 南一作業簿隨堂測驗 Modal -->
+<div class="wb-modal-overlay" id="fracWbModalOverlay">
+  <div class="wb-modal-content">
+    <div class="wb-header">
+      <div class="wb-title">📑 南一 6上數學 作業簿隨堂測驗（第 2 單元 分數除法）</div>
+      <button class="wb-close-btn" onclick="closeFracWbModal()">✕</button>
+    </div>
+    <div class="wb-tabs">
+      <button class="wb-tab active" onclick="switchFracWbRev(4)">第 4 回 (2-1 最簡分數、2-2 同分母除法)</button>
+      <button class="wb-tab" onclick="switchFracWbRev(5)">第 5 回 (2-3 異分母分數的除法)</button>
+      <button class="wb-tab" onclick="switchFracWbRev(6)">第 6 回 (2-4 應用題、2-5 商與被除數關係)</button>
+    </div>
+    <div id="fracWbQuizBody"></div>
+    <div class="wb-submit-bar">
+      <div class="wb-score-text" id="fracWbScoreDisp">狀態：做題中（未交卷）</div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn gold small" onclick="resetFracWbQuiz()">🔄 重填</button>
+        <button class="wb-btn-submit" onclick="gradeFracWbQuiz()">📝 交卷批改並看詳解</button>
       </div>
     </div>
-    <div class="hdr-stats">
-      <div class="stat-chip">
-        <span class="coin-icon">🪙</span>
-        <span id="coinDisplay">0</span>
-      </div>
-      <div class="stat-chip" id="comboChip" style="display:none">
-        🔥 <span id="comboDisplay">0</span>連勝
-      </div>
-    </div>
-  </div>
-
-  <!-- Stage progress dots -->
-  <div class="stages-bar" id="stagesBar">
-    <div class="stage-dot active" id="dot-0">1</div>
-    <div class="stage-dot" id="dot-1">2</div>
-    <div class="stage-dot" id="dot-2">3</div>
-    <div class="stage-dot" id="dot-3">4</div>
-    <div class="stage-dot" id="dot-4">5</div>
-  </div>
-
-  <!-- ══ WELCOME ══ -->
-  <div class="welcome show" id="welcomeScreen">
-    <span class="welcome-emoji">🧑‍🍳</span>
-    <h2>歡迎來到廚師學院！</h2>
-    <p>我是大廚布蘭克！今天要一起挑戰<strong>分數的除法</strong>。<br>
-    通過5關考驗，就能成為廚藝大師！</p>
-    <div class="unit-summary">
-      <div class="unit-card">
-        <div class="unit-num">關卡 1</div>
-        <div class="unit-name">🍰 最簡分數判斷</div>
-      </div>
-      <div class="unit-card">
-        <div class="unit-num">關卡 2</div>
-        <div class="unit-name">🥄 整數 ÷ 分數</div>
-      </div>
-      <div class="unit-card">
-        <div class="unit-num">關卡 3</div>
-        <div class="unit-name">🍳 分數 ÷ 分數</div>
-      </div>
-    </div>
-    <div class="unit-summary" style="grid-template-columns:1fr 1fr; max-width:340px; margin-left:auto; margin-right:auto;">
-      <div class="unit-card">
-        <div class="unit-num">關卡 4</div>
-        <div class="unit-name">🥗 應用文字題</div>
-      </div>
-      <div class="unit-card">
-        <div class="unit-num">關卡 5</div>
-        <div class="unit-name">👑 大師總挑戰</div>
-      </div>
-    </div>
-    <button class="btn-primary" onclick="startGame()">開始料理！🔥</button>
-    <div style="margin-top:14px; font-size:13px; color:#8C5835; text-align:center;">
-      📱 支援 iPad / 平板、手機與電腦 ｜ 專為觸控操作最佳化
-    </div>
-  </div>
-
-  <!-- ══ GAME AREA ══ -->
-  <div class="card" id="gameCard" style="display:none">
-    <div class="stage-header">
-      <span class="stage-name" id="stageName">關卡 1：最簡分數</span>
-      <span class="q-counter" id="qCounter">1/8</span>
-    </div>
-    <div class="progress-wrap">
-      <div class="progress-bar" id="progressBar" style="width:0%"></div>
-    </div>
-    <div class="card-body">
-      <!-- Mascot bubble -->
-      <div class="mascot-row" style="margin-bottom:12px">
-        <span style="font-size:40px;flex-shrink:0;">🧑‍🍳</span>
-        <div class="speech-bubble" id="mascotSpeech">加油！仔細看題目～</div>
-      </div>
-
-      <div class="question-section">
-        <div class="question-context" id="qContext"></div>
-        <div class="question-math" id="qMath"></div>
-        <div class="frac-visual" id="fracVisual"></div>
-      </div>
-
-      <div class="choices" id="choicesGrid"></div>
-      <div class="feedback-box" id="feedbackBox"></div>
-    </div>
-  </div>
-
-  <!-- ══ STAGE COMPLETE ══ -->
-  <div class="stage-complete" id="stageComplete">
-    <span class="stage-complete-icon" id="scIcon">🎉</span>
-    <h2 id="scTitle">關卡完成！</h2>
-    <div class="stars-row" id="starsRow"></div>
-    <div class="score-detail">
-      <div class="score-item">
-        <span class="score-num" id="scCorrect">0</span>
-        <span>答對</span>
-      </div>
-      <div class="score-item">
-        <span class="score-num" id="scTotal">0</span>
-        <span>總題數</span>
-      </div>
-      <div class="score-item">
-        <span class="score-num" id="scCoins">0</span>
-        <span>🪙獲得</span>
-      </div>
-    </div>
-    <button class="btn-primary" id="nextStageBtn" onclick="nextStage()">下一關 ➡</button>
-    <button class="btn-secondary" onclick="retryStage()">🔄 再試一次</button>
-  </div>
-
-  <!-- ══ ALL CLEAR ══ -->
-  <div class="all-clear" id="allClear">
-    <span style="font-size:80px;display:block;animation:chefBounce 1.5s infinite;margin-bottom:12px">🧑‍🍳🏆</span>
-    <h2>恭喜！廚藝大師！</h2>
-    <p style="color:#6B4226;font-size:15px;margin:8px 0 20px">你已完成第②單元所有關卡，<strong>分數的除法</strong>難不倒你了！</p>
-    <div class="total-stars" id="totalStars">⭐⭐⭐⭐⭐</div>
-    <div class="total-coins">
-      🪙 <span id="finalCoins">0</span> 金幣
-    </div>
-    <br>
-    <button class="btn-primary" onclick="restartGame()">🔄 重新挑戰</button>
-    <button class="btn-secondary" onclick="location.href='portal.html'">⬅ 回到學習樂園</button>
   </div>
 </div>
 
 <script>
-// ══ AUDIO ══
+/* ================= 音效合成器 (Web Audio API Synthesizer) ================= */
+let soundEnabled = true;
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let audioCtx = null;
-function getAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function getAudioContext() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
   return audioCtx;
 }
-function playTone(freq, type = 'sine', dur = 0.15, vol = 0.25, delay = 0) {
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('soundIcon').textContent = soundEnabled ? '🔊' : '🔇';
+  document.getElementById('soundText').textContent = soundEnabled ? '音效 ON' : '音效 OFF';
+}
+
+function playSound(type) {
+  if (!soundEnabled) return;
   try {
-    const ctx = getAudio();
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.type = type;
-    o.frequency.value = freq;
-    g.gain.setValueAtTime(0, ctx.currentTime + delay);
-    g.gain.linearRampToValueAtTime(vol, ctx.currentTime + delay + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + dur);
-    o.connect(g); g.connect(ctx.destination);
-    o.start(ctx.currentTime + delay);
-    o.stop(ctx.currentTime + delay + dur + 0.01);
-  } catch(e){}
-}
-function playCorrect() {
-  playTone(523, 'sine', 0.15, 0.3);
-  playTone(659, 'sine', 0.15, 0.25, 0.12);
-  playTone(784, 'sine', 0.2, 0.25, 0.25);
-}
-function playWrong() {
-  playTone(200, 'sawtooth', 0.2, 0.3);
-  playTone(150, 'sawtooth', 0.2, 0.25, 0.15);
-}
-function playCombo() {
-  [523,659,784,1047].forEach((f,i) => playTone(f,'triangle',0.18,0.3,i*0.1));
-}
-function playStageClear() {
-  [523,587,659,698,784,880,988,1047].forEach((f,i) => playTone(f,'sine',0.2,0.28,i*0.08));
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    if (type === 'click') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(450, now);
+      osc.frequency.exponentialRampToValueAtTime(900, now + 0.08);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.08);
+    } else if (type === 'correct') {
+      const freqs = [523.25, 659.25, 783.99, 1046.50];
+      freqs.forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(f, now + idx * 0.08);
+        gain.gain.setValueAtTime(0.25, now + idx * 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.25);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + idx * 0.08);
+        osc.stop(now + idx * 0.08 + 0.25);
+      });
+    } else if (type === 'wrong') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(190, now);
+      osc.frequency.linearRampToValueAtTime(120, now + 0.25);
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } else if (type === 'fanfare') {
+      const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+      notes.forEach((f, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(f, now + idx * 0.12);
+        gain.gain.setValueAtTime(0.2, now + idx * 0.12);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + idx * 0.12);
+        osc.stop(now + idx * 0.12 + 0.4);
+      });
+    }
+  } catch (e) {}
 }
 
-// ══ BACKGROUND BUBBLES ══
-(function(){
-  const wrap = document.getElementById('bgBubbles');
-  for (let i = 0; i < 18; i++) {
-    const s = document.createElement('span');
-    const size = 10 + Math.random() * 50;
-    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;animation-duration:${8+Math.random()*14}s;animation-delay:${-Math.random()*20}s;`;
-    wrap.appendChild(s);
-  }
-})();
-
-// ══ GAME DATA ══
-// Helper: fraction HTML
-function fracHtml(n, d, whole) {
-  if (whole !== undefined && whole > 0) {
-    return `${whole}<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;
-  }
-  if (d === 1) return `${n}`;
-  return `<span class="frac"><span class="num">${n}</span><span class="den">${d}</span></span>`;
-}
-
-const STAGES = [
-  {
-    name: '關卡 1：最簡分數',
-    icon: '🍰',
-    tips: ['是最簡分數喔！分子和分母互質！', '答對了！越來越厲害！', '想想GCD，哪個才是最簡？', '很好！繼續加油！'],
-    questions: [
-      { type:'simplest', fracs:[{n:2,d:3},{n:4,d:6},{n:8,d:12},{n:6,d:9}], ans:0, ctx:'哪個分數是最簡分數？', explain:'2/3：GCD(2,3)=1，互質，是最簡分數。其他都可以約分。' },
-      { type:'simplest', fracs:[{n:5,d:8},{n:10,d:16},{n:15,d:24},{n:20,d:32}], ans:0, ctx:'哪個分數是最簡分數？', explain:'5/8：GCD(5,8)=1，互質，是最簡分數。' },
-      { type:'simplest', fracs:[{n:7,d:11},{n:14,d:22},{n:21,d:33},{n:35,d:55}], ans:0, ctx:'哪個分數是最簡分數？', explain:'7/11：GCD(7,11)=1，兩個都是質數，互質！' },
-      { type:'simplest', fracs:[{n:3,d:4},{n:9,d:12},{n:6,d:8},{n:15,d:20}], ans:0, ctx:'哪個分數是最簡分數？', explain:'3/4：GCD(3,4)=1，互質，是最簡分數。' },
-      { type:'reduce', from:{n:60,d:90}, choices:[{n:2,d:3},{n:3,d:4},{n:4,d:5},{n:5,d:6}], ans:0, ctx:'把 60/90 約分成最簡分數', explain:'GCD(60,90)=30，60÷30=2，90÷30=3，最簡分數是 2/3。' },
-      { type:'reduce', from:{n:36,d:48}, choices:[{n:3,d:4},{n:2,d:3},{n:4,d:5},{n:5,d:6}], ans:0, ctx:'把 36/48 約分成最簡分數', explain:'GCD(36,48)=12，36÷12=3，48÷12=4，最簡分數是 3/4。' },
-      { type:'reduce', from:{n:24,d:36}, choices:[{n:2,d:3},{n:3,d:4},{n:4,d:6},{n:1,d:2}], ans:0, ctx:'把 24/36 約分成最簡分數', explain:'GCD(24,36)=12，24÷12=2，36÷12=3，最簡分數是 2/3。' },
-      { type:'reduce', from:{n:45,d:60}, choices:[{n:3,d:4},{n:2,d:3},{n:4,d:5},{n:5,d:8}], ans:0, ctx:'把 45/60 約分成最簡分數', explain:'GCD(45,60)=15，45÷15=3，60÷15=4，最簡分數是 3/4。' },
-    ]
-  },
-  {
-    name: '關卡 2：整數 ÷ 分數',
-    icon: '🥄',
-    tips: ['整數除以分數，就是乘以倒數！', '記住：÷ B/C = × C/B', '顛倒除數再相乘！', '很棒！繼續！'],
-    questions: [
-      { type:'int_div_frac', dividend:5, divisor:{n:1,d:2}, choices:[{n:10,d:1},{n:5,d:2},{n:2,d:5},{n:1,d:10}], ans:0, ctx:'5 ÷ 1/2 = ?（把除數顛倒後相乘！）', explain:'5 ÷ 1/2 = 5 × 2/1 = 10' },
-      { type:'int_div_frac', dividend:6, divisor:{n:2,d:3}, choices:[{n:9,d:1},{n:4,d:1},{n:18,d:1},{n:3,d:1}], ans:0, ctx:'6 ÷ 2/3 = ?', explain:'6 ÷ 2/3 = 6 × 3/2 = 18/2 = 9' },
-      { type:'int_div_frac', dividend:8, divisor:{n:4,d:5}, choices:[{n:10,d:1},{n:32,d:5,whole:6,wn:2,wd:5},{n:2,d:1},{n:40,d:1}], ans:0, ctx:'8 ÷ 4/5 = ?', explain:'8 ÷ 4/5 = 8 × 5/4 = 40/4 = 10' },
-      { type:'int_div_frac', dividend:3, divisor:{n:3,d:4}, choices:[{n:4,d:1},{n:9,d:4,whole:2,wn:1,wd:4},{n:1,d:1},{n:12,d:1}], ans:0, ctx:'3 ÷ 3/4 = ?', explain:'3 ÷ 3/4 = 3 × 4/3 = 12/3 = 4' },
-      { type:'int_div_frac', dividend:10, divisor:{n:2,d:5}, choices:[{n:25,d:1},{n:4,d:1},{n:20,d:1},{n:50,d:1}], ans:0, ctx:'10 ÷ 2/5 = ?', explain:'10 ÷ 2/5 = 10 × 5/2 = 50/2 = 25' },
-      { type:'int_div_frac', dividend:4, divisor:{n:1,d:3}, choices:[{n:12,d:1},{n:4,d:3},{n:3,d:4},{n:13,d:3}], ans:0, ctx:'4 ÷ 1/3 = ?', explain:'4 ÷ 1/3 = 4 × 3/1 = 12' },
-      { type:'int_div_frac', dividend:7, divisor:{n:7,d:8}, choices:[{n:8,d:1},{n:1,d:8},{n:56,d:1},{n:49,d:8}], ans:0, ctx:'7 ÷ 7/8 = ?', explain:'7 ÷ 7/8 = 7 × 8/7 = 56/7 = 8' },
-      { type:'int_div_frac', dividend:9, divisor:{n:3,d:5}, choices:[{n:15,d:1},{n:27,d:5},{n:3,d:1},{n:45,d:1}], ans:0, ctx:'9 ÷ 3/5 = ?', explain:'9 ÷ 3/5 = 9 × 5/3 = 45/3 = 15' },
-    ]
-  },
-  {
-    name: '關卡 3：分數 ÷ 分數',
-    icon: '🍳',
-    tips: ['分數÷分數，一樣顛倒除數！', 'A/B ÷ C/D = A/B × D/C', '先化成假分數再算！', '太厲害了！'],
-    questions: [
-      { type:'frac_div_frac', dividend:{n:3,d:8}, divisor:{n:9,d:16}, choices:[{n:2,d:3},{n:27,d:128},{n:3,d:2},{n:6,d:1}], ans:0, ctx:'3/8 ÷ 9/16 = ?', explain:'3/8 ÷ 9/16 = 3/8 × 16/9 = 48/72 = 2/3' },
-      { type:'frac_div_frac', dividend:{n:2,d:5}, divisor:{n:8,d:15}, choices:[{n:3,d:4},{n:4,d:3},{n:16,d:75},{n:1,d:3}], ans:0, ctx:'2/5 ÷ 8/15 = ?', explain:'2/5 ÷ 8/15 = 2/5 × 15/8 = 30/40 = 3/4' },
-      { type:'frac_div_frac', dividend:{n:35,d:8}, divisor:{n:15,d:7}, choices:[{n:49,d:24},{n:24,d:49},{n:7,d:1},{n:3,d:1}], ans:0, ctx:'35/8 ÷ 15/7 = ?', explain:'35/8 ÷ 15/7 = 35/8 × 7/15 = 245/120 = 49/24' },
-      { type:'frac_div_frac', dividend:{n:5,d:6}, divisor:{n:10,d:3}, choices:[{n:1,d:4},{n:4,d:1},{n:25,d:18},{n:1,d:2}], ans:0, ctx:'5/6 ÷ 10/3 = ?', explain:'5/6 ÷ 10/3 = 5/6 × 3/10 = 15/60 = 1/4' },
-      { type:'frac_div_frac', dividend:{n:9,d:4}, divisor:{n:3,d:8}, choices:[{n:6,d:1},{n:27,d:32},{n:3,d:2},{n:12,d:1}], ans:0, ctx:'9/4 ÷ 3/8 = ?', explain:'9/4 ÷ 3/8 = 9/4 × 8/3 = 72/12 = 6' },
-      { type:'frac_div_frac', dividend:{n:4,d:5}, divisor:{n:8,d:5}, choices:[{n:1,d:2},{n:2,d:1},{n:32,d:25},{n:5,d:8}], ans:0, ctx:'4/5 ÷ 8/5 = ?', explain:'4/5 ÷ 8/5 = 4/5 × 5/8 = 20/40 = 1/2' },
-      { type:'frac_div_frac', dividend:{n:7,d:9}, divisor:{n:7,d:3}, choices:[{n:1,d:3},{n:3,d:1},{n:49,d:27},{n:7,d:27}], ans:0, ctx:'7/9 ÷ 7/3 = ?', explain:'7/9 ÷ 7/3 = 7/9 × 3/7 = 21/63 = 1/3' },
-      { type:'frac_div_frac', dividend:{n:3,d:4}, divisor:{n:9,d:8}, choices:[{n:2,d:3},{n:3,d:2},{n:27,d:32},{n:8,d:27}], ans:0, ctx:'3/4 ÷ 9/8 = ?', explain:'3/4 ÷ 9/8 = 3/4 × 8/9 = 24/36 = 2/3' },
-    ]
-  },
-  {
-    name: '關卡 4：應用文字題',
-    icon: '🥗',
-    tips: ['仔細讀題！找出被除數和除數！', '先想清楚哪個量是整體，哪個是每份！', '生活中到處都有分數！', '你真的很棒！'],
-    questions: [
-      { type:'word', ctx:'有 6 公尺的緞帶，每 3/4 公尺做一朵花，可以做幾朵花？', choices:['8朵','4朵','6朵','9朵'], ans:0, math:'6 ÷ 3/4 = ?', explain:'6 ÷ 3/4 = 6 × 4/3 = 24/3 = 8（朵）' },
-      { type:'word', ctx:'媽媽有 5/6 公升的果汁，每次倒 1/4 公升，可以倒幾次？', choices:['3又1/3次','4次','2次','5次'], ans:0, math:'5/6 ÷ 1/4 = ?', explain:'5/6 ÷ 1/4 = 5/6 × 4/1 = 20/6 = 10/3 = 3又1/3（次）' },
-      { type:'word', ctx:'一條繩子長 3/2 公尺，是另一條短繩的 3/4，短繩長幾公尺？', choices:['2公尺','1公尺','4公尺','3公尺'], ans:0, math:'3/2 ÷ 3/4 = ?', explain:'3/2 ÷ 3/4 = 3/2 × 4/3 = 12/6 = 2（公尺）' },
-      { type:'word', ctx:'圓形蛋糕切成 8 等份，每份是 1/8。把 3/4 個蛋糕平分給 3 人，每人得幾份？', choices:['2份','3份','1份','4份'], ans:0, math:'3/4 ÷ 3 = ?', explain:'3/4 ÷ 3 = 3/4 × 1/3 = 3/12 = 1/4，而 1/4 = 2份（因為每份 1/8，1/4 = 2×1/8）' },
-      { type:'word', ctx:'平行四邊形的面積是 3/2 平方公尺，底是 15/7 公尺，高是幾公尺？', choices:['7/10公尺','10/7公尺','3/2公尺','14/15公尺'], ans:0, math:'3/2 ÷ 15/7 = ?', explain:'3/2 ÷ 15/7 = 3/2 × 7/15 = 21/30 = 7/10（公尺）' },
-      { type:'word', ctx:'小明要把 9/4 升的橙汁平分到每瓶 3/8 升的瓶子裡，需要幾個瓶子？', choices:['6個','4個','3個','9個'], ans:0, math:'9/4 ÷ 3/8 = ?', explain:'9/4 ÷ 3/8 = 9/4 × 8/3 = 72/12 = 6（個）' },
-      { type:'word', ctx:'在分數除法中，若除數 &lt; 1（被除數不為0），商和被除數比較是？', choices:['商 > 被除數','商 = 被除數','商 < 被除數','無法比較'], ans:0, math:'規律題', explain:'除數<1時，例如 6÷1/2=12，商12>被除數6，所以商>被除數。' },
-      { type:'word', ctx:'有 10又1/2 公升的水，每 4/5 公升裝1罐，能裝幾罐？剩幾公升？', choices:['13罐，剩1/10升','13罐，剩4/5升','12罐，剩1/2升','14罐，剩0升'], ans:0, math:'10½ ÷ 4/5 = ?', explain:'10½ = 21/2，21/2 ÷ 4/5 = 21/2 × 5/4 = 105/8 = 13又1/8罐 → 13罐，剩 1/8 × 4/5 = 1/10升' },
-    ]
-  },
-  {
-    name: '關卡 5：大師總挑戰',
-    icon: '👑',
-    tips: ['最後關卡！你已經是分數大師了！', '綜合所有技巧！加油！', '快到終點了！', '你已超越99%的同學！'],
-    questions: [
-      { type:'frac_div_frac', dividend:{n:2,d:5}, divisor:{n:8,d:15}, choices:[{n:3,d:4},{n:4,d:3},{n:16,d:75},{n:3,d:8}], ans:0, ctx:'2/5 ÷ 8/15 = ?', explain:'2/5 ÷ 8/15 = 2/5 × 15/8 = 30/40 = 3/4' },
-      { type:'reduce', from:{n:625,d:1000}, choices:[{n:5,d:8},{n:5,d:6},{n:6,d:8},{n:7,d:8}], ans:0, ctx:'625/1000 約分成最簡分數', explain:'GCD(625,1000)=125，625÷125=5，1000÷125=8，最簡分數=5/8' },
-      { type:'int_div_frac', dividend:12, divisor:{n:4,d:3}, choices:[{n:9,d:1},{n:16,d:1},{n:3,d:1},{n:48,d:1}], ans:0, ctx:'12 ÷ 4/3 = ?', explain:'12 ÷ 4/3 = 12 × 3/4 = 36/4 = 9' },
-      { type:'word', ctx:'一塊長 8/5 公尺、寬 4/3 公尺的矩形地板，面積是幾平方公尺？', choices:['32/15','8/3','4/5','12/5'], ans:0, math:'8/5 × 4/3 = ?', explain:'8/5 × 4/3 = 32/15（平方公尺）。這是乘法，用於確認除法公式理解！' },
-      { type:'frac_div_frac', dividend:{n:3,d:5}, divisor:{n:1,d:4}, choices:[{n:12,d:5},{n:3,d:20},{n:5,d:12},{n:4,d:15}], ans:0, ctx:'3/5 ÷ 1/4 = ?', explain:'3/5 ÷ 1/4 = 3/5 × 4/1 = 12/5' },
-      { type:'word', ctx:'下列哪個算式的商最大？', choices:['10 ÷ 1/5','10 ÷ 2/5','10 ÷ 3/5','10 ÷ 4/5'], ans:0, math:'比大小', explain:'除數越小商越大，1/5 < 2/5 < 3/5 < 4/5，所以 10÷1/5=50 最大。' },
-      { type:'reduce', from:{n:36,d:81}, choices:[{n:4,d:9},{n:3,d:7},{n:2,d:5},{n:5,d:9}], ans:0, ctx:'36/81 約分成最簡分數', explain:'GCD(36,81)=9，36÷9=4，81÷9=9，最簡分數=4/9' },
-      { type:'word', ctx:'一瓶飲料 3又3/4 公升，喝掉了 5/6 瓶，喝掉幾公升？', choices:['3又1/8','2又1/4','3公升','2公升'], ans:0, math:'3¾ × 5/6 = ?', explain:'3¾ = 15/4，15/4 × 5/6 = 75/24 = 25/8 = 3又1/8（公升）' },
-    ]
-  }
+/* ================= 遊戲基本資料與狀態 ================= */
+const ISLES = [
+  {key:'l1', icon:'🍕', label:'最簡切片'},
+  {key:'l2', icon:'🥖', label:'同分母除'},
+  {key:'l3', icon:'🥪', label:'整數除分數'},
+  {key:'l4', icon:'🧀', label:'異分母除'},
+  {key:'l5', icon:'🏆', label:'商之秘寶'},
 ];
 
-// ══ STATE ══
 const state = {
-  stage: 0,
-  qi: 0,
-  correct: 0,
-  coins: 0,
-  combo: 0,
-  stageCoinsStart: 0,
-  stageResults: [],    // per stage star ratings
-  answered: false,
+  stage: 'intro',
+  stars: {l1:0,l2:0,l3:0,l4:0,l5:0},
+  combo: 0
 };
 
-const speeches = {
-  start: ['來吧！展示你的廚藝！🍳', '加油加油！你一定行！', '仔細思考，慢慢來！', '相信自己！🌟'],
-  correct: ['太棒了！答對啦！🎉', '完美！你是料理天才！✨', '讚！繼續保持！🔥', '哇！超厲害！⭐'],
-  wrong: ['沒關係！看看解析！📖', '再想想看～答案在那邊！', '不要灰心！失敗是學習的機會！', '下次一定對！加油！💪'],
-  combo: ['連勝！你在發光發熱！🌟', '超強！連續答對！🔥', '太厲害了！無敵連勝！⚡', '廚神附體！🍕👑'],
-};
+function starsToText(n){ return '⭐'.repeat(n) + '☆'.repeat(3-n); }
 
-function randomSpeech(key) {
-  const arr = speeches[key];
-  return arr[Math.floor(Math.random() * arr.length)];
+function updateMascot(avatar, speech) {
+  const elAvatar = document.getElementById('mascotAvatar');
+  const elSpeech = document.getElementById('mascotSpeech');
+  if (elAvatar) elAvatar.textContent = avatar;
+  if (elSpeech) elSpeech.textContent = speech;
 }
 
-function setSpeech(text) {
-  const el = document.getElementById('mascotSpeech');
-  el.style.opacity = 0;
-  setTimeout(() => { el.textContent = text; el.style.opacity = 1; }, 150);
-  el.style.transition = 'opacity 0.15s';
-}
-
-// ══ COINS ══
-function addCoins(n, fromEl) {
-  state.coins += n;
-  document.getElementById('coinDisplay').textContent = state.coins;
-  // Fly effect
-  for (let i = 0; i < Math.min(n, 5); i++) {
-    const coin = document.createElement('div');
-    coin.className = 'coin-fly';
-    coin.textContent = '🪙';
-    const x = Math.random() * window.innerWidth * 0.6 + window.innerWidth * 0.2;
-    const y = Math.random() * window.innerHeight * 0.4 + window.innerHeight * 0.3;
-    coin.style.left = x + 'px';
-    coin.style.top = y + 'px';
-    document.body.appendChild(coin);
-    setTimeout(() => coin.remove(), 1000);
+function addCombo() {
+  state.combo++;
+  const badge = document.getElementById('comboBadge');
+  const txt = document.getElementById('comboText');
+  if (state.combo >= 2) {
+    badge.style.display = 'flex';
+    txt.textContent = `連勝 x${state.combo}`;
   }
 }
-
-// ══ COMBO ══
-function showCombo() {
-  const el = document.getElementById('comboFlash');
-  el.className = 'combo-flash';
-  el.textContent = `🔥 ${state.combo}連勝！`;
-  void el.offsetWidth;
-  el.className = 'combo-flash show';
-  playCombo();
-  // Confetti
-  confetti({ particleCount: 60, spread: 80, origin: { y: 0.5 }, colors: ['#FFD166','#F4A261','#E63946','#57CC99'] });
-}
-
-// ══ STAGE DOTS ══
-function updateStageDots() {
-  for (let i = 0; i < 5; i++) {
-    const dot = document.getElementById(`dot-${i}`);
-    dot.className = 'stage-dot' + (i < state.stage ? ' done' : i === state.stage ? ' active' : '');
-  }
-}
-
-// ══ RENDER QUESTION ══
-function renderQuestion() {
-  const stage = STAGES[state.stage];
-  const q = stage.questions[state.qi];
-  const total = stage.questions.length;
-
-  document.getElementById('stageName').textContent = stage.name;
-  document.getElementById('qCounter').textContent = `${state.qi + 1}/${total}`;
-  document.getElementById('progressBar').style.width = `${(state.qi / total) * 100}%`;
-  document.getElementById('feedbackBox').className = 'feedback-box';
-  document.getElementById('fracVisual').innerHTML = '';
-  state.answered = false;
-
-  // Speech
-  setSpeech(stage.tips[Math.floor(Math.random() * stage.tips.length)]);
-
-  // Render question content
-  const ctx = document.getElementById('qContext');
-  const math = document.getElementById('qMath');
-  ctx.innerHTML = q.ctx || '';
-  math.innerHTML = '';
-
-  if (q.type === 'simplest') {
-    // Show 4 fractions as choices
-    math.innerHTML = '哪個是最簡分數？';
-    renderChoices(
-      q.fracs.map(f => fracHtml(f.n, f.d)),
-      q.ans
-    );
-    // Draw fraction bar for first option
-    drawFracBar(q.fracs[0].n, q.fracs[0].d, '#E63946');
-  } else if (q.type === 'reduce') {
-    math.innerHTML = fracHtml(q.from.n, q.from.d) + ' <span class="op">→</span> ?';
-    renderChoices(q.choices.map(c => fracHtml(c.n, c.d)), q.ans);
-  } else if (q.type === 'int_div_frac') {
-    math.innerHTML = `${q.dividend} <span class="op">÷</span> ${fracHtml(q.divisor.n, q.divisor.d)} = ?`;
-    renderChoices(q.choices.map(c => {
-      if (c.whole !== undefined) return `${c.whole}${fracHtml(c.wn,c.wd)}`;
-      return fracHtml(c.n, c.d);
-    }), q.ans);
-  } else if (q.type === 'frac_div_frac') {
-    math.innerHTML = `${fracHtml(q.dividend.n, q.dividend.d)} <span class="op">÷</span> ${fracHtml(q.divisor.n, q.divisor.d)} = ?`;
-    renderChoices(q.choices.map(c => fracHtml(c.n, c.d)), q.ans);
-  } else if (q.type === 'word') {
-    if (q.math) math.innerHTML = q.math;
-    renderChoices(q.choices.map(c => c), q.ans, true);
-  }
-}
-
-function drawFracBar(n, d, color) {
-  const wrap = document.getElementById('fracVisual');
-  wrap.innerHTML = '';
-  const totalWidth = 300;
-  const gap = 3;
-  const barW = (totalWidth - gap * (d - 1)) / d;
-  for (let i = 0; i < d; i++) {
-    const bar = document.createElement('div');
-    bar.className = 'frac-bar ' + (i < n ? 'filled' : 'empty');
-    bar.style.width = Math.max(barW, 20) + 'px';
-    if (i < n) bar.style.background = `linear-gradient(135deg, ${color}, ${color}AA)`;
-    wrap.appendChild(bar);
-  }
-}
-
-function renderChoices(labels, ansIdx, isText = false) {
-  const grid = document.getElementById('choicesGrid');
-  grid.innerHTML = '';
-  // Shuffle choices for variety (keep track of correct)
-  const indices = [0,1,2,3];
-  // Don't shuffle for now, keep correct at position 0 randomly placed
-  const positions = shuffle([0,1,2,3]);
-  let correctPos = positions.indexOf(0);
-
-  for (let i = 0; i < 4; i++) {
-    const origIdx = positions[i];
-    const btn = document.createElement('button');
-    btn.className = 'choice-btn';
-    btn.innerHTML = labels[origIdx] || '?';
-    btn.dataset.correct = (origIdx === ansIdx) ? '1' : '0';
-    btn.addEventListener('click', () => handleAnswer(btn, origIdx === ansIdx));
-    grid.appendChild(btn);
-  }
-}
-
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length-1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i+1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-function handleAnswer(btn, isCorrect) {
-  if (state.answered) return;
-  state.answered = true;
-  getAudio(); // ensure AudioContext activated
-
-  const q = STAGES[state.stage].questions[state.qi];
-  const allBtns = document.querySelectorAll('.choice-btn');
-  allBtns.forEach(b => { b.disabled = true; });
-
-  const fb = document.getElementById('feedbackBox');
-
-  if (isCorrect) {
-    btn.classList.add('correct');
-    state.correct++;
-    state.combo++;
-
-    const coinGain = state.combo >= 4 ? 4 : state.combo >= 3 ? 3 : state.combo >= 2 ? 2 : 1;
-    addCoins(coinGain, btn);
-
-    if (state.combo >= 2) {
-      document.getElementById('comboChip').style.display = 'flex';
-      document.getElementById('comboDisplay').textContent = state.combo;
-    }
-    if (state.combo >= 3) {
-      showCombo();
-      setSpeech(randomSpeech('combo'));
-    } else {
-      setSpeech(randomSpeech('correct'));
-    }
-    playCorrect();
-
-    fb.className = 'feedback-box ok show';
-    fb.innerHTML = `✅ 正確！${q.explain}`;
-  } else {
-    btn.classList.add('wrong');
-    state.combo = 0;
-    document.getElementById('comboChip').style.display = 'none';
-    setSpeech(randomSpeech('wrong'));
-    playWrong();
-
-    // Highlight correct
-    allBtns.forEach(b => { if (b.dataset.correct === '1') b.classList.add('correct'); });
-
-    fb.className = 'feedback-box bad show';
-    fb.innerHTML = `❌ 解析：${q.explain}`;
-  }
-
-  // Next question
-  setTimeout(() => {
-    state.qi++;
-    const stageQuestions = STAGES[state.stage].questions.length;
-    if (state.qi >= stageQuestions) {
-      showStageComplete();
-    } else {
-      renderQuestion();
-    }
-  }, 1800);
-}
-
-// ══ STAGE COMPLETE ══
-function showStageComplete() {
-  document.getElementById('gameCard').style.display = 'none';
-  const total = STAGES[state.stage].questions.length;
-  const correct = state.correct;
-  const pct = correct / total;
-  const stars = pct >= 0.875 ? 3 : pct >= 0.625 ? 2 : pct >= 0.375 ? 1 : 0;
-  state.stageResults[state.stage] = stars;
-
-  const stageCoinsEarned = state.coins - state.stageCoinsStart;
-
-  document.getElementById('scCorrect').textContent = correct;
-  document.getElementById('scTotal').textContent = total;
-  document.getElementById('scCoins').textContent = stageCoinsEarned;
-  document.getElementById('scTitle').textContent = `${STAGES[state.stage].icon} 關卡完成！`;
-  document.getElementById('scIcon').textContent = STAGES[state.stage].icon;
-
-  const starsRow = document.getElementById('starsRow');
-  starsRow.innerHTML = '';
-  for (let i = 0; i < 3; i++) {
-    const s = document.createElement('span');
-    s.className = 'star';
-    s.textContent = i < stars ? '⭐' : '☆';
-    starsRow.appendChild(s);
-  }
-
-  const nextBtn = document.getElementById('nextStageBtn');
-  if (state.stage >= STAGES.length - 1) {
-    nextBtn.textContent = '🏆 完成！';
-    nextBtn.onclick = showAllClear;
-  } else {
-    nextBtn.textContent = '下一關 ➡';
-    nextBtn.onclick = nextStage;
-  }
-
-  document.getElementById('stageComplete').className = 'stage-complete show';
-  playStageClear();
-  confetti({ particleCount: 120, spread: 100, origin: {y: 0.4}, colors: ['#FFD166','#F4A261','#E63946','#57CC99','#ffffff'] });
-}
-
-function nextStage() {
-  state.stage++;
-  state.qi = 0;
-  state.correct = 0;
-  state.stageCoinsStart = state.coins;
-  document.getElementById('stageComplete').className = 'stage-complete';
-  updateStageDots();
-  document.getElementById('gameCard').style.display = 'block';
-  renderQuestion();
-}
-
-function retryStage() {
-  state.qi = 0;
-  state.correct = 0;
+function resetCombo() {
   state.combo = 0;
-  state.stageCoinsStart = state.coins;
-  document.getElementById('stageComplete').className = 'stage-complete';
-  document.getElementById('comboChip').style.display = 'none';
-  document.getElementById('gameCard').style.display = 'block';
-  renderQuestion();
+  document.getElementById('comboBadge').style.display = 'none';
 }
 
-function showAllClear() {
-  document.getElementById('stageComplete').className = 'stage-complete';
-  document.getElementById('gameCard').style.display = 'none';
-  const totalStars = state.stageResults.reduce((a,b) => a+(b||0), 0);
-  document.getElementById('totalStars').textContent = '⭐'.repeat(totalStars) + '☆'.repeat(Math.max(0, 15 - totalStars));
-  document.getElementById('finalCoins').textContent = state.coins;
-  document.getElementById('allClear').className = 'all-clear show';
-  confetti({ particleCount: 200, spread: 160, origin: {y: 0.3}, colors: ['#FFD166','#F4A261','#E63946','#57CC99','#fff','#8338EC'] });
-  playStageClear();
-  setTimeout(() => confetti({ particleCount: 100, spread: 120, origin: {y: 0.5} }), 800);
+function spawnCoinEffect(event) {
+  const coin = document.createElement('div');
+  coin.className = 'coin-burst';
+  coin.textContent = '🍕 +10';
+  const rect = event ? event.target.getBoundingClientRect() : { left: window.innerWidth/2, top: window.innerHeight/2 };
+  coin.style.left = `${rect.left + 10}px`;
+  coin.style.top = `${rect.top - 20}px`;
+  document.body.appendChild(coin);
+  setTimeout(() => coin.remove(), 1200);
 }
 
-function restartGame() {
-  state.stage = 0; state.qi = 0; state.correct = 0;
-  state.coins = 0; state.combo = 0; state.stageCoinsStart = 0;
-  state.stageResults = [];
-  document.getElementById('coinDisplay').textContent = 0;
-  document.getElementById('comboChip').style.display = 'none';
-  document.getElementById('allClear').className = 'all-clear';
-  document.getElementById('welcomeScreen').className = 'welcome show';
-  updateStageDots();
+/* ================= 名詞小百科 ================= */
+const GLOSSARY = [
+  { key:'simplest', title:'最簡分數', def:'當一個分數的分子和分母「互質」（最大公因數是 1）時，這個分數就叫作最簡分數。例如 2/3、5/7。' },
+  { key:'reciprocal', title:'倒數 (上下顛倒)', def:'把一個分數的分子和分母位置對調，得到的新分數就是它的倒數。例如 3/5 的倒數是 5/3。除以一個分數就等於乘以它的倒數！' },
+  { key:'sameDenom', title:'同分母除法', def:'分母相同的分數相除，分母會互相抵消，直接等於「分子除以分子」。例如 (8/9) ÷ (2/9) = 8 ÷ 2 = 4。' },
+  { key:'diffDenom', title:'異分母分數除法', def:'分母不同的分數相除時，可以先通分再算，或者直接使用黃金法則：「除號變乘號，除數顛倒成倒數」。' },
+  { key:'quotientRule', title:'被除數、除數和商的關係', def:'當除數 > 1 時，商 < 被除數；當除數 < 1 時，商 > 被除數；當除數 = 1 時，商 = 被除數。' }
+];
+
+function term(key, label){
+  return `<span class="term" tabindex="0" onclick="openGlossary('${key}')">${label}<sup>ⓘ</sup></span>`;
 }
 
-// ══ START ══
-function startGame() {
-  getAudio();
-  state.stage = 0; state.qi = 0; state.correct = 0; state.stageCoinsStart = 0;
-  document.getElementById('welcomeScreen').className = 'welcome';
-  document.getElementById('gameCard').style.display = 'block';
-  updateStageDots();
-  renderQuestion();
+function renderGlossaryList(){
+  const list = document.getElementById('glossaryList');
+  list.innerHTML = GLOSSARY.map(g => `
+    <div class="def-card" id="def-${g.key}">
+      <h3>🔖 ${g.title}</h3>
+      <p>${g.def}</p>
+    </div>`).join('');
 }
 
-// ══ GLOSSARY ══
-function openGlossary() {
+function openGlossary(key){
+  playSound('click');
+  renderGlossaryList();
   document.getElementById('glossaryOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
-function closeGlossary() {
+
+function closeGlossary(){
   document.getElementById('glossaryOverlay').classList.remove('open');
-  document.querySelectorAll('.term').forEach(t => t.classList.remove('active'));
+  document.body.style.overflow = '';
 }
-function closeGlossaryOutside(e) {
-  if (e.target === document.getElementById('glossaryOverlay')) closeGlossary();
+
+/* ================= 進度列渲染 ================= */
+function renderPath(){
+  const bar = document.getElementById('pathBar');
+  bar.innerHTML = '';
+  const order = ['l1','l2','l3','l4','l5'];
+  order.forEach((key,i)=>{
+    const isle = ISLES[i];
+    const div = document.createElement('div');
+    div.className = 'isle';
+    if(state.stars[key] > 0) div.classList.add('done');
+    if(state.stage === key) div.classList.add('active');
+    div.onclick = () => goto(key);
+    div.innerHTML = `
+      <div class="dot">${state.stars[key] > 0 ? '✅' : isle.icon}</div>
+      <div class="stars">${state.stars[key] > 0 ? starsToText(state.stars[key]) : ''}</div>
+      <div class="label">${isle.label}</div>`;
+    bar.appendChild(div);
+  });
 }
-function jumpTerm(id) {
-  document.querySelectorAll('.term').forEach(t => t.classList.remove('active'));
-  event.target.classList.add('active');
-  const entry = document.getElementById(`entry-${id}`);
-  if (!entry) return;
-  const content = document.getElementById('glossaryContent');
-  const entryTop = entry.getBoundingClientRect().top;
-  const contentTop = content.getBoundingClientRect().top;
-  const offset = entryTop - contentTop + content.scrollTop;
-  content.scrollTo({ top: offset - 16, behavior: 'smooth' });
+
+function goto(stage){
+  playSound('click');
+  state.stage = stage;
+  renderPath();
+  const c = document.getElementById('content');
+  c.innerHTML = '';
+  if(stage === 'intro') renderIntro(c);
+  else if(stage === 'l1') renderLevel1(c);
+  else if(stage === 'l2') renderLevel2(c);
+  else if(stage === 'l3') renderLevel3(c);
+  else if(stage === 'l4') renderLevel4(c);
+  else if(stage === 'l5') renderLevel5(c);
+  else if(stage === 'final') renderFinal(c);
 }
+
+/* ================= 關卡實作 ================= */
+function renderIntro(c){
+  updateMascot('👨‍🍳', '歡迎來到披薩烘焙坊！一起挑戰五大分數料理關卡，成為特級大廚吧！');
+  c.innerHTML = `
+    <div class="hero-emoji">🍕🥖🥪</div>
+    <h2 class="stage-title" style="justify-content:center;">歡迎來到披薩料理廚房！</h2>
+    <p class="lead-text">掌握分數除法的神奇秘笈，完成五道關卡，贏得米其林特級大廚星章！</p>
+    <div class="rules-list">
+      🍕 最簡切片：找出「${term('simplest','最簡分數')}」並約分<br>
+      🥖 同分母除：掌握「${term('sameDenom','同分母除法')}」，分子直接除分子<br>
+      🥪 整數除分數：整數轉換成「${term('reciprocal','顛倒相乘')}」<br>
+      🧀 異分母除：「${term('diffDenom','異分母分數除法')}」料理大考驗<br>
+      🏆 商之秘寶：判斷「${term('quotientRule','被除數、除數與商的大小關係')}」
+    </div>
+    <div class="btn-row" style="justify-content:center;">
+      <button class="btn coral" onclick="goto('l1')">👨‍🍳 立即開始料理！</button>
+    </div>
+  `;
+}
+
+function renderLevel1(c){
+  updateMascot('🍕', '第一關：最簡切片！請選出「最簡分數」（分子與分母不能再約分）。');
+  const pool = [
+    {q:'22/105', correct:true, note:'22和105互質，是最簡分數！'},
+    {q:'18/45', correct:false, note:'18和45可以同除以9，約成 2/5！'},
+    {q:'52/91', correct:false, note:'52和91可以同除以13，約成 4/7！'},
+    {q:'7/15', correct:true, note:'7和15互質，是最簡分數！'},
+    {q:'51/126', correct:false, note:'51和126可以同除以3，約成 17/42！'},
+    {q:'11/15', correct:true, note:'11和15互質，是最簡分數！'}
+  ];
+  let idx = 0, mistakes = 0;
+
+  function draw(){
+    if (idx >= pool.length) {
+      state.stars.l1 = mistakes === 0 ? 3 : mistakes <= 2 ? 2 : 1;
+      showLevelDone(c, '🍕 最簡切片', state.stars.l1, 'l2', '太棒了！你已經能精準辨別最簡分數！');
+      return;
+    }
+    const item = pool[idx];
+    c.innerHTML = `
+      <h2 class="stage-title">🍕 第一關：最簡切片</h2>
+      <p class="stage-sub">判斷以下分數是否為 <b>最簡分數</b>？（第 ${idx+1} / ${pool.length} 題）</p>
+      <div style="text-align:center;">
+        <div class="fraction-display">${item.q}</div>
+      </div>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn leaf" onclick="checkL1(true, event)">⭕ 是最簡分數</button>
+        <button class="btn coral" onclick="checkL1(false, event)">❌ 可以再約分</button>
+      </div>
+      <div class="feedback" id="fb1"></div>
+    `;
+  }
+
+  window.checkL1 = function(userPick, ev){
+    const item = pool[idx];
+    const fb = document.getElementById('fb1');
+    if (userPick === item.correct) {
+      playSound('correct');
+      addCombo();
+      spawnCoinEffect(ev);
+      fb.className = 'feedback ok';
+      fb.textContent = `🎉 答對了！${item.note}`;
+      setTimeout(() => { idx++; draw(); }, 1000);
+    } else {
+      playSound('wrong');
+      resetCombo();
+      mistakes++;
+      fb.className = 'feedback bad shake';
+      fb.textContent = `😅 答錯囉！${item.note}`;
+      setTimeout(() => fb.classList.remove('shake'), 400);
+    }
+  };
+  draw();
+}
+
+function renderLevel2(c){
+  updateMascot('🥖', '第二關：同分母除法！分母相同時，分子直接相除：(A/B) ÷ (C/B) = A ÷ C！');
+  const pool = [
+    {q:'8/9 ÷ 2/9', ans:'4', options:['4', '2', '16/81', '1/4'], steps:'8 ÷ 2 = 4'},
+    {q:'21/20 ÷ 7/20', ans:'3', options:['3', '7', '147/400', '1/3'], steps:'21 ÷ 7 = 3'},
+    {q:'10/45 ÷ 2/45', ans:'5', options:['5', '20', '2/9', '1/5'], steps:'10 ÷ 2 = 5'},
+    {q:'12/5 ÷ 3/5', ans:'4', options:['4', '36/25', '1/4', '15'], steps:'12 ÷ 3 = 4'}
+  ];
+  let idx = 0;
+  function draw(){
+    if (idx >= pool.length) {
+      state.stars.l2 = 3;
+      showLevelDone(c, '🥖 同分母除法', 3, 'l3', '太神了！同分母除法已經難不倒你！');
+      return;
+    }
+    const item = pool[idx];
+    c.innerHTML = `
+      <h2 class="stage-title">🥖 第二關：同分母除法</h2>
+      <p class="stage-sub">請選擇正確計算結果：（第 ${idx+1} / ${pool.length} 題）</p>
+      <div style="text-align:center;">
+        <div class="fraction-display">${item.q}</div>
+      </div>
+      <div class="opt-grid">
+        ${item.options.map(opt => `<button class="opt-btn" onclick="checkL2('${opt}', event)">${opt}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb2"></div>
+    `;
+  }
+  window.checkL2 = function(userPick, ev){
+    const item = pool[idx];
+    const fb = document.getElementById('fb2');
+    if (userPick === item.ans) {
+      playSound('correct');
+      addCombo();
+      spawnCoinEffect(ev);
+      fb.className = 'feedback ok';
+      fb.textContent = `🎉 答對了！算式：${item.steps}`;
+      setTimeout(() => { idx++; draw(); }, 1000);
+    } else {
+      playSound('wrong');
+      resetCombo();
+      fb.className = 'feedback bad shake';
+      fb.textContent = `😅 再想想看！同分母相除 = 分子除以分子 (${item.steps})`;
+      setTimeout(() => fb.classList.remove('shake'), 400);
+    }
+  };
+  draw();
+}
+
+function renderLevel3(c){
+  updateMascot('🥪', '第三關：整數除以分數！記住：除以 1/5 等於乘以 5！');
+  const pool = [
+    {q:'8 ÷ 1/5', ans:'40', options:['40', '8/5', '1/40', '4'], steps:'8 × 5 = 40'},
+    {q:'3 ÷ 1/2', ans:'6', options:['6', '3/2', '1/6', '1又1/2'], steps:'3 × 2 = 6'},
+    {q:'6 ÷ 2/3', ans:'9', options:['9', '4', '1/9', '3/2'], steps:'6 × 3/2 = 9'}
+  ];
+  let idx = 0;
+  function draw(){
+    if (idx >= pool.length) {
+      state.stars.l3 = 3;
+      showLevelDone(c, '🥪 整數除分數', 3, 'l4', '超厲害！整數除分數顛倒相乘運用得淋漓盡致！');
+      return;
+    }
+    const item = pool[idx];
+    c.innerHTML = `
+      <h2 class="stage-title">🥪 第三關：整數除以分數</h2>
+      <p class="stage-sub">請選擇正確計算結果：（第 ${idx+1} / ${pool.length} 題）</p>
+      <div style="text-align:center;">
+        <div class="fraction-display">${item.q}</div>
+      </div>
+      <div class="opt-grid">
+        ${item.options.map(opt => `<button class="opt-btn" onclick="checkL3('${opt}', event)">${opt}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb3"></div>
+    `;
+  }
+  window.checkL3 = function(userPick, ev){
+    const item = pool[idx];
+    const fb = document.getElementById('fb3');
+    if (userPick === item.ans) {
+      playSound('correct');
+      addCombo();
+      spawnCoinEffect(ev);
+      fb.className = 'feedback ok';
+      fb.textContent = `🎉 答對了！做法：${item.steps}`;
+      setTimeout(() => { idx++; draw(); }, 1000);
+    } else {
+      playSound('wrong');
+      resetCombo();
+      fb.className = 'feedback bad shake';
+      fb.textContent = `😅 試著把除法變成乘法倒數！(${item.steps})`;
+      setTimeout(() => fb.classList.remove('shake'), 400);
+    }
+  };
+  draw();
+}
+
+function renderLevel4(c){
+  updateMascot('🧀', '第四關：異分母分數除法！化成假分數後，顛倒相乘並約分！');
+  const pool = [
+    {q:'14/3 ÷ 14/5', ans:'1又2/3 (5/3)', options:['1又2/3 (5/3)', '14/15', '28/15', '1又1/2'], steps:'14/3 × 5/14 = 5/3 = 1又2/3'},
+    {q:'2/7 ÷ 3/5', ans:'10/21', options:['10/21', '6/35', '21/10', '5/7'], steps:'2/7 × 5/3 = 10/21'},
+    {q:'3/4 ÷ 1/8', ans:'6', options:['6', '3/32', '3/8', '12'], steps:'3/4 × 8 = 6'},
+    {q:'5/6 ÷ 2/3', ans:'1又1/4 (5/4)', options:['1又1/4 (5/4)', '5/9', '10/18', '1又1/2'], steps:'5/6 × 3/2 = 5/4 = 1又1/4'}
+  ];
+  let idx = 0;
+  function draw(){
+    if (idx >= pool.length) {
+      state.stars.l4 = 3;
+      showLevelDone(c, '🧀 異分母除法', 3, 'l5', '太強了！異分母分數除法難不倒特級大廚！');
+      return;
+    }
+    const item = pool[idx];
+    c.innerHTML = `
+      <h2 class="stage-title">🧀 第四關：異分母除法</h2>
+      <p class="stage-sub">請選擇正確計算結果：（第 ${idx+1} / ${pool.length} 題）</p>
+      <div style="text-align:center;">
+        <div class="fraction-display">${item.q}</div>
+      </div>
+      <div class="opt-grid">
+        ${item.options.map(opt => `<button class="opt-btn" onclick="checkL4('${opt}', event)">${opt}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb4"></div>
+    `;
+  }
+  window.checkL4 = function(userPick, ev){
+    const item = pool[idx];
+    const fb = document.getElementById('fb4');
+    if (userPick === item.ans) {
+      playSound('correct');
+      addCombo();
+      spawnCoinEffect(ev);
+      fb.className = 'feedback ok';
+      fb.textContent = `🎉 答對了！做法：${item.steps}`;
+      setTimeout(() => { idx++; draw(); }, 1000);
+    } else {
+      playSound('wrong');
+      resetCombo();
+      fb.className = 'feedback bad shake';
+      fb.textContent = `😅 再算算看！${item.steps}`;
+      setTimeout(() => fb.classList.remove('shake'), 400);
+    }
+  };
+  draw();
+}
+
+function renderLevel5(c){
+  updateMascot('🏆', '第五關：商與被除數的關係！除數大於1，商比被除數小；除數小於1，商比被除數大！');
+  const pool = [
+    {q:'5/6 ÷ 1/2 □ 5/6', ans:'>', note:'除數 1/2 < 1 => 商 > 5/6'},
+    {q:'4 ÷ 5/3 □ 4', ans:'<', note:'除數 5/3 > 1 => 商 < 4'},
+    {q:'6又1/3 ÷ 4/4 □ 6又1/3', ans:'=', note:'除數 4/4 = 1 => 商 = 被除數'}
+  ];
+  let idx = 0;
+  function draw(){
+    if (idx >= pool.length) {
+      state.stars.l5 = 3;
+      showLevelDone(c, '🏆 商之秘寶', 3, 'final', '恭喜你！完整掌握分數除法的全部精髓！');
+      return;
+    }
+    const item = pool[idx];
+    c.innerHTML = `
+      <h2 class="stage-title">🏆 第五關：商之秘寶</h2>
+      <p class="stage-sub">請在 □ 填入 >、< 或 = ：（第 ${idx+1} / ${pool.length} 題）</p>
+      <div style="text-align:center;">
+        <div class="fraction-display">${item.q}</div>
+      </div>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn leaf" onclick="checkL5('>', event)">大於 (&gt;)</button>
+        <button class="btn gold" onclick="checkL5('=', event)">等於 (=)</button>
+        <button class="btn coral" onclick="checkL5('<', event)">小於 (&lt;)</button>
+      </div>
+      <div class="feedback" id="fb5"></div>
+    `;
+  }
+  window.checkL5 = function(userPick, ev){
+    const item = pool[idx];
+    const fb = document.getElementById('fb5');
+    if (userPick === item.ans) {
+      playSound('correct');
+      addCombo();
+      spawnCoinEffect(ev);
+      fb.className = 'feedback ok';
+      fb.textContent = `🎉 答對了！${item.note}`;
+      setTimeout(() => { idx++; draw(); }, 1000);
+    } else {
+      playSound('wrong');
+      resetCombo();
+      fb.className = 'feedback bad shake';
+      fb.textContent = `😅 答錯囉！${item.note}`;
+      setTimeout(() => fb.classList.remove('shake'), 400);
+    }
+  };
+  draw();
+}
+
+function showLevelDone(c, title, stars, nextStage, tip){
+  playSound('fanfare');
+  updateMascot('🥳', `太棒了！${title} 順利過關！拿到 ${stars} 顆星星！`);
+  c.innerHTML = `
+    <div class="hero-emoji">🍕🎉🏆</div>
+    <h2 class="stage-title" style="justify-content:center;">${title} 順利過關！</h2>
+    <div class="star-line">${starsToText(stars)}</div>
+    <p class="lead-text">${tip}</p>
+    <div class="btn-row" style="justify-content:center;">
+      <button class="btn coral" onclick="goto('${nextStage}')">${nextStage==='final'?'前往領取特級大廚獎章 🏅':'前進下一道料理關卡 🍕'}</button>
+    </div>
+  `;
+}
+
+function renderFinal(c){
+  playSound('fanfare');
+  updateMascot('👑', '米其林三星特級大廚誕生！你已經完全征服分數的除法王國！');
+  c.innerHTML = `
+    <div class="hero-emoji">👨‍🍳🍕🏅</div>
+    <h2 class="stage-title" style="justify-content:center;">榮獲米其林三星特級大廚！</h2>
+    <div class="star-line">總星星數：15 / 15</div>
+    <p class="lead-text">太厲害了！你已經完全融會貫通最簡分數、同分母除法、異分母分數除法與商的規律！隨時可以點擊上方「南一作業簿隨堂考」挑戰期中評量！</p>
+    <div class="btn-row" style="justify-content:center;">
+      <button class="btn gold" onclick="openFracWbModal()">📑 挑戰南一作業簿隨堂考 (第4~6回)</button>
+      <button class="btn leaf" onclick="restartGame()">🔁 重新挑戰闖關</button>
+    </div>
+  `;
+  if(window.confetti) confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+}
+
+function restartGame(){
+  resetCombo();
+  state.stars = {l1:0,l2:0,l3:0,l4:0,l5:0};
+  goto('intro');
+}
+
+// 內嵌作業簿完整資料庫
+const U2_WB_DATA = {"unit_id": 2, "title": "分數的除法", "description": "最簡分數、同分母分數除法、異分母分數除法、被除數/除數與商的關係", "reviews": [{"review_id": 4, "range": "2-1 最簡分數、2-2 同分母分數的除法", "page": "P.8-9", "sections": [{"section_title": "一、選擇題", "type": "multiple_choice", "items": [{"q": "(1) 下面哪一個分數是最簡分數？", "options": ["① 18/45", "② 52/91", "③ 22/105", "④ 51/126"], "ans": "③", "explanation": "① 18/45=2/5(除以9); ② 52/91=4/7(除以13); ③ 22=2×11, 105=3×5×7互質，為最簡分數; ④ 51/126=17/42(除以3)。"}, {"q": "(2) 8/3 包糖重 16/3 公斤，1 包糖重幾公斤？", "options": ["① 2公斤", "② 1公斤", "③ 3/2公斤", "④ 6/5公斤"], "ans": "①", "explanation": "16/3 ÷ 8/3 = 16 ÷ 8 = 2 (公斤)。"}]}, {"section_title": "二、把下面各數約分成最簡分數", "type": "simplify_fraction", "items": [{"q": "49/14", "ans": "7/2 或 3又1/2", "options": ["7/2 或 3又1/2", "7/4", "3又1/4", "2/7"], "steps": "分子分母同除以 7 = 7/2 = 3又1/2"}, {"q": "2又32/48", "ans": "2又2/3", "options": ["2又2/3", "2又1/3", "2又3/4", "1又2/3"], "steps": "32/48 同除以 16 = 2/3 => 2又2/3"}, {"q": "68/102", "ans": "2/3", "options": ["2/3", "3/4", "1/2", "4/5"], "steps": "同除以 34 = 2/3"}, {"q": "5又75/100", "ans": "5又3/4", "options": ["5又3/4", "5又2/3", "5又1/2", "5又4/5"], "steps": "75/100 同除以 25 = 3/4 => 5又3/4"}, {"q": "3又55/121", "ans": "3又5/11", "options": ["3又5/11", "3又1/11", "3又4/11", "3又5/9"], "steps": "55/121 同除以 11 = 5/11 => 3又5/11"}, {"q": "4又104/160", "ans": "4又13/20", "options": ["4又13/20", "4又11/20", "4又7/10", "4又3/5"], "steps": "104/160 同除以 8 = 13/20 => 4又13/20"}]}, {"section_title": "三、算算看（同分母除法）", "type": "same_denominator_calc", "items": [{"q": "8/9 ÷ 2/9", "ans": "4", "options": ["4", "2", "1/4", "16/81"], "steps": "= 8 ÷ 2 = 4"}, {"q": "21/20 ÷ 7/20", "ans": "3", "options": ["3", "7", "1/3", "147/400"], "steps": "= 21 ÷ 7 = 3"}, {"q": "5/12 ÷ 10/12", "ans": "1/2", "options": ["1/2", "2", "5/10", "1/4"], "steps": "= 5 ÷ 10 = 5/10 = 1/2"}, {"q": "18/7 ÷ 5/7", "ans": "18/5 或 3又3/5", "options": ["18/5 或 3又3/5", "3又1/5", "18/7", "5/18"], "steps": "= 18 ÷ 5 = 18/5 = 3又3/5"}, {"q": "10/45 ÷ 2/45", "ans": "5", "options": ["5", "20", "1/5", "2/9"], "steps": "= 10 ÷ 2 = 5"}, {"q": "7/8 ÷ 5/8", "ans": "7/5 或 1又2/5", "options": ["7/5 或 1又2/5", "1又1/5", "5/7", "35/64"], "steps": "= 7 ÷ 5 = 7/5 = 1又2/5"}]}, {"section_title": "四、分母為 15 的真分數中，除了 1/15 外，還有哪些是最簡分數？", "type": "fill_in", "items": [{"q": "分母為 15 的真分數中，除了 1/15 外，還有哪些是最簡分數？", "ans": "2/15、4/15、7/15、8/15、11/15、13/15、14/15", "options": ["2/15、4/15、7/15、8/15、11/15、13/15、14/15", "3/15、5/15、6/15、9/15、10/15、12/15", "2/15、3/15、5/15、7/15、11/15、13/15", "所有小於15的奇數/15"], "explanation": "分子與15互質且小於15的數：2, 4, 7, 8, 11, 13, 14。"}]}, {"section_title": "五、把做法用算式記下來（同分母應用題）", "type": "word_problems", "items": [{"q": "(1) 一條水管長 12/5 公尺，每 3/5 公尺剪成 1 段，共可剪成幾段水管？", "steps": "12/5 ÷ 3/5 = 12 ÷ 3 = 4", "ans": "4段", "options": ["4段", "6段", "3段", "5段"]}, {"q": "(2) 有一個長方形，面積是 8/13 平方公尺，寬是 2/13 公尺，這個長方形的長是幾公尺？", "steps": "8/13 ÷ 2/13 = 8 ÷ 2 = 4", "ans": "4公尺", "options": ["4公尺", "2公尺", "6公尺", "16/169公尺"]}, {"q": "(3) 一瓶牛奶容量 14/25 公升，每一次調製鮮奶茶會用掉 2/25 公升，可用幾次？", "steps": "14/25 ÷ 2/25 = 14 ÷ 2 = 7", "ans": "7次", "options": ["7次", "5次", "12次", "14次"]}, {"q": "(4) 甲、乙兩段繩子，甲段長 9/17 公尺，乙段長 4/17 公尺，甲段的長是乙段的幾倍？", "steps": "9/17 ÷ 4/17 = 9 ÷ 4 = 9/4 = 2又1/4", "ans": "2又1/4倍 (或 9/4倍)", "options": ["2又1/4倍 (或 9/4倍)", "1又3/4倍", "2倍", "4/9倍"]}]}]}, {"review_id": 5, "range": "2-3 異分母分數的除法", "page": "P.10-11", "sections": [{"section_title": "一、算算看（異分母除法）", "type": "diff_denominator_calc", "items": [{"q": "8 ÷ 1/5", "ans": "40", "options": ["40", "8/5", "1/40", "4"], "steps": "= 40/5 ÷ 1/5 = 40 ÷ 1 = 40 (或 8 × 5 = 40)"}, {"q": "4 ÷ 9/8", "ans": "3又5/9 (或 32/9)", "options": ["3又5/9 (或 32/9)", "4又1/2", "9/2", "3又1/9"], "steps": "= 32/8 ÷ 9/8 = 32 ÷ 9 = 32/9 = 3又5/9"}, {"q": "2/7 ÷ 3/5", "ans": "10/21", "options": ["10/21", "6/35", "21/10", "5/7"], "steps": "= (2×5)/(7×5) ÷ (3×7)/(5×7) = 10/35 ÷ 21/35 = 10 ÷ 21 = 10/21"}, {"q": "17/10 ÷ 9/5", "ans": "17/18", "options": ["17/18", "18/17", "17/2", "9/10"], "steps": "= 17/10 ÷ (9×2)/(5×2) = 17/10 ÷ 18/10 = 17 ÷ 18 = 17/18"}, {"q": "2又5/6 ÷ 1/3", "ans": "8又1/2 (或 17/2)", "options": ["8又1/2 (或 17/2)", "7又1/2", "6又1/3", "17/18"], "steps": "= 17/6 × 3/1 = 17/2 = 8又1/2"}, {"q": "5又2/5 ÷ 2又1/4", "ans": "2又2/5 (或 12/5)", "options": ["2又2/5 (或 12/5)", "2又1/5", "3又1/4", "10/3"], "steps": "= 27/5 ÷ 9/4 = 27/5 × 4/9 = (3×4)/5 = 12/5 = 2又2/5"}, {"q": "14/3 ÷ 14/5", "ans": "1又2/3 (或 5/3)", "options": ["1又2/3 (或 5/3)", "14/15", "28/15", "1又1/2"], "steps": "= 14/3 × 5/14 = 5/3 = 1又2/3"}, {"q": "1又8/11 ÷ 4又3/4", "ans": "4/11", "options": ["4/11", "11/4", "3/11", "5/11"], "steps": "= 19/11 ÷ 19/4 = 19/11 × 4/19 = 4/11"}]}, {"section_title": "二、把做法用算式記下來（異分母應用題）", "type": "word_problems", "items": [{"q": "(1) 竹竿 1 根長 3 公尺，每 1/2 公尺鋸成一段，可鋸成幾段？", "steps": "3 ÷ 1/2 = 6/2 ÷ 1/2 = 6 ÷ 1 = 6", "ans": "6段", "options": ["6段", "3段", "1又1/2段", "8段"]}, {"q": "(2) 李家有田 4/5 公頃，黃家有田 3/4 公頃，黃家的田是李家的幾倍？", "steps": "3/4 ÷ 4/5 = 15/20 ÷ 16/20 = 15 ÷ 16 = 15/16", "ans": "15/16倍", "options": ["15/16倍", "1又1/15倍", "3/5倍", "16/15倍"]}, {"q": "(3) 甲繩長 8/10 公尺，乙繩長 3/5 公尺，甲繩長是乙繩的幾倍？", "steps": "8/10 ÷ 3/5 = 8/10 × 5/3 = 4/3 = 1又1/3 (或 8/6 = 1又1/3)", "ans": "1又1/3倍 (或 4/3倍)", "options": ["1又1/3倍 (或 4/3倍)", "1又1/2倍", "3/4倍", "2倍"]}, {"q": "(4) 丹丹騎腳踏車去公園花了 10又2/3 分鐘，去郵局花了 18又4/6 分鐘，去公園所花的時間是去郵局的幾倍？", "steps": "10又2/3 ÷ 18又4/6 = 32/3 ÷ 112/6 = 32/3 × 6/112 = 4/7", "ans": "4/7倍", "options": ["4/7倍", "7/4倍", "1又3/4倍", "1/2倍"]}, {"q": "(5) 一桶醬油有 7又1/5 公升，每 3/8 公升裝成 1 瓶，共可裝成幾瓶？", "steps": "7又1/5 ÷ 3/8 = 36/5 × 8/3 = 96/5 = 19又1/5", "ans": "19又1/5瓶 (或 96/5瓶)", "options": ["19又1/5瓶 (或 96/5瓶)", "18瓶", "20又1/5瓶", "15瓶"]}, {"q": "(6) 一桶果汁有 4又1/5 公升，每 3/4 公升裝成 1 瓶，共可裝成幾瓶？", "steps": "4又1/5 ÷ 3/4 = 21/5 × 4/3 = 28/5 = 5又3/5", "ans": "5又3/5瓶 (或 28/5瓶)", "options": ["5又3/5瓶 (或 28/5瓶)", "5瓶", "6又1/5瓶", "4又3/5瓶"]}]}]}, {"review_id": 6, "range": "2-4 分數除法的應用、2-5 被除數、除數和商的關係", "page": "P.12-13", "sections": [{"section_title": "一、下面各算式所得的商，哪些小於被除數？哪些大於被除數？哪些等於被除數？請直接點選正確組合", "type": "quotient_relations", "options_pool": {"ㄅ": "2又3/7 ÷ 1", "ㄆ": "7/8 ÷ 3/4", "ㄇ": "5/9 ÷ 3/2", "ㄈ": "11/12 ÷ 11/12", "ㄉ": "11/16 ÷ 1又5/16", "ㄊ": "4又1/6 ÷ 13/11", "ㄋ": "6又7/9 ÷ 6又7/9", "ㄌ": "3/14 ÷ 4/7"}, "items": [{"q": "(1) 商小於被除數：", "ans": "ㄇ、ㄉ、ㄊ、ㄋ", "options": ["ㄇ、ㄉ、ㄊ、ㄋ", "ㄆ、ㄈ、ㄌ", "ㄅ、ㄆ、ㄇ", "ㄉ、ㄊ、ㄌ"], "explanation": "當除數大於1時，商小於被除數：ㄇ(3/2>1), ㄉ(1又5/16>1), ㄊ(13/11>1), ㄋ(6又7/9>1)。"}, {"q": "(2) 商大於被除數：", "ans": "ㄆ、ㄈ、ㄌ", "options": ["ㄆ、ㄈ、ㄌ", "ㄇ、ㄉ、ㄊ、ㄋ", "ㄅ、ㄆ、ㄈ", "ㄇ、ㄋ、ㄌ"], "explanation": "當除數小於1時，商大於被除數：ㄆ(3/4<1), ㄈ(11/12<1), ㄌ(4/7<1)。"}, {"q": "(3) 商等於被除數：", "ans": "ㄅ", "options": ["ㄅ", "ㄈ", "ㄋ", "ㄅ、ㄈ"], "explanation": "當除數等於1時，商等於被除數：ㄅ(÷1)。"}]}, {"section_title": "二、在□中填入 >、< 或 = （直接點選）", "type": "comparison", "items": [{"q": "5/6 ÷ 1/2 □ 5/6", "ans": ">", "options": [">", "<", "="], "steps": "除數 1/2 < 1 => 商 > 被除數"}, {"q": "3/4 ÷ 2又5/9 □ 3/4", "ans": "<", "options": [">", "<", "="], "steps": "除數 2又5/9 > 1 => 商 < 被除數"}, {"q": "6又1/3 ÷ 4/4 □ 6又1/3", "ans": "=", "options": [">", "<", "="], "steps": "除數 4/4 = 1 => 商 = 被除數"}, {"q": "1/9 ÷ 1/9 □ 1/9", "ans": ">", "options": [">", "<", "="], "steps": "除數 1/9 < 1 => 商 > 被除數 (商為1 > 1/9)"}, {"q": "4 ÷ 5/3 □ 4", "ans": "<", "options": [">", "<", "="], "steps": "除數 5/3 > 1 => 商 < 被除數"}, {"q": "3又3/10 ÷ 3又3/10 □ 3又3/10", "ans": "<", "options": [">", "<", "="], "steps": "除數 3又3/10 > 1 => 商為1 < 3又3/10"}]}, {"section_title": "三、果菜市場的香蕉 1 公斤賣 18 元，芭樂 3/5 公斤賣 18 元，回答下面問題", "type": "word_problems", "items": [{"q": "(1) 芭樂 1 公斤賣幾元？", "steps": "18 ÷ 3/5 = 90/5 ÷ 3/5 = 90 ÷ 3 = 30", "ans": "30元", "options": ["30元", "24元", "18元", "36元"]}, {"q": "(2) 如果不用計算，要如何才能知道哪種水果買 1 公斤所花的錢比較多？", "steps": "香蕉 1 公斤：18 ÷ 1 = 18；芭樂 1 公斤：18 ÷ 3/5 > 18（因為除數 3/5 < 1，商大於 18），所以芭樂比較多。", "ans": "芭樂", "options": ["芭樂", "香蕉", "一樣多", "無法判斷"]}]}, {"section_title": "四、把做法用算式記下來（綜合應用題）", "type": "word_problems", "items": [{"q": "(1) 7 瓶運動飲料共有 7又7/8 公升，1 瓶運動飲料有幾公升？", "steps": "7又7/8 ÷ 7 = 63/8 × 1/7 = 9/8 = 1又1/8", "ans": "1又1/8公升 (或 9/8公升)", "options": ["1又1/8公升 (或 9/8公升)", "1公升", "1又1/4公升", "7/8公升"]}, {"q": "(2) 有一個長方形，已知寬是 1又3/4 公尺，面積是 5又3/5 平方公尺，這個長方形的長是幾公尺？", "steps": "5又3/5 ÷ 1又3/4 = 28/5 ÷ 7/4 = 28/5 × 4/7 = 16/5 = 3又1/5", "ans": "3又1/5公尺 (或 16/5公尺)", "options": ["3又1/5公尺 (或 16/5公尺)", "3公尺", "4又1/5公尺", "2又3/4公尺"]}, {"q": "(3) 南王國小合唱團人數有 75 個人，占全校人數的 5/24，全校共有幾個人？", "steps": "75 ÷ 5/24 = 75 × 24/5 = 15 × 24 = 360", "ans": "360個", "options": ["360個", "300個", "420個", "180個"]}, {"q": "(4) 有一杯綜合果汁，若水果原汁占的比率是 3/10。如果水果原汁有 3/8 公升，這杯綜合果汁有幾公升？", "steps": "3/8 ÷ 3/10 = 3/8 × 10/3 = 5/4 = 1又1/4", "ans": "1又1/4公升 (或 5/4公升)", "options": ["1又1/4公升 (或 5/4公升)", "1公升", "1又1/2公升", "9/80公升"]}, {"q": "(5) 1 包麵粉重 3又1/5 公斤，幾包麵粉重 41又3/5 公斤？", "steps": "41又3/5 ÷ 3又1/5 = 208/5 ÷ 16/5 = 208/5 × 5/16 = 13", "ans": "13包", "options": ["13包", "12包", "15包", "14包"]}]}]}]};
+
+let fracCurrentRevId = 4;
+let fracAnswers = {};
+
+function openFracWbModal() {
+  playSound('click');
+  document.getElementById('fracWbModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchFracWbRev(4);
+}
+function closeFracWbModal() {
+  document.getElementById('fracWbModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchFracWbRev(revId) {
+  fracCurrentRevId = revId;
+  fracAnswers = {};
+  document.querySelectorAll('#fracWbModalOverlay .wb-tab').forEach((t, i) => t.classList.toggle('active', i + 4 === revId));
+  document.getElementById('fracWbScoreDisp').textContent = '狀態：做題中（未交卷）';
+  renderFracWbQuizBody();
+}
+
+function fracPick(itemId, val, btnEl) {
+  playSound('click');
+  fracAnswers[itemId] = val;
+  const parent = btnEl.closest('.wb-opt-grid');
+  if (parent) {
+    parent.querySelectorAll('.wb-opt-btn').forEach(b => b.classList.remove('selected'));
+    btnEl.classList.add('selected');
+  }
+}
+
+function renderFracWbQuizBody() {
+  const rev = U2_WB_DATA.reviews.find(r => r.review_id === fracCurrentRevId);
+  const container = document.getElementById('fracWbQuizBody');
+  if (!rev) return;
+
+  let html = '';
+  rev.sections.forEach((sec, sIdx) => {
+    html += `<div class="wb-sec-card">
+      <div class="wb-sec-title">📌 ${sec.section_title}</div>`;
+
+    if (sec.type === 'quotient_relations' && sec.options_pool) {
+      html += '<div style="background:#FFF8F0; padding:10px; border-radius:10px; margin-bottom:12px; font-size:14px; border:1px solid #F4A261;"><b>算式代號庫：</b><br>';
+      for (const [k, v] of Object.entries(sec.options_pool)) {
+        html += `【${k}】 ${v}　`;
+      }
+      html += '</div>';
+    }
+
+    sec.items.forEach((item, iIdx) => {
+      const itemId = `u2_r${fracCurrentRevId}_s${sIdx}_${iIdx}`;
+      let itemOpts = item.options || [];
+
+      if (!itemOpts || itemOpts.length === 0) {
+        if (sec.type === 'comparison') itemOpts = ['>', '<', '='];
+        else itemOpts = [item.ans, '1又1/2', '2/3', '4'];
+      }
+
+      html += `
+        <div class="wb-q-item">
+          <div class="wb-q-text">${item.q}</div>
+          <div class="wb-opt-grid">
+            ${itemOpts.map(opt => `
+              <button type="button" class="wb-opt-btn ${fracAnswers[itemId] === opt ? 'selected' : ''}" onclick="fracPick('${itemId}', '${opt}', this)">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div class="wb-sol-panel" id="sol_${itemId}">
+            <div class="wb-sol-steps">${item.steps || item.explanation || ''}</div>
+            <div class="wb-sol-ans">標準答案：${item.ans}</div>
+          </div>
+        </div>`;
+    });
+
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function gradeFracWbQuiz() {
+  const rev = U2_WB_DATA.reviews.find(r => r.review_id === fracCurrentRevId);
+  let total = 0, correct = 0;
+
+  rev.sections.forEach((sec, sIdx) => {
+    sec.items.forEach((item, iIdx) => {
+      total++;
+      const itemId = `u2_r${fracCurrentRevId}_s${sIdx}_${iIdx}`;
+      const userVal = fracAnswers[itemId] || '';
+      let isRight = false;
+
+      const cleanUser = userVal.replace(/[\s]/g, '').replace(/段|公尺|次|倍|瓶|元|包|公升/g, '');
+      const cleanAns = String(item.ans).replace(/[\s]/g, '').replace(/段|公尺|次|倍|瓶|元|包|公升/g, '');
+
+      if (cleanUser === cleanAns || cleanUser.includes(cleanAns)) {
+        isRight = true;
+      } else if (cleanAns.includes('或')) {
+        const parts = cleanAns.split('或');
+        isRight = parts.some(p => cleanUser.includes(p.trim().replace(/[\s\(\)]/g, '')));
+      } else if (cleanAns.includes('、')) {
+        const parts = cleanAns.split('、');
+        isRight = parts.every(p => cleanUser.includes(p.trim()));
+      }
+
+      if (isRight) correct++;
+
+      // 取得題目卡片與該題所有選項按鈕
+      const panel = document.getElementById(`sol_${itemId}`);
+      const qItem = panel ? panel.closest('.wb-q-item') : null;
+      
+      if (qItem) {
+        // 設定題目卡片邊框與背景
+        qItem.classList.remove('is-correct', 'is-wrong');
+        qItem.classList.add(isRight ? 'is-correct' : 'is-wrong');
+        
+        // 移除舊 badge
+        const oldBadge = qItem.querySelector('.wb-q-badge');
+        if (oldBadge) oldBadge.remove();
+        
+        // 插入醒目標籤
+        const badge = document.createElement('div');
+        badge.className = `wb-q-badge ${isRight ? 'correct' : 'wrong'}`;
+        badge.innerHTML = isRight ? '✓ 答對了！' : (userVal ? '✕ 答錯了！' : '⚠️ 未作答！');
+        qItem.insertBefore(badge, qItem.firstChild);
+
+        // 遍歷所有選項按鈕標註顏色
+        const btns = qItem.querySelectorAll('.wb-opt-btn');
+        btns.forEach(btn => {
+          btn.classList.remove('opt-correct', 'opt-wrong', 'opt-should-be');
+          const btnVal = btn.textContent.trim();
+          const cleanBtn = btnVal.replace(/[\s]/g, '').replace(/段|公尺|次|倍|瓶|元|包|公升/g, '');
+          
+          const isBtnAns = (cleanBtn === cleanAns || cleanBtn.includes(cleanAns) || (cleanAns.includes('或') && cleanAns.split('或').some(p => cleanBtn.includes(p.trim().replace(/[\s\(\)]/g, '')))));
+          
+          if (btnVal === userVal) {
+            if (isRight) {
+              btn.classList.add('opt-correct');
+              btn.innerHTML = `✓ ${btnVal}`;
+            } else {
+              btn.classList.add('opt-wrong');
+              btn.innerHTML = `✕ ${btnVal}`;
+            }
+          } else if (isBtnAns && !isRight) {
+            btn.classList.add('opt-should-be');
+            btn.innerHTML = `★ 正解：${btnVal}`;
+          }
+        });
+      }
+
+      if (panel) {
+        panel.classList.add('show');
+        panel.style.borderLeft = isRight ? '6px solid #10B981' : '6px solid #EF4444';
+      }
+    });
+  });
+
+  const score = Math.round((correct / total) * 100);
+  document.getElementById('fracWbScoreDisp').innerHTML = `得分：<b>${score} 分</b> (${correct} / ${total} 題正確)`;
+  if (score >= 80) {
+    playSound('fanfare');
+    if (window.confetti) confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+  } else {
+    playSound('correct');
+  }
+  alert(`🎉 隨堂測驗批改完成！\n\n得分：${score} 分\n綠色為答對選項，紅色為答錯選項，綠色虛線為標準正解！✨`);
+}
+
+function resetFracWbQuiz() {
+  fracAnswers = {};
+  renderFracWbQuizBody();
+  document.getElementById('fracWbScoreDisp').textContent = '狀態：做題中（未交卷）';
+}
+
+goto('intro');
 </script>
 </body>
 </html>
