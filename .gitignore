@@ -2,4 +2,11 @@
 __pycache__/
 *.pyc
 extracted_pages/
+extracted_pages_math3/
 *.pdf
+math3_wb_p1_p25_ocr.json
+math3_summary.txt
+reviews_breakdown.txt
+p2_toc.txt
+p26.txt
+p26_lines.txt

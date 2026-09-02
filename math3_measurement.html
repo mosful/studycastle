@@ -160,6 +160,10 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
 <div class="app">
   <div class="top-bar">
     <a href="portal.html" class="nav-btn">🏠 學習樂園</a>
+      <button class="nav-btn" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border-color:rgba(255,255,255,0.4);" onclick="openWbModal()">
+        <span>📑</span>
+        <span>南一作業簿隨堂考 (第10~12回)</span>
+      </button>
     <span class="unit-badge">📏 3上・第④單元</span>
   </div>
 
@@ -460,5 +464,329 @@ function fireConfetti(){
   } catch(e){ console.warn('confetti error:', e); }
 }
 </script>
+
+<!-- 南一作業簿隨堂測驗 Modal -->
+<div class="wb-modal-overlay" id="wbModalOverlay">
+  <div class="wb-modal-content">
+    <div class="wb-header">
+      <div class="wb-title">📑 南一 3上數學 作業簿隨堂測驗（第 4 單元・幾毫米）</div>
+      <button class="wb-close-btn" onclick="closeWbModal()">✕</button>
+    </div>
+    <div class="wb-tabs" id="wbTabs">
+      <button class="wb-tab active" data-rev="10" onclick="switchWbRev(10)">第 10 回 (4-1 認識毫米(mm)、4-3 公分與毫米的關係與換算)</button>
+<button class="wb-tab " data-rev="11" onclick="switchWbRev(11)">第 11 回 (4-4 公分與毫米的計算、4-5 畫長度)</button>
+<button class="wb-tab " data-rev="12" onclick="switchWbRev(12)">第 12 回 (4-1 認識毫米(mm) ～ 4-6 長度的應用)</button>
+
+    </div>
+    <div id="wbQuizBody"></div>
+    <div class="wb-submit-bar">
+      <div class="wb-score-text" id="wbScoreDisp">狀態：做題中（未交卷）</div>
+      <div style="display:flex; gap:10px;">
+        <button class="wb-btn-reset" onclick="resetWbQuiz()">🔄 重填</button>
+        <button class="wb-btn-submit" onclick="gradeWbQuiz()">📝 交卷批改並看詳解</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 南一作業簿隨堂測驗樣式 -->
+<style>
+.wb-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 25, 44, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px 12px 60px;
+}
+.wb-modal-overlay.open { display: block; }
+.wb-modal-content {
+  background: #FFFDF5;
+  border: 3px solid #F59E0B;
+  border-radius: 24px;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  color: #1E293B;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+}
+.wb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #E2E8F0;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.wb-title { font-size: 20px; font-weight: 800; color: #1E293B; display: flex; align-items: center; gap: 8px; }
+.wb-close-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: 2px solid #1E293B; background: #FFF;
+  font-weight: 900; font-size: 18px; cursor: pointer; color: #1E293B;
+}
+.wb-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.wb-tab {
+  flex: 1; min-width: 140px; padding: 10px 14px; border-radius: 12px; border: 2px solid #CBD5E1;
+  background: #FFF; font-weight: 800; font-size: 13.5px; cursor: pointer; color: #64748B;
+  text-align: center; transition: all 0.2s;
+}
+.wb-tab.active { background: #F59E0B; border-color: #D97706; color: #FFF; box-shadow: 0 4px 0 #D97706; }
+.wb-sec-card { background: #FFF; border: 2px solid #E2E8F0; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+.wb-sec-title { font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 12px; border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 6px; }
+.wb-q-item { background: #FEF3C7; border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 2px solid #FDE68A; transition: all 0.3s ease; position: relative; }
+.wb-q-item.is-correct { border: 3px solid #10B981 !important; background: #ECFDF5 !important; }
+.wb-q-item.is-wrong { border: 3px solid #EF4444 !important; background: #FEF2F2 !important; }
+.wb-q-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 8px; font-size: 13px; font-weight: 800; margin-bottom: 8px;
+}
+.wb-q-badge.correct { background: #10B981; color: #FFF; }
+.wb-q-badge.wrong { background: #EF4444; color: #FFF; }
+
+.wb-q-text { font-size: 15.5px; font-weight: 700; line-height: 1.6; margin-bottom: 10px; color: #1E293B; }
+
+/* 作業簿選項大按鈕網格 (直接點選) */
+.wb-opt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+.wb-opt-btn {
+  background: #FFFFFF;
+  border: 2px solid #0284C7;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F172A;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+  user-select: none;
+}
+.wb-opt-btn:hover {
+  background: #EFF6FF;
+  border-color: #2563EB;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
+}
+.wb-opt-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+.wb-opt-btn.selected {
+  background: #F59E0B !important;
+  border-color: #D97706 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 0 #D97706 !important;
+  transform: scale(1.02);
+}
+
+/* 批改鮮明顏色：選對 (翠綠色)、選錯 (鮮紅色)、正確答案提示 (綠色虛線) */
+.wb-opt-btn.opt-correct {
+  background: linear-gradient(135deg, #10B981, #059669) !important;
+  color: #FFFFFF !important;
+  border: 3px solid #047857 !important;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6) !important;
+  transform: scale(1.03);
+}
+.wb-opt-btn.opt-wrong {
+  background: linear-gradient(135deg, #EF4444, #DC2626) !important;
+  color: #FFFFFF !important;
+  border: 3px solid #991B1B !important;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.6) !important;
+  transform: scale(1.03);
+}
+.wb-opt-btn.opt-should-be {
+  background: #D1FAE5 !important;
+  color: #065F46 !important;
+  border: 3px dashed #10B981 !important;
+  font-weight: 900 !important;
+}
+
+.wb-sol-panel { display: none; background: #F0FDF4; border: 2px solid #86EFAC; border-radius: 10px; padding: 12px; margin-top: 12px; font-size: 14px; }
+.wb-sol-panel.show { display: block; }
+.wb-sol-steps { font-family: 'Noto Sans TC', sans-serif; background: #FFF; padding: 8px 12px; border-radius: 6px; margin: 6px 0; white-space: pre-wrap; color: #0F172A; font-weight: 700; line-height: 1.6; }
+.wb-sol-ans { color: #059669; font-weight: 900; font-size: 15px; }
+.wb-submit-bar {
+  position: sticky; bottom: 0; background: #FFFDF5; border-top: 2px solid #E2E8F0;
+  padding: 14px 0 0; display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 10px; z-index: 10;
+}
+.wb-score-text { font-size: 18px; font-weight: 800; color: #0F172A; }
+.wb-btn-submit {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  border: none; color: #FFF; font-weight: 800; font-size: 15px; padding: 10px 24px;
+  border-radius: 12px; cursor: pointer; box-shadow: 0 4px 0 #047857;
+}
+.wb-btn-reset {
+  background: #F1F5F9; border: 2px solid #CBD5E1; color: #334155; font-weight: 800; font-size: 14px;
+  padding: 10px 18px; border-radius: 12px; cursor: pointer;
+}
+@media (max-width: 480px) {
+  .wb-opt-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+
+<script>
+const WB_DATA_u4 = {"unit_id": 4, "title": "幾毫米", "description": "認識毫米(mm)、公分與毫米關係換算、公分與毫米的計算與應用", "reviews": [{"review_id": 10, "range": "4-1 認識毫米(mm)、4-3 公分與毫米的關係與換算", "page": "P.21-22", "sections": [{"section_title": "一、看尺上的藍色線段長度", "type": "ruler_read", "items": [{"q": "(1) 直尺上從 0 到 2 公分又 3 小格的線段長度是多少？", "ans": "23mm", "options": ["23mm", "20mm", "25mm", "32mm"], "steps": "1公分 = 10毫米。2公分3毫米 = 23毫米(mm)。"}, {"q": "(2) 直尺上從 2 到 3 公分又 7 毫米（長度 1 公分 7 毫米）是多少？", "ans": "17mm", "options": ["17mm", "27mm", "37mm", "15mm"], "steps": "3.7 - 2 = 1.7公分 = 17毫米(mm)。"}]}, {"section_title": "二、單位換算填填看", "type": "unit_convert", "items": [{"q": "(1) 30 毫米 =（ ）公分", "ans": "3公分", "options": ["3公分", "30公分", "300公分", "0.3公分"], "steps": "10毫米 = 1公分，30毫米 = 3公分。"}, {"q": "(2) 3 公分 5 毫米 =（ ）毫米", "ans": "35毫米", "options": ["35毫米", "305毫米", "53毫米", "350毫米"], "steps": "3公分 = 30毫米，30 + 5 = 35毫米。"}, {"q": "(3) 140 毫米 =（ ）公分", "ans": "14公分", "options": ["14公分", "140公分", "1.4公分", "40公分"], "steps": "140 ÷ 10 = 14公分。"}, {"q": "(4) 63 毫米 =（ ）公分（ ）毫米", "ans": "6公分3毫米", "options": ["6公分3毫米", "60公分3毫米", "3公分6毫米", "6公分30毫米"], "steps": "60毫米 = 6公分，剩下3毫米，為 6公分3毫米。"}]}, {"section_title": "三、連連看：把一樣長度連起來", "type": "length_match", "items": [{"q": "(1) 5 公分 2 毫米等於幾毫米？", "ans": "52毫米", "options": ["52毫米", "27毫米", "60毫米", "15毫米"], "steps": "5公分 = 50毫米，50 + 2 = 52毫米。"}, {"q": "(2) 6 公分等於幾毫米？", "ans": "60毫米", "options": ["60毫米", "6毫米", "600毫米", "16毫米"], "steps": "6 × 10 = 60毫米。"}, {"q": "(3) 2 公分 7 毫米等於幾毫米？", "ans": "27毫米", "options": ["27毫米", "72毫米", "207毫米", "25毫米"], "steps": "20 + 7 = 27毫米。"}, {"q": "(4) 100 毫米等於幾公分？", "ans": "10公分", "options": ["10公分", "1公分", "100公分", "5公分"], "steps": "100毫米 = 10公分。"}, {"q": "(5) 1 公分 5 毫米等於幾毫米？", "ans": "15毫米", "options": ["15毫米", "105毫米", "51毫米", "5毫米"], "steps": "10 + 5 = 15毫米。"}, {"q": "(6) 1 公分等於幾毫米？", "ans": "10毫米", "options": ["10毫米", "100毫米", "1毫米", "0.1毫米"], "steps": "1公分 = 10毫米。"}]}]}, {"review_id": 11, "range": "4-4 公分與毫米的計算、4-5 畫長度", "page": "P.23-24", "sections": [{"section_title": "一、長度加減計算填填看", "type": "length_calc", "items": [{"q": "(1) 12 毫米 + 34 毫米 =（ ）毫米", "ans": "46毫米", "options": ["46毫米", "45毫米", "47毫米", "56毫米"], "steps": "12 + 34 = 46（毫米）。"}, {"q": "(2) 3 公分 6 毫米 + 22 毫米 =（ ）公分（ ）毫米", "ans": "5公分8毫米", "options": ["5公分8毫米", "5公分6毫米", "6公分8毫米", "3公分8毫米"], "steps": "22毫米 = 2公分2毫米；3公分6毫米 + 2公分2毫米 = 5公分8毫米。"}, {"q": "(3) 4 cm + 9 mm =（ ）cm（ ）mm", "ans": "4cm 9mm", "options": ["4cm 9mm", "13cm", "49mm", "4cm 0mm"], "steps": "直接合併為 4 cm 9 mm。"}]}, {"section_title": "二、公分與毫米生活應用題", "type": "word_problems", "items": [{"q": "(1) 1 個名片盒高 36 毫米，2 個名片盒疊在一起，高度是幾公分幾毫米？", "ans": "7公分2毫米", "options": ["7公分2毫米", "72公分", "6公分2毫米", "7公分0毫米"], "steps": "36 + 36 = 72毫米 = 7公分2毫米。"}, {"q": "(2) 一枝鉛筆長 14 公分，一枝彩色筆長 9 公分 2 毫米，兩枝筆相差幾公分幾毫米？", "ans": "4公分8毫米", "options": ["4公分8毫米", "5公分8毫米", "4公分2毫米", "5公分2毫米"], "steps": "14公分 - 9公分2毫米 = 13公分10毫米 - 9公分2毫米 = 4公分8毫米。"}, {"q": "(3) 長方形的長邊是 68 毫米，短邊是 32 毫米，這兩個邊合起來是幾公分？", "ans": "10公分", "options": ["10公分", "100公分", "9公分", "100毫米但非公分"], "steps": "68 + 32 = 100毫米 = 10公分。"}, {"q": "(4) 一條緞帶長 10 公分，剪掉 72 毫米後，剩下幾毫米？", "ans": "28毫米", "options": ["28毫米", "38毫米", "18毫米", "20毫米"], "steps": "10公分 = 100毫米。100 - 72 = 28（毫米）。"}, {"q": "(5) 芳君有一枝長 116 毫米的原子筆和一枝長 8 公分 9 毫米的鉛筆，兩枝筆相差幾毫米？", "ans": "27毫米", "options": ["27毫米", "37毫米", "17毫米", "205毫米"], "steps": "8公分9毫米 = 89毫米。116 - 89 = 27（毫米）。"}, {"q": "(6) 承上題，如果把這兩枝筆接起來（長 116 毫米和 89 毫米），共長幾公分幾毫米？", "ans": "20公分5毫米", "options": ["20公分5毫米", "19公分5毫米", "205公分", "21公分5毫米"], "steps": "116 + 89 = 205毫米 = 20公分5毫米。"}]}]}, {"review_id": 12, "range": "4-1 認識毫米(mm) ～ 4-6 長度的應用", "page": "P.25-26", "sections": [{"section_title": "一、公尺、公分、毫米綜合換算與計算", "type": "comprehensive_units", "items": [{"q": "(1) 2公尺10公分 =（ ）公分 =（ ）毫米", "ans": "210公分，2100毫米", "options": ["210公分，2100毫米", "201公分，2010毫米", "210公分，210毫米", "2100公分，21000毫米"], "steps": "2公尺 = 200公分，200+10 = 210公分。210公分 × 10 = 2100毫米。"}, {"q": "(2) 3500 mm =（ ）cm =（ ）m（ ）cm", "ans": "350cm，3m 50cm", "options": ["350cm，3m 50cm", "35cm，3m 5cm", "3500cm，35m", "350cm，30m 50cm"], "steps": "3500毫米 ÷ 10 = 350公分。350公分 = 3公尺50公分。"}, {"q": "(3) 25 公分 6 毫米 + 3 公分 5 毫米 =（ ）公分（ ）毫米", "ans": "29公分1毫米", "options": ["29公分1毫米", "28公分1毫米", "29公分11毫米", "28公分11毫米"], "steps": "6毫米 + 5毫米 = 11毫米 = 1公分1毫米；25 + 3 + 1 = 29公分1毫米。"}, {"q": "(4) 50 公分 7 毫米 - 36 毫米 =（ ）公分（ ）毫米", "ans": "47公分1毫米", "options": ["47公分1毫米", "46公分1毫米", "47公分9毫米", "46公分9毫米"], "steps": "507毫米 - 36毫米 = 471毫米 = 47公分1毫米。"}, {"q": "(5) 23 cm + 402 mm =（ ）cm（ ）mm", "ans": "63cm 2mm", "options": ["63cm 2mm", "62cm 2mm", "425cm", "27cm 2mm"], "steps": "402毫米 = 40公分2毫米；23公分 + 40公分2毫米 = 63公分2毫米。"}]}, {"section_title": "二、圈圈看與長度比較", "type": "choice_compare", "items": [{"q": "(1) 餐桌長 2 公尺 8 公分，也可以說是幾毫米？", "ans": "2080毫米", "options": ["2080毫米", "2800毫米", "2008毫米"], "steps": "2公尺 = 2000毫米，8公分 = 80毫米，2000 + 80 = 2080毫米。"}, {"q": "(2) 樓層高度為 3 公尺 60 公分，也可以說是幾毫米？", "ans": "3600毫米", "options": ["3600毫米", "3060毫米", "3006毫米"], "steps": "3公尺 = 3000毫米，60公分 = 600毫米，3000 + 600 = 3600毫米。"}, {"q": "(3) 紅色繩子長 1023 毫米，綠色繩子長 1 公尺 23 公分，哪一條繩子比較長？", "ans": "綠色繩子", "options": ["綠色繩子", "紅色繩子", "一樣長"], "steps": "1公尺23公分 = 1230毫米。1230毫米 > 1023毫米，所以綠色繩子比較長。"}]}, {"section_title": "三、綜合圖解生活應用題", "type": "word_problems", "items": [{"q": "(1) 灰色紙帶長 13 cm 2 mm，比藍色紙帶長 4 cm 4 mm，藍色紙帶的長度是幾公分幾毫米？", "ans": "8公分8毫米", "options": ["8公分8毫米", "9公分8毫米", "8公分6毫米", "17公分6毫米"], "steps": "13cm 2mm - 4cm 4mm = 12cm 12mm - 4cm 4mm = 8cm 8mm（8公分8毫米）。"}, {"q": "(2) 三隻螞蟻離終點的距離分別為：甲(94mm)、乙(70mm)、丙(58mm)。哪一隻螞蟻離終點最近？哪一隻最遠？", "ans": "丙最近，甲最遠", "options": ["丙最近，甲最遠", "甲最近，丙最遠", "乙最近，甲最遠", "丙最近，乙最遠"], "steps": "距離最小為最近：58mm（丙）最近；距離最大為最遠：94mm（甲）最遠。"}, {"q": "(3) 承上題，若丙螞蟻先去搬糖果（距離 53 mm），再依照原路線走到終點（距離終點 58 mm），共要走幾毫米？", "ans": "164毫米", "options": ["164毫米", "111毫米", "154毫米", "174毫米"], "steps": "走去搬糖果再回原點：53 + 53 = 106毫米；再走到終點：106 + 58 = 164毫米。"}]}]}]};
+
+let wbCurrentRevId = 10;
+let wbAnswers = {};
+
+function openWbModal() {
+  if(typeof playSound === 'function') playSound('click');
+  document.getElementById('wbModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchWbRev(10);
+}
+function closeWbModal() {
+  document.getElementById('wbModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchWbRev(revId) {
+  wbCurrentRevId = revId;
+  wbAnswers = {};
+  document.querySelectorAll('.wb-tab').forEach(t => {
+    t.classList.toggle('active', parseInt(t.getAttribute('data-rev')) === revId);
+  });
+  document.getElementById('wbScoreDisp').textContent = '狀態：做題中（未交卷）';
+  renderWbQuizBody();
+}
+
+function wbPick(itemId, val, btnEl) {
+  if(typeof playSound === 'function') playSound('click');
+  wbAnswers[itemId] = val;
+  const parent = btnEl.closest('.wb-opt-grid');
+  if (parent) {
+    parent.querySelectorAll('.wb-opt-btn').forEach(b => b.classList.remove('selected'));
+    btnEl.classList.add('selected');
+  }
+}
+
+function renderWbQuizBody() {
+  const rev = WB_DATA_u4.reviews.find(r => r.review_id === wbCurrentRevId);
+  const container = document.getElementById('wbQuizBody');
+  if (!rev) return;
+
+  let html = '';
+  rev.sections.forEach((sec, sIdx) => {
+    html += `<div class="wb-sec-card">
+      <div class="wb-sec-title">📌 ${sec.section_title}</div>`;
+
+    sec.items.forEach((item, iIdx) => {
+      const itemId = `u4_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
+      const qTitle = item.q;
+      const opts = item.options || [item.ans];
+
+      html += `
+        <div class="wb-q-item">
+          <div class="wb-q-text">${qTitle}</div>
+          <div class="wb-opt-grid">
+            ${opts.map(opt => `
+              <button type="button" class="wb-opt-btn ${wbAnswers[itemId] === opt ? 'selected' : ''}" onclick="wbPick('${itemId}', '${opt}', this)">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div class="wb-sol-panel" id="sol_${itemId}">
+            <div class="wb-sol-steps">${item.steps || item.explanation || ''}</div>
+            <div class="wb-sol-ans">標準答案：${item.ans}</div>
+          </div>
+        </div>`;
+    });
+
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function gradeWbQuiz() {
+  const rev = WB_DATA_u4.reviews.find(r => r.review_id === wbCurrentRevId);
+  let total = 0, correct = 0;
+
+  rev.sections.forEach((sec, sIdx) => {
+    sec.items.forEach((item, iIdx) => {
+      total++;
+      const itemId = `u4_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
+      const userVal = wbAnswers[itemId] || '';
+      let isRight = false;
+
+      const targetAns = item.ans;
+      const cleanUser = userVal.replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
+      const cleanAns = String(targetAns).replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
+
+      if (cleanUser === cleanAns || cleanUser.includes(cleanAns) || userVal === targetAns) {
+        isRight = true;
+      }
+
+      if (isRight) correct++;
+
+      const panel = document.getElementById(`sol_${itemId}`);
+      const qItem = panel ? panel.closest('.wb-q-item') : null;
+      
+      if (qItem) {
+        qItem.classList.remove('is-correct', 'is-wrong');
+        qItem.classList.add(isRight ? 'is-correct' : 'is-wrong');
+        
+        const oldBadge = qItem.querySelector('.wb-q-badge');
+        if (oldBadge) oldBadge.remove();
+        
+        const badge = document.createElement('div');
+        badge.className = `wb-q-badge ${isRight ? 'correct' : 'wrong'}`;
+        badge.innerHTML = isRight ? '✓ 答對了！' : (userVal ? '✕ 答錯了！' : '⚠️ 未作答！');
+        qItem.insertBefore(badge, qItem.firstChild);
+
+        const btns = qItem.querySelectorAll('.wb-opt-btn');
+        btns.forEach(btn => {
+          btn.classList.remove('opt-correct', 'opt-wrong', 'opt-should-be');
+          const btnVal = btn.textContent.trim();
+          const cleanBtn = btnVal.replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
+          
+          if (btnVal === userVal) {
+            if (isRight) {
+              btn.classList.add('opt-correct');
+              btn.innerHTML = `✓ ${btnVal}`;
+            } else {
+              btn.classList.add('opt-wrong');
+              btn.innerHTML = `✕ ${btnVal}`;
+            }
+          } else if ((cleanBtn === cleanAns || btnVal === targetAns) && !isRight) {
+            btn.classList.add('opt-should-be');
+            btn.innerHTML = `★ 正解：${btnVal}`;
+          }
+        });
+      }
+
+      if (panel) {
+        panel.classList.add('show');
+        panel.style.borderLeft = isRight ? '6px solid #10B981' : '6px solid #EF4444';
+      }
+    });
+  });
+
+  const score = Math.round((correct / total) * 100);
+  document.getElementById('wbScoreDisp').innerHTML = `得分：<b>${score} 分</b> (${correct} / ${total} 題正確)`;
+  if (score >= 80) {
+    if(typeof playSound === 'function') playSound('correct');
+    if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+  } else {
+    if(typeof playSound === 'function') playSound('wrong');
+  }
+  alert(`🎉 隨堂測驗批改完成！\n\n得分：${score} 分\n綠色為答對選項，紅色為答錯選項，綠色虛線為標準正解！✨`);
+}
+
+function resetWbQuiz() {
+  wbAnswers = {};
+  renderWbQuizBody();
+  document.getElementById('wbScoreDisp').textContent = '狀態：做題中（未交卷）';
+}
+</script>
+
 </body>
 </html>

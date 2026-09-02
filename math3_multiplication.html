@@ -159,6 +159,10 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
 <div class="app">
   <div class="top-bar">
     <a href="portal.html" class="nav-btn">🏠 學習樂園</a>
+      <button class="nav-btn" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border-color:rgba(255,255,255,0.4);" onclick="openWbModal()">
+        <span>📑</span>
+        <span>南一作業簿隨堂考 (第7~9回)</span>
+      </button>
     <span class="unit-badge">✖️ 3上・第③單元</span>
   </div>
 
@@ -437,5 +441,329 @@ function fireConfetti(){
   } catch(e){ console.warn('confetti error:', e); }
 }
 </script>
+
+<!-- 南一作業簿隨堂測驗 Modal -->
+<div class="wb-modal-overlay" id="wbModalOverlay">
+  <div class="wb-modal-content">
+    <div class="wb-header">
+      <div class="wb-title">📑 南一 3上數學 作業簿隨堂測驗（第 3 單元・乘法）</div>
+      <button class="wb-close-btn" onclick="closeWbModal()">✕</button>
+    </div>
+    <div class="wb-tabs" id="wbTabs">
+      <button class="wb-tab active" data-rev="7" onclick="switchWbRev(7)">第 7 回 (3-1 乘法直式紀錄、3-2 二位數乘以一位數)</button>
+<button class="wb-tab " data-rev="8" onclick="switchWbRev(8)">第 8 回 (3-3 百乘以一位數、3-4 三位數乘以一位數)</button>
+<button class="wb-tab " data-rev="9" onclick="switchWbRev(9)">第 9 回 (3-1 乘法直式紀錄 ～ 3-5 乘法的估算)</button>
+
+    </div>
+    <div id="wbQuizBody"></div>
+    <div class="wb-submit-bar">
+      <div class="wb-score-text" id="wbScoreDisp">狀態：做題中（未交卷）</div>
+      <div style="display:flex; gap:10px;">
+        <button class="wb-btn-reset" onclick="resetWbQuiz()">🔄 重填</button>
+        <button class="wb-btn-submit" onclick="gradeWbQuiz()">📝 交卷批改並看詳解</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 南一作業簿隨堂測驗樣式 -->
+<style>
+.wb-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 25, 44, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px 12px 60px;
+}
+.wb-modal-overlay.open { display: block; }
+.wb-modal-content {
+  background: #FFFDF5;
+  border: 3px solid #F59E0B;
+  border-radius: 24px;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  color: #1E293B;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+}
+.wb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #E2E8F0;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.wb-title { font-size: 20px; font-weight: 800; color: #1E293B; display: flex; align-items: center; gap: 8px; }
+.wb-close-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: 2px solid #1E293B; background: #FFF;
+  font-weight: 900; font-size: 18px; cursor: pointer; color: #1E293B;
+}
+.wb-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.wb-tab {
+  flex: 1; min-width: 140px; padding: 10px 14px; border-radius: 12px; border: 2px solid #CBD5E1;
+  background: #FFF; font-weight: 800; font-size: 13.5px; cursor: pointer; color: #64748B;
+  text-align: center; transition: all 0.2s;
+}
+.wb-tab.active { background: #F59E0B; border-color: #D97706; color: #FFF; box-shadow: 0 4px 0 #D97706; }
+.wb-sec-card { background: #FFF; border: 2px solid #E2E8F0; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+.wb-sec-title { font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 12px; border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 6px; }
+.wb-q-item { background: #FEF3C7; border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 2px solid #FDE68A; transition: all 0.3s ease; position: relative; }
+.wb-q-item.is-correct { border: 3px solid #10B981 !important; background: #ECFDF5 !important; }
+.wb-q-item.is-wrong { border: 3px solid #EF4444 !important; background: #FEF2F2 !important; }
+.wb-q-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 8px; font-size: 13px; font-weight: 800; margin-bottom: 8px;
+}
+.wb-q-badge.correct { background: #10B981; color: #FFF; }
+.wb-q-badge.wrong { background: #EF4444; color: #FFF; }
+
+.wb-q-text { font-size: 15.5px; font-weight: 700; line-height: 1.6; margin-bottom: 10px; color: #1E293B; }
+
+/* 作業簿選項大按鈕網格 (直接點選) */
+.wb-opt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+.wb-opt-btn {
+  background: #FFFFFF;
+  border: 2px solid #0284C7;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F172A;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+  user-select: none;
+}
+.wb-opt-btn:hover {
+  background: #EFF6FF;
+  border-color: #2563EB;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
+}
+.wb-opt-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+.wb-opt-btn.selected {
+  background: #F59E0B !important;
+  border-color: #D97706 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 0 #D97706 !important;
+  transform: scale(1.02);
+}
+
+/* 批改鮮明顏色：選對 (翠綠色)、選錯 (鮮紅色)、正確答案提示 (綠色虛線) */
+.wb-opt-btn.opt-correct {
+  background: linear-gradient(135deg, #10B981, #059669) !important;
+  color: #FFFFFF !important;
+  border: 3px solid #047857 !important;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6) !important;
+  transform: scale(1.03);
+}
+.wb-opt-btn.opt-wrong {
+  background: linear-gradient(135deg, #EF4444, #DC2626) !important;
+  color: #FFFFFF !important;
+  border: 3px solid #991B1B !important;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.6) !important;
+  transform: scale(1.03);
+}
+.wb-opt-btn.opt-should-be {
+  background: #D1FAE5 !important;
+  color: #065F46 !important;
+  border: 3px dashed #10B981 !important;
+  font-weight: 900 !important;
+}
+
+.wb-sol-panel { display: none; background: #F0FDF4; border: 2px solid #86EFAC; border-radius: 10px; padding: 12px; margin-top: 12px; font-size: 14px; }
+.wb-sol-panel.show { display: block; }
+.wb-sol-steps { font-family: 'Noto Sans TC', sans-serif; background: #FFF; padding: 8px 12px; border-radius: 6px; margin: 6px 0; white-space: pre-wrap; color: #0F172A; font-weight: 700; line-height: 1.6; }
+.wb-sol-ans { color: #059669; font-weight: 900; font-size: 15px; }
+.wb-submit-bar {
+  position: sticky; bottom: 0; background: #FFFDF5; border-top: 2px solid #E2E8F0;
+  padding: 14px 0 0; display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 10px; z-index: 10;
+}
+.wb-score-text { font-size: 18px; font-weight: 800; color: #0F172A; }
+.wb-btn-submit {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  border: none; color: #FFF; font-weight: 800; font-size: 15px; padding: 10px 24px;
+  border-radius: 12px; cursor: pointer; box-shadow: 0 4px 0 #047857;
+}
+.wb-btn-reset {
+  background: #F1F5F9; border: 2px solid #CBD5E1; color: #334155; font-weight: 800; font-size: 14px;
+  padding: 10px 18px; border-radius: 12px; cursor: pointer;
+}
+@media (max-width: 480px) {
+  .wb-opt-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+
+<script>
+const WB_DATA_u3 = {"unit_id": 3, "title": "乘法", "description": "乘法直式紀錄、二位數乘以一位數、三位數乘以一位數與乘法估算", "reviews": [{"review_id": 7, "range": "3-1 乘法直式紀錄、3-2 二位數乘以一位數", "page": "P.15-16", "sections": [{"section_title": "一、看圖與直式填填看", "type": "fill_in", "items": [{"q": "(1) 一疊有3個10元（30元），共有4疊，算式 30 × 4 =（ ）元？", "ans": "120", "options": ["120", "12", "1200", "70"], "steps": "3個十乘4是12個十，即 120。"}, {"q": "(2) 42 × 3 =（ ）？", "ans": "126", "options": ["126", "120", "136", "116"], "steps": "2×3=6，40×3=120，120 + 6 = 126。"}, {"q": "(3) 1枝原子筆賣 32 元，買 3 枝要付幾元？直式步驟拆解為 2×3=（ ）、30×3=（ ），合起來是（ ）元。", "ans": "6、90、96", "options": ["6、90、96", "6、9、15", "5、90、95", "6、60、66"], "steps": "個位 2×3=6；十位 30×3=90；6 + 90 = 96元。"}]}, {"section_title": "二、用直式算算看（二位數乘一位數）", "type": "multiplication_calc", "items": [{"q": "(1) 27 × 8 = ？", "ans": "216", "options": ["216", "206", "226", "196"], "steps": "7×8=56 寫6進5；2×8=16，16+5=21。得 216。"}, {"q": "(2) 19 × 3 = ？", "ans": "57", "options": ["57", "47", "67", "59"], "steps": "9×3=27 寫7進2；1×3=3，3+2=5。得 57。"}, {"q": "(3) 42 × 4 = ？", "ans": "168", "options": ["168", "158", "178", "164"], "steps": "2×4=8；4×4=16。得 168。"}, {"q": "(4) 23 × 9 = ？", "ans": "207", "options": ["207", "197", "217", "187"], "steps": "3×9=27 寫7進2；2×9=18，18+2=20。得 207。"}, {"q": "(5) 30 × 3 = ？", "ans": "90", "options": ["90", "60", "900", "33"], "steps": "0×3=0；3×3=9。得 90。"}, {"q": "(6) 52 × 7 = ？", "ans": "364", "options": ["364", "354", "374", "362"], "steps": "2×7=14 寫4進1；5×7=35，35+1=36。得 364。"}]}, {"section_title": "三、乘法應用題", "type": "word_problems", "items": [{"q": "(1) 視聽教室每排有 12 張椅子，排了 6 排，全部有幾張椅子？", "ans": "72張", "options": ["72張", "62張", "82張", "18張"], "steps": "12 × 6 = 72（張）。"}, {"q": "(2) 育嬰房 1 天要用掉 38 罐奶粉，一星期共用掉幾罐奶粉？", "ans": "266罐", "options": ["266罐", "256罐", "276罐", "190罐"], "steps": "一星期有 7 天。38 × 7 = 266（罐）。"}, {"q": "(3) 快樂國小每節上課時間 40 分鐘，2 節課共上課幾分鐘？", "ans": "80分鐘", "options": ["80分鐘", "70分鐘", "60分鐘", "42分鐘"], "steps": "40 × 2 = 80（分鐘）。"}, {"q": "(4) 一份套餐售價 78 元，買了 3 份共要付幾元？", "ans": "234元", "options": ["234元", "224元", "244元", "214元"], "steps": "78 × 3 = 234（元）。"}, {"q": "(5) 一盒蠟筆有 15 枝，美術教室有 5 盒，合計有幾枝蠟筆？", "ans": "75枝", "options": ["75枝", "65枝", "85枝", "20枝"], "steps": "15 × 5 = 75（枝）。"}]}]}, {"review_id": 8, "range": "3-3 百乘以一位數、3-4 三位數乘以一位數", "page": "P.17-18", "sections": [{"section_title": "一、整百相乘與位值規律填填看", "type": "fill_in", "items": [{"q": "(1) 一組有2個100（200），共有6組，算式 200 × 6 =（ ）？", "ans": "1200", "options": ["1200", "120", "1800", "800"], "steps": "2個百乘6是12個百，即 1200。"}, {"q": "(2) 1瓶鮮奶賣 128 元，3瓶共要幾元？拆解：8×3=24、20×3=60、100×3=300，128×3 =（ ）元？", "ans": "384元", "options": ["384元", "364元", "374元", "394元"], "steps": "24 + 60 + 300 = 384（元）。"}, {"q": "(3) 乘法擴展規律：2×3=6，20×3=60，則 200×3=（ ）；4×8=32，40×8=320，則 400×8=（ ）。", "ans": "600與3200", "options": ["600與3200", "60與320", "6000與32000", "500與3000"], "steps": "200×3 = 600；400×8 = 3200。"}]}, {"section_title": "二、用直式算算看（三位數乘一位數）", "type": "multiplication_calc", "items": [{"q": "(1) 300 × 2 = ？", "ans": "600", "options": ["600", "500", "60", "6000"], "steps": "300 × 2 = 600。"}, {"q": "(2) 920 × 7 = ？", "ans": "6440", "options": ["6440", "6340", "6540", "6420"], "steps": "0×7=0；2×7=14 寫4進1；9×7=63，63+1=64。得 6440。"}, {"q": "(3) 321 × 3 = ？", "ans": "963", "options": ["963", "953", "973", "693"], "steps": "1×3=3；2×3=6；3×3=9。得 963。"}, {"q": "(4) 506 × 4 = ？", "ans": "2024", "options": ["2024", "2014", "2034", "2004"], "steps": "6×4=24 寫4進2；0×4=0，0+2=2；5×4=20。得 2024。"}, {"q": "(5) 675 × 9 = ？", "ans": "6075", "options": ["6075", "5975", "6175", "6065"], "steps": "5×9=45 寫5進4；7×9=63，63+4=67 寫7進6；6×9=54，54+6=60。得 6075。"}, {"q": "(6) 899 × 4 = ？", "ans": "3596", "options": ["3596", "3606", "3496", "3586"], "steps": "9×4=36 寫6進3；9×4=36，36+3=39 寫9進3；8×4=32，32+3=35。得 3596。"}]}, {"section_title": "三、直式計算正誤判斷與生活應用題", "type": "check_and_word_problems", "items": [{"q": "(1) 判斷直式計算：360 × 5 = 180 是否正確？", "ans": "✕ 錯誤（漏掉了末尾的0，正確是1800）", "options": ["✕ 錯誤（漏掉了末尾的0，正確是1800）", "✓ 正確"], "steps": "360 × 5 = 1800，算式算出180是錯誤的。"}, {"q": "(2) 判斷直式計算：138 × 6 = 828 是否正確？", "ans": "✓ 正確", "options": ["✓ 正確", "✕ 錯誤"], "steps": "8×6=48 寫8進4；3×6=18，18+4=22 寫2進2；1×6=6，6+2=8。得 828 正確。"}, {"q": "(3) 保溫瓶 199 元，媽媽買 3 個保溫瓶要花幾元？", "ans": "597元", "options": ["597元", "587元", "607元", "697元"], "steps": "199 × 3 = 597（元）。"}, {"q": "(4) 檯燈售價 350 元，吸塵器的售價是檯燈的 7 倍，吸塵器賣幾元？", "ans": "2450元", "options": ["2450元", "2350元", "2550元", "2150元"], "steps": "350 × 7 = 2450（元）。"}, {"q": "(5) 烤箱售價 699 元，阿泰買 3 臺烤箱要花幾元？", "ans": "2097元", "options": ["2097元", "2087元", "2197元", "1897元"], "steps": "699 × 3 = 2097（元）。"}]}]}, {"review_id": 9, "range": "3-1 乘法直式紀錄 ～ 3-5 乘法的估算", "page": "P.19-20", "sections": [{"section_title": "一、乘法拆解與估算概念填填看", "type": "estimation_concept", "items": [{"q": "(1) 一盒鳳梨酥有 18 塊，4 盒共有幾塊？拆解：8×4=32、10×4=40，18×4 =（ ）塊？", "ans": "72塊", "options": ["72塊", "62塊", "82塊", "42塊"], "steps": "32 + 40 = 72（塊）。"}, {"q": "(2) 一個籃球賣 389 元，買 2 個籃球合計大約是幾元？精確是 389×2=778元，若把 389 想成 400，400×2 =（ ）元？", "ans": "800元", "options": ["800元", "700元", "900元", "780元"], "steps": "389 接進 400，400 × 2 = 800元。買2個球大約是 800 元。"}]}, {"section_title": "二、連連看找出最接近的數（乘法估算）", "type": "estimation_match", "items": [{"q": "(1) 105 × 4 最接近哪一個數？", "ans": "400", "options": ["400", "600", "800", "1000"], "steps": "105 ≈ 100，100 × 4 = 400。"}, {"q": "(2) 188 × 5 最接近哪一個數？", "ans": "1000", "options": ["1000", "800", "600", "400"], "steps": "188 ≈ 200，200 × 5 = 1000。"}, {"q": "(3) 211 × 3 最接近哪一個數？", "ans": "600", "options": ["600", "800", "400", "1000"], "steps": "211 ≈ 200，200 × 3 = 600。"}, {"q": "(4) 407 × 2 最接近哪一個數？", "ans": "800", "options": ["800", "600", "400", "1000"], "steps": "407 ≈ 400，400 × 2 = 800。"}]}, {"section_title": "三、直式計算與生活應用題", "type": "calc_and_word_problems", "items": [{"q": "(1) 108 × 8 = ？", "ans": "864", "options": ["864", "854", "874", "804"], "steps": "8×8=64 寫4進6；0×8=0，0+6=6；1×8=8。得 864。"}, {"q": "(2) 480 × 4 = ？", "ans": "1920", "options": ["1920", "1820", "1960", "1900"], "steps": "0×4=0；8×4=32 寫2進3；4×4=16，16+3=19。得 1920。"}, {"q": "(3) 502 × 9 = ？", "ans": "4518", "options": ["4518", "4508", "4528", "4418"], "steps": "2×9=18 寫8進1；0×9=0，0+1=1；5×9=45。得 4518。"}, {"q": "(4) 456 × 3 = ？", "ans": "1368", "options": ["1368", "1358", "1378", "1268"], "steps": "6×3=18 寫8進1；5×3=15，15+1=16 寫6進1；4×3=12，12+1=13。得 1368。"}, {"q": "(5) 打字員 1 分鐘打 68 個字，7 分鐘共打幾個字？", "ans": "476個", "options": ["476個", "466個", "486個", "456個"], "steps": "68 × 7 = 476（個）。"}, {"q": "(6) 1 袋餅乾重量為 208 公克，3 袋餅乾重量大約是幾公克？", "ans": "600公克", "options": ["600公克", "300公克", "900公克"], "steps": "208 公克大約是 200 公克，200 × 3 = 600（公克）。"}, {"q": "(7) 泰式餐廳假日餐券賣 889 元，小彬買了 6 張，大約花了幾元？", "ans": "5400元", "options": ["5400元", "4800元", "6000元"], "steps": "889 元大約是 900 元，900 × 6 = 5400（元）。"}]}]}]};
+
+let wbCurrentRevId = 7;
+let wbAnswers = {};
+
+function openWbModal() {
+  if(typeof playSound === 'function') playSound('click');
+  document.getElementById('wbModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchWbRev(7);
+}
+function closeWbModal() {
+  document.getElementById('wbModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchWbRev(revId) {
+  wbCurrentRevId = revId;
+  wbAnswers = {};
+  document.querySelectorAll('.wb-tab').forEach(t => {
+    t.classList.toggle('active', parseInt(t.getAttribute('data-rev')) === revId);
+  });
+  document.getElementById('wbScoreDisp').textContent = '狀態：做題中（未交卷）';
+  renderWbQuizBody();
+}
+
+function wbPick(itemId, val, btnEl) {
+  if(typeof playSound === 'function') playSound('click');
+  wbAnswers[itemId] = val;
+  const parent = btnEl.closest('.wb-opt-grid');
+  if (parent) {
+    parent.querySelectorAll('.wb-opt-btn').forEach(b => b.classList.remove('selected'));
+    btnEl.classList.add('selected');
+  }
+}
+
+function renderWbQuizBody() {
+  const rev = WB_DATA_u3.reviews.find(r => r.review_id === wbCurrentRevId);
+  const container = document.getElementById('wbQuizBody');
+  if (!rev) return;
+
+  let html = '';
+  rev.sections.forEach((sec, sIdx) => {
+    html += `<div class="wb-sec-card">
+      <div class="wb-sec-title">📌 ${sec.section_title}</div>`;
+
+    sec.items.forEach((item, iIdx) => {
+      const itemId = `u3_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
+      const qTitle = item.q;
+      const opts = item.options || [item.ans];
+
+      html += `
+        <div class="wb-q-item">
+          <div class="wb-q-text">${qTitle}</div>
+          <div class="wb-opt-grid">
+            ${opts.map(opt => `
+              <button type="button" class="wb-opt-btn ${wbAnswers[itemId] === opt ? 'selected' : ''}" onclick="wbPick('${itemId}', '${opt}', this)">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div class="wb-sol-panel" id="sol_${itemId}">
+            <div class="wb-sol-steps">${item.steps || item.explanation || ''}</div>
+            <div class="wb-sol-ans">標準答案：${item.ans}</div>
+          </div>
+        </div>`;
+    });
+
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function gradeWbQuiz() {
+  const rev = WB_DATA_u3.reviews.find(r => r.review_id === wbCurrentRevId);
+  let total = 0, correct = 0;
+
+  rev.sections.forEach((sec, sIdx) => {
+    sec.items.forEach((item, iIdx) => {
+      total++;
+      const itemId = `u3_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
+      const userVal = wbAnswers[itemId] || '';
+      let isRight = false;
+
+      const targetAns = item.ans;
+      const cleanUser = userVal.replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
+      const cleanAns = String(targetAns).replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
+
+      if (cleanUser === cleanAns || cleanUser.includes(cleanAns) || userVal === targetAns) {
+        isRight = true;
+      }
+
+      if (isRight) correct++;
+
+      const panel = document.getElementById(`sol_${itemId}`);
+      const qItem = panel ? panel.closest('.wb-q-item') : null;
+      
+      if (qItem) {
+        qItem.classList.remove('is-correct', 'is-wrong');
+        qItem.classList.add(isRight ? 'is-correct' : 'is-wrong');
+        
+        const oldBadge = qItem.querySelector('.wb-q-badge');
+        if (oldBadge) oldBadge.remove();
+        
+        const badge = document.createElement('div');
+        badge.className = `wb-q-badge ${isRight ? 'correct' : 'wrong'}`;
+        badge.innerHTML = isRight ? '✓ 答對了！' : (userVal ? '✕ 答錯了！' : '⚠️ 未作答！');
+        qItem.insertBefore(badge, qItem.firstChild);
+
+        const btns = qItem.querySelectorAll('.wb-opt-btn');
+        btns.forEach(btn => {
+          btn.classList.remove('opt-correct', 'opt-wrong', 'opt-should-be');
+          const btnVal = btn.textContent.trim();
+          const cleanBtn = btnVal.replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
+          
+          if (btnVal === userVal) {
+            if (isRight) {
+              btn.classList.add('opt-correct');
+              btn.innerHTML = `✓ ${btnVal}`;
+            } else {
+              btn.classList.add('opt-wrong');
+              btn.innerHTML = `✕ ${btnVal}`;
+            }
+          } else if ((cleanBtn === cleanAns || btnVal === targetAns) && !isRight) {
+            btn.classList.add('opt-should-be');
+            btn.innerHTML = `★ 正解：${btnVal}`;
+          }
+        });
+      }
+
+      if (panel) {
+        panel.classList.add('show');
+        panel.style.borderLeft = isRight ? '6px solid #10B981' : '6px solid #EF4444';
+      }
+    });
+  });
+
+  const score = Math.round((correct / total) * 100);
+  document.getElementById('wbScoreDisp').innerHTML = `得分：<b>${score} 分</b> (${correct} / ${total} 題正確)`;
+  if (score >= 80) {
+    if(typeof playSound === 'function') playSound('correct');
+    if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+  } else {
+    if(typeof playSound === 'function') playSound('wrong');
+  }
+  alert(`🎉 隨堂測驗批改完成！\n\n得分：${score} 分\n綠色為答對選項，紅色為答錯選項，綠色虛線為標準正解！✨`);
+}
+
+function resetWbQuiz() {
+  wbAnswers = {};
+  renderWbQuizBody();
+  document.getElementById('wbScoreDisp').textContent = '狀態：做題中（未交卷）';
+}
+</script>
+
 </body>
 </html>

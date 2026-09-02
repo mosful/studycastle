@@ -234,6 +234,10 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
 <div class="app">
   <div class="top-bar">
     <a href="portal.html" class="nav-btn">🏠 學習樂園</a>
+      <button class="nav-btn" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border-color:rgba(255,255,255,0.4);" onclick="openWbModal()">
+        <span>📑</span>
+        <span>南一作業簿隨堂考 (第4~6回)</span>
+      </button>
     <span class="unit-badge">🏰 3上・第②單元</span>
   </div>
 
@@ -561,5 +565,329 @@ function fireConfetti(){
   } catch(e){ console.warn('confetti error:', e); }
 }
 </script>
+
+<!-- 南一作業簿隨堂測驗 Modal -->
+<div class="wb-modal-overlay" id="wbModalOverlay">
+  <div class="wb-modal-content">
+    <div class="wb-header">
+      <div class="wb-title">📑 南一 3上數學 作業簿隨堂測驗（第 2 單元・四位數的加減）</div>
+      <button class="wb-close-btn" onclick="closeWbModal()">✕</button>
+    </div>
+    <div class="wb-tabs" id="wbTabs">
+      <button class="wb-tab active" data-rev="4" onclick="switchWbRev(4)">第 4 回 (2-1 四位數的加法)</button>
+<button class="wb-tab " data-rev="5" onclick="switchWbRev(5)">第 5 回 (2-2 四位數的減法)</button>
+<button class="wb-tab " data-rev="6" onclick="switchWbRev(6)">第 6 回 (2-3 加減應用、2-4 四位數的加減估算)</button>
+
+    </div>
+    <div id="wbQuizBody"></div>
+    <div class="wb-submit-bar">
+      <div class="wb-score-text" id="wbScoreDisp">狀態：做題中（未交卷）</div>
+      <div style="display:flex; gap:10px;">
+        <button class="wb-btn-reset" onclick="resetWbQuiz()">🔄 重填</button>
+        <button class="wb-btn-submit" onclick="gradeWbQuiz()">📝 交卷批改並看詳解</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 南一作業簿隨堂測驗樣式 -->
+<style>
+.wb-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 25, 44, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px 12px 60px;
+}
+.wb-modal-overlay.open { display: block; }
+.wb-modal-content {
+  background: #FFFDF5;
+  border: 3px solid #F59E0B;
+  border-radius: 24px;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  color: #1E293B;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+}
+.wb-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #E2E8F0;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.wb-title { font-size: 20px; font-weight: 800; color: #1E293B; display: flex; align-items: center; gap: 8px; }
+.wb-close-btn {
+  width: 38px; height: 38px; border-radius: 50%; border: 2px solid #1E293B; background: #FFF;
+  font-weight: 900; font-size: 18px; cursor: pointer; color: #1E293B;
+}
+.wb-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.wb-tab {
+  flex: 1; min-width: 140px; padding: 10px 14px; border-radius: 12px; border: 2px solid #CBD5E1;
+  background: #FFF; font-weight: 800; font-size: 13.5px; cursor: pointer; color: #64748B;
+  text-align: center; transition: all 0.2s;
+}
+.wb-tab.active { background: #F59E0B; border-color: #D97706; color: #FFF; box-shadow: 0 4px 0 #D97706; }
+.wb-sec-card { background: #FFF; border: 2px solid #E2E8F0; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
+.wb-sec-title { font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 12px; border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 6px; }
+.wb-q-item { background: #FEF3C7; border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 2px solid #FDE68A; transition: all 0.3s ease; position: relative; }
+.wb-q-item.is-correct { border: 3px solid #10B981 !important; background: #ECFDF5 !important; }
+.wb-q-item.is-wrong { border: 3px solid #EF4444 !important; background: #FEF2F2 !important; }
+.wb-q-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 8px; font-size: 13px; font-weight: 800; margin-bottom: 8px;
+}
+.wb-q-badge.correct { background: #10B981; color: #FFF; }
+.wb-q-badge.wrong { background: #EF4444; color: #FFF; }
+
+.wb-q-text { font-size: 15.5px; font-weight: 700; line-height: 1.6; margin-bottom: 10px; color: #1E293B; }
+
+/* 作業簿選項大按鈕網格 (直接點選) */
+.wb-opt-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+.wb-opt-btn {
+  background: #FFFFFF;
+  border: 2px solid #0284C7;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #0F172A;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: center;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
+  user-select: none;
+}
+.wb-opt-btn:hover {
+  background: #EFF6FF;
+  border-color: #2563EB;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
+}
+.wb-opt-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+}
+.wb-opt-btn.selected {
+  background: #F59E0B !important;
+  border-color: #D97706 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 0 #D97706 !important;
+  transform: scale(1.02);
+}
+
+/* 批改鮮明顏色：選對 (翠綠色)、選錯 (鮮紅色)、正確答案提示 (綠色虛線) */
+.wb-opt-btn.opt-correct {
+  background: linear-gradient(135deg, #10B981, #059669) !important;
+  color: #FFFFFF !important;
+  border: 3px solid #047857 !important;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6) !important;
+  transform: scale(1.03);
+}
+.wb-opt-btn.opt-wrong {
+  background: linear-gradient(135deg, #EF4444, #DC2626) !important;
+  color: #FFFFFF !important;
+  border: 3px solid #991B1B !important;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.6) !important;
+  transform: scale(1.03);
+}
+.wb-opt-btn.opt-should-be {
+  background: #D1FAE5 !important;
+  color: #065F46 !important;
+  border: 3px dashed #10B981 !important;
+  font-weight: 900 !important;
+}
+
+.wb-sol-panel { display: none; background: #F0FDF4; border: 2px solid #86EFAC; border-radius: 10px; padding: 12px; margin-top: 12px; font-size: 14px; }
+.wb-sol-panel.show { display: block; }
+.wb-sol-steps { font-family: 'Noto Sans TC', sans-serif; background: #FFF; padding: 8px 12px; border-radius: 6px; margin: 6px 0; white-space: pre-wrap; color: #0F172A; font-weight: 700; line-height: 1.6; }
+.wb-sol-ans { color: #059669; font-weight: 900; font-size: 15px; }
+.wb-submit-bar {
+  position: sticky; bottom: 0; background: #FFFDF5; border-top: 2px solid #E2E8F0;
+  padding: 14px 0 0; display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 10px; z-index: 10;
+}
+.wb-score-text { font-size: 18px; font-weight: 800; color: #0F172A; }
+.wb-btn-submit {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  border: none; color: #FFF; font-weight: 800; font-size: 15px; padding: 10px 24px;
+  border-radius: 12px; cursor: pointer; box-shadow: 0 4px 0 #047857;
+}
+.wb-btn-reset {
+  background: #F1F5F9; border: 2px solid #CBD5E1; color: #334155; font-weight: 800; font-size: 14px;
+  padding: 10px 18px; border-radius: 12px; cursor: pointer;
+}
+@media (max-width: 480px) {
+  .wb-opt-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+
+<script>
+const WB_DATA_u2 = {"unit_id": 2, "title": "四位數的加減", "description": "四位數直式加法、四位數直式減法、加減應用與估算", "reviews": [{"review_id": 4, "range": "2-1 四位數的加法", "page": "P.9-10", "sections": [{"section_title": "一、用直式算算看（加法計算）", "type": "addition_calc", "items": [{"q": "(1) 2750 + 54 = ？", "ans": "2804", "options": ["2804", "2704", "2854", "3290"], "steps": "個位 0+4=4；十位 5+5=10 進1；百位 7+1=8；千位 2。合為 2804。"}, {"q": "(2) 1980 + 337 = ？", "ans": "2317", "options": ["2317", "2217", "2327", "1317"], "steps": "個位 0+7=7；十位 8+3=11 進1；百位 9+3+1=13 進1；千位 1+1=2。合為 2317。"}, {"q": "(3) 75 + 3536 = ？", "ans": "3611", "options": ["3611", "3511", "3601", "4611"], "steps": "個位 5+6=11 進1；十位 7+3+1=11 進1；百位 5+1=6；千位 3。合為 3611。"}, {"q": "(4) 4332 + 2369 = ？", "ans": "6701", "options": ["6701", "6691", "6711", "6702"], "steps": "個位 2+9=11 進1；十位 3+6+1=10 進1；百位 3+3+1=7；千位 4+2=6。合為 6701。"}, {"q": "(5) 6532 + 3457 = ？", "ans": "9989", "options": ["9989", "9979", "9889", "10089"], "steps": "個位 2+7=9；十位 3+5=8；百位 5+4=9；千位 6+3=9。合為 9989。"}, {"q": "(6) 5093 + 2908 = ？", "ans": "8001", "options": ["8001", "7991", "8011", "7901"], "steps": "個位 3+8=11 進1；十位 9+0+1=10 進1；百位 0+9+1=10 進1；千位 5+2+1=8。合為 8001。"}, {"q": "(7) 6076 + 824 = ？", "ans": "6900", "options": ["6900", "6800", "6910", "7000"], "steps": "個位 6+4=10 進1；十位 7+2+1=10 進1；百位 0+8+1=9；千位 6。合為 6900。"}, {"q": "(8) 2005 + 7855 = ？", "ans": "9860", "options": ["9860", "9850", "9760", "9870"], "steps": "個位 5+5=10 進1；十位 0+5+1=6；百位 0+8=8；千位 2+7=9。合為 9860。"}, {"q": "(9) 4999 + 3254 = ？", "ans": "8253", "options": ["8253", "8153", "8243", "8353"], "steps": "個位 9+4=13 進1；十位 9+5+1=15 進1；百位 9+2+1=12 進1；千位 4+3+1=8。合為 8253。"}]}, {"section_title": "二、在直式空格中填入適當數字", "type": "fill_digits", "items": [{"q": "(1) 直式加法：187[ ] + 7[ ]5 = 2[ ]09，三個方格由上到下分別填入什麼數字？", "ans": "4、3、6", "options": ["4、3、6", "4、2、6", "3、3、5", "5、3、7"], "steps": "個位 [ ]+5=9 => 填4；十位 7+[ ] 進位到個位有0 => 7+3=10，十位寫0進1，[ ]填3；百位 8+7+1=16，百位寫6進1，[ ]填6。填入4、3、6。"}, {"q": "(2) 直式加法：1[ ]4[ ] + 2[ ]5 = 1368，三個方格填入什麼數字？", "ans": "1、3、2", "options": ["1、3、2", "2、3、1", "1、4、2", "0、3、2"], "steps": "個位 [ ]+5=8 => 填3；十位 4+[ ]=6 => 填2；百位 [ ]+2=3 => 填1。依序填入 1、3、2。"}]}, {"section_title": "三、生活應用題", "type": "word_problems", "items": [{"q": "(1) 花卉博覽會昨天湧入 4367 人參觀，今天 3899 人參觀，這兩天參觀人數共有幾個人？", "ans": "8266人", "options": ["8266人", "8166人", "8256人", "7266人"], "steps": "4367 + 3899 = 8266（人）。"}, {"q": "(2) 哥哥購買登山裝備，禦寒外套 5720 元，登山鞋 3688 元，他共要付幾元？", "ans": "9408元", "options": ["9408元", "9308元", "9418元", "8408元"], "steps": "5720 + 3688 = 9408（元）。"}, {"q": "(3) 果農今天上午採收 3275 顆蜜棗，下午採收 2514 顆蜜棗，今天合計採收了幾顆蜜棗？", "ans": "5789顆", "options": ["5789顆", "5799顆", "5689顆", "5889顆"], "steps": "3275 + 2514 = 5789（顆）。"}, {"q": "(4) 姐姐七月份打工賺 4630 元，八月份比七月份多賺 370 元，八月份打工賺幾元？", "ans": "5000元", "options": ["5000元", "4900元", "5100元", "4990元"], "steps": "4630 + 370 = 5000（元）。"}, {"q": "(5) 旺記今天賣出 2765 個鳳梨酥，店裡還剩下 35 個鳳梨酥，原本店裡有幾個鳳梨酥？", "ans": "2800個", "options": ["2800個", "2790個", "2810個", "2700個"], "steps": "2765 + 35 = 2800（個）。"}]}]}, {"review_id": 5, "range": "2-2 四位數的減法", "page": "P.11-12", "sections": [{"section_title": "一、用直式算算看（減法計算）", "type": "subtraction_calc", "items": [{"q": "(1) 2790 - 2373 = ？", "ans": "417", "options": ["417", "427", "517", "407"], "steps": "個位借位 10-3=7；十位 8-7=1；百位 7-3=4；千位 2-2=0。得 417。"}, {"q": "(2) 3924 - 1862 = ？", "ans": "2062", "options": ["2062", "2162", "2052", "1062"], "steps": "個位 4-2=2；十位借位 12-6=6；百位 8-8=0；千位 3-1=2。得 2062。"}, {"q": "(3) 9373 - 3187 = ？", "ans": "6186", "options": ["6186", "6286", "6196", "5186"], "steps": "個位借位 13-7=6；十位借位 16-8=8；百位 2-1=1；千位 9-3=6。得 6186。"}, {"q": "(4) 7005 - 6284 = ？", "ans": "721", "options": ["721", "821", "711", "731"], "steps": "個位 5-4=1；十位退位 10-8=2；百位 9-2=7；千位 6-6=0。得 721。"}, {"q": "(5) 6586 - 4728 = ？", "ans": "1858", "options": ["1858", "1758", "1848", "1868"], "steps": "個位借位 16-8=8；十位 7-2=5；百位借位 15-7=8；千位 5-4=1。得 1858。"}, {"q": "(6) 1208 - 798 = ？", "ans": "410", "options": ["410", "420", "510", "400"], "steps": "個位 8-8=0；十位借位 10-9=1；百位借位 11-7=4。得 410。"}, {"q": "(7) 5306 - 37 = ？", "ans": "5269", "options": ["5269", "5279", "5369", "5169"], "steps": "個位借位 16-7=9；十位 9-3=6；百位 2；千位 5。得 5269。"}, {"q": "(8) 4832 - 1955 = ？", "ans": "2877", "options": ["2877", "2977", "2887", "3877"], "steps": "個位借位 12-5=7；十位借位 12-5=7；百位借位 17-9=8；千位 3-1=2。得 2877。"}, {"q": "(9) 8000 - 1899 = ？", "ans": "6101", "options": ["6101", "6201", "6111", "7101"], "steps": "連續退位：個位 10-9=1；十位 9-9=0；百位 9-8=1；千位 7-1=6。得 6101。"}]}, {"section_title": "二、生活應用題", "type": "word_problems", "items": [{"q": "(1) 小芬摺了 1053 顆紙星星，她要再摺幾顆才會有 1200 顆？", "ans": "147顆", "options": ["147顆", "157顆", "247顆", "137顆"], "steps": "1200 - 1053 = 147（顆）。"}, {"q": "(2) 旺旺商行買進 1162 個雞蛋，賣出 75 個，還剩下幾個雞蛋？", "ans": "1087個", "options": ["1087個", "1097個", "1077個", "1113個"], "steps": "1162 - 75 = 1087（個）。"}, {"q": "(3) 微波爐售價 5000 元，果汁機售價 1190 元，微波爐售價比果汁機多幾元？", "ans": "3810元", "options": ["3810元", "3910元", "3710元", "4810元"], "steps": "5000 - 1190 = 3810（元）。"}, {"q": "(4) 快樂國小有 946 個女學生和 1009 個男學生，男學生比女學生多幾個人？", "ans": "63個", "options": ["63個", "53個", "73個", "163個"], "steps": "1009 - 946 = 63（個）。"}, {"q": "(5) 媽媽買了 485 元的牛肉，付 1000 元，可找回幾元？", "ans": "515元", "options": ["515元", "525元", "615元", "505元"], "steps": "1000 - 485 = 515（元）。"}]}]}, {"review_id": 6, "range": "2-3 加減應用、2-4 四位數的加減估算", "page": "P.13-14", "sections": [{"section_title": "一、加減應用題（線段圖與列式）", "type": "word_problems", "items": [{"q": "(1) 媽媽原有 5000 元，買了一件洋裝後，還剩下 2150 元，這件洋裝是多少元？", "ans": "2850元", "options": ["2850元", "2950元", "2750元", "3850元"], "steps": "5000 - 2150 = 2850（元）。"}, {"q": "(2) 花園裡種了一些玫瑰，再種 135 棵，全部就有 2000 棵玫瑰，花園裡原來種了幾棵玫瑰？", "ans": "1865棵", "options": ["1865棵", "1965棵", "1875棵", "2135棵"], "steps": "2000 - 135 = 1865（棵）。"}, {"q": "(3) 小香存了 4859 元，她再存 728 元就和小玉存的一樣多，小玉存了幾元？", "ans": "5587元", "options": ["5587元", "5487元", "5597元", "4131元"], "steps": "4859 + 728 = 5587（元）。"}, {"q": "(4) 一個氣炸鍋售價 7650 元，比一個萬用鍋多 1851 元，一個萬用鍋售價是多少元？", "ans": "5799元", "options": ["5799元", "5899元", "5699元", "9501元"], "steps": "7650 - 1851 = 5799（元）。"}]}, {"section_title": "二、估算題：連連看找出最接近的數", "type": "estimation_match", "items": [{"q": "(1) 1878 + 3101 最接近哪個數？", "ans": "5000", "options": ["5000", "4000", "3000", "2000"], "steps": "1878 ≈ 1900，3101 ≈ 3100，1900 + 3100 = 5000（或 2000 + 3000 = 5000）。"}, {"q": "(2) 8970 - 7043 最接近哪個數？", "ans": "2000", "options": ["2000", "3000", "4000", "1000"], "steps": "8970 ≈ 9000，7043 ≈ 7000，9000 - 7000 = 2000。"}, {"q": "(3) 7189 - 4064 最接近哪個數？", "ans": "3000", "options": ["3000", "4000", "2000", "5000"], "steps": "7189 ≈ 7000，4064 ≈ 4000，7000 - 4000 = 3000。"}, {"q": "(4) 2038 + 1956 最接近哪個數？", "ans": "4000", "options": ["4000", "5000", "3000", "2000"], "steps": "2038 ≈ 2000，1956 ≈ 2000，2000 + 2000 = 4000。"}]}, {"section_title": "三、看圖回答估算問題", "type": "word_problems", "items": [{"q": "(1) 商品售價：電腦螢幕 4949元、相機 8970元、吉他 6950元、溜冰鞋 1899元。爸爸皮夾裡有 9050 元，買了一台電腦螢幕後，皮夾最多還剩下幾張千元鈔票？", "ans": "4張", "options": ["4張", "3張", "2張", "5張"], "steps": "9050 - 4949 = 4101元。4101元中最多有 4 張千元鈔票。"}, {"q": "(2) 真真買了一雙溜冰鞋(1899元)和一把吉他(6950元)，付錢時只有千元鈔票，她最少要拿出幾張千元鈔票才夠？", "ans": "9張", "options": ["9張", "8張", "7張", "10張"], "steps": "1899 + 6950 = 8849元。8849元超過8000元，最少需要拿出 9 張千元鈔票（9000元）才夠付。"}, {"q": "(3) 媽媽身上有 7180 元，幫弟弟買溜冰鞋(1899元)後，她最多還剩下幾張千元鈔票？", "ans": "5張", "options": ["5張", "4張", "3張", "2張"], "steps": "7180 - 1899 = 5281元。5281元最多包含 5 張千元鈔票。"}, {"q": "(4) 下面哪一個值最接近「相機(8970元)和電腦螢幕(4949元)」的售價相差金額？", "ans": "4000元", "options": ["4000元", "3000元", "5000元"], "steps": "相機約 9000 元，電腦螢幕約 5000 元，9000 - 5000 = 4000元。"}]}]}]};
+
+let wbCurrentRevId = 4;
+let wbAnswers = {};
+
+function openWbModal() {
+  if(typeof playSound === 'function') playSound('click');
+  document.getElementById('wbModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  switchWbRev(4);
+}
+function closeWbModal() {
+  document.getElementById('wbModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function switchWbRev(revId) {
+  wbCurrentRevId = revId;
+  wbAnswers = {};
+  document.querySelectorAll('.wb-tab').forEach(t => {
+    t.classList.toggle('active', parseInt(t.getAttribute('data-rev')) === revId);
+  });
+  document.getElementById('wbScoreDisp').textContent = '狀態：做題中（未交卷）';
+  renderWbQuizBody();
+}
+
+function wbPick(itemId, val, btnEl) {
+  if(typeof playSound === 'function') playSound('click');
+  wbAnswers[itemId] = val;
+  const parent = btnEl.closest('.wb-opt-grid');
+  if (parent) {
+    parent.querySelectorAll('.wb-opt-btn').forEach(b => b.classList.remove('selected'));
+    btnEl.classList.add('selected');
+  }
+}
+
+function renderWbQuizBody() {
+  const rev = WB_DATA_u2.reviews.find(r => r.review_id === wbCurrentRevId);
+  const container = document.getElementById('wbQuizBody');
+  if (!rev) return;
+
+  let html = '';
+  rev.sections.forEach((sec, sIdx) => {
+    html += `<div class="wb-sec-card">
+      <div class="wb-sec-title">📌 ${sec.section_title}</div>`;
+
+    sec.items.forEach((item, iIdx) => {
+      const itemId = `u2_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
+      const qTitle = item.q;
+      const opts = item.options || [item.ans];
+
+      html += `
+        <div class="wb-q-item">
+          <div class="wb-q-text">${qTitle}</div>
+          <div class="wb-opt-grid">
+            ${opts.map(opt => `
+              <button type="button" class="wb-opt-btn ${wbAnswers[itemId] === opt ? 'selected' : ''}" onclick="wbPick('${itemId}', '${opt}', this)">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div class="wb-sol-panel" id="sol_${itemId}">
+            <div class="wb-sol-steps">${item.steps || item.explanation || ''}</div>
+            <div class="wb-sol-ans">標準答案：${item.ans}</div>
+          </div>
+        </div>`;
+    });
+
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
+
+function gradeWbQuiz() {
+  const rev = WB_DATA_u2.reviews.find(r => r.review_id === wbCurrentRevId);
+  let total = 0, correct = 0;
+
+  rev.sections.forEach((sec, sIdx) => {
+    sec.items.forEach((item, iIdx) => {
+      total++;
+      const itemId = `u2_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
+      const userVal = wbAnswers[itemId] || '';
+      let isRight = false;
+
+      const targetAns = item.ans;
+      const cleanUser = userVal.replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
+      const cleanAns = String(targetAns).replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
+
+      if (cleanUser === cleanAns || cleanUser.includes(cleanAns) || userVal === targetAns) {
+        isRight = true;
+      }
+
+      if (isRight) correct++;
+
+      const panel = document.getElementById(`sol_${itemId}`);
+      const qItem = panel ? panel.closest('.wb-q-item') : null;
+      
+      if (qItem) {
+        qItem.classList.remove('is-correct', 'is-wrong');
+        qItem.classList.add(isRight ? 'is-correct' : 'is-wrong');
+        
+        const oldBadge = qItem.querySelector('.wb-q-badge');
+        if (oldBadge) oldBadge.remove();
+        
+        const badge = document.createElement('div');
+        badge.className = `wb-q-badge ${isRight ? 'correct' : 'wrong'}`;
+        badge.innerHTML = isRight ? '✓ 答對了！' : (userVal ? '✕ 答錯了！' : '⚠️ 未作答！');
+        qItem.insertBefore(badge, qItem.firstChild);
+
+        const btns = qItem.querySelectorAll('.wb-opt-btn');
+        btns.forEach(btn => {
+          btn.classList.remove('opt-correct', 'opt-wrong', 'opt-should-be');
+          const btnVal = btn.textContent.trim();
+          const cleanBtn = btnVal.replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
+          
+          if (btnVal === userVal) {
+            if (isRight) {
+              btn.classList.add('opt-correct');
+              btn.innerHTML = `✓ ${btnVal}`;
+            } else {
+              btn.classList.add('opt-wrong');
+              btn.innerHTML = `✕ ${btnVal}`;
+            }
+          } else if ((cleanBtn === cleanAns || btnVal === targetAns) && !isRight) {
+            btn.classList.add('opt-should-be');
+            btn.innerHTML = `★ 正解：${btnVal}`;
+          }
+        });
+      }
+
+      if (panel) {
+        panel.classList.add('show');
+        panel.style.borderLeft = isRight ? '6px solid #10B981' : '6px solid #EF4444';
+      }
+    });
+  });
+
+  const score = Math.round((correct / total) * 100);
+  document.getElementById('wbScoreDisp').innerHTML = `得分：<b>${score} 分</b> (${correct} / ${total} 題正確)`;
+  if (score >= 80) {
+    if(typeof playSound === 'function') playSound('correct');
+    if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+  } else {
+    if(typeof playSound === 'function') playSound('wrong');
+  }
+  alert(`🎉 隨堂測驗批改完成！\n\n得分：${score} 分\n綠色為答對選項，紅色為答錯選項，綠色虛線為標準正解！✨`);
+}
+
+function resetWbQuiz() {
+  wbAnswers = {};
+  renderWbQuizBody();
+  document.getElementById('wbScoreDisp').textContent = '狀態：做題中（未交卷）';
+}
+</script>
+
 </body>
 </html>
