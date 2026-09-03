@@ -1,289 +1,1264 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6上國語 期中評量大挑戰 | 學習城堡冒險單元</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>6上國語自修 互動學習城堡 (P.1~114 第一至六課) | 學習城堡</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
     <style>
         :root {
             --primary: #9333EA;
             --primary-dark: #7E22CE;
-            --secondary: #4A90E2;
-            --bg-gradient: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 50%, #E9D5FF 100%);
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --text-main: #2D3748;
-            --text-muted: #718096;
+            --primary-light: #F3E8FF;
+            --secondary: #3B82F6;
+            --accent-amber: #D97706;
+            --accent-green: #059669;
+            --bg-color: #FAF5FF;
+            --card-bg: #FFFFFF;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
             --border-color: #E9D5FF;
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --shadow-md: 0 10px 25px -5px rgba(147, 51, 234, 0.2);
+            --shadow-card: 0 10px 25px -5px rgba(147, 51, 234, 0.15);
         }
 
-        [data-theme="dark"] {
-            --bg-gradient: linear-gradient(135deg, #581C87 0%, #1A202C 100%);
-            --card-bg: rgba(45, 55, 72, 0.92);
-            --text-main: #F7FAFC;
-            --text-muted: #CBD5E0;
-            --border-color: #6B21A8;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Noto Sans TC', sans-serif;
-            transition: all 0.3s ease;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans TC', sans-serif; }
 
         body {
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--text-main);
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(147, 51, 234, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
             min-height: 100vh;
-            padding: 20px;
+            display: flex;
+            justify-content: center;
+            padding: 16px 12px 60px;
+            color: var(--text-main);
+            user-select: none;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
+        .app-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .header-nav {
+        /* 頂部導航列 */
+        .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 14px;
+            gap: 8px;
         }
-
-        .back-btn {
+        .nav-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 30px;
-            color: var(--text-main);
-            text-decoration: none;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #FFF;
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            color: var(--primary-dark);
             font-weight: 700;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #7E22CE;
+            transition: all 0.15s ease;
+        }
+        .nav-btn:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 5px 0 #7E22CE; }
+        .nav-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #7E22CE; }
+        .unit-badge {
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #FFF;
+            box-shadow: 0 2px 8px rgba(147, 51, 234, 0.3);
         }
 
-        .back-btn:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
+        /* 英雄區塊 */
         .hero-banner {
             background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            padding: 30px;
+            border-radius: 24px;
+            padding: 24px 20px;
             text-align: center;
             border: 3px solid var(--primary);
-            box-shadow: var(--shadow-md);
-            margin-bottom: 25px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 18px;
+            position: relative;
         }
+        .hero-icon { font-size: 3.5rem; margin-bottom: 6px; display: inline-block; animation: floatIcon 3s ease-in-out infinite; }
+        @keyframes floatIcon { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
 
-        .hero-title {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 10px;
+        h1 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            color: var(--primary-dark);
+            font-weight: 900;
+            margin-bottom: 6px;
         }
+        .sub-title { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
 
-        .hero-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: var(--primary);
-            color: #fff;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
-        }
-
-        .section-card {
-            background: var(--card-bg);
-            border-radius: var(--radius-md);
-            padding: 24px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            color: var(--primary);
+        /* 頁籤切換 */
+        .tab-bar {
+            display: flex;
+            gap: 8px;
             margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .tab-btn {
+            flex: 1;
+            min-width: 110px;
+            padding: 10px 8px;
+            background: #FFF;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .tab-btn.active {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            color: #FFF;
+            box-shadow: 0 4px 10px rgba(147, 51, 234, 0.25);
+            transform: translateY(-2px);
+        }
+
+        /* 內容卡片 */
+        .content-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 22px 18px;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 16px;
+        }
+
+        /* 課次卡片網格 */
+        .lesson-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .lesson-item-card {
+            background: #FFF;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            position: relative;
+        }
+        .lesson-item-card:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(147, 51, 234, 0.15);
+        }
+        .lesson-item-card.active-lesson {
+            border-color: var(--primary-dark);
+            background: var(--primary-light);
+            border-width: 3px;
+        }
+        .lesson-tag { font-size: 0.75rem; font-weight: 800; color: var(--primary-dark); background: #EDE9FE; padding: 3px 8px; border-radius: 8px; display: inline-block; margin-bottom: 6px; }
+        .lesson-name { font-size: 1.1rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; font-family: 'Noto Serif TC', serif; }
+        .lesson-type { font-size: 0.8rem; color: var(--text-muted); }
+
+        /* 課堂詳情展示面板 */
+        .lesson-detail-panel {
+            background: #FDFBFF;
+            border: 2px solid var(--border-color);
+            border-radius: 18px;
+            padding: 18px;
+            margin-top: 14px;
+            text-align: left;
+        }
+        .section-header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 14px 0 8px 0;
             border-bottom: 2px dashed var(--border-color);
-            padding-bottom: 8px;
+            padding-bottom: 4px;
+        }
+        .section-header:first-child { margin-top: 0; }
+
+        .info-pill-box {
+            background: #FFF;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
-        .quiz-option {
+        /* 詞彙卡片清單 */
+        .vocab-list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        .vocab-mini-card {
+            background: #FFF;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px;
+            text-align: left;
+        }
+        .v-word { font-weight: 800; font-size: 1.05rem; color: var(--primary-dark); }
+        .v-zhu { font-size: 0.8rem; color: var(--accent-amber); font-weight: 700; margin-bottom: 4px; }
+        .v-mean { font-size: 0.85rem; color: #4B5563; line-height: 1.4; }
+
+        /* 測驗闖關區 */
+        .quiz-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px dashed var(--border-color);
+        }
+        .quiz-hud-stat { font-size: 0.95rem; font-weight: 700; color: var(--text-muted); }
+        .quiz-score-val { color: var(--accent-amber); font-size: 1.3rem; font-weight: 900; font-family: 'Fredoka', sans-serif; }
+
+        .question-box {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 16px;
+            line-height: 1.6;
+            text-align: left;
+            background: #F5F3FF;
+            padding: 14px;
+            border-radius: 14px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .options-list { display: flex; flex-direction: column; gap: 10px; }
+        .opt-btn {
+            background: #FFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.04);
+            touch-action: manipulation;
+        }
+        .opt-btn:hover { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
+        .opt-btn:active { transform: translateY(2px); }
+        .opt-btn.correct { background: #D1FAE5 !important; border-color: #059669 !important; color: #065F46 !important; box-shadow: 0 0 10px rgba(5,150,105,0.3) !important; }
+        .opt-btn.wrong { background: #FEE2E2 !important; border-color: #DC2626 !important; color: #991B1B !important; }
+
+        .explanation-box {
+            display: none;
+            background: #EFF6FF;
+            border: 2px solid #93C5FD;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-top: 14px;
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #1E3A8A;
+        }
+        .explanation-box.show { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+
+        .btn-action {
             width: 100%;
             padding: 14px;
-            margin-top: 10px;
-            border-radius: 12px;
-            border: 2px solid var(--border-color);
-            background: var(--card-bg);
-            color: var(--text-main);
-            font-size: 1rem;
-            font-weight: 600;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #FFF;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             cursor: pointer;
-            text-align: left;
-            transition: all 0.2s ease;
+            box-shadow: 0 4px 0 #6B21A8;
+            transition: all 0.15s;
+            margin-top: 14px;
         }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #6B21A8; }
+        .btn-action:active { transform: translateY(2px); box-shadow: 0 1px 0 #6B21A8; }
 
-        .quiz-option:hover {
-            border-color: var(--primary);
-            background: rgba(147, 51, 234, 0.1);
-        }
-
-        .quiz-option.correct {
-            background: #C6F6D5 !important;
-            border-color: #38A169 !important;
-            color: #22543D !important;
-        }
-
-        .quiz-option.wrong {
-            background: #FED7D7 !important;
-            border-color: #E53E3E !important;
-            color: #742A2A !important;
-        }
-
-        .score-box {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--primary);
-            margin-top: 15px;
-        }
+        .hidden { display: none !important; }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <div class="header-nav">
-            <a href="index.html" class="back-btn">
-                <span>🏠</span>
-                <span>返回城堡主頁</span>
-            </a>
-            <span class="hero-badge">康軒 6 上國語・期中綜合評量</span>
-        </div>
 
-        <div class="hero-banner">
-            <h1 class="hero-title">🏆 6上國語期中大挑戰 (P.1~P.107)</h1>
-            <p style="color: var(--text-muted); margin-top: 6px;">涵蓋第一課至第六課生字成語、修辭、格言與閱讀理解題型</p>
-        </div>
-
-        <div class="section-card">
-            <h2 class="section-title">🎯 第一~六課 綜合測驗闖關</h2>
-            <div id="quizContainer">
-                <p id="questionText" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 12px;"></p>
-                <div id="optionsGroup"></div>
-                <div id="feedbackText" style="margin-top: 12px; font-weight: 700;"></div>
-            </div>
-            <div class="score-box" id="scoreDisplay">得分：0 分</div>
-        </div>
+<div class="app-container">
+    <!-- 頂部導航列 -->
+    <div class="top-bar">
+        <a href="portal.html" class="nav-btn">
+            <span>🏰</span>
+            <span>返回學習城堡</span>
+        </a>
+        <span class="unit-badge">📖 康軒 6上國語自修 (P.1~114)</span>
     </div>
 
-    <script>
-        const questions = [
-            {
-                q: "「一粥一飯，當思來處不易；半絲半縷，恆念物力維艱。」這段格言主要傳達什麼觀念？",
-                options: [
-                    "珍惜物力資源，感恩得來不易的食物與物資",
-                    "叫人平時要多煮粥與縫補衣服",
-                    "說明絲線非常便宜，可以隨意購買",
-                    "鼓勵大家開餐廳做生意"
-                ],
-                ans: 0
-            },
-            {
-                q: "在《跑道》一課中，政彬最後與名揚相擁說「我們贏了！」，這展現了什麼？",
-                options: [
-                    "團體精神與超越個人得失的高尚情操",
-                    "政彬對自己跑第一棒的無比自豪",
-                    "名揚誇耀自己刺刺速度極快",
-                    "體育老師懲罰全班的結果"
-                ],
-                ans: 0
-            },
-            {
-                q: "「宜未雨而綢繆，毋臨渴而掘井」中的「綢繆」是指什麼意思？",
-                options: [
-                    "事先做好防備修補",
-                    "下大雨時淋雨",
-                    "急著挖井找水",
-                    "憂慮傷感"
-                ],
-                ans: 0
-            }
-        ];
+    <!-- 英雄橫幅 -->
+    <div class="hero-banner">
+        <span class="hero-icon">🏆</span>
+        <h1>6上國語自修 互動學習城堡</h1>
+        <p class="sub-title">完整涵蓋第一單元（第一~三課）與第二單元（第四~六課）<br>提供課前預習、課後複習、生字成語圖鑑與期中高分測驗闖關！</p>
+    </div>
 
-        let currentQ = 0;
-        let score = 0;
+    <!-- 頁籤導航 -->
+    <div class="tab-bar">
+        <button class="tab-btn active" id="tab-overview" onclick="switchTab('overview')">📚 課文精華預習</button>
+        <button class="tab-btn" id="tab-vocab" onclick="switchTab('vocab')">✍️ 生字成語辭典</button>
+        <button class="tab-btn" id="tab-rhetoric" onclick="switchTab('rhetoric')">💡 經典修辭解析</button>
+        <button class="tab-btn" id="tab-quiz" onclick="switchTab('quiz')">🎯 期中考題庫挑戰</button>
+    </div>
 
-        function loadQuestion() {
-            if (currentQ >= questions.length) {
-                document.getElementById('quizContainer').innerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <h3 style="font-size: 1.8rem; color: var(--primary);">👑 恭喜你榮獲 6上國語期中王大獎！</h3>
-                        <p style="font-size: 1.2rem; margin-top: 10px;">你的最終得分：${score} / ${questions.length * 100} 分</p>
-                        <button onclick="location.reload()" style="margin-top: 15px; padding: 10px 20px; background: var(--primary); color:#fff; border:none; border-radius:20px; font-weight:700; cursor:pointer;">🔄 重新挑戰</button>
-                    </div>
-                `;
-                return;
-            }
+    <!-- 1. 課文精華預習區 -->
+    <div class="content-card" id="view-overview">
+        <div style="font-weight:800; font-size:1.1rem; color:var(--primary-dark); margin-bottom:8px;">📌 點擊選擇課次查看完整精華解析：</div>
+        <div class="lesson-grid" id="lesson-cards-grid"></div>
+        <div class="lesson-detail-panel" id="lesson-detail-box"></div>
+    </div>
 
-            const q = questions[currentQ];
-            document.getElementById('questionText').textContent = `Q${currentQ + 1}. ${q.q}`;
-            const optionsGroup = document.getElementById('optionsGroup');
-            optionsGroup.innerHTML = '';
-            document.getElementById('feedbackText').textContent = '';
+    <!-- 2. 生字成語辭典區 -->
+    <div class="content-card hidden" id="view-vocab">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="font-weight:800; font-size:1.1rem; color:var(--primary-dark);">📖 國小 6上核心成語詞彙庫</div>
+            <select id="vocab-lesson-filter" onchange="renderVocabList()" style="padding:6px 12px; border-radius:12px; border:1.5px solid var(--primary); font-weight:700; color:var(--primary-dark);">
+                <option value="all">全部課次 (第1~6課)</option>
+                <option value="l1">第一課：跑道</option>
+                <option value="l2">第二課：朱子治家格言選</option>
+                <option value="l3">第三課：遇見更好的自己</option>
+                <option value="l4">第四課：臺灣美食詩選</option>
+                <option value="l5">第五課：下午茶風波</option>
+                <option value="l6">第六課：珍珠奶茶</option>
+            </select>
+        </div>
+        <div class="vocab-list-grid" id="vocab-grid-container"></div>
+    </div>
 
-            q.options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'quiz-option';
-                btn.textContent = opt;
-                btn.onclick = () => checkAnswer(idx, q.ans);
-                optionsGroup.appendChild(btn);
-            });
-        }
+    <!-- 3. 經典修辭解析區 -->
+    <div class="content-card hidden" id="view-rhetoric">
+        <div style="font-weight:800; font-size:1.1rem; color:var(--primary-dark); margin-bottom:12px;">💡 康軒 6 上重點修辭技巧與佳句賞析</div>
+        <div id="rhetoric-container"></div>
+    </div>
 
-        function checkAnswer(selected, correct) {
-            const btns = document.querySelectorAll('.quiz-option');
-            btns.forEach(b => b.disabled = true);
+    <!-- 4. 期中考題庫闖關區 -->
+    <div class="content-card hidden" id="view-quiz">
+        <div id="quiz-intro-box">
+            <div style="text-align:center; padding:15px 0;">
+                <span style="font-size:3.5rem;">🎯</span>
+                <h2 style="color:var(--primary-dark); margin:10px 0;">6上國語 期中全真評量挑戰</h2>
+                <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:20px;">精選自修 P.1~114 課後評量、字音字形、成語造詞與閱讀理解題！</p>
+                <button class="btn-action" onclick="startMidtermQuiz()">🚀 開始闖關測驗</button>
+            </div>
+        </div>
 
-            if (selected === correct) {
-                btns[selected].classList.add('correct');
-                document.getElementById('feedbackText').textContent = '✅ 完全正確！國語高高手！';
-                document.getElementById('feedbackText').style.color = '#276749';
-                score += 100;
-            } else {
-                btns[selected].classList.add('wrong');
-                btns[correct].classList.add('correct');
-                document.getElementById('feedbackText').textContent = '❌ 回答錯誤，請多複習一~六課重點！';
-                document.getElementById('feedbackText').style.color = '#9B2C2C';
-            }
+        <div id="quiz-play-box" class="hidden">
+            <div class="quiz-hud">
+                <div class="quiz-hud-stat">題目：<span id="quiz-curr">1</span> / <span id="quiz-total">10</span> 題</div>
+                <div class="quiz-hud-stat">⭐ 累積分數：<span class="quiz-score-val" id="quiz-score">0</span></div>
+            </div>
 
-            document.getElementById('scoreDisplay').textContent = `得分：${score} 分`;
+            <div class="question-box" id="quiz-question-text"></div>
+            <div class="options-list" id="quiz-options-box"></div>
+            <div class="explanation-box" id="quiz-explanation-box"></div>
+            <button class="btn-action hidden" id="btn-next-quiz" onclick="nextQuizQuestion()">下一題 ➜</button>
+        </div>
 
-            setTimeout(() => {
-                currentQ++;
-                loadQuestion();
-            }, 1800);
-        }
+        <div id="quiz-result-box" class="hidden" style="text-align:center; padding:20px;">
+            <span style="font-size:4rem;" id="quiz-res-icon">🏆</span>
+            <h2 id="quiz-res-title" style="color:var(--primary-dark); margin:10px 0;">測驗圓滿完成！</h2>
+            <p id="quiz-res-desc" style="color:var(--text-muted); margin-bottom:15px;">太棒了！你的國語基礎非常扎實！</p>
+            <div style="background:#F5F3FF; border:2px solid var(--border-color); border-radius:18px; padding:20px; margin:16px 0;">
+                <div>本次測驗總得分</div>
+                <div style="font-size:3.5rem; font-weight:900; color:var(--accent-amber); font-family:'Fredoka';" id="quiz-final-score">100</div>
+                <div id="quiz-score-detail" style="color:var(--text-muted); font-size:0.95rem; margin-top:4px;">答對 10 / 10 題</div>
+            </div>
+            <button class="btn-action" onclick="startMidtermQuiz()">🔄 再次挑戰題庫</button>
+        </div>
+    </div>
+</div>
 
-        document.addEventListener('DOMContentLoaded', loadQuestion);
-    </script>
+<script>
+// 音效合成引擎
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playSound(type) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+    if (type === 'correct') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.setValueAtTime(659.25, now + 0.1);
+        osc.frequency.setValueAtTime(783.99, now + 0.2);
+        gainNode.gain.setValueAtTime(0.25, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.start(now); osc.stop(now + 0.4);
+    } else if (type === 'wrong') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.setValueAtTime(180, now + 0.15);
+        gainNode.gain.setValueAtTime(0.25, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now); osc.stop(now + 0.35);
+    }
+}
+
+// 課綱資料庫（直接內嵌，支援 file:// 與任何離線環境）
+const CURRICULUM = [
+  {
+    "id": "l1",
+    "title": "第一課 跑道",
+    "author": "陳肇宜",
+    "type": "記敘文（故事）",
+    "topic": "在人生的跑道中，遇到挫折要能站起來，並能與人互助合作，爭取團體勝利。",
+    "structure": [
+      "起因：四百公尺接力賽前，政彬站在起跑點，看到五班選手自信神情，手中的接力棒頓覺沉重。",
+      "經過：因老師將擅長衝刺的名揚調至第四棒而感到委屈不平；直到名揚跳高受傷仍帶傷上場，隊友真誠打氣，政彬體悟到接力賽是團隊合作精神。",
+      "結果：政彬全力衝刺交棒，名揚在最後超前奪冠，兩人相擁恢復真摯友誼。"
+    ],
+    "vocab": [
+      {
+        "word": "偏心",
+        "zhu": "ㄆㄧㄢ ㄒㄧㄣ",
+        "meaning": "偏袒一方，對某一方存有私心。"
+      },
+      {
+        "word": "委屈",
+        "zhu": "ㄨㄟˇ ㄑㄩ",
+        "meaning": "因遭受不合理待遇而難過，或壓抑意志遷就他人。"
+      },
+      {
+        "word": "尷尬",
+        "zhu": "ㄍㄢ ㄍㄚˋ",
+        "meaning": "處境困窘難以應付，或不好意思、難為情。"
+      },
+      {
+        "word": "抑制",
+        "zhu": "ㄧˋ ㄓˋ",
+        "meaning": "壓抑控制自己的情緒。"
+      },
+      {
+        "word": "爭奪",
+        "zhu": "ㄓㄥ ㄉㄨㄛˊ",
+        "meaning": "爭相奪取，互不相讓。"
+      },
+      {
+        "word": "拱手讓人",
+        "zhu": "ㄍㄨㄥˇ ㄕㄡˇ ㄖㄤˋ ㄖㄣˊ",
+        "meaning": "輕易地把珍貴的成果或權益讓給別人。"
+      },
+      {
+        "word": "無理取鬧",
+        "zhu": "ㄨˊ ㄌㄧˇ ㄑㄩˇ ㄋㄠˋ",
+        "meaning": "毫無道理地吵鬧或故意搗亂。"
+      },
+      {
+        "word": "勢均力敵",
+        "zhu": "ㄕˋ ㄐㄩㄣ ㄌㄧˋ ㄉㄧˊ",
+        "meaning": "雙方實力相當，不分上下。"
+      },
+      {
+        "word": "盡心盡力",
+        "zhu": "ㄐㄧㄣˋ ㄒㄧㄣ ㄐㄧㄣˋ ㄌㄧˋ",
+        "meaning": "竭盡全部心思與力量。"
+      },
+      {
+        "word": "勝券在握",
+        "zhu": "ㄕㄥˋ ㄑㄩㄢˋ ㄗㄞˋ ㄨㄛˋ",
+        "meaning": "很有把握取得勝利。"
+      }
+    ],
+    "rhetoric": [
+      {
+        "type": "譬喻修辭",
+        "example": "政彬如同面對強敵的英勇戰士，全身充滿力量和鬥志。",
+        "analysis": "將充滿鬥志的樣子比喻為英勇戰士，具體生動。"
+      },
+      {
+        "type": "譬喻修辭",
+        "example": "當發令槍一響，政彬就像獵豹般向前衝刺。",
+        "analysis": "將奔跑神速比喻為獵豹。"
+      },
+      {
+        "type": "引用修辭",
+        "example": "「團結就是力量」，相信只要大家一條心，我們一定能打敗五班。",
+        "analysis": "引用諺語加強說服力。"
+      }
+    ],
+    "quiz": [
+      {
+        "q": "《跑道》一文中，老師將政彬與名揚棒次調換的真正理由是什麼？",
+        "ans": "名揚的衝刺技巧較好",
+        "options": [
+          "名揚的起跑速度最快",
+          "名揚的衝刺技巧較好",
+          "政彬主動要求跑第一棒",
+          "老師偏心名揚"
+        ],
+        "steps": "課文中老師向政彬解釋：「名揚的衝刺技巧比較好，適合擔任第四棒壓軸衝刺。」"
+      },
+      {
+        "q": "「拱手讓人」這句成語的意思是？",
+        "ans": "輕易把東西或成果讓給別人",
+        "options": [
+          "雙方實力不相上下",
+          "輕易把東西或成果讓給別人",
+          "盡全力爭取榮譽",
+          "因生氣而拒絕合作"
+        ],
+        "steps": "拱手讓人：拱起雙手送給他人，比喻輕易把即將到手的成果讓給別人。"
+      },
+      {
+        "q": "「政彬如同面對強敵的英勇戰士，全身充滿力量」使用了哪種修辭法？",
+        "ans": "譬喻修辭",
+        "options": [
+          "譬喻修辭",
+          "擬人修辭",
+          "排比修辭",
+          "設問修辭"
+        ],
+        "steps": "句中運用「如同」將政彬比喻成「英勇戰士」，屬於譬喻修辭。"
+      },
+      {
+        "q": "下列詞語中，哪一個用字完全正確？",
+        "ans": "勢均力敵",
+        "options": [
+          "勢均力敵",
+          "後侮莫及",
+          "壓妯表演",
+          "無禮取鬧"
+        ],
+        "steps": "正字為：後悔莫及、壓軸表演、無理取鬧。故「勢均力敵」正確。"
+      }
+    ]
+  },
+  {
+    "id": "l2",
+    "title": "第二課 朱子治家格言選",
+    "author": "朱柏廬",
+    "type": "文言文／應用文（格言家訓）",
+    "topic": "透過日常起居生活的簡樸節約與修身處事，傳達做人做事的基本道理。",
+    "structure": [
+      "第一則：黎明即起，灑掃庭除，要內外整潔；既昏便息，關鎖門戶，必親自檢點。（勤勞自律與居家安全）",
+      "第二則：一粥一飯，當思來處不易；半絲半縷，恆念物力維艱。（愛物惜物與感恩心）",
+      "第三則：宜未雨而綢繆，毋臨渴而掘井。（事先防患未然，切勿臨時抱佛腳）",
+      "第四則：器具質而潔，瓦缶勝金玉；飲食約而精，園蔬愈珍饈。（質樸節儉，不追求虛榮奢華）"
+    ],
+    "vocab": [
+      {
+        "word": "未雨綢繆",
+        "zhu": "ㄨㄟˋ ㄩˇ ㄔㄡˊ ㄇㄡˊ",
+        "meaning": "在下雨之前就先修補好門窗。比喻事先做好準備，防患未然。"
+      },
+      {
+        "word": "臨渴掘井",
+        "zhu": "ㄌㄧㄣˊ ㄎㄜˇ ㄐㄩㄝˊ ㄐㄧㄥˇ",
+        "meaning": "感到口渴時才去挖井。比喻事到臨頭才想辦法，為時已晚。"
+      },
+      {
+        "word": "物力維艱",
+        "zhu": "ㄨˋ ㄌㄧˋ ㄨㄟˊ ㄐㄧㄢ",
+        "meaning": "物品物資的生產極為艱難不易。"
+      },
+      {
+        "word": "珍饈",
+        "zhu": "ㄓㄣ ㄒㄧㄡ",
+        "meaning": "珍貴美味的食品佳餚。"
+      },
+      {
+        "word": "深入淺出",
+        "zhu": "ㄕㄣ ㄖㄨˋ ㄑㄧㄢˇ ㄔㄨ",
+        "meaning": "以淺顯易懂的語言或文字表達深刻高深的道理。"
+      },
+      {
+        "word": "樂極生悲",
+        "zhu": "ㄌㄜˋ ㄐㄧˊ ㄕㄥ ㄅㄟ",
+        "meaning": "歡樂高興到了極點，反而轉為悲傷。"
+      },
+      {
+        "word": "口蜜腹劍",
+        "zhu": "ㄎㄡˇ ㄇㄧˋ ㄈㄨˋ ㄐㄧㄢˋ",
+        "meaning": "口中說得甜美動聽，心中卻藏著害人的利刃。比喻人陰險奸詐。"
+      }
+    ],
+    "rhetoric": [
+      {
+        "type": "對偶修辭",
+        "example": "一粥一飯，當思來處不易；半絲半縷，恆念物力維艱。",
+        "analysis": "字數相同、詞性相對、結構整齊對稱。"
+      },
+      {
+        "type": "對偶修辭",
+        "example": "宜未雨而綢繆，毋臨渴而掘井。",
+        "analysis": "正反對比且句型工整。"
+      },
+      {
+        "type": "映襯修辭",
+        "example": "器具質而潔，瓦缶勝金玉。",
+        "analysis": "以粗糙樸素的瓦罐與華貴的金玉進行對比映襯。"
+      }
+    ],
+    "quiz": [
+      {
+        "q": "「宜未雨而綢繆，毋臨渴而掘井」這句格言提醒我們什麼道理？",
+        "ans": "凡事應事先做好萬全準備，防患未然",
+        "options": [
+          "凡事應事先做好萬全準備，防患未然",
+          "要多喝水補充體力",
+          "遇到挫折要堅持到底",
+          "下雨天出門記得帶傘"
+        ],
+        "steps": "綢繆是修補纏縛，未雨綢繆意指事情發生前即預作防備，切忌臨渴才掘井。"
+      },
+      {
+        "q": "「一粥一飯，當思來處不易」句中的「思」字是什麼意思？",
+        "ans": "想到、省思",
+        "options": [
+          "想到、省思",
+          "思念朋友",
+          "憂慮擔心",
+          "懷疑猜測"
+        ],
+        "steps": "「當思」意思是「應當想到、體會到」糧食得來不易，要心存感激。"
+      },
+      {
+        "q": "下列各組詞語中，何者意義相反？",
+        "ans": "未雨綢繆／臨渴掘井",
+        "options": [
+          "未雨綢繆／臨渴掘井",
+          "物力維艱／得來不易",
+          "山珍海味／珍饈佳餚",
+          "深入淺出／通俗易懂"
+        ],
+        "steps": "未雨綢繆為「事前準備」，臨渴掘井為「臨急才想辦法」，兩者為反義詞。"
+      },
+      {
+        "q": "「半絲半縷，恆念物力維艱」中，「縷」的部首是什麼？",
+        "ans": "糸部",
+        "options": [
+          "糸部",
+          "木部",
+          "金部",
+          "手部"
+        ],
+        "steps": "「縷」部首為「糸部」，原指麻線、細絲。"
+      }
+    ]
+  },
+  {
+    "id": "l3",
+    "title": "第三課 遇見更好的自己",
+    "author": "嚴長壽",
+    "type": "議論文（說理文）",
+    "topic": "只要勇於探索自我潛能、虛心學習並持之以恆，每個人都能遇見更卓越的自己。",
+    "structure": [
+      "論點：每個人都是世界上獨一無二的個體，具備無限的潛能與可能性。",
+      "論據：舉出自身從基層送件小弟做起、提出「垃圾桶哲學」（多做多學、吸收他人經驗）最終成為國際飯店總裁的歷程。",
+      "結論：耕耘和收穫往往不在同一個季節，只要堅持努力，就能打造屬於自己的精彩人生。"
+    ],
+    "vocab": [
+      {
+        "word": "垃圾桶哲學",
+        "zhu": "ㄌㄜˋ ㄙㄜˋ ㄊㄨㄥˇ ㄓㄜˊ ㄒㄩㄝˊ",
+        "meaning": "比喻不挑剔工作，樂於接納多方交辦任務並從中吸取經驗與成長。"
+      },
+      {
+        "word": "持之以恆",
+        "zhu": "ㄔˊ ㄓ ㄧˇ ㄏㄥˊ",
+        "meaning": "有恆心、有毅力地堅持下去。"
+      },
+      {
+        "word": "脫穎而出",
+        "zhu": "ㄊㄨㄛ ㄧㄥˇ ㄦˊ ㄔㄨ",
+        "meaning": "顯露才能，超越眾人。"
+      },
+      {
+        "word": "卓越",
+        "zhu": "ㄓㄨㄛˊ ㄩㄝˋ",
+        "meaning": "非常優秀，超出一般水準。"
+      },
+      {
+        "word": "栽培",
+        "zhu": "ㄗㄞ ㄆㄟˊ",
+        "meaning": "種植培育，比喻對人才的培養與提攜。"
+      },
+      {
+        "word": "日積月累",
+        "zhu": "ㄖˋ ㄐㄧ ㄩㄝˋ ㄌㄟˇ",
+        "meaning": "一天天、一月月不斷累積。比喻時間長久的累積。"
+      }
+    ],
+    "rhetoric": [
+      {
+        "type": "引用名言",
+        "example": "「因為耕耘和收穫往往不在同一個季節。」",
+        "analysis": "說明努力需要時間沈澱，勉勵讀者持之以恆。"
+      },
+      {
+        "type": "設問修辭",
+        "example": "面對未來，你想成為什麼樣的自己？",
+        "analysis": "引發讀者內心反思與自我期許。"
+      }
+    ],
+    "quiz": [
+      {
+        "q": "嚴長壽先生提出的「垃圾桶哲學」主要意涵是什麼？",
+        "ans": "不挑工作、多做多學，視各項任務為累積經驗的機會",
+        "options": [
+          "不挑工作、多做多學，視各項任務為累積經驗的機會",
+          "提倡資源回收與環保分類",
+          "不要做多餘的事情以免出錯",
+          "將垃圾丟進垃圾桶保持乾淨"
+        ],
+        "steps": "「垃圾桶哲學」指像垃圾桶一樣包容多做，把別人的問題與困難當作鍛鍊自己能力的資產。"
+      },
+      {
+        "q": "「因為耕耘和收穫往往不在同一個季節」這句話說明了什麼道理？",
+        "ans": "堅持與耐心的重要性，努力需要時間累積",
+        "options": [
+          "堅持與耐心的重要性，努力需要時間累積",
+          "農業耕作要看天氣季節",
+          "收穫比耕耘更重要",
+          "只要收穫不用耕耘"
+        ],
+        "steps": "耕耘與收穫不在同季，代表付出努力後需要耐心等待與持續累積，才能開花結果。"
+      },
+      {
+        "q": "下列成語何者可用來形容「經過長期努力逐漸展現超群才能」？",
+        "ans": "脫穎而出",
+        "options": [
+          "脫穎而出",
+          "臨渴掘井",
+          "守株待兔",
+          "以偏概全"
+        ],
+        "steps": "脫穎而出：錐尖穿透布囊顯露出來，比喻才能顯露超越眾人。"
+      }
+    ]
+  },
+  {
+    "id": "l4",
+    "title": "第四課 臺灣美食詩選",
+    "author": "焦桐、向陽等",
+    "type": "現代詩／抒情文",
+    "topic": "透過詩意細膩的語言描繪臺灣在地特色小吃（肉圓、米粉湯、刈包），傳遞人情溫暖與文化滋味。",
+    "structure": [
+      "詩作一〈肉圓〉：描述地瓜粉皮晶瑩剔透、包覆竹筍後腿肉，源自彰化北斗水災賑災的溫暖救命恩情。",
+      "詩作二〈米粉湯〉：雪白的在來米漿沿著滾熱的大鼎滑行，在熱氣騰騰中撫慰每一位深夜歸人的心靈。",
+      "特色意象：將食材的翻滾、高溫水氣與市井街頭的人情味融合於優美韻律中。"
+    ],
+    "vocab": [
+      {
+        "word": "華燈初上",
+        "zhu": "ㄏㄨㄚˊ ㄉㄥ ㄔㄨ ㄕㄤˋ",
+        "meaning": "夜幕低垂，美麗的燈火剛剛點亮。"
+      },
+      {
+        "word": "人來人往",
+        "zhu": "ㄖㄣˊ ㄌㄞˊ ㄖㄣˊ ㄨㄤˇ",
+        "meaning": "人群來來往往，形容非常熱鬧繁忙。"
+      },
+      {
+        "word": "街頭巷尾",
+        "zhu": "ㄐㄧㄝ ㄊㄡˊ ㄒㄧㄤˋ ㄨㄟˇ",
+        "meaning": "泛指城市或鄉鎮的每個角落。"
+      },
+      {
+        "word": "晶瑩剔透",
+        "zhu": "ㄐㄧㄥ ㄧㄥˊ ㄊㄧ ㄊㄡˋ",
+        "meaning": "明亮光潔而通透美麗。"
+      },
+      {
+        "word": "餐宴",
+        "zhu": "ㄘㄢ ㄧㄢˋ",
+        "meaning": "盛大的宴席聚餐。"
+      }
+    ],
+    "rhetoric": [
+      {
+        "type": "轉化（擬人）修辭",
+        "example": "守候的目光與味蕾相遇，山珍海味在這小小的圓相遇華燈初上的夜色。",
+        "analysis": "將食物賦予人的相遇與情感。"
+      },
+      {
+        "type": "摹寫修辭",
+        "example": "雪白的在來米，沿著滾熱的鼎，緩緩滑行。（視覺與觸覺）",
+        "analysis": "生動呈現米漿的顏色、溫度與流動感。"
+      },
+      {
+        "type": "類疊修辭",
+        "example": "一顆顆大大小小，一個個晶瑩透亮。",
+        "analysis": "疊字增強詩歌韻律感與畫面豐富度。"
+      }
+    ],
+    "quiz": [
+      {
+        "q": "在〈肉圓〉詩作中，肉圓的誕生最早與哪一項歷史事件相關？",
+        "ans": "彰化北斗水災賑災救助災民",
+        "options": [
+          "彰化北斗水災賑災救助災民",
+          "慶祝元宵節慶典",
+          "宮廷御廚發明的點心",
+          "引進外國飲食文化改良"
+        ],
+        "steps": "清朝彰化北斗發生水災糧食短缺，善心人士將地瓜曬乾磨粉做成圓狀煮熟救助鄉民。"
+      },
+      {
+        "q": "「雪白的在來米，沿著滾熱的鼎，緩緩滑行」主要運用了哪種感官摹寫？",
+        "ans": "視覺與觸覺摹寫",
+        "options": [
+          "視覺與觸覺摹寫",
+          "聽覺與嗅覺摹寫",
+          "味覺與聽覺摹寫",
+          "只有嗅覺摹寫"
+        ],
+        "steps": "「雪白、滑行」為視覺，「滾熱」為觸覺溫度的摹寫。"
+      },
+      {
+        "q": "「華燈初上」常出現在描寫什麼時間點的語句中？",
+        "ans": "夜幕剛剛降臨、街道亮起燈光的時刻",
+        "options": [
+          "夜幕剛剛降臨、街道亮起燈光的時刻",
+          "清晨太陽剛升起時",
+          "正午豔陽高照時",
+          "深夜眾人熟睡時"
+        ],
+        "steps": "華燈初上形容傍晚夜幕剛降臨，路燈與店家招牌燈火紛紛亮起的景象。"
+      }
+    ]
+  },
+  {
+    "id": "l5",
+    "title": "第五課 下午茶風波",
+    "author": "洪震宇",
+    "type": "記敘文（生活散文）",
+    "topic": "記錄童年母親利用當季李子、芭樂熬製果醬與打果汁的甜蜜回憶，體驗親手製作食物的幸福感。",
+    "structure": [
+      "開端：媽媽買了一大袋暗紅李子，孩子們見了原本想「退避三舍」，但媽媽搬出大鍋開始熬煮。",
+      "經過：李子在鍋中翻滾化成濃郁暗紅果醬，搭配新鮮芭樂打成果汁，孩子們圍在廚房雀躍期待。",
+      "結尾：這份熱騰騰的果醬與下午茶不僅美味，更建立了孩子對味覺的自信與家庭溫馨記憶。"
+    ],
+    "vocab": [
+      {
+        "word": "退避三舍",
+        "zhu": "ㄊㄨㄟˋ ㄅㄧˋ ㄙㄢ ㄕㄜˋ",
+        "meaning": "比喻主動退讓，迴避衝突或不願靠近。"
+      },
+      {
+        "word": "四面八方",
+        "zhu": "ㄙˋ ㄇㄧㄢˋ ㄅㄚ ㄈㄤ",
+        "meaning": "周圍各處、所有方向。"
+      },
+      {
+        "word": "粉身碎骨",
+        "zhu": "ㄈㄣˇ ㄕㄣ ㄙㄨㄟˋ ㄍㄨˇ",
+        "meaning": "身體碎裂，比喻犧牲生命或食材在果汁機中完全打碎。"
+      },
+      {
+        "word": "雀躍",
+        "zhu": "ㄑㄩㄝˋ ㄩㄝˋ",
+        "meaning": "高興得像小鳥一樣跳躍。"
+      },
+      {
+        "word": "熱騰騰",
+        "zhu": "ㄖㄜˋ ㄊㄥˊ ㄊㄥˊ",
+        "meaning": "形容熱氣蒸騰、溫度很高的樣子。"
+      }
+    ],
+    "rhetoric": [
+      {
+        "type": "譬喻修辭",
+        "example": "當廚房開了火，我們就從四面八方進來，像小鳥一樣的雀躍。",
+        "analysis": "將興奮期待的孩子比喻為雀躍小鳥。"
+      },
+      {
+        "type": "雙關／擬物修辭",
+        "example": "塊狀的芭樂轉瞬間「粉身碎骨」，成為一杯杯好喝的果汁。",
+        "analysis": "幽默生動形容果汁機將水果攪碎的過程。"
+      },
+      {
+        "type": "摹寫修辭",
+        "example": "鳳梨的甜香氣味，此刻已充滿整個空間。（嗅覺摹寫）",
+        "analysis": "呈現濃郁誘人的香氣。"
+      }
+    ],
+    "quiz": [
+      {
+        "q": "《下午茶風波》中，孩子們一開始看到一大袋酸澀的暗紅李子時，為何「退避三舍」？",
+        "ans": "因為李子味道酸澀，孩子們原本不敢直接生吃",
+        "options": [
+          "因為李子味道酸澀，孩子們原本不敢直接生吃",
+          "因為李子掉在地上弄髒了",
+          "因為李子有毒不能吃",
+          "因為李子數量太少不夠分"
+        ],
+        "steps": "生李子口感酸澀，直到媽媽發揮巧思加入砂糖熬煮成果醬後，才變成香甜美味。"
+      },
+      {
+        "q": "「退避三舍」中的「舍」在古代是指什麼單位？",
+        "ans": "古代行軍三十里為一舍",
+        "options": [
+          "古代行軍三十里為一舍",
+          "房屋住宅的間數",
+          "一棟房子的宿舍",
+          "時間的一刻鐘"
+        ],
+        "steps": "古時行軍三十里為「一舍」，退避三舍即主動退讓九十里以示避讓。"
+      },
+      {
+        "q": "「鳳梨的甜香氣味，此刻已充滿整個空間」屬於哪種感官摹寫？",
+        "ans": "嗅覺摹寫",
+        "options": [
+          "嗅覺摹寫",
+          "視覺摹寫",
+          "聽覺摹寫",
+          "觸覺摹寫"
+        ],
+        "steps": "「甜香氣味」是透過鼻子聞到的氣味感受，屬於嗅覺摹寫。"
+      }
+    ]
+  },
+  {
+    "id": "l6",
+    "title": "第六課 珍珠奶茶",
+    "author": "韓良露",
+    "type": "說明文／文化隨筆",
+    "topic": "介紹臺灣揚名國際的經典飲品「珍珠奶茶」的誕生由來、製作工藝與飲食文化美感。",
+    "structure": [
+      "引言：珍珠奶茶風靡全球，已經到了「寧可三日無肉，不可一日無茶」的喜愛程度。",
+      "說明：拆解粉圓（珍珠）以地瓜粉、樹薯粉手工搓揉熬煮的精細步驟，講究彈勁與天然食材。",
+      "內涵：說明食物搭配美感（如油條與豆漿、粉圓與奶茶），並反思現代人應更重視誠信泡茶與天然製作。"
+    ],
+    "vocab": [
+      {
+        "word": "徜徉",
+        "zhu": "ㄔㄤˊ ㄧㄤˊ",
+        "meaning": "安閒自在地徘徊遊蕩。"
+      },
+      {
+        "word": "老老實實",
+        "zhu": "ㄌㄠˇ ㄌㄠˇ ㄕˊ ㄕˊ",
+        "meaning": "誠實規矩、不弄虛作假。"
+      },
+      {
+        "word": "取悅",
+        "zhu": "ㄑㄩˇ ㄩㄝˋ",
+        "meaning": "討好、使人高興愉快。"
+      },
+      {
+        "word": "彈勁",
+        "zhu": "ㄑㄧㄤˊ ㄐㄧㄣˋ",
+        "meaning": "富有彈性與咀嚼咬勁。"
+      },
+      {
+        "word": "分解說明",
+        "zhu": "ㄈㄣ ㄐㄧㄝˇ ㄕㄨㄛ ㄇㄧㄥˊ",
+        "meaning": "將複雜的製作過程一步一步拆解陳述。"
+      }
+    ],
+    "rhetoric": [
+      {
+        "type": "轉化修辭",
+        "example": "它取悅味蕾如同一場優美的舞蹈，粉圓徜徉在茶湯中。",
+        "analysis": "將粉圓在茶湯中的滑動轉化為跳舞與遊動。"
+      },
+      {
+        "type": "引用修辭",
+        "example": "愛上這種清香美味的奶茶，到了「寧可三日無肉，不可一日無茶」的地步。",
+        "analysis": "改寫古代諺語強調對茶飲的熱愛。"
+      },
+      {
+        "type": "設問修辭",
+        "example": "想一想，現今大眾是會在乎是誰發明，還是會在乎誰能老老實實製作粉圓？",
+        "analysis": "激發讀者思考食品安全與誠信的核心價值。"
+      }
+    ],
+    "quiz": [
+      {
+        "q": "《珍珠奶茶》一文中，作者認為「粉圓與奶茶」的完美結合代表了什麼？",
+        "ans": "一種食物彼此相互襯托的和諧搭配美感",
+        "options": [
+          "一種食物彼此相互襯托的和諧搭配美感",
+          "為了節省成本的隨意調配",
+          "西方速食文化的引進",
+          "隨機碰撞的運氣"
+        ],
+        "steps": "正如油條配豆漿、泡菜配臭豆腐，粉圓與奶茶的搭配展現了深度的飲食搭配美學。"
+      },
+      {
+        "q": "「粉圓徜徉在茶湯中，輕柔觸碰舌尖」中「徜徉」的意思是？",
+        "ans": "安閒自在地遊動徘徊",
+        "options": [
+          "安閒自在地遊動徘徊",
+          "迅速下沉到底部",
+          "激烈劇烈地旋轉",
+          "融化消失不見"
+        ],
+        "steps": "徜徉形容安閒自在、無拘無束地遊歷漫步。"
+      },
+      {
+        "q": "在說明粉圓製作時，作者將「加水搓揉、過篩、滾水煮熟、拌黑糖漿」依序陳述，屬於哪種說明方法？",
+        "ans": "分解說明法",
+        "options": [
+          "分解說明法",
+          "舉例說明法",
+          "數據說明法",
+          "比較說明法"
+        ],
+        "steps": "將整體製作過程拆解成各個步驟循序漸進地說明，稱為分解說明法。"
+      }
+    ]
+  }
+];
+let selectedLessonId = 'l1';
+
+// 測驗變數
+let quizQuestions = [];
+let currentQuizIdx = 0;
+let quizScore = 0;
+let quizAnswered = false;
+
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+    renderLessonCards();
+    renderLessonDetail(selectedLessonId);
+    renderVocabList();
+    renderRhetoricList();
+});
+
+function switchTab(tabKey) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(`tab-${tabKey}`).classList.add('active');
+
+    ['overview', 'vocab', 'rhetoric', 'quiz'].forEach(k => {
+        document.getElementById(`view-${k}`).classList.toggle('hidden', k !== tabKey);
+    });
+}
+
+function renderLessonCards() {
+    const container = document.getElementById('lesson-cards-grid');
+    container.innerHTML = CURRICULUM.map(lesson => `
+        <div class="lesson-item-card ${lesson.id === selectedLessonId ? 'active-lesson' : ''}" onclick="selectLesson('${lesson.id}')">
+            <span class="lesson-tag">${lesson.id.toUpperCase()}</span>
+            <div class="lesson-name">${lesson.title}</div>
+            <div class="lesson-type">文體：${lesson.type}</div>
+            <div style="font-size:0.8rem; color:#4B5563; margin-top:4px;">作者：${lesson.author}</div>
+        </div>
+    `).join('');
+}
+
+function selectLesson(id) {
+    selectedLessonId = id;
+    renderLessonCards();
+    renderLessonDetail(id);
+}
+
+function renderLessonDetail(id) {
+    const lesson = CURRICULUM.find(x => x.id === id);
+    if (!lesson) return;
+    const container = document.getElementById('lesson-detail-box');
+    container.innerHTML = `
+        <h3 style="color:var(--primary-dark); font-size:1.3rem; margin-bottom:8px; font-family:'Noto Serif TC';">
+            📖 ${lesson.title}（${lesson.author}）
+        </h3>
+        
+        <div class="section-header">🎯 課文核心主旨</div>
+        <div class="info-pill-box" style="border-left:4px solid var(--primary); font-weight:700; color:#4C1D95;">
+            ${lesson.topic}
+        </div>
+
+        <div class="section-header">📑 課文脈絡與結構分析</div>
+        <div class="info-pill-box">
+            ${lesson.structure.map(s => `<p style="margin-bottom:6px;">• ${s}</p>`).join('')}
+        </div>
+
+        <div class="section-header">✍️ 重點成語與生字詞彙 (${lesson.vocab.length} 組)</div>
+        <div class="vocab-list-grid">
+            ${lesson.vocab.map(v => `
+                <div class="vocab-mini-card">
+                    <div class="v-word">${v.word}</div>
+                    <div class="v-zhu">${v.zhu}</div>
+                    <div class="v-mean">${v.meaning}</div>
+                </div>
+            `).join('')}
+        </div>
+
+        <div class="section-header">💡 課文修辭精彩賞析</div>
+        <div class="info-pill-box">
+            ${lesson.rhetoric.map(r => `
+                <div style="margin-bottom:8px;">
+                    <span style="background:#F3E8FF; color:#7E22CE; font-weight:800; font-size:0.8rem; padding:2px 6px; border-radius:6px;">${r.type}</span>
+                    <p style="font-weight:700; margin:3px 0; color:#1F2937;">「${r.example}」</p>
+                    <p style="font-size:0.85rem; color:#6B7280;">解析：${r.analysis}</p>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+function renderVocabList() {
+    const filter = document.getElementById('vocab-lesson-filter').value;
+    const container = document.getElementById('vocab-grid-container');
+    let list = [];
+    if (filter === 'all') {
+        CURRICULUM.forEach(l => { list.push(...l.vocab); });
+    } else {
+        const l = CURRICULUM.find(x => x.id === filter);
+        if (l) list = l.vocab;
+    }
+    container.innerHTML = list.map(v => `
+        <div class="vocab-mini-card">
+            <div class="v-word">${v.word}</div>
+            <div class="v-zhu">${v.zhu}</div>
+            <div class="v-mean">${v.meaning}</div>
+        </div>
+    `).join('');
+}
+
+function renderRhetoricList() {
+    const container = document.getElementById('rhetoric-container');
+    let allRhetorics = [];
+    CURRICULUM.forEach(l => {
+        l.rhetoric.forEach(r => {
+            allRhetorics.push({ lesson: l.title, ...r });
+        });
+    });
+    container.innerHTML = allRhetorics.map(r => `
+        <div class="info-pill-box" style="margin-bottom:12px; border-left:4px solid var(--secondary);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <span style="font-weight:800; color:var(--primary-dark); font-size:1.05rem;">${r.type}</span>
+                <span style="font-size:0.8rem; color:var(--text-muted); background:#F3F4F6; padding:2px 8px; border-radius:10px;">${r.lesson}</span>
+            </div>
+            <p style="font-size:1.05rem; font-weight:700; color:#1F2937; margin:6px 0;">「${r.example}」</p>
+            <p style="font-size:0.9rem; color:#4B5563;">💡 <b>修辭解析：</b>${r.analysis}</p>
+        </div>
+    `).join('');
+}
+
+// 測驗邏輯
+function startMidtermQuiz() {
+    quizQuestions = [];
+    CURRICULUM.forEach(l => {
+        if (l.quiz) quizQuestions.push(...l.quiz);
+    });
+    quizQuestions = quizQuestions.sort(() => Math.random() - 0.5).slice(0, 10);
+    
+    currentQuizIdx = 0;
+    quizScore = 0;
+    
+    document.getElementById('quiz-intro-box').classList.add('hidden');
+    document.getElementById('quiz-result-box').classList.add('hidden');
+    document.getElementById('quiz-play-box').classList.remove('hidden');
+    document.getElementById('quiz-total').textContent = quizQuestions.length;
+
+    loadQuizQuestion();
+}
+
+function loadQuizQuestion() {
+    quizAnswered = false;
+    document.getElementById('btn-next-quiz').classList.add('hidden');
+    document.getElementById('quiz-explanation-box').classList.remove('show');
+    document.getElementById('quiz-curr').textContent = currentQuizIdx + 1;
+    document.getElementById('quiz-score').textContent = quizScore;
+
+    const q = quizQuestions[currentQuizIdx];
+    document.getElementById('quiz-question-text').innerHTML = `<b>第 ${currentQuizIdx + 1} 題：</b> ${q.q}`;
+    
+    let shuffledOpts = [...q.options].sort(() => Math.random() - 0.5);
+    const optionsBox = document.getElementById('quiz-options-box');
+    optionsBox.innerHTML = shuffledOpts.map(opt => `
+        <button class="opt-btn" onclick="checkQuizAnswer('${opt}', this)">${opt}</button>
+    `).join('');
+}
+
+function checkQuizAnswer(selected, btn) {
+    if (quizAnswered) return;
+    quizAnswered = true;
+
+    const q = quizQuestions[currentQuizIdx];
+    const isRight = (selected === q.ans);
+    const expBox = document.getElementById('quiz-explanation-box');
+
+    if (isRight) {
+        playSound('correct');
+        quizScore += 10;
+        btn.classList.add('correct');
+    } else {
+        playSound('wrong');
+        btn.classList.add('wrong');
+        document.querySelectorAll('.opt-btn').forEach(b => {
+            if (b.textContent.trim() === q.ans) b.classList.add('correct');
+        });
+    }
+
+    document.getElementById('quiz-score').textContent = quizScore;
+
+    expBox.innerHTML = `
+        <div style="font-weight:bold; font-size:1rem; margin-bottom:4px; color:${isRight?'#065F46':'#991B1B'};">
+            ${isRight ? '✓ 太棒了！回答正確！' : '✕ 可惜答錯囉！標準答案為：' + q.ans}
+        </div>
+        <div>💡 <b>解析說明：</b>${q.steps || ''}</div>
+    `;
+    expBox.classList.add('show');
+
+    document.getElementById('btn-next-quiz').classList.remove('hidden');
+}
+
+function nextQuizQuestion() {
+    currentQuizIdx++;
+    if (currentQuizIdx >= quizQuestions.length) {
+        showQuizResult();
+    } else {
+        loadQuizQuestion();
+    }
+}
+
+function showQuizResult() {
+    document.getElementById('quiz-play-box').classList.add('hidden');
+    document.getElementById('quiz-result-box').classList.remove('hidden');
+    document.getElementById('quiz-final-score').textContent = quizScore;
+
+    const correctCount = Math.round(quizScore / 10);
+    document.getElementById('quiz-score-detail').textContent = `答對 ${correctCount} 題 / 共 ${quizQuestions.length} 題`;
+
+    if (quizScore >= 80) {
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+        document.getElementById('quiz-res-icon').textContent = '👑';
+        document.getElementById('quiz-res-title').textContent = '6上國語 期中狀元王！';
+        document.getElementById('quiz-res-desc').textContent = '恭喜你！課文主旨、生字成語與修辭全面通關！';
+    } else {
+        document.getElementById('quiz-res-icon').textContent = '📜';
+        document.getElementById('quiz-res-title').textContent = '測驗完成！';
+        document.getElementById('quiz-res-desc').textContent = '多利用課文預習與成語辭典複習，下次一定能拿 100 分！';
+    }
+}
+</script>
 </body>
 </html>
