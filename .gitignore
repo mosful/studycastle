@@ -12,8 +12,11 @@ p26.txt
 p26_lines.txt
 extracted_pages_chinese6/
 extracted_pages_chinese3/
+extracted_pages_social6/
 chinese6_*.json
 chinese6_*.txt
 chinese3_*.json
 chinese3_*.txt
+social6_*.json
+social6_*.txt
 review_preview_utf8.txt
