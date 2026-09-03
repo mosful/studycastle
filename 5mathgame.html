@@ -170,6 +170,40 @@
             line-height: 1.6;
         }
 
+        /* --- 頂部導航列 --- */
+        .castle-nav-bar {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 12px;
+            width: 100%;
+        }
+        .castle-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #FFF;
+            border: 2px solid #4DD0E1;
+            border-radius: 20px;
+            color: #00838F;
+            font-weight: bold;
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #00ACC1;
+            transition: all 0.15s ease;
+        }
+        .castle-nav-btn:hover {
+            background: #E0F7FA;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 0 #00ACC1;
+        }
+        .castle-nav-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #00ACC1;
+        }
+
         @media (max-width: 480px) {
             h1 { font-size: 1.8rem; }
             .question-box { font-size: 1.5rem; padding: 15px; }
@@ -182,6 +216,12 @@
 <body>
 
     <div class="game-container">
+        <div class="castle-nav-bar">
+            <a href="portal.html" class="castle-nav-btn">
+                <span>🏰</span>
+                <span>返回學習城堡</span>
+            </a>
+        </div>
         <audio id="sound-train" preload="auto" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Steam_train_whistle_02.ogg"></audio>
         <audio id="sound-correct" preload="auto" src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Bubble_pop_one.ogg"></audio>
         <audio id="sound-wrong" preload="auto" src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Buzzer_02.ogg"></audio>
