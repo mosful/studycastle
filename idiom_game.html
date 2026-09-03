@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>成語接龍大挑戰 📖 | 學習城堡國語文冒險</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --paper-bg: #FAF6EE;
+            --paper-card: #FFFDF9;
+            --ink-black: #1F2937;
+            --ink-dark: #374151;
+            --carmine-red: #DC2626;
+            --amber-gold: #D97706;
+            --jade-green: #059669;
+            --border-ink: #E5DCCB;
+            --border-focus: #B45309;
+            --shadow-paper: 0 10px 30px rgba(78, 59, 39, 0.12);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans TC', sans-serif; }
+        
+        body {
+            background-color: var(--paper-bg);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(217, 119, 6, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(220, 38, 38, 0.05) 0%, transparent 40%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 16px 12px 60px;
+            color: var(--ink-black);
+            user-select: none;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 680px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- 頂部導航列 --- */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            gap: 8px;
+        }
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: #FFF;
+            border: 2px solid #D97706;
+            border-radius: 20px;
+            color: #92400E;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #B45309;
+            transition: all 0.15s ease;
+        }
+        .nav-btn:hover { background: #FEF3C7; transform: translateY(-2px); box-shadow: 0 5px 0 #B45309; }
+        .nav-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #B45309; }
+        .unit-badge {
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #DC2626, #B91C1C);
+            color: #FFF;
+            box-shadow: 0 2px 6px rgba(220,38,38,0.3);
+        }
+
+        /* --- 主卡片 --- */
+        .card {
+            background: var(--paper-card);
+            border: 3px solid var(--border-ink);
+            border-radius: 24px;
+            padding: 24px 20px;
+            box-shadow: var(--shadow-paper);
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-icon { font-size: 4rem; margin-bottom: 8px; display: inline-block; animation: floatIcon 3s ease-in-out infinite; }
+        @keyframes floatIcon { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+
+        h1 {
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(1.8rem, 4.5vw, 2.3rem);
+            color: #78350F;
+            font-weight: 900;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+        .sub-title { color: #6B7280; font-size: 0.95rem; margin-bottom: 20px; }
+
+        /* 模式選擇清單 */
+        .mode-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+        .mode-btn {
+            background: #FFF;
+            border: 2px solid #E5DCCB;
+            border-radius: 16px;
+            padding: 16px 18px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.06);
+        }
+        .mode-btn:hover {
+            border-color: #D97706;
+            background: #FEF3C7;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 0 #B45309;
+        }
+        .mode-btn .m-emoji { font-size: 2.2rem; }
+        .mode-btn .m-title { font-size: 1.15rem; font-weight: 800; color: #78350F; margin-bottom: 3px; }
+        .mode-btn .m-desc { font-size: 0.85rem; color: #6B7280; line-height: 1.4; }
+
+        /* --- 遊戲進行畫面 --- */
+        .hud-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #E5DCCB;
+        }
+        .hud-stat { font-weight: 800; font-size: 1rem; color: #78350F; display: flex; align-items: center; gap: 4px; }
+        .hud-score { color: var(--carmine-red); font-size: 1.25rem; font-family: 'Fredoka', sans-serif; }
+
+        /* 成語大方塊展示 */
+        .idiom-display {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0 16px;
+        }
+        .char-box {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            background: #FFF;
+            border: 3px solid #78350F;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1F2937;
+            box-shadow: 0 4px 0 #78350F;
+        }
+        .char-box.blank {
+            background: #FEF3C7;
+            border: 3px dashed #D97706;
+            color: #D97706;
+            animation: pulseBox 1.5s infinite;
+        }
+        @keyframes pulseBox { 0%,100%{transform:scale(1);} 50%{transform:scale(1.06);} }
+
+        .hint-box {
+            background: #F3F4F6;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            color: #4B5563;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            border-left: 4px solid #D97706;
+            text-align: left;
+        }
+
+        /* 選項按鈕格 */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .opt-btn {
+            background: #FFF;
+            border: 2px solid #D1D5DB;
+            border-radius: 16px;
+            padding: 14px 10px;
+            font-size: 1.4rem;
+            font-family: 'Noto Serif TC', serif;
+            font-weight: 800;
+            color: #1F2937;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #9CA3AF;
+            transition: all 0.15s;
+            touch-action: manipulation;
+        }
+        .opt-btn:hover { background: #FEF3C7; border-color: #D97706; transform: translateY(-2px); }
+        .opt-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #9CA3AF; }
+        .opt-btn.correct { background: #D1FAE5 !important; border-color: #059669 !important; color: #065F46 !important; box-shadow: 0 0 10px rgba(5,150,105,0.4) !important; }
+        .opt-btn.wrong { background: #FEE2E2 !important; border-color: #DC2626 !important; color: #991B1B !important; }
+
+        /* 詳解與說明 */
+        .explanation-card {
+            display: none;
+            background: #EFF6FF;
+            border: 2px solid #93C5FD;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-top: 14px;
+            text-align: left;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #1E3A8A;
+        }
+        .explanation-card.show { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+
+        /* 結算畫面 */
+        .result-box {
+            background: #FFF;
+            border-radius: 18px;
+            border: 2px solid #E5DCCB;
+            padding: 20px;
+            margin: 16px 0;
+        }
+        .score-big { font-size: 3.5rem; font-weight: 900; color: #D97706; font-family: 'Fredoka', sans-serif; }
+        .btn-action {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #FFF;
+            background: linear-gradient(135deg, #D97706, #B45309);
+            cursor: pointer;
+            box-shadow: 0 4px 0 #78350F;
+            transition: all 0.15s;
+        }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #78350F; }
+        .btn-action:active { transform: translateY(2px); box-shadow: 0 1px 0 #78350F; }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- 頂部導航列 -->
+    <div class="top-bar">
+        <a href="portal.html" class="nav-btn">
+            <span>🏰</span>
+            <span>返回學習城堡</span>
+        </a>
+        <span class="unit-badge">📖 國語文・成語闖關</span>
+    </div>
+
+    <!-- 主卡片容器 -->
+    <div class="card">
+        
+        <!-- 1. 開始主選單 -->
+        <div id="screen-menu">
+            <span class="hero-icon">📜</span>
+            <h1>成語接龍大挑戰</h1>
+            <p class="sub-title">精選國小必學實用成語 ｜ 探索成語背後的智慧與奧秘！</p>
+
+            <div class="mode-grid">
+                <button class="mode-btn" onclick="startQuiz('fill')">
+                    <span class="m-emoji">✍️</span>
+                    <div>
+                        <div class="m-title">模式一：成語缺字填空</div>
+                        <div class="m-desc">考驗易錯字與關鍵字辨別，補齊成語並學習詳細釋義。</div>
+                    </div>
+                </button>
+                <button class="mode-btn" onclick="startQuiz('chain')">
+                    <span class="m-emoji">🔗</span>
+                    <div>
+                        <div class="m-title">模式二：一字不漏成語接龍</div>
+                        <div class="m-desc">以字尾接字首，順著成語脈絡一路接龍闖關！</div>
+                    </div>
+                </button>
+                <button class="mode-btn" onclick="startQuiz('riddle')">
+                    <span class="m-emoji">💡</span>
+                    <div>
+                        <div class="m-title">模式三：情境看圖猜成語</div>
+                        <div class="m-desc">根據生活情境、生動 Emoji 與語意提示猜出正確成語。</div>
+                    </div>
+                </button>
+            </div>
+            
+            <div style="font-size:0.8rem; color:#9CA3AF;">📱 支援 iPad / 平板、手機與電腦 ｜ 專為觸控操作最佳化</div>
+        </div>
+
+        <!-- 2. 測驗進行畫面 -->
+        <div id="screen-quiz" class="hidden">
+            <div class="hud-bar">
+                <div class="hud-stat">第 <span id="q-curr">1</span> / <span id="q-total">8</span> 題</div>
+                <div class="hud-stat">⭐ 得分：<span class="hud-score" id="score-display">0</span></div>
+            </div>
+
+            <div id="quiz-content-area"></div>
+
+            <div class="options-grid" id="options-container"></div>
+
+            <div class="explanation-card" id="explanation-box"></div>
+
+            <button class="btn-action hidden" id="btn-next" onclick="nextQuestion()" style="margin-top:14px;">下一題 ➜</button>
+        </div>
+
+        <!-- 3. 結算畫面 -->
+        <div id="screen-result" class="hidden">
+            <span class="hero-icon" id="res-icon">🏆</span>
+            <h1 id="res-title">挑戰完成！</h1>
+            <p class="sub-title" id="res-subtitle">太厲害了，成語小狀元！</p>
+            
+            <div class="result-box">
+                <div>本次測驗得分</div>
+                <div class="score-big" id="final-score">100</div>
+                <div id="res-detail" style="font-size:0.95rem; color:#6B7280; margin-top:6px;">答對 8 題 / 共 8 題</div>
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <button class="btn-action" style="background:#6B7280; box-shadow:0 4px 0 #4B5563;" onclick="showMenu()">📋 回選單</button>
+                <button class="btn-action" onclick="restartQuiz()">🔄 再玩一次</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// 音效合成引擎
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playSound(type) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+    if (type === 'correct') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.setValueAtTime(659.25, now + 0.1);
+        osc.frequency.setValueAtTime(783.99, now + 0.2);
+        gainNode.gain.setValueAtTime(0.25, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.start(now); osc.stop(now + 0.4);
+    } else if (type === 'wrong') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.setValueAtTime(180, now + 0.15);
+        gainNode.gain.setValueAtTime(0.25, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now); osc.stop(now + 0.35);
+    }
+}
+
+// 題庫資料
+const IDIOM_DATA = {
+    fill: [
+        { idiom: "畫龍點睛", blankIdx: 3, options: ["睛", "晴", "睛", "清"], ans: "睛", meaning: "原指畫龍時點上眼睛就飛騰上天。比喻在關鍵處加上精彩的一筆，使內容更加生動有力。", example: "這幅畫在加上一筆後，真有畫龍點睛之妙！" },
+        { idiom: "一箭雙鵰", blankIdx: 2, options: ["雙", "隻", "對", "單"], ans: "雙", meaning: "射出一支箭同時射中兩隻鵰。比喻做一件事達到兩種目的或效果。", example: "散步順便去圖書館借書，真是一箭雙鵰。" },
+        { idiom: "揠苗助長", blankIdx: 0, options: ["揠", "拔", "拉", "摘"], ans: "揠", meaning: "拔高幼苗幫助它成長，反而害死了苗。比喻急於求成，反而把事情弄糟。", example: "學習要按部就班，不可揠苗助長。" },
+        { idiom: "守株待兔", blankIdx: 1, options: ["株", "樹", "枝", "木"], ans: "株", meaning: "守在樹旁等待撞死的兔子。比喻妄想不勞而獲或不知變通。", example: "只有勤奮努力才能成功，守株待兔是不行的。" },
+        { idiom: "狐假虎威", blankIdx: 1, options: ["假", "借", "真", "騙"], ans: "假", meaning: "狐狸藉著老虎的威風嚇走百獸。比喻藉著別人的權勢來欺壓人。", example: "他狐假虎威地仗著老闆的勢力欺負同事。" },
+        { idiom: "杯弓蛇影", blankIdx: 0, options: ["杯", "酒", "碗", "水"], ans: "杯", meaning: "把酒杯中的弓影誤認為是蛇。比喻疑神疑鬼，自己嚇自己。", example: "那只是樹影罷了，別杯弓蛇影自己嚇自己。" },
+        { idiom: "井底之蛙", blankIdx: 2, options: ["之", "的", "有", "中"], ans: "之", meaning: "住在井底的青蛙。比喻見識淺薄且自以為是的人。", example: "多出門走走開拓眼界，才不會成為井底之蛙。" },
+        { idiom: "亡羊補牢", blankIdx: 2, options: ["補", "修", "造", "關"], ans: "補", meaning: "丟失了羊趕緊修補羊圈。比喻犯錯或受損後及時補救，還不算晚。", example: "雖然上次考試失常，但只要亡羊補牢，下次一定能進步。" }
+    ],
+    chain: [
+        { prev: "萬事如意", prompt: "請選出能接續「意」字的成語：", options: ["意氣風發", "風吹草動", "發憤圖強", "如願以償"], ans: "意氣風發", next: "發憤圖強", meaning: "意氣風發：形容精神振奮，氣概豪邁。" },
+        { prev: "意氣風發", prompt: "請選出能接續「發」字的成語：", options: ["發憤圖強", "強詞奪理", "強顏歡笑", "圖文並茂"], ans: "發憤圖強", next: "強詞奪理", meaning: "發憤圖強：決心努力奮發，謀求強盛。" },
+        { prev: "風調雨順", prompt: "請選出能接續「順」字的成語：", options: ["順理成章", "章回小說", "成雙成對", "理直氣壯"], ans: "順理成章", next: "章句之徒", meaning: "順理成章：順著道理或事情發展的常軌而自然成功。" },
+        { prev: "欣欣向榮", prompt: "請選出能接續「榮」字的成語：", options: ["榮華富貴", "貴人多忘", "富甲一方", "花團錦簇"], ans: "榮華富貴", next: "貴不可言", meaning: "榮華富貴：形容興盛顯達、財富豐厚。" },
+        { prev: "腳踏實地", prompt: "請選出能接續「地」字的成語：", options: ["地靈人傑", "實至名歸", "傑出人才", "踏雪尋梅"], ans: "地靈人傑", next: "傑傲不馴", meaning: "地靈人傑：土地靈秀，人才輩出。" },
+        { prev: "自強不息", prompt: "請選出能接續「息」字的成語：", options: ["息息相關", "相映成趣", "關懷備至", "不勞而獲"], ans: "息息相關", next: "關門大吉", meaning: "息息相關：呼吸相通。比喻彼此關係非常密切。" },
+        { prev: "胸有成竹", prompt: "請選出能接續「竹」字的成語：", options: ["竹報平安", "成群結隊", "安居樂業", "馬到成功"], ans: "竹報平安", next: "安步當車", meaning: "竹報平安：比喻報送平安家信。" },
+        { prev: "聚沙成塔", prompt: "請選出能接續「塔」字的成語：", options: ["塔尖發光", "積少成多", "水到渠成", "眾志成城"], ans: "塔尖發光", next: "光彩奪目", meaning: "比喻積少成多，終能成就大事。" }
+    ],
+    riddle: [
+        { emoji: "🫕 🪓 🫗 舟", clue: "比喻下定決心，絕不後退，堅持到底誓死一戰。", options: ["破釜沉舟", "刻舟求劍", "同舟共濟", "順水推舟"], ans: "破釜沉舟", meaning: "打破煮飯的鍋子，鑿沉渡河的船隻。表示下定決心拼死一戰。" },
+        { emoji: "🐍 ➕ 🦶", clue: "比喻多此一舉，不但無益，反而把事情弄壞。", options: ["畫蛇添足", "杯弓蛇影", "打草驚蛇", "牛頭馬面"], ans: "畫蛇添足", meaning: "畫蛇時給它添上腳。比喻做多餘的事，反失本真。" },
+        { emoji: "🐦 🪨 🪨 🐦", clue: "比喻做一件事情，同時得到兩種收穫。", options: ["一舉兩得", "一石二鳥", "一箭雙鵰", "事半功倍"], ans: "一石二鳥", meaning: "用一顆石頭擊中兩隻鳥。比喻一舉兩得。" },
+        { emoji: "🙈 👂 🔔", clue: "比喻自己欺騙自己，以為自己聽不見別人就不知道。", options: ["掩耳盜鈴", "自欺欺人", "盲人摸象", "對牛彈琴"], ans: "掩耳盜鈴", meaning: "摀住自己的耳朵去偷鈴鐺。比喻自欺欺人。" },
+        { emoji: "🐂 🎶 🎵", clue: "比喻對不懂道理的人講高深的道理，徒勞無功。", options: ["對牛彈琴", "盲人摸象", "守株待兔", "九牛一毛"], ans: "對牛彈琴", meaning: "對著牛彈奏美妙琴聲，牛根本聽不懂。比喻說話不看對象。" },
+        { emoji: "🐸 🕳️ 🌊", clue: "比喻見識狹窄，目光短淺的人。", options: ["井底之蛙", "坐井觀天", "管中窺豹", "盲人摸象"], ans: "井底之蛙", meaning: "住在井底下的青蛙，以為天只有井口那麼大。" },
+        { emoji: "🪵 🐦 🐇", clue: "比喻妄想不勞而獲，或死守狹隘經驗不知變通。", options: ["守株待兔", "緣木求魚", "狡兔三窟", "順手牽羊"], ans: "守株待兔", meaning: "守在樹樁旁等著兔子撞死。比喻不知變通與僥倖心理。" },
+        { emoji: "👄 🍯 🗡️ 🖤", clue: "形容人外表和藹可親，話說得動聽，內心卻十分險惡。", options: ["口蜜腹劍", "笑裡藏刀", "表裡不一", "陽奉陰違"], ans: "口蜜腹劍", meaning: "嘴上甜如蜜，肚子裡卻藏著刀。形容為人陰險。" }
+    ]
+};
+
+let currentMode = 'fill';
+let currentList = [];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+
+function showMenu() {
+    document.getElementById('screen-menu').classList.remove('hidden');
+    document.getElementById('screen-quiz').classList.add('hidden');
+    document.getElementById('screen-result').classList.add('hidden');
+}
+
+function startQuiz(mode) {
+    currentMode = mode;
+    currentList = [...IDIOM_DATA[mode]].sort(() => Math.random() - 0.5);
+    currentIndex = 0;
+    score = 0;
+    
+    document.getElementById('screen-menu').classList.add('hidden');
+    document.getElementById('screen-quiz').classList.remove('hidden');
+    document.getElementById('screen-result').classList.add('hidden');
+    document.getElementById('q-total').textContent = currentList.length;
+    
+    loadQuestion();
+}
+
+function loadQuestion() {
+    answered = false;
+    document.getElementById('btn-next').classList.add('hidden');
+    document.getElementById('explanation-box').classList.remove('show');
+    document.getElementById('q-curr').textContent = currentIndex + 1;
+    document.getElementById('score-display').textContent = score;
+
+    const item = currentList[currentIndex];
+    const contentArea = document.getElementById('quiz-content-area');
+    const optionsContainer = document.getElementById('options-container');
+
+    if (currentMode === 'fill') {
+        let chars = item.idiom.split('');
+        let boxesHtml = chars.map((c, i) => {
+            if (i === item.blankIdx) return `<div class="char-box blank" id="blank-char">？</div>`;
+            return `<div class="char-box">${c}</div>`;
+        }).join('');
+
+        contentArea.innerHTML = `
+            <div class="idiom-display">${boxesHtml}</div>
+            <div class="hint-box">💡 <b>釋義線索：</b>${item.meaning}</div>
+        `;
+    } else if (currentMode === 'chain') {
+        contentArea.innerHTML = `
+            <div style="font-size:1.1rem; color:#78350F; margin-bottom:8px; font-weight:800;">上一句成語：</div>
+            <div class="idiom-display">
+                ${item.prev.split('').map((c, idx) => `<div class="char-box" style="${idx===3?'background:#FEF3C7;border-color:#D97706;':''}">${c}</div>`).join('')}
+            </div>
+            <div class="hint-box">🎯 <b>接龍要求：</b>${item.prompt}</div>
+        `;
+    } else if (currentMode === 'riddle') {
+        contentArea.innerHTML = `
+            <div style="font-size:3rem; margin:10px 0; letter-spacing:6px;">${item.emoji}</div>
+            <div class="hint-box">💡 <b>情境謎題線索：</b>${item.clue}</div>
+        `;
+    }
+
+    // 渲染選項按鈕
+    let shuffledOpts = [...item.options].sort(() => Math.random() - 0.5);
+    optionsContainer.innerHTML = shuffledOpts.map(opt => `
+        <button class="opt-btn" onclick="checkAnswer('${opt}', this)">${opt}</button>
+    `).join('');
+}
+
+function checkAnswer(selected, btn) {
+    if (answered) return;
+    answered = true;
+
+    const item = currentList[currentIndex];
+    const isRight = (selected === item.ans);
+    const expBox = document.getElementById('explanation-box');
+
+    if (isRight) {
+        playSound('correct');
+        score += 15;
+        btn.classList.add('correct');
+        if (currentMode === 'fill') {
+            const blankEl = document.getElementById('blank-char');
+            if (blankEl) { blankEl.textContent = item.ans; blankEl.classList.remove('blank'); }
+        }
+    } else {
+        playSound('wrong');
+        btn.classList.add('wrong');
+        // 標記正解按鈕
+        document.querySelectorAll('.opt-btn').forEach(b => {
+            if (b.textContent.trim() === item.ans) b.classList.add('correct');
+        });
+    }
+
+    document.getElementById('score-display').textContent = score;
+
+    // 顯示詳解面板
+    expBox.innerHTML = `
+        <div style="font-weight:bold; font-size:1rem; margin-bottom:4px; color:${isRight?'#065F46':'#991B1B'};">
+            ${isRight ? '✓ 太棒了！回答正確！' : '✕ 可惜答錯囉！標準答案為：' + item.ans}
+        </div>
+        <div>📖 <b>成語解析：</b>${item.meaning || ''}</div>
+        ${item.example ? `<div>✍️ <b>造句範例：</b>${item.example}</div>` : ''}
+    `;
+    expBox.classList.add('show');
+
+    document.getElementById('btn-next').classList.remove('hidden');
+}
+
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex >= currentList.length) {
+        showResult();
+    } else {
+        loadQuestion();
+    }
+}
+
+function showResult() {
+    document.getElementById('screen-quiz').classList.add('hidden');
+    document.getElementById('screen-result').classList.remove('hidden');
+    document.getElementById('final-score').textContent = score;
+
+    const maxScore = currentList.length * 15;
+    const correctCount = Math.round(score / 15);
+    document.getElementById('res-detail').textContent = `答對 ${correctCount} 題 / 共 ${currentList.length} 題`;
+
+    if (score >= maxScore * 0.8) {
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+        document.getElementById('res-icon').textContent = '👑';
+        document.getElementById('res-title').textContent = '成語博學大狀元！';
+        document.getElementById('res-subtitle').textContent = '你的成語儲備量太驚人了，恭喜獲得最高榮譽！';
+    } else {
+        document.getElementById('res-icon').textContent = '📜';
+        document.getElementById('res-title').textContent = '挑戰完成！';
+        document.getElementById('res-subtitle').textContent = '多加練習，成語造詣一定能更上一層樓！';
+    }
+}
+
+function restartQuiz() {
+    startQuiz(currentMode);
+}
+</script>
+</body>
+</html>

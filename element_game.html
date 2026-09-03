@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>元素週期表大探索 🧪 | 學習城堡自然科學</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --lab-dark: #0A192F;
+            --lab-card: rgba(16, 36, 64, 0.92);
+            --lab-border: rgba(45, 212, 191, 0.35);
+            --neon-green: #10B981;
+            --neon-teal: #2DD4BF;
+            --neon-cyan: #06B6D4;
+            --neon-gold: #FBBF24;
+            --text-light: #F1F5F9;
+            --shadow-glow: 0 0 25px rgba(45, 212, 191, 0.25);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans TC', sans-serif; }
+        
+        body {
+            background-color: var(--lab-dark);
+            background-image: 
+                radial-gradient(ellipse at 15% 15%, rgba(45, 212, 191, 0.15) 0%, transparent 45%),
+                radial-gradient(ellipse at 85% 85%, rgba(6, 182, 212, 0.15) 0%, transparent 45%),
+                linear-gradient(160deg, #050B14 0%, #0A192F 50%, #0F2847 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 16px 12px 60px;
+            color: var(--text-light);
+            user-select: none;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 720px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- 頂部導航列 --- */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            gap: 8px;
+        }
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid var(--neon-teal);
+            border-radius: 20px;
+            color: var(--neon-teal);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.15s ease;
+        }
+        .nav-btn:hover { background: rgba(45, 212, 191, 0.2); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(45,212,191,0.3); }
+        .nav-btn:active { transform: translateY(2px); }
+        .unit-badge {
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 6px 14px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #059669, #10B981);
+            color: #FFF;
+            box-shadow: 0 2px 8px rgba(16,185,129,0.3);
+        }
+
+        /* --- 主卡片 --- */
+        .card {
+            background: var(--lab-card);
+            border: 2px solid var(--lab-border);
+            border-radius: 26px;
+            padding: 24px 20px;
+            box-shadow: var(--shadow-glow);
+            text-align: center;
+            backdrop-filter: blur(16px);
+        }
+
+        .hero-icon { font-size: 4rem; margin-bottom: 8px; display: inline-block; animation: floatIcon 3s ease-in-out infinite; }
+        @keyframes floatIcon { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-8px) scale(1.05);} }
+
+        h1 {
+            font-family: 'Baloo 2', 'Noto Sans TC', sans-serif;
+            font-size: clamp(1.8rem, 4.5vw, 2.4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #A7F3D0 0%, #2DD4BF 50%, var(--neon-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
+        }
+        .sub-title { color: rgba(241, 245, 249, 0.7); font-size: 0.95rem; margin-bottom: 22px; }
+
+        /* 模式選擇卡片 */
+        .mode-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px; }
+        .mode-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(45, 212, 191, 0.3);
+            border-radius: 18px;
+            padding: 16px 18px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .mode-btn:hover {
+            border-color: var(--neon-teal);
+            background: rgba(45, 212, 191, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(45,212,191,0.25);
+        }
+        .mode-btn .m-emoji { font-size: 2.2rem; }
+        .mode-btn .m-title { font-size: 1.15rem; font-weight: 800; color: #A7F3D0; margin-bottom: 3px; }
+        .mode-btn .m-desc { font-size: 0.85rem; color: rgba(241,245,249,0.65); line-height: 1.4; }
+
+        /* --- 遊戲進行畫面 --- */
+        .hud-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+        .hud-stat { font-weight: 700; font-size: 0.95rem; color: rgba(255,255,255,0.8); }
+        .hud-score { color: var(--neon-gold); font-size: 1.25rem; font-family: 'Fredoka', sans-serif; font-weight: 800; }
+
+        /* 元素卡片大方塊 */
+        .element-card-display {
+            width: 140px;
+            height: 160px;
+            background: linear-gradient(145deg, rgba(16,185,129,0.2), rgba(6,182,212,0.1));
+            border: 3px solid var(--neon-teal);
+            border-radius: 20px;
+            margin: 16px auto 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(45,212,191,0.3);
+            position: relative;
+        }
+        .elem-atomic-num { position: absolute; top: 8px; left: 12px; font-family: 'Fredoka', sans-serif; font-size: 1.1rem; color: var(--neon-gold); }
+        .elem-symbol { font-family: 'Fredoka', 'Baloo 2', sans-serif; font-size: 3.2rem; font-weight: 800; color: #FFF; line-height: 1; }
+        .elem-name { font-size: 1.2rem; font-weight: 800; color: #A7F3D0; margin-top: 4px; }
+
+        .clue-box {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(45, 212, 191, 0.3);
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 1rem;
+            color: #E2E8F0;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        /* 選項按鈕格 */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .opt-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 14px 10px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #FFF;
+            cursor: pointer;
+            transition: all 0.15s;
+            touch-action: manipulation;
+        }
+        .opt-btn:hover { background: rgba(45, 212, 191, 0.2); border-color: var(--neon-teal); transform: translateY(-2px); }
+        .opt-btn:active { transform: translateY(2px); }
+        .opt-btn.correct { background: rgba(16, 185, 129, 0.4) !important; border-color: #10B981 !important; color: #6EE7B7 !important; box-shadow: 0 0 15px rgba(16,185,129,0.5) !important; }
+        .opt-btn.wrong { background: rgba(239, 68, 68, 0.4) !important; border-color: #EF4444 !important; color: #FCA5A5 !important; }
+
+        /* 詳解面板 */
+        .explanation-card {
+            display: none;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid var(--neon-teal);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-top: 14px;
+            text-align: left;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #E2E8F0;
+        }
+        .explanation-card.show { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+
+        /* 互動元素週期圖鑑清單 */
+        .pt-table-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding: 4px;
+            margin-bottom: 16px;
+        }
+        .pt-card-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1.5px solid rgba(45, 212, 191, 0.25);
+            border-radius: 14px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pt-card-item:hover { background: rgba(45, 212, 191, 0.2); border-color: var(--neon-teal); transform: scale(1.03); }
+
+        .btn-action {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #FFF;
+            background: linear-gradient(135deg, #10B981, #0D9488);
+            cursor: pointer;
+            box-shadow: 0 4px 0 #065F46;
+            transition: all 0.15s;
+        }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #065F46; }
+        .btn-action:active { transform: translateY(2px); box-shadow: 0 1px 0 #065F46; }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- 頂部導航列 -->
+    <div class="top-bar">
+        <a href="portal.html" class="nav-btn">
+            <span>🏰</span>
+            <span>返回學習城堡</span>
+        </a>
+        <span class="unit-badge">🧪 自然科學・化學元素</span>
+    </div>
+
+    <!-- 主卡片容器 -->
+    <div class="card">
+        
+        <!-- 1. 主選單 -->
+        <div id="screen-menu">
+            <span class="hero-icon">🔬</span>
+            <h1>元素週期表大探索</h1>
+            <p class="sub-title">解開大自然的物質密碼 ｜ 掌握化學元素符號與生活妙用！</p>
+
+            <div class="mode-grid">
+                <button class="mode-btn" onclick="startQuiz('symbol')">
+                    <span class="m-emoji">⚡</span>
+                    <div>
+                        <div class="m-title">模式一：元素符號快問快答</div>
+                        <div class="m-desc">看元素符號選中文名稱，或看中文選符號，訓練極速反應力！</div>
+                    </div>
+                </button>
+                <button class="mode-btn" onclick="startQuiz('life')">
+                    <span class="m-emoji">💡</span>
+                    <div>
+                        <div class="m-title">模式二：生活化學在哪裡？</div>
+                        <div class="m-desc">易開罐、骨骼健康、泳池消毒...找出生活應用背後的關鍵元素！</div>
+                    </div>
+                </button>
+                <button class="mode-btn" onclick="showPeriodicTable()">
+                    <span class="m-emoji">📖</span>
+                    <div>
+                        <div class="m-title">模式三：常用元素圖鑑總覽</div>
+                        <div class="m-desc">探索前 20 號常見化學元素科普，包含符號、原子序與生活故事。</div>
+                    </div>
+                </button>
+            </div>
+            
+            <div style="font-size:0.8rem; color:rgba(255,255,255,0.5);">📱 支援 iPad / 平板、手機與電腦 ｜ 專為觸控操作最佳化</div>
+        </div>
+
+        <!-- 2. 測驗進行畫面 -->
+        <div id="screen-quiz" class="hidden">
+            <div class="hud-bar">
+                <div class="hud-stat">第 <span id="q-curr">1</span> / <span id="q-total">8</span> 題</div>
+                <div class="hud-stat">⭐ 得分：<span class="hud-score" id="score-display">0</span></div>
+            </div>
+
+            <div id="quiz-content-area"></div>
+
+            <div class="options-grid" id="options-container"></div>
+
+            <div class="explanation-card" id="explanation-box"></div>
+
+            <button class="btn-action hidden" id="btn-next" onclick="nextQuestion()" style="margin-top:14px;">下一題 ➜</button>
+        </div>
+
+        <!-- 3. 元素圖鑑瀏覽 -->
+        <div id="screen-table" class="hidden">
+            <h2 style="color:#A7F3D0; font-size:1.4rem; margin-bottom:12px;">🧪 國中小必學常用元素圖鑑</h2>
+            <div class="pt-table-grid" id="pt-grid-container"></div>
+            <button class="btn-action" onclick="showMenu()" style="margin-top:10px;">📋 返回選單</button>
+        </div>
+
+        <!-- 4. 結算畫面 -->
+        <div id="screen-result" class="hidden">
+            <span class="hero-icon" id="res-icon">🏆</span>
+            <h1 id="res-title">實驗大成功！</h1>
+            <p class="sub-title" id="res-subtitle">你是名副其實的未來小小化學家！</p>
+            
+            <div style="background:rgba(0,0,0,0.3); border:2px solid var(--neon-teal); border-radius:18px; padding:20px; margin:16px 0;">
+                <div>本次探索得分</div>
+                <div style="font-size:3.5rem; font-weight:900; color:var(--neon-gold); font-family:'Fredoka',sans-serif;" id="final-score">100</div>
+                <div id="res-detail" style="font-size:0.95rem; color:rgba(255,255,255,0.7); margin-top:6px;">答對 8 題 / 共 8 題</div>
+            </div>
+
+            <div style="display:flex; gap:10px;">
+                <button class="btn-action" style="background:#475569; box-shadow:0 4px 0 #1E293B;" onclick="showMenu()">📋 回選單</button>
+                <button class="btn-action" onclick="restartQuiz()">🔄 再玩一次</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+// 音效合成引擎
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playSound(type) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    const now = audioCtx.currentTime;
+    if (type === 'correct') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(587.33, now);
+        osc.frequency.setValueAtTime(880, now + 0.12);
+        gainNode.gain.setValueAtTime(0.25, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+        osc.start(now); osc.stop(now + 0.4);
+    } else if (type === 'wrong') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(240, now);
+        osc.frequency.setValueAtTime(160, now + 0.15);
+        gainNode.gain.setValueAtTime(0.25, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+        osc.start(now); osc.stop(now + 0.35);
+    }
+}
+
+// 元素資料庫
+const ELEMENTS_DB = [
+    { num: 1, sym: "H", name: "氫 (Hydrogen)", zh: "氫", desc: "宇宙中最豐富且最輕的元素，太陽燃燒的核燃料，未來清潔氫能源核心。" },
+    { num: 2, sym: "He", name: "氦 (Helium)", zh: "氦", desc: "不可燃的惰性氣體，比空氣輕，常用於灌充空飄氣球與潛水呼吸氣體。" },
+    { num: 6, sym: "C", name: "碳 (Carbon)", zh: "碳", desc: "生命的核心基礎元素，石墨、鑽石都是由碳原子組成，也是有機化學主角。" },
+    { num: 7, sym: "N", name: "氮 (Nitrogen)", zh: "氮", desc: "佔地球大氣體積約 78%，液態氮常用於超低溫冷凍，是植物生長必需肥料。" },
+    { num: 8, sym: "O", name: "氧 (Oxygen)", zh: "氧", desc: "人類與多數生物呼吸必需氣體，也是燃燒時的重要助燃劑，佔空氣約 21%。" },
+    { num: 10, sym: "Ne", name: "氖 (Neon)", zh: "氖", desc: "通電後會發出明亮紅橙色光芒，常用於製作夜市與街道上炫麗的霓虹燈。" },
+    { num: 11, sym: "Na", name: "鈉 (Sodium)", zh: "鈉", desc: "活潑金屬，與氯結合形成食鹽 (NaCl)；體內神經傳導與水份平衡關鍵。" },
+    { num: 12, sym: "Mg", name: "鎂 (Magnesium)", zh: "鎂", desc: "輕金屬，燃燒時會發出耀眼白光，常用於煙火、照明彈與植物葉綠素核心。" },
+    { num: 13, sym: "Al", name: "鋁 (Aluminium)", zh: "鋁", desc: "質輕且不易生鏽，廣泛用於製造飲料易開罐、廚房鋁箔紙與飛機機身。" },
+    { num: 14, sym: "Si", name: "矽 (Silicon)", zh: "矽", desc: "地殼中第二多的元素，半導體晶圓與電腦晶片、太陽能板核心材料。" },
+    { num: 15, sym: "P", name: "磷 (Phosphorus)", zh: "磷", desc: "人體骨骼與 DNA 重要成分，紅磷常用於火柴側邊的摩擦引火面。" },
+    { num: 16, sym: "S", name: "硫 (Sulfur)", zh: "硫", desc: "黃色晶體，火山噴發常見，具特殊氣味，用於製造橡膠輪胎、火藥與硫酸。" },
+    { num: 17, sym: "Cl", name: "氯 (Chlorine)", zh: "氯", desc: "黃綠色氣體，具強氧化力，常用於自來水淨化、游泳池消毒殺菌。" },
+    { num: 18, sym: "Ar", name: "氬 (Argon)", zh: "氬", desc: "空氣中含量最多的稀有氣體，常用作白熾燈泡與金屬焊接時的保護氣體。" },
+    { num: 19, sym: "K", name: "鉀 (Potassium)", zh: "鉀", desc: "香蕉中富含的礦物質元素，維持心臟跳動與神經肌肉正常運作。" },
+    { num: 20, sym: "Ca", name: "鈣 (Calcium)", zh: "鈣", desc: "構成人類骨骼與牙齒的最重要金屬元素，牛奶與小魚乾中含量豐富。" },
+    { num: 26, sym: "Fe", name: "鐵 (Iron)", zh: "鐵", desc: "應用最廣的金屬，人體血液中血紅素核心成分，負責攜帶氧氣到全身。" },
+    { num: 29, sym: "Cu", name: "銅 (Copper)", zh: "銅", desc: "優良導電與導熱金屬，電線、電纜、水管與青銅雕像主要材料。" },
+    { num: 30, sym: "Zn", name: "鋅 (Zinc)", zh: "鋅", desc: "常用於鍍在鐵皮上防鏽（鍍鋅鋼板），人體免疫力與生長發育重要微量元素。" },
+    { num: 79, sym: "Au", name: "金 (Gold)", zh: "金", desc: "化學性質極為穩定不易氧化，閃耀黃金色澤，常用作貴金屬首飾與高階電路接點。" }
+];
+
+// 生活應用題庫
+const LIFE_QUESTIONS = [
+    { clue: "廚房用來包裹食物烤肉的「錫箔紙」，其實大部分都是用哪種金屬元素製成的？", ans: "鋁 (Al)", options: ["鋁 (Al)", "鐵 (Fe)", "金 (Au)", "銅 (Cu)"], explanation: "現代烤肉鋁箔紙是用延展性極佳且質輕的「鋁 (Al)」壓延而成。" },
+    { clue: "小朋友多喝牛奶、吃起司可以補充哪種元素，幫助牙齒與骨骼發育堅固？", ans: "鈣 (Ca)", options: ["鈣 (Ca)", "鈉 (Na)", "氦 (He)", "矽 (Si)"], explanation: "鈣 (Ca) 是人體骨骼與牙齒的主要組成成分。" },
+    { clue: "游泳池通常會添加哪種物質來進行自來水消毒、殺菌防止綠藻生長？", ans: "氯 (Cl)", options: ["氯 (Cl)", "氫 (H)", "氖 (Ne)", "碳 (C)"], explanation: "氯 (Cl) 具有極強的氧化殺菌能力，廣泛用於公共自來水與泳池消毒。" },
+    { clue: "科技業製造電腦 CPU 晶片、台積電晶圓代工最核心的半導體材料是什麼？", ans: "矽 (Si)", options: ["矽 (Si)", "鎂 (Mg)", "硫 (S)", "鉀 (K)"], explanation: "矽 (Si) 是純度極高的半導體晶圓主要成分，現代科技電子產業心臟。" },
+    { clue: "遊樂園中讓氣球可以飄在空中、且不會像氫氣一樣爆炸燃燒的安全氣體是？", ans: "氦 (He)", options: ["氦 (He)", "氧 (O)", "氮 (N)", "氯 (Cl)"], explanation: "氦 (He) 是不可燃的惰性氣體，密度比空氣小，是安全的空飄氣球填充氣體。" },
+    { clue: "血液中紅血球之所以呈現紅色，是因為血紅素中含有哪一種負責攜帶氧氣的金屬元素？", ans: "鐵 (Fe)", options: ["鐵 (Fe)", "銅 (Cu)", "鋅 (Zn)", "金 (Au)"], explanation: "鐵 (Fe) 是人體合成血紅素的關鍵微量元素，缺鐵容易導致貧血。" },
+    { clue: "街道上五彩繽紛、通電後會發出鮮豔光芒的「霓虹燈」，最初填充的是什麼氣體？", ans: "氖 (Ne)", options: ["氖 (Ne)", "氧 (O)", "氫 (H)", "氦 (He)"], explanation: "氖 (Neon) 通電後能放射出明亮澄紅色光，英文 Neon 即為「霓虹」的由來。" },
+    { clue: "我們每天煮菜吃飯調味必需的「食鹽 (NaCl)」，是由氯和哪種元素組成的？", ans: "鈉 (Na)", options: ["鈉 (Na)", "鉀 (K)", "鈣 (Ca)", "鎂 (Mg)"], explanation: "食鹽的化學式是氯化鈉 (NaCl)，由氯離子與鈉離子結合而成。" }
+];
+
+let currentMode = 'symbol';
+let currentList = [];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+
+function showMenu() {
+    document.getElementById('screen-menu').classList.remove('hidden');
+    document.getElementById('screen-quiz').classList.add('hidden');
+    document.getElementById('screen-table').classList.add('hidden');
+    document.getElementById('screen-result').classList.add('hidden');
+}
+
+function showPeriodicTable() {
+    document.getElementById('screen-menu').classList.add('hidden');
+    document.getElementById('screen-table').classList.remove('hidden');
+    
+    const container = document.getElementById('pt-grid-container');
+    container.innerHTML = ELEMENTS_DB.map(el => `
+        <div class="pt-card-item" onclick="alert('⚛️ 元素詳情：\\n\\n【${el.num}】${el.name}\\n符號：${el.sym}\\n\\n📖 科普用途：\\n${el.desc}')">
+            <div style="font-size:0.8rem; color:var(--neon-gold);">${el.num}</div>
+            <div style="font-size:1.8rem; font-weight:800; color:#FFF; font-family:'Fredoka';">${el.sym}</div>
+            <div style="font-size:1rem; font-weight:700; color:#A7F3D0;">${el.zh}</div>
+        </div>
+    `).join('');
+}
+
+function startQuiz(mode) {
+    currentMode = mode;
+    if (mode === 'symbol') {
+        currentList = ELEMENTS_DB.map(el => {
+            const isSymToName = Math.random() > 0.5;
+            const otherNames = ELEMENTS_DB.filter(x => x.sym !== el.sym).sort(() => Math.random() - 0.5).slice(0, 3);
+            if (isSymToName) {
+                return {
+                    atomicNum: el.num,
+                    sym: el.sym,
+                    zh: el.zh,
+                    title: `元素符號「<b>${el.sym}</b>」對應的中文名稱是？`,
+                    ans: el.zh,
+                    options: [el.zh, ...otherNames.map(o => o.zh)],
+                    explanation: `${el.name}（原子序 ${el.num}）：${el.desc}`
+                };
+            } else {
+                return {
+                    atomicNum: el.num,
+                    sym: el.sym,
+                    zh: el.zh,
+                    title: `化學元素「<b>${el.zh}</b>」的英文元素符號是？`,
+                    ans: el.sym,
+                    options: [el.sym, ...otherNames.map(o => o.sym)],
+                    explanation: `${el.name} 的符號為 ${el.sym}。${el.desc}`
+                };
+            }
+        }).sort(() => Math.random() - 0.5).slice(0, 8);
+    } else {
+        currentList = [...LIFE_QUESTIONS].sort(() => Math.random() - 0.5);
+    }
+
+    currentIndex = 0;
+    score = 0;
+    
+    document.getElementById('screen-menu').classList.add('hidden');
+    document.getElementById('screen-table').classList.add('hidden');
+    document.getElementById('screen-quiz').classList.remove('hidden');
+    document.getElementById('screen-result').classList.add('hidden');
+    document.getElementById('q-total').textContent = currentList.length;
+    
+    loadQuestion();
+}
+
+function loadQuestion() {
+    answered = false;
+    document.getElementById('btn-next').classList.add('hidden');
+    document.getElementById('explanation-box').classList.remove('show');
+    document.getElementById('q-curr').textContent = currentIndex + 1;
+    document.getElementById('score-display').textContent = score;
+
+    const item = currentList[currentIndex];
+    const contentArea = document.getElementById('quiz-content-area');
+    const optionsContainer = document.getElementById('options-container');
+
+    if (currentMode === 'symbol') {
+        contentArea.innerHTML = `
+            <div class="element-card-display">
+                <span class="elem-atomic-num">${item.atomicNum}</span>
+                <span class="elem-symbol">${item.sym}</span>
+                <span class="elem-name">${item.zh}</span>
+            </div>
+            <div class="clue-box">❓ ${item.title}</div>
+        `;
+    } else {
+        contentArea.innerHTML = `
+            <div style="font-size:3.5rem; margin:10px 0;">🔬 🌍 💡</div>
+            <div class="clue-box">❓ <b>生活科學挑戰：</b><br>${item.clue}</div>
+        `;
+    }
+
+    let shuffledOpts = [...item.options].sort(() => Math.random() - 0.5);
+    optionsContainer.innerHTML = shuffledOpts.map(opt => `
+        <button class="opt-btn" onclick="checkAnswer('${opt}', this)">${opt}</button>
+    `).join('');
+}
+
+function checkAnswer(selected, btn) {
+    if (answered) return;
+    answered = true;
+
+    const item = currentList[currentIndex];
+    const isRight = (selected === item.ans);
+    const expBox = document.getElementById('explanation-box');
+
+    if (isRight) {
+        playSound('correct');
+        score += 15;
+        btn.classList.add('correct');
+    } else {
+        playSound('wrong');
+        btn.classList.add('wrong');
+        document.querySelectorAll('.opt-btn').forEach(b => {
+            if (b.textContent.trim() === item.ans) b.classList.add('correct');
+        });
+    }
+
+    document.getElementById('score-display').textContent = score;
+
+    expBox.innerHTML = `
+        <div style="font-weight:bold; font-size:1rem; margin-bottom:4px; color:${isRight?'#6EE7B7':'#FCA5A5'};">
+            ${isRight ? '✓ 恭喜答對！精準掌握化學知識！' : '✕ 答錯囉！標準答案為：' + item.ans}
+        </div>
+        <div>💡 <b>元素科普解析：</b>${item.explanation || ''}</div>
+    `;
+    expBox.classList.add('show');
+
+    document.getElementById('btn-next').classList.remove('hidden');
+}
+
+function nextQuestion() {
+    currentIndex++;
+    if (currentIndex >= currentList.length) {
+        showResult();
+    } else {
+        loadQuestion();
+    }
+}
+
+function showResult() {
+    document.getElementById('screen-quiz').classList.add('hidden');
+    document.getElementById('screen-result').classList.remove('hidden');
+    document.getElementById('final-score').textContent = score;
+
+    const maxScore = currentList.length * 15;
+    const correctCount = Math.round(score / 15);
+    document.getElementById('res-detail').textContent = `答對 ${correctCount} 題 / 共 ${currentList.length} 題`;
+
+    if (score >= maxScore * 0.8) {
+        confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+        document.getElementById('res-icon').textContent = '🌟';
+        document.getElementById('res-title').textContent = '化學元素探索大師！';
+        document.getElementById('res-subtitle').textContent = '你對化學元素與生活科學的掌握太出色了！';
+    } else {
+        document.getElementById('res-icon').textContent = '🧪';
+        document.getElementById('res-title').textContent = '實驗探索完成！';
+        document.getElementById('res-subtitle').textContent = '點擊圖鑑多複習，下次一定能拿滿分！';
+    }
+}
+
+function restartQuiz() {
+    startQuiz(currentMode);
+}
+</script>
+</body>
+</html>
