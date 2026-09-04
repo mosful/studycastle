@@ -15,7 +15,7 @@ with open("c:/Code/StudyCastle/math3_workbook_u1_u4.json", "r", encoding="utf-8"
 
 # 共用 CSS
 WB_CSS = """
-<!-- 南一作業簿隨堂測驗樣式 -->
+<!-- 作業簿隨堂測驗樣式 -->
 <style>
 .wb-modal-overlay {
   display: none;
@@ -325,11 +325,11 @@ def generate_wb_modal(unit_data, unit_code):
         tabs_html += f'<button class="wb-tab {active_cls}" data-rev="{rev["review_id"]}" onclick="switchWbRev({rev["review_id"]})">第 {rev["review_id"]} 回 ({rev["range"]})</button>\n'
 
     return f"""
-<!-- 南一作業簿隨堂測驗 Modal -->
+<!-- 作業簿隨堂測驗 Modal -->
 <div class="wb-modal-overlay" id="wbModalOverlay">
   <div class="wb-modal-content">
     <div class="wb-header">
-      <div class="wb-title">📑 南一 3上數學 作業簿隨堂測驗（第 {unit_data['unit_id']} 單元・{unit_data['title']}）</div>
+      <div class="wb-title">📑 3上數學 作業簿隨堂測驗（第 {unit_data['unit_id']} 單元・{unit_data['title']}）</div>
       <button class="wb-close-btn" onclick="closeWbModal()">✕</button>
     </div>
     <div class="wb-tabs" id="wbTabs">
@@ -389,7 +389,7 @@ for cfg in TARGET_CONFIGS:
     if "openWbModal()" not in html:
         btn_html = f'''<button class="nav-btn" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border-color:rgba(255,255,255,0.4);" onclick="openWbModal()">
         <span>📑</span>
-        <span>南一作業簿隨堂考 ({rev_desc})</span>
+        <span>作業簿隨堂考 ({rev_desc})</span>
       </button>'''
         # 替換 top-bar 內部
         pattern = r'(<div class="top-bar">[\s\S]*?<a href="portal\.html"[^>]*>.*?</a>)'

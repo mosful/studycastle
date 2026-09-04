@@ -38,7 +38,7 @@ for line in lines:
         if '</select>' in line:
             skip_old_options = False
             out.append(line)
-    elif '康軒 6上國語自修 (P.1~114)' in line:
+    elif '6上國語自修 (P.1~114)' in line:
         out.append(line.replace('(P.1~114)', '(全冊第1~12課)'))
     elif '完整涵蓋第一單元（第一~三課）與第二單元（第四~六課）' in line:
         out.append('        <p class="sub-title">完整涵蓋全學期四大單元（第一至十二課全部課次）<br>提供課前預習、課後複習、生字成語圖鑑、修辭解析與全真段考題庫闖關！</p>\n')

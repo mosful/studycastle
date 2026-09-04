@@ -20,7 +20,7 @@ if "openWbModal()" not in prime_content:
     top_bar_repl = '''<div style="display: flex; gap: 8px; align-items: center;">
       <button class="nav-btn" style="background:linear-gradient(135deg,#FF6B5B,#FF8E53);color:#fff;border-color:#fff;" onclick="openWbModal()">
         <span>📑</span>
-        <span>南一作業簿隨堂考 (第1~3回)</span>
+        <span>作業簿隨堂考 (第1~3回)</span>
       </button>'''
     prime_content = prime_content.replace(top_bar_target, top_bar_repl, 1)
 
@@ -28,11 +28,11 @@ if "openWbModal()" not in prime_content:
 u1_data_js = json.dumps(ALL_WB["unit1"], ensure_ascii=False)
 
 wb_prime_addon = f'''
-<!-- 南一作業簿隨堂測驗 Modal -->
+<!-- 作業簿隨堂測驗 Modal -->
 <div class="wb-modal-overlay" id="wbModalOverlay">
   <div class="wb-modal-content">
     <div class="wb-header">
-      <div class="wb-title">📑 南一 6上數學 作業簿隨堂測驗（第 1 單元）</div>
+      <div class="wb-title">📑 6上數學 作業簿隨堂測驗（第 1 單元）</div>
       <button class="wb-close-btn" onclick="closeWbModal()">✕</button>
     </div>
     <div class="wb-tabs" id="wbTabs">
@@ -278,7 +278,7 @@ function gradeWbQuiz() {{
   if (score >= 80 && window.confetti) {{
     confetti({{ particleCount: 100, spread: 70, origin: {{ y: 0.6 }} }});
   }}
-  alert(`🎉 隨堂測驗批改完成！\\n\\n得分：${{score}} 分\\n所有題目的南一教用版詳解與短除法步驟已在下方完整顯示！✨`);
+  alert(`🎉 隨堂測驗批改完成！\\n\\n得分：${{score}} 分\\n所有題目的詳解與短除法步驟已在下方完整顯示！✨`);
 }}
 
 function resetWbQuiz() {{
@@ -310,16 +310,16 @@ if "openFracWbModal()" not in frac_content:
     frac_top_repl = '''<div class="hdr-left">
       <button class="back-btn" style="background:linear-gradient(135deg,#E63946,#F4A261);color:#fff;" onclick="openFracWbModal()">
         <span>📑</span>
-        <span>南一作業簿隨堂考 (第4~6回)</span>
+        <span>作業簿隨堂考 (第4~6回)</span>
       </button>'''
     frac_content = frac_content.replace(frac_top_target, frac_top_repl, 1)
 
 wb_frac_addon = f'''
-<!-- 南一作業簿隨堂測驗 Modal (分數除法) -->
+<!-- 作業簿隨堂測驗 Modal (分數除法) -->
 <div class="wb-modal-overlay" id="fracWbModalOverlay">
   <div class="wb-modal-content" style="border-color:#E63946;">
     <div class="wb-header">
-      <div class="wb-title" style="color:#C1440E;">📑 南一 6上數學 作業簿隨堂測驗（第 2 單元 分數除法）</div>
+      <div class="wb-title" style="color:#C1440E;">📑 6上數學 作業簿隨堂測驗（第 2 單元 分數除法）</div>
       <button class="wb-close-btn" onclick="closeFracWbModal()">✕</button>
     </div>
     <div class="wb-tabs">
@@ -507,7 +507,7 @@ function gradeFracWbQuiz() {{
   if (score >= 80 && window.confetti) {{
     confetti({{ particleCount: 100, spread: 70, origin: {{ y: 0.6 }} }});
   }}
-  alert(`🎉 隨堂測驗批改完成！\\n\\n得分：${{score}} 分\\n所有題目的南一教用版標準解答、約分與直式算式已完整展示！✨`);
+  alert(`🎉 隨堂測驗批改完成！\\n\\n得分：${{score}} 分\\n所有題目的標準解答、約分與直式算式已完整展示！✨`);
 }}
 
 function resetFracWbQuiz() {{
@@ -538,16 +538,16 @@ if "openDecWbModal()" not in dec_content:
     dec_top_repl = '''<div class="hdr-left">
       <button class="back-btn" style="background:linear-gradient(135deg,#7209B7,#3A0CA3);color:#fff;border-color:#4CC9F0;" onclick="openDecWbModal()">
         <span>📑</span>
-        <span>南一作業簿隨堂考 (第7~9回)</span>
+        <span>作業簿隨堂考 (第7~9回)</span>
       </button>'''
     dec_content = dec_content.replace(dec_top_target, dec_top_repl, 1)
 
 wb_dec_addon = f'''
-<!-- 南一作業簿隨堂測驗 Modal (小數除法) -->
+<!-- 作業簿隨堂測驗 Modal (小數除法) -->
 <div class="wb-modal-overlay" id="decWbModalOverlay">
   <div class="wb-modal-content" style="background:#0F0E17; border-color:#4CC9F0; color:#FFF;">
     <div class="wb-header" style="border-color:rgba(76,201,240,0.3);">
-      <div class="wb-title" style="color:#4CC9F0;">📑 南一 6上數學 作業簿隨堂測驗（第 3 單元 小數除法）</div>
+      <div class="wb-title" style="color:#4CC9F0;">📑 6上數學 作業簿隨堂測驗（第 3 單元 小數除法）</div>
       <button class="wb-close-btn" style="background:#1A1830; color:#FFF; border-color:#4CC9F0;" onclick="closeDecWbModal()">✕</button>
     </div>
     <div class="wb-tabs">
@@ -734,7 +734,7 @@ function gradeDecWbQuiz() {{
   if (score >= 80 && window.confetti) {{
     confetti({{ particleCount: 100, spread: 70, origin: {{ y: 0.6 }} }});
   }}
-  alert(`🎉 隨堂測驗批改完成！\\n\\n得分：${{score}} 分\\n所有題目的南一教用版直式計算、四捨五入過程與標準解答已展開顯示！✨`);
+  alert(`🎉 隨堂測驗批改完成！\\n\\n得分：${{score}} 分\\n所有題目的直式計算、四捨五入過程與標準解答已展開顯示！✨`);
 }}
 
 function resetDecWbQuiz() {{
