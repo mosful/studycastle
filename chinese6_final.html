@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>6上國語期末大考全真模擬與學力檢測 | 學習城堡</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --primary: #0D9488;
+            --primary-dark: #0F766E;
+            --primary-light: #CCFBF1;
+            --secondary: #0284C7;
+            --accent-amber: #D97706;
+            --accent-rose: #E11D48;
+            --bg-color: #F0FDFA;
+            --card-bg: #FFFFFF;
+            --text-main: #134E4A;
+            --text-muted: #64748B;
+            --border-color: #99F6E4;
+            --shadow-card: 0 10px 25px -5px rgba(13, 148, 136, 0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans TC', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(13, 148, 136, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(2, 132, 199, 0.08) 0%, transparent 40%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 16px 12px 60px;
+            color: var(--text-main);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 860px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            background: #FFF;
+            border: 2px solid var(--primary);
+            border-radius: 25px;
+            color: var(--primary-dark);
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            color: #FFF;
+            transform: translateY(-2px);
+        }
+
+        .hero-banner {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: center;
+            border: 3px solid var(--primary);
+            box-shadow: var(--shadow-card);
+        }
+
+        .hero-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(1.8rem, 4vw, 2.3rem);
+            color: var(--primary-dark);
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+
+        .hero-sub {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .exam-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .exam-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px dashed var(--border-color);
+        }
+
+        .exam-stat {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .score-val {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent-amber);
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .q-box {
+            background: #F0FDFA;
+            border-left: 6px solid var(--primary);
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 18px;
+        }
+
+        .q-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #FFF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .q-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            line-height: 1.6;
+            color: #134E4A;
+        }
+
+        .opt-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .opt-btn {
+            width: 100%;
+            padding: 14px 18px;
+            background: #FFF;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #134E4A;
+            text-align: left;
+            cursor: pointer;
+            line-height: 1.5;
+        }
+
+        .opt-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateX(4px);
+        }
+
+        .opt-btn.correct {
+            background: #ECFDF5 !important;
+            border-color: #059669 !important;
+            color: #065F46 !important;
+            font-weight: 800;
+        }
+
+        .opt-btn.wrong {
+            background: #FEF2F2 !important;
+            border-color: var(--accent-rose) !important;
+            color: #991B1B !important;
+            font-weight: 800;
+        }
+
+        .fb-box {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 12px;
+            display: none;
+            line-height: 1.6;
+        }
+
+        .fb-box.correct { background: #ECFDF5; border: 2px solid #059669; color: #065F46; display: block; }
+        .fb-box.wrong { background: #FEF2F2; border: 2px solid var(--accent-rose); color: #991B1B; display: block; }
+
+        .next-btn {
+            margin-top: 16px;
+            padding: 12px 28px;
+            background: var(--primary);
+            color: #FFF;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            float: right;
+            display: none;
+        }
+
+        .next-btn:hover { background: var(--primary-dark); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="top-bar">
+            <div style="display: flex; gap: 8px;">
+                <a href="index.html" class="nav-btn">🏠 返回主頁</a>
+                <a href="chinese6_curriculum.html" class="nav-btn">📖 6上國語全冊總覽</a>
+            </div>
+            <span style="background: var(--primary); color: #FFF; padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size: 0.85rem;">期末與全冊學力挑戰</span>
+        </div>
+
+        <div class="hero-banner">
+            <h1 class="hero-title">🎯 6上國語期末大考全真模擬</h1>
+            <p class="hero-sub">精選康軒新挑戰測驗卷第二十～二十四回（期末二次成績考查②、三次成績考查③與全真學力測驗卷）高鑑別度試題</p>
+        </div>
+
+        <div class="exam-card">
+            <div class="exam-hud">
+                <span class="exam-stat" id="qProgress">進度：第 1 / 10 題</span>
+                <span class="exam-stat">總分：<span class="score-val" id="totalScore">0</span> 分</span>
+            </div>
+
+            <div class="q-box">
+                <span class="q-badge" id="qCategory">全真素養題</span>
+                <div class="q-title" id="qContent">正在載入試題...</div>
+            </div>
+
+            <div class="opt-list" id="optContainer"></div>
+            <div class="fb-box" id="feedbackArea"></div>
+            <button class="next-btn" id="nextActionBtn" onclick="nextQuestion()">下一題 ➔</button>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+
+    <script>
+        const examQuestions = [
+            {
+                type: "學力測驗·字音字形",
+                q: "「媽媽買回新鮮的鳳梨，接著就在廚房裡『削』皮『切』塊，準備熬煮甜湯。」句子中「削」與「切」的讀音依序為何？",
+                options: ["ㄒㄧㄠ ／ ㄑㄧㄝ", "ㄒㄩㄝˋ ／ ㄑㄧㄝˋ", "ㄒㄧㄠ ／ ㄑㄧㄝˋ", "ㄒㄩㄝˋ ／ ㄑㄧㄝ"],
+                ans: "A",
+                steps: "削皮、削蘋果讀口語音 ㄒㄧㄠ；切塊、切片讀 ㄑㄧㄝ（一切、切磋讀四聲ㄑㄧㄝˋ）。"
+            },
+            {
+                type: "改錯字·期末考查",
+                q: "下列文句中，何者「完全沒有」任何錯別字？",
+                options: [
+                    "孔明憑欄焚香操琴，神情自若，笑容可鞠。",
+                    "寒冬臘月物資極度匱乏，鄰里間彼此雪中送炭令人感佩。",
+                    "他喝得茗町大醉，步履盤跚倒在路旁。",
+                    "夕陽殘照下，村落漸漸被深沉的暮隘所吞沒。"
+                ],
+                "ans": "B",
+                "steps": "A. 笑容可「掬」；C. 應為「酩酊大醉」、「步履蹣跚」；D. 應為「暮靄」。B項全對。"
+            },
+            {
+                type: "文言寓言與成語理解",
+                q: "依據《戰國策》中的文言寓言，下列哪一個成語的寓意是用來勸戒人們「不要多此一舉，否則反倒壞了原本的成果」？",
+                "options": ["狐假虎威", "畫蛇添足", "鷸蚌相爭", "守株待兔"],
+                "ans": "B",
+                "steps": "《畫蛇添足》中一人先畫好蛇卻硬要替蛇畫腳，最終失去美酒，比喻多此一舉反遭失敗。"
+            },
+            {
+                type: "空城計·心理戰術分析",
+                q: "在《空城計》中，司馬懿大軍來到城下，看見孔明憑欄撫琴、笑容可掬，卻立即下令急速撤軍，根本原因在於：",
+                "options": [
+                    "司馬懿看見城內旌旗蔽日、伏兵四起",
+                    "司馬懿深知孔明一生平生謹慎、絕不弄險，疑心城內有重兵埋伏",
+                    "曹魏陣營突然糧草起火，不得不回師救援",
+                    "司馬懿因舟車勞頓而突然劇烈頭痛"
+                ],
+                "ans": "B",
+                "steps": "孔明善用司馬懿多疑、謹慎的心理弱點，以空城反制，正是「知己知彼」的最高境界。"
+            },
+            {
+                type: "經典散文·象徵手法",
+                q: "在散文《橘子》一文中，作者以金黃鮮亮的「橘子」劃破陰霾暮色拋向車窗外，其主要象徵意涵為：",
+                "options": ["農家孩子炫耀豐收的傲慢", "照亮冷漠現實、純真而溫暖的人性親情光輝", "抗議火車煤煙污染環境", "向車站工人行賄以求通融"],
+                "ans": "B",
+                "steps": "金黃燦爛的蜜柑劃破暮色，象徵人間最純粹、溫暖而動人的親情與希望。"
+            },
+            {
+                type: "高階成語語境選填",
+                "q": "「這名官員平時不務正業，等到監察院派員稽查才急忙（　），終究難逃法網制裁。」空格填入何者最貼切？",
+                "options": ["未雨綢繆", "臨渴掘井", "居安思危", "防微杜漸"],
+                "ans": "B",
+                "steps": "形容平時不準備、事到臨頭才倉促應付用「臨渴掘井」。"
+            },
+            {
+                "type": "素養閱讀·文意深究",
+                q: "《大小剛好的鞋子》一文中，作者由穿鞋合腳推論至生活態度，強調的智慧核心是：",
+                "options": ["鞋子越大越顯大氣有面子", "人生的慾望與追求適合自己才是真正的舒服，盲目求大只會增添沉重負擔", "為了跟隨流行，再不舒服的鞋也要忍耐穿上", "昂貴名牌一定比普通鞋子更好穿"],
+                "ans": "B",
+                "steps": "借事說理：鞋子合腳才舒服，正如人生知足常樂，適合自己才是真正的幸福。"
+            },
+            {
+                type: "複句句型邏輯辨析",
+                "q": "「這部古典小說（　）文字精練優美，（　）深刻刻劃出複雜多變的人性智慧。」空格最恰當的關聯詞是：",
+                "options": ["寧可……也不……", "不僅……更……", "雖然……但是……", "因為……所以……"],
+                "ans": "B",
+                "steps": "表層層遞進意涵，使用「不僅……更……」遞進複句最為通順恰當。"
+            },
+            {
+                type: "學力測驗·同音字陷阱",
+                "q": "下列文句「」中的字，字形依序為何？「他上（　）認真聽講／這粒珍珠（　）粒飽滿／運動時不小心扭傷腳（　）」",
+                "options": ["課 ／ 顆 ／ 踝", "顆 ／ 課 ／ 踝", "踝 ／ 課 ／ 顆", "課 ／ 踝 ／ 顆"],
+                "ans": "A",
+                "steps": "上課（課）、珍珠顆粒（顆）、腳踝（踝，足部）。"
+            },
+            {
+                type: "素養綜合反思",
+                "q": "綜觀六上國語全冊，《跑道》的團隊無私、《朱子治家格言》的修身感恩、《小婦人》的分享同理，共同傳達的生命價值為：",
+                "options": [
+                    "個人利益至上與不擇手段獲勝",
+                    "超越個人私利、常懷同理心與追求群體共好的崇高精神",
+                    "只要擁有財富就能解決人生所有問題",
+                    "凡事順其自然、不需努力奮鬥"
+                ],
+                "ans": "B",
+                "steps": "全冊選文貫穿關懷他人、團隊合作、勤儉感恩與純真同理的核心人文素養。"
+            }
+        ];
+
+        let qIdx = 0;
+        let examScore = 0;
+        let isAnswered = false;
+
+        function renderExamQ() {
+            isAnswered = false;
+            document.getElementById('nextActionBtn').style.display = 'none';
+            document.getElementById('feedbackArea').style.display = 'none';
+
+            if (qIdx >= examQuestions.length) {
+                renderExamSummary();
+                return;
+            }
+
+            const q = examQuestions[qIdx];
+            document.getElementById('qProgress').textContent = `進度：第 ${qIdx + 1} / ${examQuestions.length} 題`;
+            document.getElementById('totalScore').textContent = examScore;
+            document.getElementById('qCategory').textContent = q.type;
+            document.getElementById('qContent').textContent = q.q;
+
+            const optBox = document.getElementById('optContainer');
+            optBox.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.textContent = `${['A', 'B', 'C', 'D'][idx]}. ${opt}`;
+                btn.onclick = () => submitExamAnswer(opt, q, btn);
+                optBox.appendChild(btn);
+            });
+        }
+
+        function submitExamAnswer(selected, q, btn) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const isCorrect = (selected.trim() === q.ans.trim()) || 
+                              (q.ans.length === 1 && ['A','B','C','D'].includes(q.ans) && q.options[['A','B','C','D'].indexOf(q.ans)] === selected);
+
+            const allBtns = document.querySelectorAll('.opt-btn');
+            allBtns.forEach(b => {
+                b.disabled = true;
+                if (b.textContent.includes(q.ans) || (q.ans.length === 1 && b.textContent.startsWith(q.ans))) {
+                    b.classList.add('correct');
+                }
+            });
+
+            const fb = document.getElementById('feedbackArea');
+            if (isCorrect) {
+                btn.classList.add('correct');
+                examScore += 10;
+                document.getElementById('totalScore').textContent = examScore;
+                fb.className = 'fb-box correct';
+                fb.innerHTML = `<strong>🎉 答對了！實力頂尖！</strong><br>${q.steps}`;
+                if (typeof confetti === 'function') confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
+            } else {
+                btn.classList.add('wrong');
+                fb.className = 'fb-box wrong';
+                fb.innerHTML = `<strong>❌ 答錯了，請記住觀念考點！</strong><br>正確解答是：<strong>${q.ans}</strong><br><strong>【詳解】</strong>：${q.steps}`;
+            }
+
+            document.getElementById('nextActionBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            qIdx++;
+            renderExamQ();
+        }
+
+        function renderExamSummary() {
+            const maxS = examQuestions.length * 10;
+            const pct = Math.round((examScore / maxS) * 100);
+            let comment = pct >= 90 ? "🏆 國語頂尖素養大師！完全具備升中學前三志願的實力！" : 
+                          pct >= 70 ? "🌟 成績優異！能精準識破多數高鑑別度陷阱題！" : 
+                          "💪 挑戰極具難度，建議返回全冊總覽多加複習生字成語庫！";
+
+            document.getElementById('optContainer').innerHTML = `
+                <div style="text-align: center; padding: 30px 10px;">
+                    <h3 style="font-size: 2rem; color: var(--primary-dark);">🎉 模擬大考挑戰完成！</h3>
+                    <p style="font-size: 1.5rem; font-weight: 900; color: var(--accent-amber); margin: 12px 0;">最終得分：${examScore} / ${maxS} 分 (${pct}%)</p>
+                    <p style="font-size: 1.1rem; color: #134E4A; margin-bottom: 20px;">${comment}</p>
+                    <a href="chinese6_curriculum.html" style="display: inline-block; padding: 12px 30px; background: var(--primary); color: #FFF; border-radius: 25px; font-weight: 800; text-decoration: none;">返回 6 上國語全冊總覽</a>
+                </div>
+            `;
+            document.getElementById('qContent').textContent = '全真模擬大考結算';
+            document.getElementById('nextActionBtn').style.display = 'none';
+            document.getElementById('feedbackArea').style.display = 'none';
+            if (pct >= 80 && typeof confetti === 'function') {
+                confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+            }
+        }
+
+        window.onload = renderExamQ;
+    </script>
+</body>
+</html>

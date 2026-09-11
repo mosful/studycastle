@@ -14,9 +14,14 @@ extracted_pages_chinese6/
 extracted_pages_chinese3/
 extracted_pages_social6/
 chinese6_*.json
+!chinese6_full_curriculum_database.json
 chinese6_*.txt
 chinese3_*.json
 chinese3_*.txt
 social6_*.json
 social6_*.txt
 review_preview_utf8.txt
+toc_inspection.txt
+summary_quiz_*.txt
+extracted_curriculum_raw.json
+initial_scan_toc.json

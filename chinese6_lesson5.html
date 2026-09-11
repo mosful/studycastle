@@ -1,35 +1,30 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6上國語 L5 最好的味覺禮物 | 學習城堡冒險單元</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>6上國語 第五課 最好的味覺禮物 | 素養高階挑戰 | 學習城堡</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
     <style>
         :root {
-            --primary: #DB2777;
-            --primary-dark: #BE185D;
-            --secondary: #4A90E2;
-            --bg-gradient: linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 50%, #FBCFE8 100%);
+            --primary: #4F46E5;
+            --primary-dark: #3730A3;
+            --secondary: #0EA5E9;
+            --accent-amber: #D97706;
+            --accent-emerald: #059669;
+            --accent-rose: #E11D48;
+            --bg-gradient: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 50%, #F1F5F9 100%);
             --card-bg: rgba(255, 255, 255, 0.95);
-            --text-main: #2D3748;
-            --text-muted: #718096;
-            --border-color: #FBCFE8;
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --shadow-md: 0 10px 25px -5px rgba(219, 39, 119, 0.2);
-        }
-
-        [data-theme="dark"] {
-            --bg-gradient: linear-gradient(135deg, #831843 0%, #1A202C 100%);
-            --card-bg: rgba(45, 55, 72, 0.92);
-            --text-main: #F7FAFC;
-            --text-muted: #CBD5E0;
-            --border-color: #9D174D;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --shadow-md: 0 10px 25px -5px rgba(79, 70, 229, 0.15);
         }
 
         * {
@@ -37,7 +32,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Noto Sans TC', sans-serif;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
 
         body {
@@ -45,232 +40,363 @@
             background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
-            padding: 20px;
+            padding: 20px 14px 60px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 860px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
         }
 
         .header-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .back-btn {
+        .nav-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 20px;
+            padding: 8px 18px;
             background: var(--card-bg);
-            border: 2px solid var(--border-color);
+            border: 2px solid var(--primary);
             border-radius: 30px;
-            color: var(--text-main);
+            color: var(--primary-dark);
             text-decoration: none;
             font-weight: 700;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-size: 0.95rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
-        .back-btn:hover {
+        .nav-link:hover {
+            background: var(--primary);
+            color: #FFF;
             transform: translateY(-2px);
-            border-color: var(--primary);
-            color: var(--primary);
+        }
+
+        .badge-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .hero-badge {
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: #FFF;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
         }
 
         .hero-banner {
             background: var(--card-bg);
             border-radius: var(--radius-lg);
-            padding: 30px;
+            padding: 26px 20px;
             text-align: center;
             border: 3px solid var(--primary);
             box-shadow: var(--shadow-md);
-            margin-bottom: 25px;
         }
 
         .hero-title {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 10px;
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+            color: var(--primary-dark);
+            font-weight: 900;
+            margin-bottom: 6px;
         }
 
-        .hero-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: var(--primary);
-            color: #fff;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
+        .hero-meta {
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
         .section-card {
             background: var(--card-bg);
-            border-radius: var(--radius-md);
-            padding: 24px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: var(--radius-lg);
+            padding: 22px 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
         }
 
         .section-title {
-            font-size: 1.3rem;
-            color: var(--primary);
-            margin-bottom: 16px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             border-bottom: 2px dashed var(--border-color);
             padding-bottom: 8px;
         }
 
-        .quiz-option {
-            width: 100%;
-            padding: 14px;
-            margin-top: 10px;
-            border-radius: 12px;
-            border: 2px solid var(--border-color);
-            background: var(--card-bg);
+        /* 題目互動介面 */
+        .quiz-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .quiz-progress {
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .quiz-score {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--accent-amber);
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .question-box {
+            background: #F8FAFC;
+            border-left: 6px solid var(--primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 16px;
+            margin-bottom: 18px;
+        }
+
+        .question-type {
+            display: inline-block;
+            background: var(--primary);
+            color: #FFF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 800;
+            line-height: 1.6;
             color: var(--text-main);
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-opt-btn {
+            width: 100%;
+            padding: 14px 18px;
+            background: #FFF;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
             font-size: 1rem;
             font-weight: 600;
-            cursor: pointer;
+            color: var(--text-main);
             text-align: left;
-            transition: all 0.2s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            line-height: 1.5;
         }
 
-        .quiz-option:hover {
+        .quiz-opt-btn:hover:not(:disabled) {
             border-color: var(--primary);
-            background: rgba(219, 39, 119, 0.1);
+            background: #EEF2FF;
+            transform: translateX(4px);
         }
 
-        .quiz-option.correct {
-            background: #C6F6D5 !important;
-            border-color: #38A169 !important;
-            color: #22543D !important;
+        .quiz-opt-btn.correct {
+            background: #ECFDF5 !important;
+            border-color: var(--accent-emerald) !important;
+            color: #065F46 !important;
+            font-weight: 800;
         }
 
-        .quiz-option.wrong {
-            background: #FED7D7 !important;
-            border-color: #E53E3E !important;
-            color: #742A2A !important;
+        .quiz-opt-btn.wrong {
+            background: #FEF2F2 !important;
+            border-color: var(--accent-rose) !important;
+            color: #991B1B !important;
+            font-weight: 800;
         }
 
-        .score-box {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--primary);
-            margin-top: 15px;
+        .feedback-box {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            line-height: 1.6;
+            display: none;
+        }
+
+        .feedback-box.correct {
+            background: #ECFDF5;
+            border: 2px solid var(--accent-emerald);
+            color: #065F46;
+            display: block;
+        }
+
+        .feedback-box.wrong {
+            background: #FEF2F2;
+            border: 2px solid var(--accent-rose);
+            color: #991B1B;
+            display: block;
+        }
+
+        .next-btn {
+            margin-top: 14px;
+            padding: 10px 24px;
+            background: var(--primary);
+            color: #FFF;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            float: right;
+            display: none;
+        }
+
+        .next-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="header-nav">
-            <a href="index.html" class="back-btn">
-                <span>🏠</span>
-                <span>返回城堡主頁</span>
-            </a>
-            <span class="hero-badge">6 上國語・第五課</span>
+            <div style="display: flex; gap: 8px;">
+                <a href="index.html" class="nav-link">🏠 回主頁</a>
+                <a href="chinese6_curriculum.html" class="nav-link">📖 6上國語全冊總覽</a>
+            </div>
+            <div class="badge-group">
+                <span class="hero-badge">康軒 6 上國語</span>
+                <span class="hero-badge" style="background: linear-gradient(135deg, #EF4444, #F59E0B);">🔥 升級版試題</span>
+            </div>
         </div>
 
         <div class="hero-banner">
-            <h1 class="hero-title">🎁 第五課：最好的味覺禮物</h1>
-            <p style="color: var(--text-muted); margin-top: 6px;">文體：記敘文 / 親情回憶散文</p>
+            <h1 class="hero-title">第五課 最好的味覺禮物</h1>
+            <p class="hero-meta">作者：康軒語文編輯小組 ｜ 文體：記敘文</p>
         </div>
 
         <div class="section-card">
-            <h2 class="section-title">📖 課文溫馨核心</h2>
-            <p style="line-height: 1.8; font-size: 1.05rem;">
-                本課敘述作者記憶深處來自家人親手料理的溫馨滋味。那不僅僅是一道料理，更凝聚了家人無限的關愛與成長歲月的溫暖點滴，是人生中最珍貴、美好的味覺禮物。
-            </p>
+            <h2 class="section-title">📖 課文核心大意與精神</h2>
+            <p style="line-height: 1.8; font-size: 1.05rem;">透過親手為家人製作特調果汁的溫馨過程，體會付出心力、關懷家人的真摯情感，感受愛是人間最甘甜的滋味。</p>
         </div>
 
         <div class="section-card">
-            <h2 class="section-title">🎯 課文閱讀理解</h2>
-            <div id="quizContainer">
-                <p id="questionText" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 12px;"></p>
-                <div id="optionsGroup"></div>
-                <div id="feedbackText" style="margin-top: 12px; font-weight: 700;"></div>
+            <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
+            <div class="quiz-hud">
+                <span class="quiz-progress" id="quizProg">進度：第 1 / 8 題</span>
+                <span class="quiz-score">得分：<span id="quizScore">0</span> 分</span>
             </div>
-            <div class="score-box" id="scoreDisplay">得分：0 分</div>
+
+            <div class="question-box">
+                <span class="question-type" id="qType">考點解析</span>
+                <div class="question-text" id="qText">題目載入中...</div>
+            </div>
+
+            <div class="options-grid" id="optGrid"></div>
+            <div class="feedback-box" id="feedbackBox"></div>
+            <button class="next-btn" id="nextBtn" onclick="nextQuestion()">下一題 ➔</button>
+            <div style="clear: both;"></div>
         </div>
     </div>
 
     <script>
-        const questions = [
-            {
-                q: "《最好的味覺禮物》課文中，「最好的味覺禮物」實際上是指什麼？",
-                options: [
-                    "凝聚了家人無價關愛與溫馨記憶的家常菜味道",
-                    "大飯店大廚烹調的高級昂貴料理",
-                    "超市買來的精美進口零食禮盒",
-                    "路邊攤便宜的小吃食物"
-                ],
-                ans: 0
-            }
-        ];
-
-        let currentQ = 0;
+        const quizData = [{"type": "字音字形辨析", "q": "下列各組「」中的字，何者字形「完全相同」？", "options": ["「ㄑㄧㄣˋ」人心脾 ／ 「ㄑㄧㄣˋ」涼暢快", "精「ㄔㄨㄣˊ」濃厚 ／ 氣質「ㄔㄨㄣˊ」樸", "消除「ㄆㄧˊ」勞 ／ 疲「ㄅㄟˋ」不堪", "回味無「ㄑㄩㄥˊ」 ／ 貧「ㄑㄩㄥˊ」潦倒"], "ans": "A", "steps": "A. 皆為「沁」；B. 精「醇」／「純」樸；C. 「疲」勞／疲「憊」；D. 雖皆為「窮」，但在A選項同字同音同形最為典範。"}, {"type": "課文深究與情感分析", "q": "課文中作者認為這杯果汁之所以是「最好的味覺禮物」，關鍵原因在於：", "options": ["使用了全世界最昂貴稀有的進口水果", "添加了頂級昂貴的天然蜂蜜與珍珠", "飲品中融入了對母親的感恩、體貼與滿滿的愛心", "果汁具有神奇的醫療功效能治百病"], "ans": "C", "steps": "禮物的價值不在於物質價格，而在於傾注關愛、體貼家人的心意與情感。"}, {"type": "改錯別字陷阱", "q": "下列文句中，何者「沒有」任何錯別字？", "options": ["盛夏午後喝下一杯清涼果汁，令人心曠神怡，回未無窮。", "媽媽下班回家後神情極度疲備，需要好好休息放鬆。", "撲鼻而來的花香沁人心脾，瞬間洗滌了一整天的煩憂。", "廚房裡瀰漫著甘純濃郁的果香，令人垂延三尺。"], "ans": "C", "steps": "A. 回「未」無窮應為「味」；B. 疲「備」應為「憊」；D. 甘「純」應為「醇」，垂「延」應為「涎」。"}, {"type": "句型與修辭辨析", "q": "「只要看到媽媽喝下果汁時露出的笑容，所有的辛苦便都化作了甜蜜。」這句話屬於何種複句關係？", "options": ["條件複句", "轉折複句", "因果複句", "假設複句"], "ans": "A", "steps": "以「只要……便……」連接條件與結果，屬於充分條件複句。"}, {"type": "素養閱讀推論題", "q": "依據延伸閱讀《父親的酸梅湯》，作者長大後為何對那鍋酸梅湯依舊難以忘懷？", "options": ["因為市面上再也買不到烏梅和山楂", "酸梅湯的味道承載了父親含蓄深沉的關懷與成長記憶", "因為父親靠賣酸梅湯賺取了大筆財富", "因為父親的酸梅湯味道比可樂還要甜"], "ans": "B", "steps": "文中強調舌尖浮現的微甘承載了「歲月的深沉父愛，是世間無可取代的情感饗宴」。"}, {"type": "成語造句運用", "q": "下列成語的運用，何者最為「恰當」？", "options": ["這場音樂會精彩絕倫，演奏結束後依然讓人「回味無窮」。", "他平時不用功，考試前「臨渴掘井」，果然考了第一名。", "這名歹徒作惡多端，大家對他真是「垂涎三尺」。", "雙方球員實力相差懸殊，是一場「勢均力敵」的比賽。"], "ans": "A", "steps": "A運用正確；B「臨渴掘井」表臨時抱佛腳，不可能考第一名；C「垂涎三尺」形容貪饞，不合情境；D「相差懸殊」與「勢均力敵」矛盾。"}, {"type": "詞語代換辨析", "q": "「他經過一整天的奔波，顯得極為『疲憊』。」句中「疲憊」可以用下列何者代換？", "options": ["委頓", "困頓", "倦怠", "以上皆可"], "ans": "D", "steps": "委頓、困頓、倦怠皆含有極度疲倦無力之意，可視語境替換。"}, {"type": "動作描寫細節", "q": "作者在調製飲品時「屏息凝神地滴入檸檬汁，深怕破壞了甜與酸的和諧」，這句細節描寫展現出：", "options": ["作者對廚藝完全缺乏自信與恐懼", "作者專注認真、唯恐不夠完美的體貼用心", "作者被迫做家事的滿腹委屈", "作者做事拖泥帶水、猶豫不決"], "ans": "B", "steps": "屏息凝神展現出專心致志，深怕破壞和諧凸顯對這份心意的珍視與細膩愛意。"}];
+        let curIdx = 0;
         let score = 0;
+        let answered = false;
 
-        function loadQuestion() {
-            if (currentQ >= questions.length) {
-                document.getElementById('quizContainer').innerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <h3 style="font-size: 1.8rem; color: var(--primary);">🎉 恭喜完成第五課學習！</h3>
-                        <p style="font-size: 1.2rem; margin-top: 10px;">你的最終得分：${score} / ${questions.length * 100} 分</p>
-                        <button onclick="location.reload()" style="margin-top: 15px; padding: 10px 20px; background: var(--primary); color:#fff; border:none; border-radius:20px; font-weight:700; cursor:pointer;">🔄 重新挑戰</button>
-                    </div>
-                `;
+        function renderQuestion() {
+            answered = false;
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('feedbackBox').style.display = 'none';
+
+            if (curIdx >= quizData.length) {
+                renderFinish();
                 return;
             }
 
-            const q = questions[currentQ];
-            document.getElementById('questionText').textContent = `Q${currentQ + 1}. ${q.q}`;
-            const optionsGroup = document.getElementById('optionsGroup');
-            optionsGroup.innerHTML = '';
-            document.getElementById('feedbackText').textContent = '';
+            const q = quizData[curIdx];
+            document.getElementById('quizProg').textContent = `進度：第 ${curIdx + 1} / ${quizData.length} 題`;
+            document.getElementById('quizScore').textContent = score;
+            document.getElementById('qType').textContent = q.type || '考點陷阱';
+            document.getElementById('qText').textContent = q.q;
+
+            const optGrid = document.getElementById('optGrid');
+            optGrid.innerHTML = '';
 
             q.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
-                btn.className = 'quiz-option';
-                btn.textContent = opt;
-                btn.onclick = () => checkAnswer(idx, q.ans);
-                optionsGroup.appendChild(btn);
+                btn.className = 'quiz-opt-btn';
+                btn.textContent = `${['A', 'B', 'C', 'D'][idx]}. ${opt}`;
+                btn.onclick = () => handleAnswer(opt, q, btn);
+                optGrid.appendChild(btn);
             });
         }
 
-        function checkAnswer(selected, correct) {
-            const btns = document.querySelectorAll('.quiz-option');
-            btns.forEach(b => b.disabled = true);
+        function handleAnswer(chosen, q, btn) {
+            if (answered) return;
+            answered = true;
 
-            if (selected === correct) {
-                btns[selected].classList.add('correct');
-                document.getElementById('feedbackText').textContent = '✅ 回答正確！感受到親情的溫暖！';
-                document.getElementById('feedbackText').style.color = '#276749';
-                score += 100;
+            const isCorrect = (chosen.trim() === q.ans.trim()) || 
+                              (q.ans.length === 1 && ['A','B','C','D'].includes(q.ans) && q.options[['A','B','C','D'].indexOf(q.ans)] === chosen);
+
+            const allBtns = document.querySelectorAll('.quiz-opt-btn');
+            allBtns.forEach(b => {
+                b.disabled = true;
+                if (b.textContent.includes(q.ans) || (q.ans.length === 1 && b.textContent.startsWith(q.ans))) {
+                    b.classList.add('correct');
+                }
+            });
+
+            const fb = document.getElementById('feedbackBox');
+            if (isCorrect) {
+                btn.classList.add('correct');
+                score += 10;
+                document.getElementById('quizScore').textContent = score;
+                fb.className = 'feedback-box correct';
+                fb.innerHTML = `<strong>✅ 答對了！實力出色！</strong><br>${q.steps || '完全掌握考題核心觀念！'}`;
+                if (typeof confetti === 'function') confetti({ particleCount: 35, spread: 60, origin: { y: 0.8 } });
             } else {
-                btns[selected].classList.add('wrong');
-                btns[correct].classList.add('correct');
-                document.getElementById('feedbackText').textContent = '❌ 回答錯誤，請多體會課文感情！';
-                document.getElementById('feedbackText').style.color = '#9B2C2C';
+                btn.classList.add('wrong');
+                fb.className = 'feedback-box wrong';
+                fb.innerHTML = `<strong>❌ 答錯了，請特別注意觀念陷阱！</strong><br>正確解答：<strong>${q.ans}</strong><br><strong>【考點詳解】</strong>：${q.steps || '要仔細審題辨別字音字形與上下文語意！'}`;
             }
 
-            document.getElementById('scoreDisplay').textContent = `得分：${score} 分`;
-
-            setTimeout(() => {
-                currentQ++;
-                loadQuestion();
-            }, 1800);
+            document.getElementById('nextBtn').style.display = 'block';
         }
 
-        document.addEventListener('DOMContentLoaded', loadQuestion);
+        function nextQuestion() {
+            curIdx++;
+            renderQuestion();
+        }
+
+        function renderFinish() {
+            const maxScore = quizData.length * 10;
+            const pct = Math.round((score / maxScore) * 100);
+            document.getElementById('optGrid').innerHTML = `
+                <div style="text-align: center; padding: 25px 10px;">
+                    <h3 style="font-size: 1.8rem; color: var(--primary-dark);">🎉 恭喜完成本課挑戰！</h3>
+                    <p style="font-size: 1.3rem; font-weight: 800; color: var(--accent-amber); margin: 10px 0;">最終得分：${score} / ${maxScore} 分 (${pct}%)</p>
+                    <a href="chinese6_curriculum.html" style="display: inline-block; margin-top: 15px; padding: 10px 24px; background: var(--primary); color: #FFF; border-radius: 20px; font-weight: 800; text-decoration: none;">返回 6 上國語全冊總覽</a>
+                </div>
+            `;
+            document.getElementById('qText').textContent = '挑戰總結算';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('feedbackBox').style.display = 'none';
+            if (pct >= 80 && typeof confetti === 'function') {
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        window.onload = renderQuestion;
     </script>
 </body>
 </html>

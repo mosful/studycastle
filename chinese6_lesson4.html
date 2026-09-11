@@ -1,35 +1,30 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>6上國語 L4 臺灣美食詩選 | 學習城堡冒險單元</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>6上國語 第四課 臺灣美食詩選 | 素養高階挑戰 | 學習城堡</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
     <style>
         :root {
-            --primary: #059669;
-            --primary-dark: #047857;
-            --secondary: #4A90E2;
-            --bg-gradient: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 50%, #A7F3D0 100%);
+            --primary: #4F46E5;
+            --primary-dark: #3730A3;
+            --secondary: #0EA5E9;
+            --accent-amber: #D97706;
+            --accent-emerald: #059669;
+            --accent-rose: #E11D48;
+            --bg-gradient: linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 50%, #F1F5F9 100%);
             --card-bg: rgba(255, 255, 255, 0.95);
-            --text-main: #2D3748;
-            --text-muted: #718096;
-            --border-color: #A7F3D0;
-            --radius-lg: 24px;
-            --radius-md: 16px;
-            --shadow-md: 0 10px 25px -5px rgba(5, 150, 105, 0.2);
-        }
-
-        [data-theme="dark"] {
-            --bg-gradient: linear-gradient(135deg, #064E3B 0%, #1A202C 100%);
-            --card-bg: rgba(45, 55, 72, 0.92);
-            --text-main: #F7FAFC;
-            --text-muted: #CBD5E0;
-            --border-color: #065F46;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --border-color: #E2E8F0;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --shadow-md: 0 10px 25px -5px rgba(79, 70, 229, 0.15);
         }
 
         * {
@@ -37,7 +32,7 @@
             margin: 0;
             padding: 0;
             font-family: 'Noto Sans TC', sans-serif;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
 
         body {
@@ -45,232 +40,363 @@
             background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
-            padding: 20px;
+            padding: 20px 14px 60px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 860px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
         }
 
         .header-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .back-btn {
+        .nav-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 20px;
+            padding: 8px 18px;
             background: var(--card-bg);
-            border: 2px solid var(--border-color);
+            border: 2px solid var(--primary);
             border-radius: 30px;
-            color: var(--text-main);
+            color: var(--primary-dark);
             text-decoration: none;
             font-weight: 700;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-size: 0.95rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
-        .back-btn:hover {
+        .nav-link:hover {
+            background: var(--primary);
+            color: #FFF;
             transform: translateY(-2px);
-            border-color: var(--primary);
-            color: var(--primary);
+        }
+
+        .badge-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .hero-badge {
+            background: linear-gradient(135deg, var(--primary), #7C3AED);
+            color: #FFF;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
         }
 
         .hero-banner {
             background: var(--card-bg);
             border-radius: var(--radius-lg);
-            padding: 30px;
+            padding: 26px 20px;
             text-align: center;
             border: 3px solid var(--primary);
             box-shadow: var(--shadow-md);
-            margin-bottom: 25px;
         }
 
         .hero-title {
-            font-size: 2.2rem;
-            color: var(--primary);
-            margin-bottom: 10px;
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+            color: var(--primary-dark);
+            font-weight: 900;
+            margin-bottom: 6px;
         }
 
-        .hero-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            background: var(--primary);
-            color: #fff;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 12px;
+        .hero-meta {
+            color: var(--text-muted);
+            font-size: 0.95rem;
         }
 
         .section-card {
             background: var(--card-bg);
-            border-radius: var(--radius-md);
-            padding: 24px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: var(--radius-lg);
+            padding: 22px 20px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
         }
 
         .section-title {
-            font-size: 1.3rem;
-            color: var(--primary);
-            margin-bottom: 16px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             border-bottom: 2px dashed var(--border-color);
             padding-bottom: 8px;
         }
 
-        .quiz-option {
-            width: 100%;
-            padding: 14px;
-            margin-top: 10px;
-            border-radius: 12px;
-            border: 2px solid var(--border-color);
-            background: var(--card-bg);
+        /* 題目互動介面 */
+        .quiz-hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .quiz-progress {
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .quiz-score {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--accent-amber);
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .question-box {
+            background: #F8FAFC;
+            border-left: 6px solid var(--primary);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            padding: 16px;
+            margin-bottom: 18px;
+        }
+
+        .question-type {
+            display: inline-block;
+            background: var(--primary);
+            color: #FFF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 800;
+            line-height: 1.6;
             color: var(--text-main);
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-opt-btn {
+            width: 100%;
+            padding: 14px 18px;
+            background: #FFF;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
             font-size: 1rem;
             font-weight: 600;
-            cursor: pointer;
+            color: var(--text-main);
             text-align: left;
-            transition: all 0.2s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            line-height: 1.5;
         }
 
-        .quiz-option:hover {
+        .quiz-opt-btn:hover:not(:disabled) {
             border-color: var(--primary);
-            background: rgba(5, 150, 105, 0.1);
+            background: #EEF2FF;
+            transform: translateX(4px);
         }
 
-        .quiz-option.correct {
-            background: #C6F6D5 !important;
-            border-color: #38A169 !important;
-            color: #22543D !important;
+        .quiz-opt-btn.correct {
+            background: #ECFDF5 !important;
+            border-color: var(--accent-emerald) !important;
+            color: #065F46 !important;
+            font-weight: 800;
         }
 
-        .quiz-option.wrong {
-            background: #FED7D7 !important;
-            border-color: #E53E3E !important;
-            color: #742A2A !important;
+        .quiz-opt-btn.wrong {
+            background: #FEF2F2 !important;
+            border-color: var(--accent-rose) !important;
+            color: #991B1B !important;
+            font-weight: 800;
         }
 
-        .score-box {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--primary);
-            margin-top: 15px;
+        .feedback-box {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            line-height: 1.6;
+            display: none;
+        }
+
+        .feedback-box.correct {
+            background: #ECFDF5;
+            border: 2px solid var(--accent-emerald);
+            color: #065F46;
+            display: block;
+        }
+
+        .feedback-box.wrong {
+            background: #FEF2F2;
+            border: 2px solid var(--accent-rose);
+            color: #991B1B;
+            display: block;
+        }
+
+        .next-btn {
+            margin-top: 14px;
+            padding: 10px 24px;
+            background: var(--primary);
+            color: #FFF;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            float: right;
+            display: none;
+        }
+
+        .next-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="header-nav">
-            <a href="index.html" class="back-btn">
-                <span>🏠</span>
-                <span>返回城堡主頁</span>
-            </a>
-            <span class="hero-badge">6 上國語・第四課</span>
+            <div style="display: flex; gap: 8px;">
+                <a href="index.html" class="nav-link">🏠 回主頁</a>
+                <a href="chinese6_curriculum.html" class="nav-link">📖 6上國語全冊總覽</a>
+            </div>
+            <div class="badge-group">
+                <span class="hero-badge">康軒 6 上國語</span>
+                <span class="hero-badge" style="background: linear-gradient(135deg, #EF4444, #F59E0B);">🔥 升級版試題</span>
+            </div>
         </div>
 
         <div class="hero-banner">
-            <h1 class="hero-title">🍜 第四課：臺灣美食詩選</h1>
-            <p style="color: var(--text-muted); margin-top: 6px;">文體：新詩 / 美食詩歌</p>
+            <h1 class="hero-title">第四課 臺灣美食詩選</h1>
+            <p class="hero-meta">作者：向陽、焦桐等 ｜ 文體：現代詩歌</p>
         </div>
 
         <div class="section-card">
-            <h2 class="section-title">📖 課文特色與感官描寫</h2>
-            <p style="line-height: 1.8; font-size: 1.05rem;">
-                本課收錄描寫臺灣在地美食的新詩選段。運用生動的感官摹寫（視覺、味覺、嗅覺）與譬喻轉化技巧，將道地的牛肉麵、小吃與傳統糕點刻畫得躍然紙上，表現出土地的情感與飲食文化底蘊。
-            </p>
+            <h2 class="section-title">📖 課文核心大意與精神</h2>
+            <p style="line-height: 1.8; font-size: 1.05rem;">藉由生動活潑的詩句，細膩描摹臺灣在地庶民美食的色香味與文化溫度，展現飲食文學的豐沛情懷。</p>
         </div>
 
         <div class="section-card">
-            <h2 class="section-title">🎯 新詩與美食測驗題</h2>
-            <div id="quizContainer">
-                <p id="questionText" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 12px;"></p>
-                <div id="optionsGroup"></div>
-                <div id="feedbackText" style="margin-top: 12px; font-weight: 700;"></div>
+            <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
+            <div class="quiz-hud">
+                <span class="quiz-progress" id="quizProg">進度：第 1 / 8 題</span>
+                <span class="quiz-score">得分：<span id="quizScore">0</span> 分</span>
             </div>
-            <div class="score-box" id="scoreDisplay">得分：0 分</div>
+
+            <div class="question-box">
+                <span class="question-type" id="qType">考點解析</span>
+                <div class="question-text" id="qText">題目載入中...</div>
+            </div>
+
+            <div class="options-grid" id="optGrid"></div>
+            <div class="feedback-box" id="feedbackBox"></div>
+            <button class="next-btn" id="nextBtn" onclick="nextQuestion()">下一題 ➔</button>
+            <div style="clear: both;"></div>
         </div>
     </div>
 
     <script>
-        const questions = [
-            {
-                q: "《臺灣美食詩選》主要運用哪一種修辭法來增強食物香氣與風味的臨場感？",
-                options: [
-                    "感官摹寫（嗅覺、味覺、視覺）與譬喻法",
-                    "倒敘法與激問修辭",
-                    "對偶法與排比句",
-                    "頂真修辭與誇張法"
-                ],
-                ans: 0
-            }
-        ];
-
-        let currentQ = 0;
+        const quizData = [{"type": "字音字形辨析", "q": "下列文句「」中的字，何者讀音「完全正確」？", "options": ["炸雞排香氣令人垂「涎」三尺：ㄧㄢˊ", "肉圓外皮晶瑩「剔」透：ㄊㄧ", "鍋中熱油「沸」騰翻滾：ㄈㄨˊ", "香氣撲鼻讓人「咀」嚼再三：ㄗㄨˇ"], "ans": "B", "steps": "A. 涎音 ㄒㄧㄢˊ；B. 剔音 ㄊㄧ 正確；C. 沸音 ㄈㄟˋ；D. 咀音 ㄐㄩˇ。"}, {"type": "感官摹寫修辭", "q": "「金黃酥脆的雞塊在齒間『卡滋』一聲裂開，滾燙的鮮美肉汁瞬間在舌面擴散開來。」這句話結合了哪些感官摹寫？", "options": ["視覺、聽覺、味覺與觸覺", "只有視覺與嗅覺", "只有嗅覺與味覺", "聽覺與超自然通感"], "ans": "A", "steps": "金黃（視覺）、「卡滋」（聽覺）、鮮美（味覺）、滾燙（觸覺），感官摹寫生動多元。"}, {"type": "現代詩意象解析", "q": "詩人將肉圓形容為「半透明的水晶小包袱，緊緊裹著故鄉的筍香與鄉愁」，這裡運用了何種修辭手法？", "options": ["借代與回文", "譬喻（隱喻）與轉化", "雙關與誇飾", "頂真與示現"], "ans": "B", "steps": "將肉圓比作水晶小包袱（譬喻），將抽象鄉愁包裹在肉餡中（轉化/形象化）。"}, {"type": "改錯別字陷阱", "q": "下列詩句摘錄中，哪一句「完全沒有」錯別字？", "options": ["九層塔在滾油中狂野的翻攪，釋放出樸鼻的香氣。", "晶瑩惕透的外皮，包裹著飽滿多汁的肉餡。", "熱氣蒸騰的街道上，小吃攤點亮了夜市的靈魂。", "濃郁的湯頭讓人回未無窮，捨不得放下筷子。"], "ans": "C", "steps": "A. 「樸」鼻應為「撲」鼻；B. 「晶瑩惕透」應為「剔」透；D. 「回未無窮」應為「味」。"}, {"type": "文化素養深究", "q": "依據現代飲食文學的探討，臺灣夜市「小吃」之所以能深深打動人心，最根本的原因為何？", "options": ["價格昂貴且食材稀有", "融合歷史生活記憶、真誠純樸的職人精神與在地人情味", "全由西方高級料理廚師引進", "包裝華麗奢靡"], "ans": "B", "steps": "在地小吃蘊含臺灣移民歷史、常民生活溫度與代代相傳的專注匠人精神。"}, {"type": "一字多音辨析", "q": "下列句子中的「炸」字，何者的讀音與「鹽酥『炸』雞」的「炸」相同？", "options": ["火藥爆「炸」", "「炸」彈客落網", "香「炸」豬排", "防空演習「炸」毀模型"], "ans": "C", "steps": "烹飪油炸讀二聲「ㄓㄚˊ」；爆炸、炸裂、炸彈讀四聲「ㄓㄚˋ」。"}, {"type": "修辭與語言風格", "q": "詩歌運用「油滴在鐵盤上輕快跳起探戈」的寫法，賦予沒有生命的油滴以人的舞蹈動作，屬於：", "options": ["擬物為人（轉化）", "倒裝", "層遞", "設問"], "ans": "A", "steps": "轉化修辭中的擬人法，將物賦予人的動態與生機。"}, {"type": "詩歌主旨評析", "q": "閱讀美食詩歌最大的審美樂趣在於：", "options": ["只為了記住每道小吃的價格與食譜步驟", "透過文字引發色香味的想像，共鳴土地情感與文化記憶", "找出詩人使用的冷僻難字炫耀學問", "證明只有高級餐廳的食物才值得歌詠"], "ans": "B", "steps": "飲食文學透過通感與詩意語言，觸發讀者對生活、鄉土與人情的深層共鳴。"}];
+        let curIdx = 0;
         let score = 0;
+        let answered = false;
 
-        function loadQuestion() {
-            if (currentQ >= questions.length) {
-                document.getElementById('quizContainer').innerHTML = `
-                    <div style="text-align: center; padding: 20px;">
-                        <h3 style="font-size: 1.8rem; color: var(--primary);">🎉 恭喜完成第四課美食詩挑戰！</h3>
-                        <p style="font-size: 1.2rem; margin-top: 10px;">你的最終得分：${score} / ${questions.length * 100} 分</p>
-                        <button onclick="location.reload()" style="margin-top: 15px; padding: 10px 20px; background: var(--primary); color:#fff; border:none; border-radius:20px; font-weight:700; cursor:pointer;">🔄 重新挑戰</button>
-                    </div>
-                `;
+        function renderQuestion() {
+            answered = false;
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('feedbackBox').style.display = 'none';
+
+            if (curIdx >= quizData.length) {
+                renderFinish();
                 return;
             }
 
-            const q = questions[currentQ];
-            document.getElementById('questionText').textContent = `Q${currentQ + 1}. ${q.q}`;
-            const optionsGroup = document.getElementById('optionsGroup');
-            optionsGroup.innerHTML = '';
-            document.getElementById('feedbackText').textContent = '';
+            const q = quizData[curIdx];
+            document.getElementById('quizProg').textContent = `進度：第 ${curIdx + 1} / ${quizData.length} 題`;
+            document.getElementById('quizScore').textContent = score;
+            document.getElementById('qType').textContent = q.type || '考點陷阱';
+            document.getElementById('qText').textContent = q.q;
+
+            const optGrid = document.getElementById('optGrid');
+            optGrid.innerHTML = '';
 
             q.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
-                btn.className = 'quiz-option';
-                btn.textContent = opt;
-                btn.onclick = () => checkAnswer(idx, q.ans);
-                optionsGroup.appendChild(btn);
+                btn.className = 'quiz-opt-btn';
+                btn.textContent = `${['A', 'B', 'C', 'D'][idx]}. ${opt}`;
+                btn.onclick = () => handleAnswer(opt, q, btn);
+                optGrid.appendChild(btn);
             });
         }
 
-        function checkAnswer(selected, correct) {
-            const btns = document.querySelectorAll('.quiz-option');
-            btns.forEach(b => b.disabled = true);
+        function handleAnswer(chosen, q, btn) {
+            if (answered) return;
+            answered = true;
 
-            if (selected === correct) {
-                btns[selected].classList.add('correct');
-                document.getElementById('feedbackText').textContent = '✅ 回答正確！品嚐到了文學的美味！';
-                document.getElementById('feedbackText').style.color = '#276749';
-                score += 100;
+            const isCorrect = (chosen.trim() === q.ans.trim()) || 
+                              (q.ans.length === 1 && ['A','B','C','D'].includes(q.ans) && q.options[['A','B','C','D'].indexOf(q.ans)] === chosen);
+
+            const allBtns = document.querySelectorAll('.quiz-opt-btn');
+            allBtns.forEach(b => {
+                b.disabled = true;
+                if (b.textContent.includes(q.ans) || (q.ans.length === 1 && b.textContent.startsWith(q.ans))) {
+                    b.classList.add('correct');
+                }
+            });
+
+            const fb = document.getElementById('feedbackBox');
+            if (isCorrect) {
+                btn.classList.add('correct');
+                score += 10;
+                document.getElementById('quizScore').textContent = score;
+                fb.className = 'feedback-box correct';
+                fb.innerHTML = `<strong>✅ 答對了！實力出色！</strong><br>${q.steps || '完全掌握考題核心觀念！'}`;
+                if (typeof confetti === 'function') confetti({ particleCount: 35, spread: 60, origin: { y: 0.8 } });
             } else {
-                btns[selected].classList.add('wrong');
-                btns[correct].classList.add('correct');
-                document.getElementById('feedbackText').textContent = '❌ 回答錯誤，請多欣賞新詩意境！';
-                document.getElementById('feedbackText').style.color = '#9B2C2C';
+                btn.classList.add('wrong');
+                fb.className = 'feedback-box wrong';
+                fb.innerHTML = `<strong>❌ 答錯了，請特別注意觀念陷阱！</strong><br>正確解答：<strong>${q.ans}</strong><br><strong>【考點詳解】</strong>：${q.steps || '要仔細審題辨別字音字形與上下文語意！'}`;
             }
 
-            document.getElementById('scoreDisplay').textContent = `得分：${score} 分`;
-
-            setTimeout(() => {
-                currentQ++;
-                loadQuestion();
-            }, 1800);
+            document.getElementById('nextBtn').style.display = 'block';
         }
 
-        document.addEventListener('DOMContentLoaded', loadQuestion);
+        function nextQuestion() {
+            curIdx++;
+            renderQuestion();
+        }
+
+        function renderFinish() {
+            const maxScore = quizData.length * 10;
+            const pct = Math.round((score / maxScore) * 100);
+            document.getElementById('optGrid').innerHTML = `
+                <div style="text-align: center; padding: 25px 10px;">
+                    <h3 style="font-size: 1.8rem; color: var(--primary-dark);">🎉 恭喜完成本課挑戰！</h3>
+                    <p style="font-size: 1.3rem; font-weight: 800; color: var(--accent-amber); margin: 10px 0;">最終得分：${score} / ${maxScore} 分 (${pct}%)</p>
+                    <a href="chinese6_curriculum.html" style="display: inline-block; margin-top: 15px; padding: 10px 24px; background: var(--primary); color: #FFF; border-radius: 20px; font-weight: 800; text-decoration: none;">返回 6 上國語全冊總覽</a>
+                </div>
+            `;
+            document.getElementById('qText').textContent = '挑戰總結算';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('feedbackBox').style.display = 'none';
+            if (pct >= 80 && typeof confetti === 'function') {
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        window.onload = renderQuestion;
     </script>
 </body>
 </html>
