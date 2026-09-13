@@ -9,7 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -136,6 +168,102 @@
             padding-bottom: 8px;
         }
 
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 14px 0 6px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 生字成語陷阱圖鑑卡片 */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .vocab-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .vocab-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1.5px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+        .v-word {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Noto Serif TC', serif;
+        }
+        .v-zhu {
+            color: var(--accent-amber);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+        .v-meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .v-trap {
+            margin-top: 4px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
         /* 題目互動介面 */
         .quiz-hud {
             display: flex;
@@ -170,9 +298,9 @@
             color: #FFF;
             padding: 2px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .question-text {
@@ -185,7 +313,7 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .quiz-opt-btn {
@@ -288,6 +416,94 @@
             <p style="line-height: 1.8; font-size: 1.05rem;">描繪南北戰爭時期馬區家四姊妹在艱苦匱乏的耶誕清晨，主動將豐盛早餐慷慨贈予貧病鄰居的無私愛心，傳遞節慶真正的仁愛精神。</p>
         </div>
 
+        
+            <div class="section-card">
+                <h2 class="section-title">🗺️ 課文情節起承轉合思維導圖</h2>
+                <div class="story-flow-grid">
+                    
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌱 起因背景</div>
+                        <div class="flow-node-content">南北戰爭物資匱乏的耶誕節早晨，馬區家四姊妹雖然沒有昂貴禮物，卻滿心歡喜準備享用母親特製的美味早餐。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌊 情節發展</div>
+                        <div class="flow-node-content">母親走進屋內，告訴女兒們附近貧民窟一位貧苦婦人剛生產，家中寒風刺骨且數名孩子飢腸轆轆。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">⚡ 高潮轉折</div>
+                        <div class="flow-node-content">姊妹們雖垂涎眼前的佳餚，但在母親的感召下毅然決定將自己的早餐打包，送到窮困鄰居家。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌟 啟發結局</div>
+                        <div class="flow-node-content">給予使靈魂更加豐盛。當她們看見窮苦孩子臉上綻放的感激淚水，度過了生命中最溫暖、最富足的耶誕節。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
+        
+            <div class="section-card">
+                <h2 class="section-title">💡 重點生字成語與部首象形圖鑑</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">罕見</span>
+                            <span class="v-zhu">ㄏㄢˇ ㄐㄧㄢˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">難得見到，非常稀少。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「罕」音ㄏㄢˇ，穴部，常誤讀為ㄏㄢ或ㄎㄢˇ。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">匱乏</span>
+                            <span class="v-zhu">ㄎㄨㄟˋ ㄈㄚˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">貧乏短缺，物資極度不足。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「匱」為匚部(音ㄎㄨㄟˋ)，常誤寫為「潰」(崩潰)或「潰乏」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">飢腸轆轆</span>
+                            <span class="v-zhu">ㄐㄧ ㄔㄤˊ ㄌㄨˋ ㄌㄨˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">肚子餓得咕嚕咕嚕直叫。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「轆」為車部，常考改錯別字（如誤寫為「露露」）。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">慷慨</span>
+                            <span class="v-zhu">ㄎㄤ ㄎㄞˇ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">為人豪爽、大方不吝嗇。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「慷慨」皆為心部，常誤寫為手部或少寫點。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">雪中送炭</span>
+                            <span class="v-zhu">ㄒㄩㄝˇ ㄓㄨㄥ ㄙㄨㄥˋ ㄊㄢˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">在別人艱難急迫時給予及時的幫助。</div>
+                        <div class="v-trap">⚠️ 易錯考點：常與「錦上添花」作正反義詞辨析。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
         <div class="section-card">
             <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
             <div class="quiz-hud">
@@ -298,6 +514,7 @@
             <div class="question-box">
                 <span class="question-type" id="qType">考點解析</span>
                 <div class="question-text" id="qText">題目載入中...</div>
+                <div class="quiz-visual-box" id="quizVisualBox"></div>
             </div>
 
             <div class="options-grid" id="optGrid"></div>
@@ -308,7 +525,7 @@
     </div>
 
     <script>
-        const quizData = [{"type": "字音字形考點", "q": "下列文句「」中的字，讀音「完全正確」的是哪一項？", "options": ["這場大雪在南方實屬「罕」見：ㄏㄢˇ", "戰亂時期家家戶戶糧食「匱」乏：ㄍㄨㄟˋ", "飢腸「轆」轆肚子直叫：ㄌㄨㄛˋ", "她為人十分「慷」慨大方：ㄎㄤˇ"], "ans": "A", "steps": "A. 罕音 ㄏㄢˇ 正確；B. 匱音 ㄎㄨㄟˋ；C. 轆音 ㄌㄨˋ；D. 慷音 ㄎㄤ（一聲）。"}, {"type": "改錯別字陷阱", "q": "下列句子中，何者「完全沒有」錯別字？", "options": ["物資匱乏的寒冬裡，鄰居們互相扶持渡過難關。", "經過一整天長途跋涉，大家早已肌腸轆轆。", "他康慨解囊幫助貧病孤兒，善行受到各界讚揚。", "在別人的危難時刻雪中送碳，是最珍貴的人間溫情。"], "ans": "A", "steps": "B. 「肌」腸轆轆應為「飢」；C. 「康」慨應為「慷」慨；D. 雪中送「碳」應為「炭」。"}, {"type": "人物情節與心靈抉擇", "q": "在《耶誕節》課文中，馬區家四姊妹面對母親提議將豐盛早餐送給窮苦鄰居時，她們的心情轉折為何？", "options": ["堅決拒絕並與母親大吵一架", "雖然心裡感到不捨與飢餓，但最終被同理心喚醒，欣然歡喜地奉獻分享", "假裝答應，暗中卻偷偷把食物藏起來", "因為害怕被母親責罰才無奈被迫接受"], "ans": "B", "steps": "女孩們原本極其期待美味早餐，但在看見他人苦難後，主動克服口腹之慾，體會到分享的喜悅。"}, {"type": "成語反義辨析", "q": "「雪中送炭」這句成語的涵義，與下列何者意思「相反」？", "options": ["錦上添花", "落井下石", "拔刀相助", "解囊相助"], "ans": "B", "steps": "「雪中送炭」指在人急難時給予救援；「落井下石」指乘人之危加以打擊陷害，兩者涵義完全相反。"}, {"type": "經典文學意象分析", "q": "在小說《小婦人》中，耶誕節清晨的這一杯熱牛奶與麵包，象徵了什麼深層涵義？", "options": ["資本主義商業促銷的手法", "超越物資匱乏的仁愛、同理心與人性崇高光輝", "富人對窮人的施捨與炫耀", "傳統宗教繁瑣儀式的束縛"], "ans": "B", "steps": "簡樸的食物寄託了姊妹們純潔善良的心靈，是人道關懷與愛的精神象徵。"}, {"type": "外國文學背景常識", "q": "《小婦人》一書的故事發生在美國歷史上的哪一個重大時期？", "options": ["南北戰爭時期", "第一次世界大戰時期", "經濟大蕭條時期", "淘金熱時期"], "ans": "A", "steps": "小說背景為美國南北戰爭（1861-1865年），父親作為軍醫隨軍出征。"}, {"type": "詞語語境精確搭配", "q": "「災後物資極度（　），救援團隊緊急空投乾糧以解燃眉之急。」空格最適當填入：", "options": ["充沛", "匱乏", "珍貴", "貧苦"], "ans": "B", "steps": "形容資源或生活物資嚴重短缺不足，以「匱乏」最為典雅精確。"}, {"type": "句子修辭手法", "q": "「給予不是失去，而是讓愛在彼此的心田裡開出最燦爛的花朵。」這句話運用了：", "options": ["轉化與譬喻", "誇飾與排比", "反詰與設問", "雙關與倒裝"], "ans": "A", "steps": "將「心田」比作泥土（譬喻），將「愛」形容為開花（轉化/形象化）。"}];
+        const quizData = [{"type": "字音字形考點", "q": "下列文句「」中的字，讀音「完全正確」的是哪一項？", "options": ["這場大雪在南方實屬「罕」見：ㄏㄢˇ", "戰亂時期家家戶戶糧食「匱」乏：ㄍㄨㄟˋ", "飢腸「轆」轆肚子直叫：ㄌㄨㄛˋ", "她為人十分「慷」慨大方：ㄎㄤˇ"], "ans": "A", "steps": "A. 罕音 ㄏㄢˇ 正確；B. 匱音 ㄎㄨㄟˋ；C. 轆音 ㄌㄨˋ；D. 慷音 ㄎㄤ（一聲）。", "visual_hint": "💡 《第十課 耶誕節》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "改錯別字陷阱", "q": "下列句子中，何者「完全沒有」錯別字？", "options": ["物資匱乏的寒冬裡，鄰居們互相扶持渡過難關。", "經過一整天長途跋涉，大家早已肌腸轆轆。", "他康慨解囊幫助貧病孤兒，善行受到各界讚揚。", "在別人的危難時刻雪中送碳，是最珍貴的人間溫情。"], "ans": "A", "steps": "B. 「肌」腸轆轆應為「飢」；C. 「康」慨應為「慷」慨；D. 雪中送「碳」應為「炭」。", "visual_hint": "💡 《第十課 耶誕節》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "人物情節與心靈抉擇", "q": "在《耶誕節》課文中，馬區家四姊妹面對母親提議將豐盛早餐送給窮苦鄰居時，她們的心情轉折為何？", "options": ["堅決拒絕並與母親大吵一架", "雖然心裡感到不捨與飢餓，但最終被同理心喚醒，欣然歡喜地奉獻分享", "假裝答應，暗中卻偷偷把食物藏起來", "因為害怕被母親責罰才無奈被迫接受"], "ans": "B", "steps": "女孩們原本極其期待美味早餐，但在看見他人苦難後，主動克服口腹之慾，體會到分享的喜悅。", "visual_hint": "💡 《第十課 耶誕節》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "成語反義辨析", "q": "「雪中送炭」這句成語的涵義，與下列何者意思「相反」？", "options": ["錦上添花", "落井下石", "拔刀相助", "解囊相助"], "ans": "B", "steps": "「雪中送炭」指在人急難時給予救援；「落井下石」指乘人之危加以打擊陷害，兩者涵義完全相反。", "visual_hint": "❄️ 寒冬柴炭壁爐：在他人最困苦急難之際，及時給予溫暖援助。"}, {"type": "經典文學意象分析", "q": "在小說《小婦人》中，耶誕節清晨的這一杯熱牛奶與麵包，象徵了什麼深層涵義？", "options": ["資本主義商業促銷的手法", "超越物資匱乏的仁愛、同理心與人性崇高光輝", "富人對窮人的施捨與炫耀", "傳統宗教繁瑣儀式的束縛"], "ans": "B", "steps": "簡樸的食物寄託了姊妹們純潔善良的心靈，是人道關懷與愛的精神象徵。", "visual_hint": "💡 《第十課 耶誕節》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "外國文學背景常識", "q": "《小婦人》一書的故事發生在美國歷史上的哪一個重大時期？", "options": ["南北戰爭時期", "第一次世界大戰時期", "經濟大蕭條時期", "淘金熱時期"], "ans": "A", "steps": "小說背景為美國南北戰爭（1861-1865年），父親作為軍醫隨軍出征。", "visual_hint": "💡 《第十課 耶誕節》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "詞語語境精確搭配", "q": "「災後物資極度（　），救援團隊緊急空投乾糧以解燃眉之急。」空格最適當填入：", "options": ["充沛", "匱乏", "珍貴", "貧苦"], "ans": "B", "steps": "形容資源或生活物資嚴重短缺不足，以「匱乏」最為典雅精確。", "visual_hint": "💡 《第十課 耶誕節》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "句子修辭手法", "q": "「給予不是失去，而是讓愛在彼此的心田裡開出最燦爛的花朵。」這句話運用了：", "options": ["轉化與譬喻", "誇飾與排比", "反詰與設問", "雙關與倒裝"], "ans": "A", "steps": "將「心田」比作泥土（譬喻），將「愛」形容為開花（轉化/形象化）。", "visual_hint": "💡 《第十課 耶誕節》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}];
         let curIdx = 0;
         let score = 0;
         let answered = false;
@@ -328,6 +545,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('qType').textContent = q.type || '考點陷阱';
             document.getElementById('qText').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, '第十課 耶誕節');
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';

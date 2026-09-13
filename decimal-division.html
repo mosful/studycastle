@@ -615,6 +615,42 @@
     border-radius: 12px; cursor: pointer; box-shadow: 0 4px 0 #0A5A59;
   }
 
+  /* 小數視覺圖解容器樣式 */
+  .wb-diagram-box {
+    background: #FFFFFF;
+    border: 2px dashed #0077B6;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin: 10px 0 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 119, 182, 0.08);
+  }
+  .diagram-tag {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, #0077B6, #00B4D8);
+    color: #FFF;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .dec-svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.06));
+  }
+  .dec-svg text {
+    font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+    font-weight: 800;
+  }
+
   @media (max-width: 480px) {
     .isle .label { display: none; }
     .isle .dot { width: 42px; height: 42px; font-size: 19px; }
@@ -941,10 +977,15 @@ function renderLevel1(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getDecDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">🛸 第一關：小數放大鏡</h2>
       <p class="stage-sub">請填入括號中的正確數值：（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="font-size:32px; font-weight:800; color:#0077B6; text-align:center; margin:20px 0;">${item.q}</div>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（小數點右移秘訣）</div>
+        ${visualSvg}
+      </div>
+      <div style="font-size:32px; font-weight:800; color:#0077B6; text-align:center; margin:16px 0;">${item.q}</div>
       <div style="text-align:center; margin:14px 0;">
         <input type="text" class="wb-input" id="l1Inp" style="font-size:24px; text-align:center; width:150px;" placeholder="數值">
       </div>
@@ -992,10 +1033,15 @@ function renderLevel2(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getDecDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">🌌 第二關：整數除小數</h2>
       <p class="stage-sub">請計算算式結果：（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="font-size:36px; font-weight:800; color:#0077B6; text-align:center; margin:20px 0;">${item.q}</div>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（直式轉化模型）</div>
+        ${visualSvg}
+      </div>
+      <div style="font-size:36px; font-weight:800; color:#0077B6; text-align:center; margin:16px 0;">${item.q}</div>
       <div style="text-align:center; margin:14px 0;">
         <input type="text" class="wb-input" id="l2Inp" style="font-size:24px; text-align:center; width:150px;" placeholder="商數值">
       </div>
@@ -1043,10 +1089,15 @@ function renderLevel3(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getDecDiagramSvg(item);
     c.innerHTML = `
-      <h2 class="stage-title">🛰️ 第三關：小數除小數</h2>
+      <h2 class="stage-title">🛰️ 第三關：小數除以小數</h2>
       <p class="stage-sub">請計算算式結果：（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="font-size:36px; font-weight:800; color:#0077B6; text-align:center; margin:20px 0;">${item.q}</div>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（雙向位移模型）</div>
+        ${visualSvg}
+      </div>
+      <div style="font-size:36px; font-weight:800; color:#0077B6; text-align:center; margin:16px 0;">${item.q}</div>
       <div style="text-align:center; margin:14px 0;">
         <input type="text" class="wb-input" id="l3Inp" style="font-size:24px; text-align:center; width:150px;" placeholder="商數值">
       </div>
@@ -1065,13 +1116,13 @@ function renderLevel3(c){
       addCombo();
       spawnCoinEffect(ev);
       fb.className = 'feedback ok';
-      fb.textContent = `🎉 答對了！計算過程：${item.steps}`;
+      fb.textContent = `🎉 答對了！做法：${item.steps}`;
       setTimeout(() => { idx++; draw(); }, 1000);
     } else {
       playSound('wrong');
       resetCombo();
       fb.className = 'feedback bad shake';
-      fb.textContent = `😅 再算算看！${item.steps}`;
+      fb.textContent = `😅 記得小數點同時往右移！(${item.steps})`;
       setTimeout(() => fb.classList.remove('shake'), 400);
     }
   };
@@ -1079,11 +1130,11 @@ function renderLevel3(c){
 }
 
 function renderLevel4(c){
-  updateMascot('🌠', '第四關：四捨五入求概數！求到小數第一位，算到百分位看是否進位！');
+  updateMascot('🌠', '第四關：四捨五入星！求商到指定位數，看下一位決定進位還是捨去！');
   const pool = [
-    {q:'12 ÷ 6.6 (求商到小數點後第一位)', ans:'1.8', steps:'12 ÷ 6.6 = 1.81... => 約 1.8'},
-    {q:'4.6 ÷ 9.35 (求商到小數點後第一位)', ans:'0.5', steps:'4.6 ÷ 9.35 = 0.49... => 約 0.5'},
-    {q:'2.4 ÷ 7 (求商到小數點後第二位)', ans:'0.34', steps:'2.4 ÷ 7 = 0.342... => 約 0.34'}
+    {q:'10 ÷ 3（用四捨五入法求商到個位）', ans:'3', steps:'10 ÷ 3 = 3.33... 十分位 3 < 5 捨去 => 3'},
+    {q:'25 ÷ 7（用四捨五入法求商到小數第一位）', ans:'3.6', steps:'25 ÷ 7 = 3.57... 百分位 7 >= 5 進位 => 3.6'},
+    {q:'14 ÷ 6（用四捨五入法求商到小數第二位）', ans:'2.33', steps:'14 ÷ 6 = 2.333... 千分位 3 < 5 捨去 => 2.33'}
   ];
   let idx = 0;
   function draw(){
@@ -1093,9 +1144,14 @@ function renderLevel4(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getDecDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">🌠 第四關：四捨五入求概數</h2>
       <p class="stage-sub">${item.q}（第 ${idx+1} / ${pool.length} 題）</p>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（四捨五入觀察卡）</div>
+        ${visualSvg}
+      </div>
       <div style="text-align:center; margin:14px 0;">
         <input type="text" class="wb-input" id="l4Inp" style="font-size:24px; text-align:center; width:160px;" placeholder="輸入概數">
       </div>
@@ -1142,9 +1198,14 @@ function renderLevel5(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getDecDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">🏆 第五關：太空總部</h2>
       <p class="stage-sub">請在 □ 填入 >、< 或 = ：（第 ${idx+1} / ${pool.length} 題）</p>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（商的大小規律卡）</div>
+        ${visualSvg}
+      </div>
       <div style="font-size:36px; font-weight:800; color:#0077B6; text-align:center; margin:20px 0;">${item.q}</div>
       <div class="btn-row" style="justify-content:center;">
         <button class="btn leaf" onclick="checkL5('>', event)">大於 (&gt;)</button>
@@ -1246,6 +1307,84 @@ function decPick(itemId, val, btnEl) {
   }
 }
 
+// 小數視覺圖解 SVG 產生器
+function getDecDiagramSvg(item) {
+  if (!item) return '';
+  const text = (item.q || '') + ' ' + (item.explanation || '') + ' ' + (item.steps || '') + ' ' + (item.num || '');
+  
+  // 1. 四捨五入概數與數位結構 (table_rounding 或包含四捨五入)
+  if (item.num || text.includes('四捨五入') || text.includes('概數') || text.includes('取到')) {
+    const numVal = item.num || '38.264';
+    return `
+      <svg class="dec-svg" width="240" height="130" viewBox="0 0 240 130">
+        <rect x="20" y="25" width="200" height="55" rx="8" fill="#E0F2FE" stroke="#0284C7" stroke-width="2"/>
+        <text x="120" y="55" font-size="22" fill="#0369A1" text-anchor="middle" font-weight="bold">${numVal}</text>
+        <text x="120" y="72" font-size="10" fill="#0284C7" text-anchor="middle">個位 . 十分位 百分位 千分位</text>
+        <!-- 四捨五入規則提示 -->
+        <text x="120" y="102" font-size="11.5" fill="#D97706" text-anchor="middle" font-weight="bold">🔍 觀察指定位數的「下一位」：</text>
+        <text x="120" y="120" font-size="11" fill="#059669" text-anchor="middle">0~4 捨去 ｜ 5~9 進位 (+1)</text>
+      </svg>
+    `;
+  }
+
+  // 2. 水塔注水問題
+  if (text.includes('水塔') || text.includes('注水')) {
+    return `
+      <svg class="dec-svg" width="220" height="140" viewBox="0 0 220 140">
+        <!-- 圓柱水塔 -->
+        <rect x="50" y="30" width="120" height="75" rx="8" fill="#F0F9FF" stroke="#0284C7" stroke-width="2.5"/>
+        <rect x="50" y="60" width="120" height="45" rx="0" fill="#38BDF8" opacity="0.6"/>
+        <text x="110" y="85" font-size="16" text-anchor="middle">💧</text>
+        <text x="110" y="22" font-size="11.5" fill="#0369A1" text-anchor="middle" font-weight="bold">水塔容量 / 高度</text>
+        <line x1="40" y1="30" x2="40" y2="105" stroke="#0369A1" stroke-width="2"/>
+        <line x1="36" y1="30" x2="44" y2="30" stroke="#0369A1" stroke-width="2"/>
+        <line x1="36" y1="105" x2="44" y2="105" stroke="#0369A1" stroke-width="2"/>
+        <text x="30" y="70" font-size="11" fill="#0369A1" text-anchor="middle" transform="rotate(-90 30,70)">總深度</text>
+        <text x="110" y="126" font-size="11.5" fill="#0284C7" text-anchor="middle" font-weight="bold">時間 = 總量 ÷ 每分鐘注水量</text>
+      </svg>
+    `;
+  }
+
+  // 3. 餘數的小數點定位
+  if (text.includes('餘數') || text.includes('剩下') || text.includes('餘幾')) {
+    return `
+      <svg class="dec-svg" width="220" height="135" viewBox="0 0 220 135">
+        <rect x="25" y="25" width="170" height="80" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+        <text x="110" y="48" font-size="13" fill="#DC2626" text-anchor="middle" font-weight="bold">⚠️ 餘數小數點重要陷阱！</text>
+        <!-- 對齊箭頭 -->
+        <line x1="110" y1="58" x2="110" y2="85" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="4,2"/>
+        <text x="110" y="78" font-size="16">👇</text>
+        <text x="110" y="100" font-size="11.5" fill="#991B1B" text-anchor="middle" font-weight="bold">餘數小數點要對齊「原來的被除數」</text>
+        <text x="110" y="124" font-size="11" fill="#718096" text-anchor="middle">不可對齊向右移動後的新位置喔！</text>
+      </svg>
+    `;
+  }
+
+  // 4. 小數點向右移動 (除數是小數時)
+  if (text.includes('÷') && text.includes('.')) {
+    return `
+      <svg class="dec-svg" width="220" height="120" viewBox="0 0 220 120">
+        <rect x="20" y="25" width="180" height="65" rx="8" fill="#F0FDFA" stroke="#0D9488" stroke-width="2"/>
+        <text x="110" y="48" font-size="13" fill="#0F766E" text-anchor="middle" font-weight="bold">🚀 太空小數點位移術</text>
+        <text x="70" y="72" font-size="13" fill="#0D9488" font-weight="bold">除數 ↷</text>
+        <text x="145" y="72" font-size="13" fill="#0D9488" font-weight="bold">被除數 ↷</text>
+        <text x="110" y="108" font-size="11.5" fill="#047857" text-anchor="middle" font-weight="bold">除數移幾位，被除數就跟著移幾位！</text>
+      </svg>
+    `;
+  }
+
+  // 5. 通用分裝問題 (袋裝、包裝、長度切割)
+  return `
+    <svg class="dec-svg" width="220" height="110" viewBox="0 0 220 110">
+      <rect x="25" y="25" width="170" height="30" rx="6" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2"/>
+      <line x1="81" y1="25" x2="81" y2="55" stroke="#6D28D9" stroke-width="2" stroke-dasharray="3,2"/>
+      <line x1="138" y1="25" x2="138" y2="55" stroke="#6D28D9" stroke-width="2" stroke-dasharray="3,2"/>
+      <text x="110" y="45" font-size="11" fill="#4C1D95" text-anchor="middle" font-weight="bold">總量 ÷ 每份小數容量 = 份數</text>
+      <text x="110" y="85" font-size="11.5" fill="#7C3AED" text-anchor="middle">小數除法：利用直式或位移求商與餘數</text>
+    </svg>
+  `;
+}
+
 function renderDecWbQuizBody() {
   if (!U3_WB_DATA) return;
   const rev = U3_WB_DATA.reviews.find(r => r.review_id === decCurrentRevId);
@@ -1262,9 +1401,11 @@ function renderDecWbQuizBody() {
         const id1 = `u3_r${decCurrentRevId}_tab_${rIdx}_1`;
         const id2 = `u3_r${decCurrentRevId}_tab_${rIdx}_2`;
         const id3 = `u3_r${decCurrentRevId}_tab_${rIdx}_3`;
+        const visualSvg = getDecDiagramSvg(row);
         html += `
           <div class="wb-q-item">
             <div class="wb-q-text">原數值：<b style="color:#0077B6; font-size:18px;">${row.num}</b></div>
+            ${visualSvg ? `<div class="wb-diagram-box"><div class="diagram-tag">💡 看圖懂題意（數線概數指引）</div>${visualSvg}</div>` : ''}
             <div style="margin-top:8px;">
               <div style="font-weight:700; margin-bottom:4px;">(1) 取到個位：</div>
               <div class="wb-opt-grid">
@@ -1297,6 +1438,7 @@ function renderDecWbQuizBody() {
     } else {
       sec.items.forEach((item, iIdx) => {
         const itemId = `u3_r${decCurrentRevId}_s${sIdx}_${iIdx}`;
+        const visualSvg = getDecDiagramSvg(item);
         let opts = [];
         if (sec.type === 'comparison') {
           opts = ['>', '<', '='];
@@ -1324,6 +1466,7 @@ function renderDecWbQuizBody() {
         html += `
           <div class="wb-q-item">
             <div class="wb-q-text">${item.q}</div>
+            ${visualSvg ? `<div class="wb-diagram-box"><div class="diagram-tag">💡 看圖懂題意（小數模型）</div>${visualSvg}</div>` : ''}
             <div class="wb-opt-grid">
               ${opts.map(opt => `
                 <button type="button" class="wb-opt-btn ${decAnswers[itemId] === opt ? 'selected' : ''}" onclick="decPick('${itemId}', '${opt}', this)">

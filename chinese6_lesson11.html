@@ -9,7 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -136,6 +168,102 @@
             padding-bottom: 8px;
         }
 
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 14px 0 6px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 生字成語陷阱圖鑑卡片 */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .vocab-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .vocab-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1.5px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+        .v-word {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Noto Serif TC', serif;
+        }
+        .v-zhu {
+            color: var(--accent-amber);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+        .v-meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .v-trap {
+            margin-top: 4px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
         /* 題目互動介面 */
         .quiz-hud {
             display: flex;
@@ -170,9 +298,9 @@
             color: #FFF;
             padding: 2px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .question-text {
@@ -185,7 +313,7 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .quiz-opt-btn {
@@ -288,6 +416,94 @@
             <p style="line-height: 1.8; font-size: 1.05rem;">描寫紅髮安妮滿懷期待邀請好友黛安娜共享下午茶，卻因粗心誤把葡萄酒當成覆盆子果汁招待，引發一場令人啼笑皆非又考驗友誼的誤會。</p>
         </div>
 
+        
+            <div class="section-card">
+                <h2 class="section-title">🗺️ 課文情節起承轉合思維導圖</h2>
+                <div class="story-flow-grid">
+                    
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌱 起因背景</div>
+                        <div class="flow-node-content">安妮獲得瑪麗拉的許可，以成年淑女的規格鄭重邀請知己黛安娜來到綠屋共度下午茶時光。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌊 情節發展</div>
+                        <div class="flow-node-content">安妮熱情拿出儲藏室裡的紅色飲料，黛安娜讚不絕口一連痛飲三大杯，隨後卻面紅耳赤、步履蹣跚。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">⚡ 高潮轉折</div>
+                        <div class="flow-node-content">黛安娜酩酊大醉跌撞回家，其母貝瑞太太震怒，誤以為安妮故意誘騙女兒酗酒，嚴令兩人永遠絕交。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌟 啟發結局</div>
+                        <div class="flow-node-content">瑪麗拉回家檢視才發現安妮誤拿了珍藏的水果葡萄酒；風波過後，真摯純潔的友誼反而更加堅定。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
+        
+            <div class="section-card">
+                <h2 class="section-title">💡 重點生字成語與部首象形圖鑑</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">覆盆子</span>
+                            <span class="v-zhu">ㄈㄨˋ ㄆㄣˊ ㄗˇ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">一種酸甜多汁的紅色漿果。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「覆」音ㄈㄨˋ，襾部，常誤讀為ㄈㄨˊ。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">酩酊大醉</span>
+                            <span class="v-zhu">ㄇㄧㄥˇ ㄉㄧㄥˇ ㄉㄚˋ ㄗㄨㄟˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">喝得極醉，神智不清的樣子。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「酩酊」皆為酉部，常考極罕見之注音與改錯。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">賠罪</span>
+                            <span class="v-zhu">ㄆㄟˊ ㄗㄨㄟˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">承認錯誤向人道歉並求取原諒。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「賠」為貝部，常誤寫為「倍」或「陪」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">啼笑皆非</span>
+                            <span class="v-zhu">ㄊㄧˊ ㄒㄧㄠˋ ㄐㄧㄝ ㄈㄟ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">哭也不是，笑也不是，形容不知如何是好。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「啼」為口部，常誤寫為「蹄」(馬蹄)。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">絕交</span>
+                            <span class="v-zhu">ㄐㄩㄝˊ ㄐㄧㄠ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">中斷、斷絕彼此的友誼關係。</div>
+                        <div class="v-trap">⚠️ 易錯考點：常與「割席絕交」典故互相印證。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
         <div class="section-card">
             <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
             <div class="quiz-hud">
@@ -298,6 +514,7 @@
             <div class="question-box">
                 <span class="question-type" id="qType">考點解析</span>
                 <div class="question-text" id="qText">題目載入中...</div>
+                <div class="quiz-visual-box" id="quizVisualBox"></div>
             </div>
 
             <div class="options-grid" id="optGrid"></div>
@@ -308,7 +525,7 @@
     </div>
 
     <script>
-        const quizData = [{"type": "字音字形考點", "q": "下列各組「」中的字，哪一組讀音「完全正確」？", "options": ["「覆」盆子果汁：ㄈㄨˋ", "喝得「酩」「酊」大醉：ㄇㄧㄣˊ ㄉㄧㄥ", "向長輩鞠躬「賠」罪：ㄅㄟˋ", "神情令人啼笑「皆」非：ㄐㄧㄝˇ"], "ans": "A", "steps": "A. 覆音 ㄈㄨˋ 正確；B. 酩酊音 ㄇㄧㄥˇ ㄉㄧㄥˇ；C. 賠音 ㄆㄟˊ；D. 皆音 ㄐㄧㄝ。"}, {"type": "情節理解與因果分析", "q": "在課文中，黛安娜喝完果汁後之所以會身體不適、面紅耳赤，真正的根本原因是：", "options": ["果汁在常溫下腐敗變質", "安妮誤將瑪麗拉釀造的葡萄酒當作覆盆子果汁拿給黛安娜喝", "黛安娜對覆盆子產生嚴重食物過敏", "安妮故意在飲料裡下藥開玩笑"], "ans": "B", "steps": "安妮因粗心將櫥櫃中的水果葡萄酒誤認為覆盆子果汁，導致黛安娜酒醉。"}, {"type": "改錯別字陷阱", "q": "下列文句中，何者「沒有」任何錯別字？", "options": ["這場意外引發了一場啼笑皆非的誤會。", "得知真相後，安妮立刻登門賠罪，希望能挽回珍貴的友誼。", "他喝得茗町大醉，連回家的路都認不清。", "好友之間絕不應輕易因誤會而割席絕絕。"], "ans": "B", "steps": "A. 啼笑皆「非」在試卷常見誤寫為「飛」；C. 「茗町」應為「酩酊」；D. 割席「絕絕」應為「絕交」。B項字形完全正確典雅。"}, {"type": "人物性格刻劃", "q": "從這場下午茶風波的始末，可以看出主角安妮具有怎樣的性格特質？", "options": ["奸詐狡猾、刻意傷害朋友", "熱情浪漫、想像力豐富卻稍嫌粗心大意，但對朋友極其真摯", "自私自利、推卸責任", "冷漠孤僻、不擅與人交際"], "ans": "B", "steps": "安妮熱愛扮演成人淑女且富有熱情，雖粗心釀禍但深愛朋友、坦誠認錯，性格生動立體。"}, {"type": "成語精確辨析", "q": "「啼笑皆非」這個成語最適合用在下列哪一種情境？", "options": ["痛失至親好友時的嚎啕大哭", "面對令人尷尬、哭笑不得的荒謬意外時的反應", "在中大獎時的高聲狂歡", "戰場上面對強敵的嚴肅冷靜"], "ans": "B", "steps": "「啼笑皆非」形容事情既尷尬又滑稽，讓人哭也不是、笑也不是。"}, {"type": "文意深究與誤會化解", "q": "面對貝瑞太太的盛怒與嚴詞責備，瑪麗拉採取了何種態度來保護安妮？", "options": ["毫不講理地與貝瑞太太大打出手", "親自調查儲藏室確認真相，冷靜客觀地向貝瑞太太說明誤會緣由", "直接痛打安妮一頓向鄰居交代", "立刻打包行李搬離綠屋村莊"], "ans": "B", "steps": "瑪麗拉雖嚴肅但講理，親自查明原委後誠實向對方澄清，保護了純潔的安妮。"}, {"type": "文學寫作筆法", "q": "小說描寫安妮準備下午茶的各項精緻擺設（杯盤、桌巾、花飾），其主要文學作用是：", "options": ["證明綠屋家族非常富有", "鋪墊安妮對友誼的極度重視與莊重儀式感，反襯後續風波的強烈戲劇張力", "介紹十九世紀加拿大家具工藝", "拖延小說篇幅"], "ans": "B", "steps": "前端極致的精心準備，與後續突如其來的醉酒誤會形成強烈的反差戲劇效果。"}, {"type": "名著拓展認知", "q": "《清秀佳人》中的故事背景「愛德華王子島」，屬於哪一個國家著名的美麗省份？", "options": ["美國", "英國", "加拿大", "澳大利亞"], "ans": "C", "steps": "愛德華王子島是加拿大東部的著名省份，蒙哥馬利的故鄉。"}];
+        const quizData = [{"type": "字音字形考點", "q": "下列各組「」中的字，哪一組讀音「完全正確」？", "options": ["「覆」盆子果汁：ㄈㄨˋ", "喝得「酩」「酊」大醉：ㄇㄧㄣˊ ㄉㄧㄥ", "向長輩鞠躬「賠」罪：ㄅㄟˋ", "神情令人啼笑「皆」非：ㄐㄧㄝˇ"], "ans": "A", "steps": "A. 覆音 ㄈㄨˋ 正確；B. 酩酊音 ㄇㄧㄥˇ ㄉㄧㄥˇ；C. 賠音 ㄆㄟˊ；D. 皆音 ㄐㄧㄝ。", "visual_hint": "💡 《第十一課 下午茶風波》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "情節理解與因果分析", "q": "在課文中，黛安娜喝完果汁後之所以會身體不適、面紅耳赤，真正的根本原因是：", "options": ["果汁在常溫下腐敗變質", "安妮誤將瑪麗拉釀造的葡萄酒當作覆盆子果汁拿給黛安娜喝", "黛安娜對覆盆子產生嚴重食物過敏", "安妮故意在飲料裡下藥開玩笑"], "ans": "B", "steps": "安妮因粗心將櫥櫃中的水果葡萄酒誤認為覆盆子果汁，導致黛安娜酒醉。", "visual_hint": "💡 《第十一課 下午茶風波》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "改錯別字陷阱", "q": "下列文句中，何者「沒有」任何錯別字？", "options": ["這場意外引發了一場啼笑皆非的誤會。", "得知真相後，安妮立刻登門賠罪，希望能挽回珍貴的友誼。", "他喝得茗町大醉，連回家的路都認不清。", "好友之間絕不應輕易因誤會而割席絕絕。"], "ans": "B", "steps": "A. 啼笑皆「非」在試卷常見誤寫為「飛」；C. 「茗町」應為「酩酊」；D. 割席「絕絕」應為「絕交」。B項字形完全正確典雅。", "visual_hint": "💡 《第十一課 下午茶風波》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "人物性格刻劃", "q": "從這場下午茶風波的始末，可以看出主角安妮具有怎樣的性格特質？", "options": ["奸詐狡猾、刻意傷害朋友", "熱情浪漫、想像力豐富卻稍嫌粗心大意，但對朋友極其真摯", "自私自利、推卸責任", "冷漠孤僻、不擅與人交際"], "ans": "B", "steps": "安妮熱愛扮演成人淑女且富有熱情，雖粗心釀禍但深愛朋友、坦誠認錯，性格生動立體。", "visual_hint": "💡 《第十一課 下午茶風波》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "成語精確辨析", "q": "「啼笑皆非」這個成語最適合用在下列哪一種情境？", "options": ["痛失至親好友時的嚎啕大哭", "面對令人尷尬、哭笑不得的荒謬意外時的反應", "在中大獎時的高聲狂歡", "戰場上面對強敵的嚴肅冷靜"], "ans": "B", "steps": "「啼笑皆非」形容事情既尷尬又滑稽，讓人哭也不是、笑也不是。", "visual_hint": "🦵 部首象形【尢】：象徵跛足前行困難，引申為神情窘迫難堪。"}, {"type": "文意深究與誤會化解", "q": "面對貝瑞太太的盛怒與嚴詞責備，瑪麗拉採取了何種態度來保護安妮？", "options": ["毫不講理地與貝瑞太太大打出手", "親自調查儲藏室確認真相，冷靜客觀地向貝瑞太太說明誤會緣由", "直接痛打安妮一頓向鄰居交代", "立刻打包行李搬離綠屋村莊"], "ans": "B", "steps": "瑪麗拉雖嚴肅但講理，親自查明原委後誠實向對方澄清，保護了純潔的安妮。", "visual_hint": "💡 《第十一課 下午茶風波》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "文學寫作筆法", "q": "小說描寫安妮準備下午茶的各項精緻擺設（杯盤、桌巾、花飾），其主要文學作用是：", "options": ["證明綠屋家族非常富有", "鋪墊安妮對友誼的極度重視與莊重儀式感，反襯後續風波的強烈戲劇張力", "介紹十九世紀加拿大家具工藝", "拖延小說篇幅"], "ans": "B", "steps": "前端極致的精心準備，與後續突如其來的醉酒誤會形成強烈的反差戲劇效果。", "visual_hint": "💡 《第十一課 下午茶風波》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "名著拓展認知", "q": "《清秀佳人》中的故事背景「愛德華王子島」，屬於哪一個國家著名的美麗省份？", "options": ["美國", "英國", "加拿大", "澳大利亞"], "ans": "C", "steps": "愛德華王子島是加拿大東部的著名省份，蒙哥馬利的故鄉。", "visual_hint": "💡 《第十一課 下午茶風波》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}];
         let curIdx = 0;
         let score = 0;
         let answered = false;
@@ -328,6 +545,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('qType').textContent = q.type || '考點陷阱';
             document.getElementById('qText').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, '第十一課 下午茶風波');
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';

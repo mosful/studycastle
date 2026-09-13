@@ -9,7 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -136,6 +168,102 @@
             padding-bottom: 8px;
         }
 
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 14px 0 6px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 生字成語陷阱圖鑑卡片 */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .vocab-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .vocab-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1.5px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+        .v-word {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Noto Serif TC', serif;
+        }
+        .v-zhu {
+            color: var(--accent-amber);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+        .v-meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .v-trap {
+            margin-top: 4px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
         /* 題目互動介面 */
         .quiz-hud {
             display: flex;
@@ -170,9 +298,9 @@
             color: #FFF;
             padding: 2px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .question-text {
@@ -185,7 +313,7 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .quiz-opt-btn {
@@ -288,6 +416,99 @@
             <p style="line-height: 1.8; font-size: 1.05rem;">透過持續閱讀、廣泛交友、探索未知與勇於面對挫折，在成長道路上不斷修正與充實自我。</p>
         </div>
 
+        
+            <div class="section-card">
+                <h2 class="section-title">🗺️ 課文情節起承轉合思維導圖</h2>
+                <div class="story-flow-grid">
+                    
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌱 起因背景</div>
+                        <div class="flow-node-content">每個人都在人生的旅程中前行，如何才能遇見那個更成熟、更具智慧的「更好的自己」？</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌊 情節發展</div>
+                        <div class="flow-node-content">閱讀是一座隨身攜帶的避難所與智慧寶庫，讓我們跨越時空與智者對話。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">⚡ 高潮轉折</div>
+                        <div class="flow-node-content">結交益友、保持好奇心，勇敢跨出舒適圈探索未知領域。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌟 啟發結局</div>
+                        <div class="flow-node-content">將挫折與失敗視為生命的磨刀石，在逆境中學會反思與堅韌。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">第 5 階段</div>
+                        <div class="flow-node-content">成長是一場終身的修煉，只要每天進步一點點，就能在未來遇見閃閃發光的自己。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
+        
+            <div class="section-card">
+                <h2 class="section-title">💡 重點生字成語與部首象形圖鑑</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">砥礪</span>
+                            <span class="v-zhu">ㄉㄧˇ ㄌㄧˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">磨刀石，引申為磨練意志與勉勵品德。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「砥」為石部，常誤寫為「低」或「抵」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">賦予</span>
+                            <span class="v-zhu">ㄈㄨˋ ㄩˇ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">給予、交付重任或特定意義。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「賦」為貝部，常誤寫為「武」或漏掉右邊的「戈」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">藩籬</span>
+                            <span class="v-zhu">ㄈㄢ ㄌㄧˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">用竹木編成的籬笆，比喻限制或屏障。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「籬」音ㄌㄧˊ，竹部，常考改錯別字。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">無遠弗屆</span>
+                            <span class="v-zhu">ㄨˊ ㄩㄢˇ ㄈㄨˊ ㄐㄧㄝˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">不管多遙遠的地方都能到達。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「弗」為不之意；「屆」為到之意。常考成語字義解析。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">脫穎而出</span>
+                            <span class="v-zhu">ㄊㄨㄛ ㄧㄥˇ ㄦˊ ㄔㄨ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">比喻顯露才能，超越眾人。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「穎」為禾部，指錐芒或禾穗末端，常誤寫為「頭」或「項」。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
         <div class="section-card">
             <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
             <div class="quiz-hud">
@@ -298,6 +519,7 @@
             <div class="question-box">
                 <span class="question-type" id="qType">考點解析</span>
                 <div class="question-text" id="qText">題目載入中...</div>
+                <div class="quiz-visual-box" id="quizVisualBox"></div>
             </div>
 
             <div class="options-grid" id="optGrid"></div>
@@ -308,7 +530,7 @@
     </div>
 
     <script>
-        const quizData = [{"type": "論點論據分析", "q": "在《遇見更好的自己》一文中，作者認為「面對挫折」時，最具智慧的態度應該是：", "options": ["逃避失敗以免打擊信心", "將挫折視為生命的砥礪，從中反思並淬鍊心理韌性", "怨天尤人並怪罪環境不利", "立刻放棄原本的目標改走捷徑"], "ans": "B", "steps": "論說文中明確指出挫折是成長的墊腳石與磨刀石，應勇於面對並反思修正。"}, {"type": "字音字形陷阱", "q": "下列文句「」中的字詞，何者字形「完全正確」？", "options": ["這項任務付予了他重大的使命", "在逆境中相互低礪品德", "網路科技發達，資訊傳播無遠弗屆", "他在演講比賽中脫影而出"], "ans": "C", "steps": "A. 「付予」應為「賦予」；B. 「低礪」應為「砥礪」；D. 「脫影而出」應為「脫穎而出」。"}, {"type": "成語精確解析", "q": "「無遠弗屆」中的「弗」字，意思為何？", "options": ["可以", "不、沒有", "甚至", "更加"], "ans": "B", "steps": "「弗」為否定詞，意為「不」。「無遠弗屆」字面意思是：沒有多遙遠的地方是不能到達的。"}, {"type": "修辭手法辨析", "q": "「閱讀是一扇窗，推開它就能看見全世界的星光。」這句話使用了何種修辭手法？", "options": ["借代", "暗喻（譬喻）", "排比", "誇飾"], "ans": "B", "steps": "用「是」連結本體（閱讀）與喻體（一扇窗），屬於典型暗喻修辭。"}, {"type": "素養閱讀推論題", "q": "依據延伸閱讀張忠謀先生的觀點，促使一個人不斷「自我突破」的核心動力為何？", "options": ["追求更高的社會地位與薪資", "終身學習的自律與敢於自我歸零的勇氣", "仰賴前輩提拔與名師指點", "只在自己熟悉的領域保持領先"], "ans": "B", "steps": "文中提及張忠謀強調「終身學習、保持靈魂清醒、自我歸零並向未知請教的勇氣」。"}, {"type": "文意邏輯複句", "q": "「一個人（　）擁有再高的天賦，（　）不肯腳踏實地努力，終究無法登上成功的頂峰。」空格最適合填入哪一組關聯詞？", "options": ["只要……就……", "即使……如果……", "因為……所以……", "雖然……但是……"], "ans": "B", "steps": "「即使……如果……」構成假設與條件關係，強化縱使有天賦、若無努力亦枉然的邏輯論點。"}, {"type": "詞語感情色彩辨析", "q": "下列哪一個詞語的感情色彩屬於「貶義」？", "options": ["砥礪前行", "奮不顧身", "故步自封", "力爭上游"], "ans": "C", "steps": "「故步自封」比喻墨守成規、不求進步，含有強烈的貶斥諷刺意味。"}, {"type": "文體特點判斷", "q": "《遇見更好的自己》這篇課文具有論點、論據、論證三大要素，屬於何種文體？", "options": ["抒情文", "記敘文", "論說文", "說明文"], "ans": "C", "steps": "提出主張（論點），佐以事例或道理（論據），並進行邏輯推導（論證），是論說文的典型特徵。"}];
+        const quizData = [{"type": "論點論據分析", "q": "在《遇見更好的自己》一文中，作者認為「面對挫折」時，最具智慧的態度應該是：", "options": ["逃避失敗以免打擊信心", "將挫折視為生命的砥礪，從中反思並淬鍊心理韌性", "怨天尤人並怪罪環境不利", "立刻放棄原本的目標改走捷徑"], "ans": "B", "steps": "論說文中明確指出挫折是成長的墊腳石與磨刀石，應勇於面對並反思修正。", "visual_hint": "💡 《第三課 遇見更好的自己》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "字音字形陷阱", "q": "下列文句「」中的字詞，何者字形「完全正確」？", "options": ["這項任務付予了他重大的使命", "在逆境中相互低礪品德", "網路科技發達，資訊傳播無遠弗屆", "他在演講比賽中脫影而出"], "ans": "C", "steps": "A. 「付予」應為「賦予」；B. 「低礪」應為「砥礪」；D. 「脫影而出」應為「脫穎而出」。", "visual_hint": "💡 《第三課 遇見更好的自己》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "成語精確解析", "q": "「無遠弗屆」中的「弗」字，意思為何？", "options": ["可以", "不、沒有", "甚至", "更加"], "ans": "B", "steps": "「弗」為否定詞，意為「不」。「無遠弗屆」字面意思是：沒有多遙遠的地方是不能到達的。", "visual_hint": "💡 《第三課 遇見更好的自己》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "修辭手法辨析", "q": "「閱讀是一扇窗，推開它就能看見全世界的星光。」這句話使用了何種修辭手法？", "options": ["借代", "暗喻（譬喻）", "排比", "誇飾"], "ans": "B", "steps": "用「是」連結本體（閱讀）與喻體（一扇窗），屬於典型暗喻修辭。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "素養閱讀推論題", "q": "依據延伸閱讀張忠謀先生的觀點，促使一個人不斷「自我突破」的核心動力為何？", "options": ["追求更高的社會地位與薪資", "終身學習的自律與敢於自我歸零的勇氣", "仰賴前輩提拔與名師指點", "只在自己熟悉的領域保持領先"], "ans": "B", "steps": "文中提及張忠謀強調「終身學習、保持靈魂清醒、自我歸零並向未知請教的勇氣」。", "visual_hint": "💡 《第三課 遇見更好的自己》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "文意邏輯複句", "q": "「一個人（　）擁有再高的天賦，（　）不肯腳踏實地努力，終究無法登上成功的頂峰。」空格最適合填入哪一組關聯詞？", "options": ["只要……就……", "即使……如果……", "因為……所以……", "雖然……但是……"], "ans": "B", "steps": "「即使……如果……」構成假設與條件關係，強化縱使有天賦、若無努力亦枉然的邏輯論點。", "visual_hint": "💡 《第三課 遇見更好的自己》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "詞語感情色彩辨析", "q": "下列哪一個詞語的感情色彩屬於「貶義」？", "options": ["砥礪前行", "奮不顧身", "故步自封", "力爭上游"], "ans": "C", "steps": "「故步自封」比喻墨守成規、不求進步，含有強烈的貶斥諷刺意味。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "文體特點判斷", "q": "《遇見更好的自己》這篇課文具有論點、論據、論證三大要素，屬於何種文體？", "options": ["抒情文", "記敘文", "論說文", "說明文"], "ans": "C", "steps": "提出主張（論點），佐以事例或道理（論據），並進行邏輯推導（論證），是論說文的典型特徵。", "visual_hint": "💡 《第三課 遇見更好的自己》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}];
         let curIdx = 0;
         let score = 0;
         let answered = false;
@@ -328,6 +550,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('qType').textContent = q.type || '考點陷阱';
             document.getElementById('qText').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, '第三課 遇見更好的自己');
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';

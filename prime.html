@@ -1143,6 +1143,10 @@ function renderLevel1(c){
       <p class="stage-sub">這個數字是「${term('prime','質數')}」、「${term('composite','合數')}」，還是「都不是」呢？</p>
       <div class="progress-mini">進度：第 ${idx+1} / ${questions.length} 題</div>
       <div class="big-number">${n}</div>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（因數模型）</div>
+        ${getPrimeDiagramSvg({num: n})}
+      </div>
       <div class="btn-row center" style="justify-content:center;">
         <button class="btn" onclick="l1answer('prime', event)">質數</button>
         <button class="btn leaf" onclick="l1answer('composite', event)">合數</button>
@@ -1634,6 +1638,38 @@ goto('intro');
 
 .wb-q-text { font-size: 15.5px; font-weight: 700; line-height: 1.6; margin-bottom: 10px; color: #12303B; }
 
+/* 質數與因數分解視覺化卡片 */
+.wb-diagram-box {
+  background: #FFFFFF;
+  border: 2px dashed #1C86A6;
+  border-radius: 12px;
+  padding: 10px;
+  margin: 10px 0 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.04);
+}
+.diagram-tag {
+  align-self: flex-start;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #0B4F6C;
+  background: #E0F2FE;
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.prime-svg {
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.06));
+}
+
 /* 作業簿選項大按鈕網格 (直接點選) */
 .wb-opt-grid {
   display: grid;
@@ -1747,6 +1783,277 @@ function wbPick(itemId, val, btnEl) {
   }
 }
 
+// 質數、因數與短除法視覺圖解 SVG 產生器
+function getPrimeDiagramSvg(item) {
+  if (!item) return '';
+  const text = (item.q || '') + ' ' + (item.note || '') + ' ' + (item.steps || '') + ' ' + (item.tree || '') + ' ' + (item.common || '') + ' ' + (item.explanation || '');
+  const num = item.num;
+  const pair = item.pair || '';
+
+  // 1. 質數與合數判定
+  if (num) {
+    const isP = item.answer === 'prime' || [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47].includes(num);
+    if (isP) {
+      return `
+        <svg class="prime-svg" width="220" height="95" viewBox="0 0 220 95">
+          <!-- 質數金盾 -->
+          <rect x="15" y="12" width="190" height="72" rx="14" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2.5"/>
+          <text x="42" y="55" font-size="28">🛡️</text>
+          <text x="120" y="40" font-size="16" fill="#B45309" font-weight="900" text-anchor="middle">數字 ${num} 是質數！</text>
+          <text x="120" y="62" font-size="11.5" fill="#92400E" text-anchor="middle">因數只有 1 和自己（只能排 1 列）</text>
+          <text x="120" y="78" font-size="11" fill="#D97706" text-anchor="middle">金盾防護：無法被其他整數拆分！</text>
+        </svg>
+      `;
+    } else {
+      // 合數磁磚陣列模型
+      return `
+        <svg class="prime-svg" width="220" height="105" viewBox="0 0 220 105">
+          <rect x="15" y="10" width="190" height="85" rx="14" fill="#E0F2FE" stroke="#0284C7" stroke-width="2"/>
+          <text x="40" y="50" font-size="24">🧱</text>
+          <text x="120" y="34" font-size="15" fill="#0369A1" font-weight="900" text-anchor="middle">數字 ${num} 是合數！</text>
+          <!-- 示意小磁磚矩陣 -->
+          <g transform="translate(68, 42)">
+            <rect x="0" y="0" width="14" height="12" rx="2" fill="#38BDF8"/>
+            <rect x="18" y="0" width="14" height="12" rx="2" fill="#38BDF8"/>
+            <rect x="36" y="0" width="14" height="12" rx="2" fill="#38BDF8"/>
+            <rect x="54" y="0" width="14" height="12" rx="2" fill="#38BDF8"/>
+            <rect x="0" y="16" width="14" height="12" rx="2" fill="#38BDF8"/>
+            <rect x="18" y="16" width="14" height="12" rx="2" fill="#38BDF8"/>
+            <rect x="36" y="16" width="14" height="12" rx="2" fill="#38BDF8"/>
+            <rect x="54" y="16" width="14" height="12" rx="2" fill="#38BDF8"/>
+          </g>
+          <text x="120" y="88" font-size="11.5" fill="#0284C7" text-anchor="middle">能拼成多排長方形（有其他因數）</text>
+        </svg>
+      `;
+    }
+  }
+
+  // 2. 樹狀質因數分解 (44, 28, 57 等)
+  if (item.tree) {
+    if (text.includes('44')) {
+      return `
+        <svg class="prime-svg" width="230" height="110" viewBox="0 0 230 110">
+          <circle cx="115" cy="20" r="16" fill="#FDE047" stroke="#CA8A04" stroke-width="2"/>
+          <text x="115" y="25" font-size="13" font-weight="bold" fill="#854D0E" text-anchor="middle">44</text>
+          <line x1="105" y1="34" x2="65" y2="56" stroke="#94A3B8" stroke-width="2"/>
+          <line x1="125" y1="34" x2="165" y2="56" stroke="#94A3B8" stroke-width="2"/>
+          <circle cx="65" cy="65" r="14" fill="#BBF7D0" stroke="#16A34A" stroke-width="2"/>
+          <text x="65" y="70" font-size="12" font-weight="bold" fill="#15803D" text-anchor="middle">2</text>
+          <rect x="150" y="52" width="30" height="26" rx="6" fill="#E2E8F0" stroke="#64748B" stroke-width="2"/>
+          <text x="165" y="69" font-size="12" font-weight="bold" fill="#334155" text-anchor="middle">22</text>
+          <line x1="155" y1="78" x2="135" y2="92" stroke="#94A3B8" stroke-width="2"/>
+          <line x1="175" y1="78" x2="195" y2="92" stroke="#94A3B8" stroke-width="2"/>
+          <circle cx="135" cy="98" r="11" fill="#BBF7D0" stroke="#16A34A" stroke-width="1.8"/>
+          <text x="135" y="102" font-size="10" font-weight="bold" fill="#15803D" text-anchor="middle">2</text>
+          <circle cx="195" cy="98" r="11" fill="#BBF7D0" stroke="#16A34A" stroke-width="1.8"/>
+          <text x="195" y="102" font-size="10" font-weight="bold" fill="#15803D" text-anchor="middle">11</text>
+        </svg>
+      `;
+    }
+    return `
+      <svg class="prime-svg" width="220" height="90" viewBox="0 0 220 90">
+        <circle cx="110" cy="22" r="16" fill="#FDE047" stroke="#CA8A04" stroke-width="2"/>
+        <text x="110" y="27" font-size="13" font-weight="bold" fill="#854D0E" text-anchor="middle">${item.tree.split('=')[0].trim()}</text>
+        <line x1="100" y1="36" x2="60" y2="58" stroke="#94A3B8" stroke-width="2"/>
+        <line x1="120" y1="36" x2="160" y2="58" stroke="#94A3B8" stroke-width="2"/>
+        <circle cx="60" cy="68" r="14" fill="#BBF7D0" stroke="#16A34A" stroke-width="2"/>
+        <text x="60" y="73" font-size="11" font-weight="bold" fill="#15803D" text-anchor="middle">質數</text>
+        <circle cx="160" cy="68" r="14" fill="#BBF7D0" stroke="#16A34A" stroke-width="2"/>
+        <text x="160" y="73" font-size="11" font-weight="bold" fill="#15803D" text-anchor="middle">質數</text>
+      </svg>
+    `;
+  }
+
+  // 3. 互質判斷 (Venn Diagram 圓圈交集)
+  if (item.coprime !== undefined || text.includes('互質')) {
+    const isCo = item.coprime === true || text.includes('只有1') || text.includes('互質 (✓)');
+    return `
+      <svg class="prime-svg" width="230" height="100" viewBox="0 0 230 100">
+        <!-- 左圈與右圈相交 -->
+        <circle cx="85" cy="50" r="38" fill="rgba(59, 130, 246, 0.25)" stroke="#2563EB" stroke-width="2"/>
+        <circle cx="145" cy="50" r="38" fill="rgba(249, 115, 22, 0.25)" stroke="#EA580C" stroke-width="2"/>
+        <text x="65" y="55" font-size="12" fill="#1E40AF" font-weight="bold" text-anchor="middle">A 的因數</text>
+        <text x="165" y="55" font-size="12" fill="#C2410C" font-weight="bold" text-anchor="middle">B 的因數</text>
+        <!-- 中間交集公因數 -->
+        <rect x="100" y="32" width="30" height="36" rx="6" fill="#FFFFFF" stroke="${isCo ? '#10B981' : '#EF4444'}" stroke-width="2"/>
+        <text x="115" y="48" font-size="11" fill="${isCo ? '#047857' : '#DC2626'}" font-weight="bold" text-anchor="middle">${isCo ? '公因數 1' : '公因數>1'}</text>
+        <text x="115" y="62" font-size="12" text-anchor="middle">${isCo ? '🛡️' : '⚠️'}</text>
+        <text x="115" y="90" font-size="11.5" fill="${isCo ? '#047857' : '#DC2626'}" font-weight="bold" text-anchor="middle">${isCo ? '最大公因數只有 1 ➜ 互質！' : '還有其他公因數 ➜ 沒有互質！'}</text>
+      </svg>
+    `;
+  }
+
+  // 4. 生活應用題：長方形紙板剪正方形
+  if (text.includes('長方形紙版') || (text.includes('48') && text.includes('36'))) {
+    return `
+      <svg class="prime-svg" width="230" height="135" viewBox="0 0 230 135">
+        <!-- 長 48 寬 36 裁切正方形網格 -->
+        <rect x="25" y="25" width="180" height="80" rx="4" fill="#FEF9C3" stroke="#CA8A04" stroke-width="2.5"/>
+        <!-- 4 x 3 網格線 (每格 12x12) -->
+        <line x1="70" y1="25" x2="70" y2="105" stroke="#EAB308" stroke-width="2" stroke-dasharray="3,2"/>
+        <line x1="115" y1="25" x2="115" y2="105" stroke="#EAB308" stroke-width="2" stroke-dasharray="3,2"/>
+        <line x1="160" y1="25" x2="160" y2="105" stroke="#EAB308" stroke-width="2" stroke-dasharray="3,2"/>
+        <line x1="25" y1="52" x2="205" y2="52" stroke="#EAB308" stroke-width="2" stroke-dasharray="3,2"/>
+        <line x1="25" y1="78" x2="205" y2="78" stroke="#EAB308" stroke-width="2" stroke-dasharray="3,2"/>
+        <text x="115" y="18" font-size="12" fill="#854D0E" font-weight="bold" text-anchor="middle">長 48 公分</text>
+        <text x="15" y="68" font-size="11" fill="#854D0E" font-weight="bold" text-anchor="middle">寬36</text>
+        <!-- 單格正方形標示 -->
+        <rect x="25" y="25" width="45" height="27" fill="rgba(249, 115, 22, 0.3)" stroke="#EA580C" stroke-width="2"/>
+        <text x="47" y="43" font-size="11" fill="#C2410C" font-weight="bold" text-anchor="middle">12×12</text>
+        <text x="115" y="125" font-size="11.5" fill="#B45309" font-weight="bold" text-anchor="middle">剪成最大正方形：求 GCD(48, 36) = 12 cm</text>
+      </svg>
+    `;
+  }
+
+  // 5. 玫瑰花平分 (45 朵紅花、36 朵白花)
+  if (text.includes('玫瑰')) {
+    return `
+      <svg class="prime-svg" width="230" height="110" viewBox="0 0 230 110">
+        <rect x="20" y="18" width="80" height="50" rx="8" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+        <text x="60" y="40" font-size="16" text-anchor="middle">🌹</text>
+        <text x="60" y="58" font-size="11" fill="#B91C1C" font-weight="bold" text-anchor="middle">45 朵紅花</text>
+
+        <text x="115" y="48" font-size="20" fill="#64748B" text-anchor="middle">＋</text>
+
+        <rect x="130" y="18" width="80" height="50" rx="8" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+        <text x="170" y="40" font-size="16" text-anchor="middle">🌼</text>
+        <text x="170" y="58" font-size="11" fill="#334155" font-weight="bold" text-anchor="middle">36 朵白花</text>
+
+        <text x="115" y="85" font-size="12" fill="#047857" font-weight="bold" text-anchor="middle">💐 求公因數平分成 9 束！</text>
+        <text x="115" y="102" font-size="11" fill="#6B7280" text-anchor="middle">每束有 5 朵紅花 ＋ 4 朵白花</text>
+      </svg>
+    `;
+  }
+
+  // 6. 鉛筆與橡皮擦平分 (54 枝鉛筆、27 個橡皮擦)
+  if (text.includes('鉛筆') || text.includes('橡皮擦')) {
+    return `
+      <svg class="prime-svg" width="230" height="110" viewBox="0 0 230 110">
+        <rect x="25" y="18" width="75" height="50" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+        <text x="62" y="40" font-size="16" text-anchor="middle">✏️</text>
+        <text x="62" y="58" font-size="11" fill="#B45309" font-weight="bold" text-anchor="middle">54 枝鉛筆</text>
+
+        <rect x="130" y="18" width="75" height="50" rx="8" fill="#E0E7FF" stroke="#6366F1" stroke-width="2"/>
+        <text x="167" y="40" font-size="16" text-anchor="middle">🧼</text>
+        <text x="167" y="58" font-size="11" fill="#4338CA" font-weight="bold" text-anchor="middle">27 個擦子</text>
+
+        <text x="115" y="85" font-size="12" fill="#047857" font-weight="bold" text-anchor="middle">🎁 最多可分給 27 個小朋友！</text>
+        <text x="115" y="102" font-size="11" fill="#6B7280" text-anchor="middle">每人分得 2 枝鉛筆、1 個橡皮擦</text>
+      </svg>
+    `;
+  }
+
+  // 7. 蘋果與梨子平分 (42 顆蘋果、70 顆梨子)
+  if (text.includes('蘋果') || text.includes('梨子')) {
+    return `
+      <svg class="prime-svg" width="230" height="110" viewBox="0 0 230 110">
+        <rect x="25" y="18" width="75" height="50" rx="8" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+        <text x="62" y="40" font-size="16" text-anchor="middle">🍎</text>
+        <text x="62" y="58" font-size="11" fill="#B91C1C" font-weight="bold" text-anchor="middle">42 個蘋果</text>
+
+        <rect x="130" y="18" width="75" height="50" rx="8" fill="#ECFCCB" stroke="#84CC16" stroke-width="2"/>
+        <text x="167" y="40" font-size="16" text-anchor="middle">🍐</text>
+        <text x="167" y="58" font-size="11" fill="#4D7C0F" font-weight="bold" text-anchor="middle">70 個梨子</text>
+
+        <text x="115" y="85" font-size="12" fill="#047857" font-weight="bold" text-anchor="middle">🎒 最多可分給 14 個學生！</text>
+        <text x="115" y="102" font-size="11" fill="#6B7280" text-anchor="middle">每人分得 3 個蘋果、5 個梨子</text>
+      </svg>
+    `;
+  }
+
+  // 8. 紙卡拼正方形 (長 5 寬 3 拼大正方形)
+  if (text.includes('拼成正方形') || (text.includes('5') && text.includes('3') && text.includes('紙卡'))) {
+    return `
+      <svg class="prime-svg" width="220" height="120" viewBox="0 0 220 120">
+        <!-- 15 x 15 大正方形 (由 3x5 張長 5 寬 3 小紙卡拼成) -->
+        <rect x="50" y="15" width="90" height="90" rx="4" fill="#E0F2FE" stroke="#0284C7" stroke-width="2.5"/>
+        <line x1="50" y1="45" x2="140" y2="45" stroke="#38BDF8" stroke-width="1.5"/>
+        <line x1="50" y1="75" x2="140" y2="75" stroke="#38BDF8" stroke-width="1.5"/>
+        <line x1="80" y1="15" x2="80" y2="105" stroke="#38BDF8" stroke-width="1.5"/>
+        <line x1="110" y1="15" x2="110" y2="105" stroke="#38BDF8" stroke-width="1.5"/>
+        <rect x="50" y="15" width="30" height="30" fill="rgba(251, 191, 36, 0.4)" stroke="#D97706" stroke-width="1.5"/>
+        <text x="65" y="34" font-size="10" fill="#92400E" text-anchor="middle">5×3</text>
+        <text x="95" y="8" font-size="11" fill="#0369A1" font-weight="bold" text-anchor="middle">邊長 15 cm</text>
+        <text x="180" y="55" font-size="11" fill="#0369A1" text-anchor="middle">拼出正方形</text>
+        <text x="180" y="75" font-size="11" fill="#047857" font-weight="bold" text-anchor="middle">邊長 = 15 cm</text>
+        <text x="180" y="92" font-size="10" fill="#6B7280" text-anchor="middle">[5, 3] = 15</text>
+      </svg>
+    `;
+  }
+
+  // 9. 超市週期 (每 3 天、每 4 天)
+  if (text.includes('超市') || text.includes('阿姨')) {
+    return `
+      <svg class="prime-svg" width="230" height="110" viewBox="0 0 230 110">
+        <!-- 數線軸 -->
+        <line x1="20" y1="55" x2="210" y2="55" stroke="#94A3B8" stroke-width="2"/>
+        <circle cx="30" cy="55" r="5" fill="#3B82F6"/>
+        <text x="30" y="72" font-size="10" fill="#1E40AF" text-anchor="middle">5/2出發</text>
+
+        <!-- 媽媽跳躍 (每3天) -->
+        <path d="M 30 50 Q 55 25 80 50 Q 105 25 130 50 Q 155 25 180 50" fill="none" stroke="#EC4899" stroke-width="2"/>
+        <text x="105" y="24" font-size="10.5" fill="#DB2777" font-weight="bold" text-anchor="middle">媽媽每 3 天一跳</text>
+
+        <!-- 阿姨跳躍 (每4天) -->
+        <path d="M 30 60 Q 65 85 100 60 Q 140 85 180 60" fill="none" stroke="#F59E0B" stroke-width="2"/>
+        <text x="105" y="96" font-size="10.5" fill="#D97706" font-weight="bold" text-anchor="middle">阿姨每 4 天一跳</text>
+
+        <!-- 相遇點 12 天後 -->
+        <circle cx="180" cy="55" r="7" fill="#10B981" stroke="#047857" stroke-width="2"/>
+        <text x="180" y="44" font-size="12">🚩</text>
+        <text x="180" y="74" font-size="10" fill="#047857" font-weight="bold" text-anchor="middle">5/14 同天</text>
+      </svg>
+    `;
+  }
+
+  // 10. 排隊人數 / 存錢筒
+  if (text.includes('柯南國小') || text.includes('排成一排') || text.includes('存錢筒')) {
+    return `
+      <svg class="prime-svg" width="220" height="95" viewBox="0 0 220 95">
+        <rect x="15" y="10" width="190" height="75" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+        <text x="45" y="52" font-size="26">🔢</text>
+        <text x="125" y="35" font-size="14" fill="#B45309" font-weight="900" text-anchor="middle">倍數找規律</text>
+        <text x="125" y="55" font-size="11.5" fill="#92400E" text-anchor="middle">先求出兩數的最小公倍數 (LCM)</text>
+        <text x="125" y="72" font-size="11" fill="#D97706" font-weight="bold" text-anchor="middle">再依題意放大或扣除餘額！</text>
+      </svg>
+    `;
+  }
+
+  // 11. 通用短除法模型 (GCD 左欄相乘 vs LCM L型連乘)
+  if (pair || text.includes('短除法') || text.includes('最大公因數') || text.includes('最小公倍數')) {
+    const isLcm = text.includes('最小公倍數') || text.includes('LCM') || text.includes('1-6');
+    return `
+      <svg class="prime-svg" width="220" height="110" viewBox="0 0 220 110">
+        <!-- 短除法階梯示意 -->
+        <rect x="25" y="15" width="170" height="80" rx="10" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1.5"/>
+        <!-- L 型符號 -->
+        <path d="M 60 30 L 60 75 L 160 75" fill="none" stroke="#2563EB" stroke-width="2.5"/>
+        <circle cx="45" cy="45" r="12" fill="#FDE047" stroke="#CA8A04" stroke-width="1.8"/>
+        <text x="45" y="49" font-size="11" font-weight="bold" fill="#854D0E" text-anchor="middle">質數</text>
+        <text x="90" y="48" font-size="12" fill="#334155">數 A</text>
+        <text x="135" y="48" font-size="12" fill="#334155">數 B</text>
+        <text x="90" y="90" font-size="11" fill="#64748B">商 a</text>
+        <text x="135" y="90" font-size="11" fill="#64748B">商 b</text>
+        <!-- 箭頭標示 -->
+        ${isLcm 
+          ? `<text x="155" y="30" font-size="11" fill="#DC2626" font-weight="bold">L型連乘 ➜ LCM</text>`
+          : `<text x="155" y="30" font-size="11" fill="#059669" font-weight="bold">只乘左邊 ➜ GCD</text>`
+        }
+      </svg>
+    `;
+  }
+
+  // 12. 預設概念卡
+  return `
+    <svg class="prime-svg" width="210" height="75" viewBox="0 0 210 75">
+      <rect x="10" y="8" width="190" height="58" rx="10" fill="#F0FDF4" stroke="#22C55E" stroke-width="1.8"/>
+      <text x="35" y="45" font-size="24">💡</text>
+      <text x="115" y="33" font-size="13" fill="#15803D" font-weight="bold" text-anchor="middle">質因數與倍數概念</text>
+      <text x="115" y="52" font-size="11" fill="#166534" text-anchor="middle">利用因數分解與短除法快速破題！</text>
+    </svg>
+  `;
+}
+
 function renderWbQuizBody() {
   const rev = U1_WB_DATA.reviews.find(r => r.review_id === wbCurrentRevId);
   const container = document.getElementById('wbQuizBody');
@@ -1761,10 +2068,15 @@ function renderWbQuizBody() {
       const itemId = `u1_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
       const qTitle = item.num ? `數字：<b>${item.num}</b>` : (item.pair ? `數組：<b>${item.pair}</b>` : item.q);
       const opts = item.options || [item.ans, '12', '24', '6'];
+      const visualSvg = getPrimeDiagramSvg(item);
 
       html += `
         <div class="wb-q-item">
           <div class="wb-q-text">${qTitle}</div>
+          <div class="wb-diagram-box">
+            <div class="diagram-tag">💡 看圖懂題意（概念圖解）</div>
+            ${visualSvg}
+          </div>
           <div class="wb-opt-grid">
             ${opts.map(opt => `
               <button type="button" class="wb-opt-btn ${wbAnswers[itemId] === opt ? 'selected' : ''}" onclick="wbPick('${itemId}', '${opt}', this)">

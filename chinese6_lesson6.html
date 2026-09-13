@@ -9,7 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -136,6 +168,102 @@
             padding-bottom: 8px;
         }
 
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 14px 0 6px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 生字成語陷阱圖鑑卡片 */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .vocab-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .vocab-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1.5px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+        .v-word {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Noto Serif TC', serif;
+        }
+        .v-zhu {
+            color: var(--accent-amber);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+        .v-meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .v-trap {
+            margin-top: 4px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
         /* 題目互動介面 */
         .quiz-hud {
             display: flex;
@@ -170,9 +298,9 @@
             color: #FFF;
             padding: 2px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .question-text {
@@ -185,7 +313,7 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .quiz-opt-btn {
@@ -288,6 +416,94 @@
             <p style="line-height: 1.8; font-size: 1.05rem;">介紹臺灣享譽國際的國民飲品「珍珠奶茶」的起源傳奇、創新研發過程與全球化風潮，展現飲食文化創意。</p>
         </div>
 
+        
+            <div class="section-card">
+                <h2 class="section-title">🗺️ 課文情節起承轉合思維導圖</h2>
+                <div class="story-flow-grid">
+                    
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌱 起因背景</div>
+                        <div class="flow-node-content">珍珠奶茶以Q彈粉圓搭配香濃奶茶，從臺灣街頭搖杯躍升為風靡全球的代表性飲品。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌊 情節發展</div>
+                        <div class="flow-node-content">敘述1980年代茶飲業者將傳統粉圓巧妙加入冰奶茶的靈感碰撞與反覆試驗。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">⚡ 高潮轉折</div>
+                        <div class="flow-node-content">探討粉圓熬煮火候、燜煮時間與黑糖浸潤的工藝祕訣，以及珍珠奶茶如何持續推陳出新。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌟 啟發結局</div>
+                        <div class="flow-node-content">登上國際舞台，成為行銷臺灣文化的亮麗名片與跨文化交流的甜蜜媒介。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
+        
+            <div class="section-card">
+                <h2 class="section-title">💡 重點生字成語與部首象形圖鑑</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">享譽</span>
+                            <span class="v-zhu">ㄒㄧㄤˇ ㄩˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">享有盛大美好的名聲。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「譽」為言部，常誤寫為「豫」(猶豫)或「舉」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">咀嚼</span>
+                            <span class="v-zhu">ㄐㄩˇ ㄐㄩㄝˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">用牙齒咬碎磨細食物，引申為細細體會玩味。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「咀」音ㄐㄩˇ，「嚼」在此音ㄐㄩㄝˊ，常考破音字辨析。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">跨越</span>
+                            <span class="v-zhu">ㄎㄨㄚˋ ㄩㄝˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">越過地區或界線限制。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「跨」為足部，常與「胯」(胯下)混淆。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">獨領風騷</span>
+                            <span class="v-zhu">ㄉㄨˊ ㄌㄧㄥˇ ㄈㄥ ㄙㄠ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">獨占鰲頭，引領時代潮流。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「騷」音ㄙㄠ，馬部，常誤寫為「搔」(搔癢)。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">推陳出新</span>
+                            <span class="v-zhu">ㄊㄨㄟ ㄔㄣˊ ㄔㄨ ㄒㄧㄣ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge" title="手部：與動作操作相關">✋ 手部·動作舉止</span></div>
+                        <div class="v-meaning">排除陳舊的，推展創造出新事物。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「陳」在此指舊事物，常考成語反義詞（如墨守成規）。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
         <div class="section-card">
             <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
             <div class="quiz-hud">
@@ -298,6 +514,7 @@
             <div class="question-box">
                 <span class="question-type" id="qType">考點解析</span>
                 <div class="question-text" id="qText">題目載入中...</div>
+                <div class="quiz-visual-box" id="quizVisualBox"></div>
             </div>
 
             <div class="options-grid" id="optGrid"></div>
@@ -308,7 +525,7 @@
     </div>
 
     <script>
-        const quizData = [{"type": "字音字形考點", "q": "下列文句「」中的字，哪一個讀音「錯誤」？", "options": ["這道佳餚值得細細「咀」嚼：ㄐㄩˇ", "珍珠奶茶「享」譽國際：ㄒㄧㄤˇ", "粉圓口感Q彈有嚼「勁」：ㄐㄧㄣˋ", "在油鍋中「炸」得香酥金黃：ㄓㄚˋ"], "ans": "D", "steps": "油炸烹調的「炸」應讀二聲「ㄓㄚˊ」；嚼勁（ㄐㄧㄣˋ）、咀（ㄐㄩˇ）嚼（ㄐㄩㄝˊ）讀音皆正確。"}, {"type": "說明文說明方法辨析", "q": "「珍珠奶茶在全球超過六十個國家掀起狂潮，日本更曾在一年內進口超過萬噸的臺灣粉圓。」這句話主要運用了哪種說明方法？", "options": ["舉例說明與數據佐證", "比喻擬人法", "全篇主觀情緒抒發", "神話傳說引用"], "ans": "A", "steps": "提及「日本」為具體舉例；提及「超過六十個國家」、「萬噸」為精確數據說明。"}, {"type": "改錯別字陷阱", "q": "下列文句中，何者「完全沒有」錯別字？", "options": ["這款創新飲品在國際市場上獨領風搔，備受年輕族群喜愛。", "珍珠粉圓經過黑糖長時間熬煮，呈現出晶瑩烏亮的光澤。", "飲食文化必須不斷推陳出新，才能避免墨受成規的衰退。", "臺灣手搖飲品店如雨後春筍般林立，競爭異常機烈。"], "ans": "B", "steps": "A. 獨領風「搔」應為「騷」；C. 墨「受」成規應為「守」；D. 機烈應為「激」烈。"}, {"type": "成語代換與反義", "q": "「珍珠奶茶在市場上持續『推陳出新』，研發各種新口味。」下列何者與「推陳出新」意思「相反」？", "options": ["墨守成規", "革故鼎新", "別出心裁", "標新立異"], "ans": "A", "steps": "「推陳出新」指創新開創；「墨守成規」指守著舊規矩不求創新，兩者相反。"}, {"type": "文化創新與深究", "q": "依據延伸閱讀與課文，珍珠奶茶之所以能「征服全世界」的根本優勢在於：", "options": ["由外國政府強力補貼推廣", "將在地傳統食材極致工藝化，並富於包容性與創新變化", "含有高濃度咖啡因讓人成癮", "全世界各地只有臺灣能種植茶樹"], "ans": "B", "steps": "珍奶的魅力在於結合工藝堅持、多元創新與融合不同文化的強大包容力。"}, {"type": "詞義代換精解", "q": "「享譽」一詞的意思最接近下列何者？", "options": ["名揚四海", "默默無聞", "臭名遠播", "毀譽參半"], "ans": "A", "steps": "享譽意為享有極高的聲譽，與「名揚四海」同義。"}, {"type": "句型邏輯結構", "q": "「珍珠奶茶（　）是臺灣人的國民記憶，（　）成了全世界認識臺灣的亮麗符號。」空格最適當的關聯詞是：", "options": ["與其……不如……", "不僅……更……", "因為……所以……", "雖然……但是……"], "ans": "B", "steps": "表示從本土記憶擴展到全球符號的「遞進複句」，用「不僅……更……」最恰當。"}, {"type": "說明文核心價值", "q": "這篇說明文除了介紹珍珠奶茶的美味外，更希望帶給讀者何種啟示？", "options": ["每天都應該喝多杯含糖飲料", "生活中的平凡事物，只要發揮創意與專注，也能綻放驚奇的世界級價值", "只有大企業才能進行研發創新", "外國的文化永遠比本土文化優秀"], "ans": "B", "steps": "傳統日常小吃粉圓結合茶飲，憑藉創意躍登世界舞台，啟發大家珍視身邊事物並發揮創新精神。"}];
+        const quizData = [{"type": "字音字形考點", "q": "下列文句「」中的字，哪一個讀音「錯誤」？", "options": ["這道佳餚值得細細「咀」嚼：ㄐㄩˇ", "珍珠奶茶「享」譽國際：ㄒㄧㄤˇ", "粉圓口感Q彈有嚼「勁」：ㄐㄧㄣˋ", "在油鍋中「炸」得香酥金黃：ㄓㄚˋ"], "ans": "D", "steps": "油炸烹調的「炸」應讀二聲「ㄓㄚˊ」；嚼勁（ㄐㄧㄣˋ）、咀（ㄐㄩˇ）嚼（ㄐㄩㄝˊ）讀音皆正確。", "visual_hint": "💡 《第六課 珍珠奶茶》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "說明文說明方法辨析", "q": "「珍珠奶茶在全球超過六十個國家掀起狂潮，日本更曾在一年內進口超過萬噸的臺灣粉圓。」這句話主要運用了哪種說明方法？", "options": ["舉例說明與數據佐證", "比喻擬人法", "全篇主觀情緒抒發", "神話傳說引用"], "ans": "A", "steps": "提及「日本」為具體舉例；提及「超過六十個國家」、「萬噸」為精確數據說明。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "改錯別字陷阱", "q": "下列文句中，何者「完全沒有」錯別字？", "options": ["這款創新飲品在國際市場上獨領風搔，備受年輕族群喜愛。", "珍珠粉圓經過黑糖長時間熬煮，呈現出晶瑩烏亮的光澤。", "飲食文化必須不斷推陳出新，才能避免墨受成規的衰退。", "臺灣手搖飲品店如雨後春筍般林立，競爭異常機烈。"], "ans": "B", "steps": "A. 獨領風「搔」應為「騷」；C. 墨「受」成規應為「守」；D. 機烈應為「激」烈。", "visual_hint": "💡 《第六課 珍珠奶茶》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "成語代換與反義", "q": "「珍珠奶茶在市場上持續『推陳出新』，研發各種新口味。」下列何者與「推陳出新」意思「相反」？", "options": ["墨守成規", "革故鼎新", "別出心裁", "標新立異"], "ans": "A", "steps": "「推陳出新」指創新開創；「墨守成規」指守著舊規矩不求創新，兩者相反。", "visual_hint": "💡 《第六課 珍珠奶茶》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "文化創新與深究", "q": "依據延伸閱讀與課文，珍珠奶茶之所以能「征服全世界」的根本優勢在於：", "options": ["由外國政府強力補貼推廣", "將在地傳統食材極致工藝化，並富於包容性與創新變化", "含有高濃度咖啡因讓人成癮", "全世界各地只有臺灣能種植茶樹"], "ans": "B", "steps": "珍奶的魅力在於結合工藝堅持、多元創新與融合不同文化的強大包容力。", "visual_hint": "💡 《第六課 珍珠奶茶》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "詞義代換精解", "q": "「享譽」一詞的意思最接近下列何者？", "options": ["名揚四海", "默默無聞", "臭名遠播", "毀譽參半"], "ans": "A", "steps": "享譽意為享有極高的聲譽，與「名揚四海」同義。", "visual_hint": "💡 《第六課 珍珠奶茶》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "句型邏輯結構", "q": "「珍珠奶茶（　）是臺灣人的國民記憶，（　）成了全世界認識臺灣的亮麗符號。」空格最適當的關聯詞是：", "options": ["與其……不如……", "不僅……更……", "因為……所以……", "雖然……但是……"], "ans": "B", "steps": "表示從本土記憶擴展到全球符號的「遞進複句」，用「不僅……更……」最恰當。", "visual_hint": "💡 《第六課 珍珠奶茶》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "說明文核心價值", "q": "這篇說明文除了介紹珍珠奶茶的美味外，更希望帶給讀者何種啟示？", "options": ["每天都應該喝多杯含糖飲料", "生活中的平凡事物，只要發揮創意與專注，也能綻放驚奇的世界級價值", "只有大企業才能進行研發創新", "外國的文化永遠比本土文化優秀"], "ans": "B", "steps": "傳統日常小吃粉圓結合茶飲，憑藉創意躍登世界舞台，啟發大家珍視身邊事物並發揮創新精神。", "visual_hint": "💡 《第六課 珍珠奶茶》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}];
         let curIdx = 0;
         let score = 0;
         let answered = false;
@@ -328,6 +545,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('qType').textContent = q.type || '考點陷阱';
             document.getElementById('qText').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, '第六課 珍珠奶茶');
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';

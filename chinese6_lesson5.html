@@ -9,7 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -136,6 +168,102 @@
             padding-bottom: 8px;
         }
 
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 14px 0 6px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 生字成語陷阱圖鑑卡片 */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .vocab-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .vocab-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1.5px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+        .v-word {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Noto Serif TC', serif;
+        }
+        .v-zhu {
+            color: var(--accent-amber);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+        .v-meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .v-trap {
+            margin-top: 4px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
         /* 題目互動介面 */
         .quiz-hud {
             display: flex;
@@ -170,9 +298,9 @@
             color: #FFF;
             padding: 2px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .question-text {
@@ -185,7 +313,7 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .quiz-opt-btn {
@@ -288,6 +416,89 @@
             <p style="line-height: 1.8; font-size: 1.05rem;">透過親手為家人製作特調果汁的溫馨過程，體會付出心力、關懷家人的真摯情感，感受愛是人間最甘甜的滋味。</p>
         </div>
 
+        
+            <div class="section-card">
+                <h2 class="section-title">🗺️ 課文情節起承轉合思維導圖</h2>
+                <div class="story-flow-grid">
+                    
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌱 起因背景</div>
+                        <div class="flow-node-content">炎熱的夏日午後，看見媽媽下班後疲憊的身影，作者萌生為家人準備清涼特調飲品的心意。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌊 情節發展</div>
+                        <div class="flow-node-content">在廚房細心挑選新鮮柳橙、檸檬與蜂蜜，歷經壓汁、過濾、調配甜度的摸索與調整。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">⚡ 高潮轉折</div>
+                        <div class="flow-node-content">親手端上這杯色彩繽紛、酸甜適中的果汁，看見媽媽臉上綻放的驚喜與笑容，領悟到親情與關愛就是最珍貴的味覺禮物。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
+        
+            <div class="section-card">
+                <h2 class="section-title">💡 重點生字成語與部首象形圖鑑</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">疲憊</span>
+                            <span class="v-zhu">ㄆㄧˊ ㄅㄟˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">極度疲勞困倦。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「憊」為心部，常誤寫為「備」(準備)。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">沁涼</span>
+                            <span class="v-zhu">ㄑㄧㄣˋ ㄌㄧㄤˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">清涼宜人，透入心脾。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「沁」音ㄑㄧㄣˋ，水部，常誤讀為ㄒㄧㄣ。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">濃郁</span>
+                            <span class="v-zhu">ㄋㄨㄥˊ ㄩˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">香氣或色彩濃烈深厚。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「郁」為邑部，常誤寫為「鬱」(鬱悶)。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">甘醇</span>
+                            <span class="v-zhu">ㄍㄢ ㄔㄨㄣˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">味道甘美純厚。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「醇」為酉部，常誤寫為「純」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">回味無窮</span>
+                            <span class="v-zhu">ㄏㄨㄟˊ ㄨㄟˋ ㄨˊ ㄑㄩㄥˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">比喻事後細細體會，越想越有意思或事物美味讓人難以忘懷。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「窮」在此作「盡」解釋，常考成語字義。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
         <div class="section-card">
             <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
             <div class="quiz-hud">
@@ -298,6 +509,7 @@
             <div class="question-box">
                 <span class="question-type" id="qType">考點解析</span>
                 <div class="question-text" id="qText">題目載入中...</div>
+                <div class="quiz-visual-box" id="quizVisualBox"></div>
             </div>
 
             <div class="options-grid" id="optGrid"></div>
@@ -308,7 +520,7 @@
     </div>
 
     <script>
-        const quizData = [{"type": "字音字形辨析", "q": "下列各組「」中的字，何者字形「完全相同」？", "options": ["「ㄑㄧㄣˋ」人心脾 ／ 「ㄑㄧㄣˋ」涼暢快", "精「ㄔㄨㄣˊ」濃厚 ／ 氣質「ㄔㄨㄣˊ」樸", "消除「ㄆㄧˊ」勞 ／ 疲「ㄅㄟˋ」不堪", "回味無「ㄑㄩㄥˊ」 ／ 貧「ㄑㄩㄥˊ」潦倒"], "ans": "A", "steps": "A. 皆為「沁」；B. 精「醇」／「純」樸；C. 「疲」勞／疲「憊」；D. 雖皆為「窮」，但在A選項同字同音同形最為典範。"}, {"type": "課文深究與情感分析", "q": "課文中作者認為這杯果汁之所以是「最好的味覺禮物」，關鍵原因在於：", "options": ["使用了全世界最昂貴稀有的進口水果", "添加了頂級昂貴的天然蜂蜜與珍珠", "飲品中融入了對母親的感恩、體貼與滿滿的愛心", "果汁具有神奇的醫療功效能治百病"], "ans": "C", "steps": "禮物的價值不在於物質價格，而在於傾注關愛、體貼家人的心意與情感。"}, {"type": "改錯別字陷阱", "q": "下列文句中，何者「沒有」任何錯別字？", "options": ["盛夏午後喝下一杯清涼果汁，令人心曠神怡，回未無窮。", "媽媽下班回家後神情極度疲備，需要好好休息放鬆。", "撲鼻而來的花香沁人心脾，瞬間洗滌了一整天的煩憂。", "廚房裡瀰漫著甘純濃郁的果香，令人垂延三尺。"], "ans": "C", "steps": "A. 回「未」無窮應為「味」；B. 疲「備」應為「憊」；D. 甘「純」應為「醇」，垂「延」應為「涎」。"}, {"type": "句型與修辭辨析", "q": "「只要看到媽媽喝下果汁時露出的笑容，所有的辛苦便都化作了甜蜜。」這句話屬於何種複句關係？", "options": ["條件複句", "轉折複句", "因果複句", "假設複句"], "ans": "A", "steps": "以「只要……便……」連接條件與結果，屬於充分條件複句。"}, {"type": "素養閱讀推論題", "q": "依據延伸閱讀《父親的酸梅湯》，作者長大後為何對那鍋酸梅湯依舊難以忘懷？", "options": ["因為市面上再也買不到烏梅和山楂", "酸梅湯的味道承載了父親含蓄深沉的關懷與成長記憶", "因為父親靠賣酸梅湯賺取了大筆財富", "因為父親的酸梅湯味道比可樂還要甜"], "ans": "B", "steps": "文中強調舌尖浮現的微甘承載了「歲月的深沉父愛，是世間無可取代的情感饗宴」。"}, {"type": "成語造句運用", "q": "下列成語的運用，何者最為「恰當」？", "options": ["這場音樂會精彩絕倫，演奏結束後依然讓人「回味無窮」。", "他平時不用功，考試前「臨渴掘井」，果然考了第一名。", "這名歹徒作惡多端，大家對他真是「垂涎三尺」。", "雙方球員實力相差懸殊，是一場「勢均力敵」的比賽。"], "ans": "A", "steps": "A運用正確；B「臨渴掘井」表臨時抱佛腳，不可能考第一名；C「垂涎三尺」形容貪饞，不合情境；D「相差懸殊」與「勢均力敵」矛盾。"}, {"type": "詞語代換辨析", "q": "「他經過一整天的奔波，顯得極為『疲憊』。」句中「疲憊」可以用下列何者代換？", "options": ["委頓", "困頓", "倦怠", "以上皆可"], "ans": "D", "steps": "委頓、困頓、倦怠皆含有極度疲倦無力之意，可視語境替換。"}, {"type": "動作描寫細節", "q": "作者在調製飲品時「屏息凝神地滴入檸檬汁，深怕破壞了甜與酸的和諧」，這句細節描寫展現出：", "options": ["作者對廚藝完全缺乏自信與恐懼", "作者專注認真、唯恐不夠完美的體貼用心", "作者被迫做家事的滿腹委屈", "作者做事拖泥帶水、猶豫不決"], "ans": "B", "steps": "屏息凝神展現出專心致志，深怕破壞和諧凸顯對這份心意的珍視與細膩愛意。"}];
+        const quizData = [{"type": "字音字形辨析", "q": "下列各組「」中的字，何者字形「完全相同」？", "options": ["「ㄑㄧㄣˋ」人心脾 ／ 「ㄑㄧㄣˋ」涼暢快", "精「ㄔㄨㄣˊ」濃厚 ／ 氣質「ㄔㄨㄣˊ」樸", "消除「ㄆㄧˊ」勞 ／ 疲「ㄅㄟˋ」不堪", "回味無「ㄑㄩㄥˊ」 ／ 貧「ㄑㄩㄥˊ」潦倒"], "ans": "A", "steps": "A. 皆為「沁」；B. 精「醇」／「純」樸；C. 「疲」勞／疲「憊」；D. 雖皆為「窮」，但在A選項同字同音同形最為典範。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "課文深究與情感分析", "q": "課文中作者認為這杯果汁之所以是「最好的味覺禮物」，關鍵原因在於：", "options": ["使用了全世界最昂貴稀有的進口水果", "添加了頂級昂貴的天然蜂蜜與珍珠", "飲品中融入了對母親的感恩、體貼與滿滿的愛心", "果汁具有神奇的醫療功效能治百病"], "ans": "C", "steps": "禮物的價值不在於物質價格，而在於傾注關愛、體貼家人的心意與情感。", "visual_hint": "💡 《第五課 最好的味覺禮物》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "改錯別字陷阱", "q": "下列文句中，何者「沒有」任何錯別字？", "options": ["盛夏午後喝下一杯清涼果汁，令人心曠神怡，回未無窮。", "媽媽下班回家後神情極度疲備，需要好好休息放鬆。", "撲鼻而來的花香沁人心脾，瞬間洗滌了一整天的煩憂。", "廚房裡瀰漫著甘純濃郁的果香，令人垂延三尺。"], "ans": "C", "steps": "A. 回「未」無窮應為「味」；B. 疲「備」應為「憊」；D. 甘「純」應為「醇」，垂「延」應為「涎」。", "visual_hint": "💡 《第五課 最好的味覺禮物》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "句型與修辭辨析", "q": "「只要看到媽媽喝下果汁時露出的笑容，所有的辛苦便都化作了甜蜜。」這句話屬於何種複句關係？", "options": ["條件複句", "轉折複句", "因果複句", "假設複句"], "ans": "A", "steps": "以「只要……便……」連接條件與結果，屬於充分條件複句。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "素養閱讀推論題", "q": "依據延伸閱讀《父親的酸梅湯》，作者長大後為何對那鍋酸梅湯依舊難以忘懷？", "options": ["因為市面上再也買不到烏梅和山楂", "酸梅湯的味道承載了父親含蓄深沉的關懷與成長記憶", "因為父親靠賣酸梅湯賺取了大筆財富", "因為父親的酸梅湯味道比可樂還要甜"], "ans": "B", "steps": "文中強調舌尖浮現的微甘承載了「歲月的深沉父愛，是世間無可取代的情感饗宴」。", "visual_hint": "💡 《第五課 最好的味覺禮物》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "成語造句運用", "q": "下列成語的運用，何者最為「恰當」？", "options": ["這場音樂會精彩絕倫，演奏結束後依然讓人「回味無窮」。", "他平時不用功，考試前「臨渴掘井」，果然考了第一名。", "這名歹徒作惡多端，大家對他真是「垂涎三尺」。", "雙方球員實力相差懸殊，是一場「勢均力敵」的比賽。"], "ans": "A", "steps": "A運用正確；B「臨渴掘井」表臨時抱佛腳，不可能考第一名；C「垂涎三尺」形容貪饞，不合情境；D「相差懸殊」與「勢均力敵」矛盾。", "visual_hint": "☀️ 烈日沙漠挖井：比喻平時毫無準備，事到臨頭才慌忙想辦法。"}, {"type": "詞語代換辨析", "q": "「他經過一整天的奔波，顯得極為『疲憊』。」句中「疲憊」可以用下列何者代換？", "options": ["委頓", "困頓", "倦怠", "以上皆可"], "ans": "D", "steps": "委頓、困頓、倦怠皆含有極度疲倦無力之意，可視語境替換。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "動作描寫細節", "q": "作者在調製飲品時「屏息凝神地滴入檸檬汁，深怕破壞了甜與酸的和諧」，這句細節描寫展現出：", "options": ["作者對廚藝完全缺乏自信與恐懼", "作者專注認真、唯恐不夠完美的體貼用心", "作者被迫做家事的滿腹委屈", "作者做事拖泥帶水、猶豫不決"], "ans": "B", "steps": "屏息凝神展現出專心致志，深怕破壞和諧凸顯對這份心意的珍視與細膩愛意。", "visual_hint": "💡 《第五課 最好的味覺禮物》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}];
         let curIdx = 0;
         let score = 0;
         let answered = false;
@@ -328,6 +540,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('qType').textContent = q.type || '考點陷阱';
             document.getElementById('qText').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, '第五課 最好的味覺禮物');
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';

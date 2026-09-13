@@ -9,7 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -136,6 +168,102 @@
             padding-bottom: 8px;
         }
 
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 14px 0 6px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 生字成語陷阱圖鑑卡片 */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .vocab-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .vocab-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1.5px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+        .v-word {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Noto Serif TC', serif;
+        }
+        .v-zhu {
+            color: var(--accent-amber);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+        .v-meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .v-trap {
+            margin-top: 4px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
         /* 題目互動介面 */
         .quiz-hud {
             display: flex;
@@ -170,9 +298,9 @@
             color: #FFF;
             padding: 2px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .question-text {
@@ -185,7 +313,7 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .quiz-opt-btn {
@@ -288,6 +416,89 @@
             <p style="line-height: 1.8; font-size: 1.05rem;">藉由生動活潑的詩句，細膩描摹臺灣在地庶民美食的色香味與文化溫度，展現飲食文學的豐沛情懷。</p>
         </div>
 
+        
+            <div class="section-card">
+                <h2 class="section-title">🗺️ 課文情節起承轉合思維導圖</h2>
+                <div class="story-flow-grid">
+                    
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌱 起因背景</div>
+                        <div class="flow-node-content">描摹熱油沸騰中九層塔與蒜香的交織跳躍，金黃酥脆的庶民夜市靈魂。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌊 情節發展</div>
+                        <div class="flow-node-content">以透明Q彈的外皮比喻水晶包覆著筍絲肉餡，淋上甜辣醬汁勾勒臺灣古早記憶。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">⚡ 高潮轉折</div>
+                        <div class="flow-node-content">熱騰騰濃郁湯頭中燉煮軟爛的牛腱與翠綠蔥花，承載眷村歷史與故鄉記憶。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
+        
+            <div class="section-card">
+                <h2 class="section-title">💡 重點生字成語與部首象形圖鑑</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">酥脆</span>
+                            <span class="v-zhu">ㄙㄨ ㄘㄨㄟˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">食物鬆脆易碎的美味口感。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「酥」音ㄙㄨ，酉部，常誤寫為「蘇」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">翻攪</span>
+                            <span class="v-zhu">ㄈㄢ ㄐㄧㄠˇ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">反覆上下翻動或攪拌。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「攪」為手部，右邊為「覺」去掉「見」加「攴」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">垂涎三尺</span>
+                            <span class="v-zhu">ㄔㄨㄟˊ ㄒㄧㄢˊ ㄙㄢ ㄔˇ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">嘴邊口水流下三尺長，形容極其貪嘴誘人。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「涎」音ㄒㄧㄢˊ，水部，常誤讀為ㄧㄢˊ。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">撲鼻</span>
+                            <span class="v-zhu">ㄆㄨ ㄅㄧˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">香氣迎面衝來。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「撲」為手部，常誤寫為「僕」(僕人)或「樸」(樸實)。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">晶瑩剔透</span>
+                            <span class="v-zhu">ㄐㄧㄥ ㄧㄥˊ ㄊㄧ ㄊㄡˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">光亮透明、毫無雜質的樣子。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「剔」音ㄊㄧ，刀部，常誤讀為ㄊㄧˋ。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
         <div class="section-card">
             <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
             <div class="quiz-hud">
@@ -298,6 +509,7 @@
             <div class="question-box">
                 <span class="question-type" id="qType">考點解析</span>
                 <div class="question-text" id="qText">題目載入中...</div>
+                <div class="quiz-visual-box" id="quizVisualBox"></div>
             </div>
 
             <div class="options-grid" id="optGrid"></div>
@@ -308,7 +520,7 @@
     </div>
 
     <script>
-        const quizData = [{"type": "字音字形辨析", "q": "下列文句「」中的字，何者讀音「完全正確」？", "options": ["炸雞排香氣令人垂「涎」三尺：ㄧㄢˊ", "肉圓外皮晶瑩「剔」透：ㄊㄧ", "鍋中熱油「沸」騰翻滾：ㄈㄨˊ", "香氣撲鼻讓人「咀」嚼再三：ㄗㄨˇ"], "ans": "B", "steps": "A. 涎音 ㄒㄧㄢˊ；B. 剔音 ㄊㄧ 正確；C. 沸音 ㄈㄟˋ；D. 咀音 ㄐㄩˇ。"}, {"type": "感官摹寫修辭", "q": "「金黃酥脆的雞塊在齒間『卡滋』一聲裂開，滾燙的鮮美肉汁瞬間在舌面擴散開來。」這句話結合了哪些感官摹寫？", "options": ["視覺、聽覺、味覺與觸覺", "只有視覺與嗅覺", "只有嗅覺與味覺", "聽覺與超自然通感"], "ans": "A", "steps": "金黃（視覺）、「卡滋」（聽覺）、鮮美（味覺）、滾燙（觸覺），感官摹寫生動多元。"}, {"type": "現代詩意象解析", "q": "詩人將肉圓形容為「半透明的水晶小包袱，緊緊裹著故鄉的筍香與鄉愁」，這裡運用了何種修辭手法？", "options": ["借代與回文", "譬喻（隱喻）與轉化", "雙關與誇飾", "頂真與示現"], "ans": "B", "steps": "將肉圓比作水晶小包袱（譬喻），將抽象鄉愁包裹在肉餡中（轉化/形象化）。"}, {"type": "改錯別字陷阱", "q": "下列詩句摘錄中，哪一句「完全沒有」錯別字？", "options": ["九層塔在滾油中狂野的翻攪，釋放出樸鼻的香氣。", "晶瑩惕透的外皮，包裹著飽滿多汁的肉餡。", "熱氣蒸騰的街道上，小吃攤點亮了夜市的靈魂。", "濃郁的湯頭讓人回未無窮，捨不得放下筷子。"], "ans": "C", "steps": "A. 「樸」鼻應為「撲」鼻；B. 「晶瑩惕透」應為「剔」透；D. 「回未無窮」應為「味」。"}, {"type": "文化素養深究", "q": "依據現代飲食文學的探討，臺灣夜市「小吃」之所以能深深打動人心，最根本的原因為何？", "options": ["價格昂貴且食材稀有", "融合歷史生活記憶、真誠純樸的職人精神與在地人情味", "全由西方高級料理廚師引進", "包裝華麗奢靡"], "ans": "B", "steps": "在地小吃蘊含臺灣移民歷史、常民生活溫度與代代相傳的專注匠人精神。"}, {"type": "一字多音辨析", "q": "下列句子中的「炸」字，何者的讀音與「鹽酥『炸』雞」的「炸」相同？", "options": ["火藥爆「炸」", "「炸」彈客落網", "香「炸」豬排", "防空演習「炸」毀模型"], "ans": "C", "steps": "烹飪油炸讀二聲「ㄓㄚˊ」；爆炸、炸裂、炸彈讀四聲「ㄓㄚˋ」。"}, {"type": "修辭與語言風格", "q": "詩歌運用「油滴在鐵盤上輕快跳起探戈」的寫法，賦予沒有生命的油滴以人的舞蹈動作，屬於：", "options": ["擬物為人（轉化）", "倒裝", "層遞", "設問"], "ans": "A", "steps": "轉化修辭中的擬人法，將物賦予人的動態與生機。"}, {"type": "詩歌主旨評析", "q": "閱讀美食詩歌最大的審美樂趣在於：", "options": ["只為了記住每道小吃的價格與食譜步驟", "透過文字引發色香味的想像，共鳴土地情感與文化記憶", "找出詩人使用的冷僻難字炫耀學問", "證明只有高級餐廳的食物才值得歌詠"], "ans": "B", "steps": "飲食文學透過通感與詩意語言，觸發讀者對生活、鄉土與人情的深層共鳴。"}];
+        const quizData = [{"type": "字音字形辨析", "q": "下列文句「」中的字，何者讀音「完全正確」？", "options": ["炸雞排香氣令人垂「涎」三尺：ㄧㄢˊ", "肉圓外皮晶瑩「剔」透：ㄊㄧ", "鍋中熱油「沸」騰翻滾：ㄈㄨˊ", "香氣撲鼻讓人「咀」嚼再三：ㄗㄨˇ"], "ans": "B", "steps": "A. 涎音 ㄒㄧㄢˊ；B. 剔音 ㄊㄧ 正確；C. 沸音 ㄈㄟˋ；D. 咀音 ㄐㄩˇ。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "感官摹寫修辭", "q": "「金黃酥脆的雞塊在齒間『卡滋』一聲裂開，滾燙的鮮美肉汁瞬間在舌面擴散開來。」這句話結合了哪些感官摹寫？", "options": ["視覺、聽覺、味覺與觸覺", "只有視覺與嗅覺", "只有嗅覺與味覺", "聽覺與超自然通感"], "ans": "A", "steps": "金黃（視覺）、「卡滋」（聽覺）、鮮美（味覺）、滾燙（觸覺），感官摹寫生動多元。", "visual_hint": "💡 《第四課 臺灣美食詩選》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "現代詩意象解析", "q": "詩人將肉圓形容為「半透明的水晶小包袱，緊緊裹著故鄉的筍香與鄉愁」，這裡運用了何種修辭手法？", "options": ["借代與回文", "譬喻（隱喻）與轉化", "雙關與誇飾", "頂真與示現"], "ans": "B", "steps": "將肉圓比作水晶小包袱（譬喻），將抽象鄉愁包裹在肉餡中（轉化/形象化）。", "visual_hint": "💡 《第四課 臺灣美食詩選》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "改錯別字陷阱", "q": "下列詩句摘錄中，哪一句「完全沒有」錯別字？", "options": ["九層塔在滾油中狂野的翻攪，釋放出樸鼻的香氣。", "晶瑩惕透的外皮，包裹著飽滿多汁的肉餡。", "熱氣蒸騰的街道上，小吃攤點亮了夜市的靈魂。", "濃郁的湯頭讓人回未無窮，捨不得放下筷子。"], "ans": "C", "steps": "A. 「樸」鼻應為「撲」鼻；B. 「晶瑩惕透」應為「剔」透；D. 「回未無窮」應為「味」。", "visual_hint": "💡 《第四課 臺灣美食詩選》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "文化素養深究", "q": "依據現代飲食文學的探討，臺灣夜市「小吃」之所以能深深打動人心，最根本的原因為何？", "options": ["價格昂貴且食材稀有", "融合歷史生活記憶、真誠純樸的職人精神與在地人情味", "全由西方高級料理廚師引進", "包裝華麗奢靡"], "ans": "B", "steps": "在地小吃蘊含臺灣移民歷史、常民生活溫度與代代相傳的專注匠人精神。", "visual_hint": "💡 《第四課 臺灣美食詩選》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "一字多音辨析", "q": "下列句子中的「炸」字，何者的讀音與「鹽酥『炸』雞」的「炸」相同？", "options": ["火藥爆「炸」", "「炸」彈客落網", "香「炸」豬排", "防空演習「炸」毀模型"], "ans": "C", "steps": "烹飪油炸讀二聲「ㄓㄚˊ」；爆炸、炸裂、炸彈讀四聲「ㄓㄚˋ」。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "修辭與語言風格", "q": "詩歌運用「油滴在鐵盤上輕快跳起探戈」的寫法，賦予沒有生命的油滴以人的舞蹈動作，屬於：", "options": ["擬物為人（轉化）", "倒裝", "層遞", "設問"], "ans": "A", "steps": "轉化修辭中的擬人法，將物賦予人的動態與生機。", "visual_hint": "💡 《第四課 臺灣美食詩選》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "詩歌主旨評析", "q": "閱讀美食詩歌最大的審美樂趣在於：", "options": ["只為了記住每道小吃的價格與食譜步驟", "透過文字引發色香味的想像，共鳴土地情感與文化記憶", "找出詩人使用的冷僻難字炫耀學問", "證明只有高級餐廳的食物才值得歌詠"], "ans": "B", "steps": "飲食文學透過通感與詩意語言，觸發讀者對生活、鄉土與人情的深層共鳴。", "visual_hint": "💡 《第四課 臺灣美食詩選》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}];
         let curIdx = 0;
         let score = 0;
         let answered = false;
@@ -328,6 +540,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('qType').textContent = q.type || '考點陷阱';
             document.getElementById('qText').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, '第四課 臺灣美食詩選');
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';

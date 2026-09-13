@@ -7,9 +7,50 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -561,10 +602,38 @@
             font-size: 1.25rem;
             font-weight: 900;
             color: #9A3412;
-            margin-bottom: 10px;
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid #E2E8F0;
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
         }
     </style>
 </head>
@@ -636,6 +705,7 @@
                     <div class="quiz-q-box">
                         <span class="quiz-q-type" id="quizType">考點陷阱</span>
                         <div class="quiz-q-text" id="quizQuestion">題目載入中...</div>
+                        <div class="quiz-visual-box" id="quizVisualBox"></div>
                     </div>
 
                     <div class="quiz-options-list" id="quizOptions"></div>
@@ -655,6 +725,7 @@
             <!-- 子分頁 3：課文精華結構 -->
             <div class="tab-panel" id="tabSummary">
                 <div class="summary-box" id="lessonTopic"></div>
+                <div id="storyFlowBox" style="margin: 16px 0;"></div>
                 <h3 style="font-size: 1.1rem; color: var(--primary-dark); margin: 12px 0 6px;">📌 課文段落結構深究：</h3>
                 <ul class="structure-list" id="structureList"></ul>
             </div>
@@ -747,6 +818,34 @@
                 structList.innerHTML = '<li>尚無結構資料</li>';
             }
 
+            // 課文情節視覺故事思維導圖
+            const storyFlowBox = document.getElementById('storyFlowBox');
+            if (storyFlowBox) {
+                if (lesson.structure && lesson.structure.length > 0) {
+                    const stepIcons = ['🌱 起因背景', '🌊 情節發展', '⚡ 高潮轉折', '🌟 啟發結局'];
+                    storyFlowBox.innerHTML = `
+                        <div style="font-size: 1.1rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                            <span>🗺️</span> 課文思維導圖與情節起承轉合
+                        </div>
+                        <div class="story-flow-grid">
+                            ${lesson.structure.map((st, sIdx) => {
+                                const parts = st.split('：');
+                                const stepTag = stepIcons[sIdx] || `第 ${sIdx+1} 階段`;
+                                const stepContent = parts.length > 1 ? parts[1] : st;
+                                return `
+                                    <div class="story-flow-node">
+                                        <div class="flow-node-tag">${stepTag}</div>
+                                        <div class="flow-node-content">${stepContent}</div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                } else {
+                    storyFlowBox.innerHTML = '';
+                }
+            }
+
             // 生字成語陷阱庫
             const vocabGrid = document.getElementById('vocabGrid');
             vocabGrid.innerHTML = '';
@@ -754,11 +853,13 @@
                 lesson.vocab.forEach(v => {
                     const card = document.createElement('div');
                     card.className = 'vocab-card';
+                    const radBadge = typeof getVocabRadicalBadge === 'function' ? getVocabRadicalBadge(v.word) : '';
                     card.innerHTML = `
                         <div class="vocab-head">
                             <span class="v-word">${v.word}</span>
                             <span class="v-zhu">${v.zhu || ''}</span>
                         </div>
+                        <div style="margin: 4px 0 6px;">${radBadge}</div>
                         <div class="v-meaning">${v.meaning}</div>
                         ${v.trap ? `<div class="v-trap">⚠️ 易錯考點：${v.trap}</div>` : ''}
                     `;
@@ -834,6 +935,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('quizType').textContent = q.type || '素養高階挑戰題';
             document.getElementById('quizQuestion').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, lesson.title);
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optContainer = document.getElementById('quizOptions');
             optContainer.innerHTML = '';

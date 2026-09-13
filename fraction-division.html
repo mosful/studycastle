@@ -703,6 +703,42 @@
     border-radius: 12px; cursor: pointer; box-shadow: 0 4px 0 #0A5A59;
   }
 
+  /* 分數視覺圖解容器樣式 */
+  .wb-diagram-box {
+    background: #FFFFFF;
+    border: 2px dashed #E65100;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin: 10px 0 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(230, 81, 0, 0.08);
+  }
+  .diagram-tag {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, #E65100, #F59E0B);
+    color: #FFF;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .frac-svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.06));
+  }
+  .frac-svg text {
+    font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+    font-weight: 800;
+  }
+
   @media (max-width: 480px) {
     .isle .label { display: none; }
     .isle .dot { width: 42px; height: 42px; font-size: 19px; }
@@ -1075,6 +1111,16 @@ function renderLevel1(c){
     c.innerHTML = `
       <h2 class="stage-title">🍕 第一關：最簡切片</h2>
       <p class="stage-sub">判斷以下分數是否為 <b>最簡分數</b>？（第 ${idx+1} / ${pool.length} 題）</p>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（披薩切片模型）</div>
+        <svg class="frac-svg" width="200" height="110" viewBox="0 0 200 110">
+          <circle cx="100" cy="55" r="45" fill="#FED7AA" stroke="#EA580C" stroke-width="2.5"/>
+          <line x1="100" y1="10" x2="100" y2="100" stroke="#EA580C" stroke-width="1.8" stroke-dasharray="3,2"/>
+          <line x1="55" y1="55" x2="145" y2="55" stroke="#EA580C" stroke-width="1.8" stroke-dasharray="3,2"/>
+          <text x="100" y="58" font-size="14" fill="#9A3412" text-anchor="middle" font-weight="bold">🍕</text>
+          <text x="100" y="105" font-size="11" fill="#C2410C" text-anchor="middle">分子與分母最大公因數為 1 嗎？</text>
+        </svg>
+      </div>
       <div style="text-align:center;">
         <div class="fraction-display">${formatMath(item.q)}</div>
       </div>
@@ -1124,9 +1170,14 @@ function renderLevel2(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getFracDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">🥖 第二關：同分母除法</h2>
       <p class="stage-sub">請選擇正確計算結果：（第 ${idx+1} / ${pool.length} 題）</p>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（長條模型）</div>
+        ${visualSvg}
+      </div>
       <div style="text-align:center;">
         <div class="fraction-display">${formatMath(item.q)}</div>
       </div>
@@ -1172,9 +1223,14 @@ function renderLevel3(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getFracDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">🥪 第三關：整數除以分數</h2>
       <p class="stage-sub">請選擇正確計算結果：（第 ${idx+1} / ${pool.length} 題）</p>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（分段模型）</div>
+        ${visualSvg}
+      </div>
       <div style="text-align:center;">
         <div class="fraction-display">${formatMath(item.q)}</div>
       </div>
@@ -1221,9 +1277,14 @@ function renderLevel4(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getFracDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">🧀 第四關：異分母除法</h2>
       <p class="stage-sub">請選擇正確計算結果：（第 ${idx+1} / ${pool.length} 題）</p>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（倒數相乘模型）</div>
+        ${visualSvg}
+      </div>
       <div style="text-align:center;">
         <div class="fraction-display">${formatMath(item.q)}</div>
       </div>
@@ -1265,20 +1326,25 @@ function renderLevel5(c){
   function draw(){
     if (idx >= pool.length) {
       state.stars.l5 = 3;
-      showLevelDone(c, '🏆 商之秘寶', 3, 'final', '恭喜你！完整掌握分數除法的全部精髓！');
+      showLevelDone(c, '🏆 商之秘寶', 3, 'final', '恭喜你！完全融會貫通分數除法的所有規律！');
       return;
     }
     const item = pool[idx];
+    const visualSvg = getFracDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">🏆 第五關：商之秘寶</h2>
-      <p class="stage-sub">請在 □ 填入 >、< 或 = ：（第 ${idx+1} / ${pool.length} 題）</p>
+      <p class="stage-sub">請在 □ 填入正確的大小關係符號：（第 ${idx+1} / ${pool.length} 題）</p>
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（天平大小規律）</div>
+        ${visualSvg}
+      </div>
       <div style="text-align:center;">
         <div class="fraction-display">${formatMath(item.q)}</div>
       </div>
       <div class="btn-row" style="justify-content:center;">
-        <button class="btn leaf" onclick="checkL5('>', event)">大於 (&gt;)</button>
-        <button class="btn gold" onclick="checkL5('=', event)">等於 (=)</button>
-        <button class="btn coral" onclick="checkL5('<', event)">小於 (&lt;)</button>
+        <button class="btn gold" style="font-size:26px; padding:10px 28px;" onclick="checkL5('>', event)">&gt;</button>
+        <button class="btn coral" style="font-size:26px; padding:10px 28px;" onclick="checkL5('<', event)">&lt;</button>
+        <button class="btn leaf" style="font-size:26px; padding:10px 28px;" onclick="checkL5('=', event)">=</button>
       </div>
       <div class="feedback" id="fb5"></div>
     `;
@@ -1375,6 +1441,158 @@ function fracPick(itemId, val, btnEl) {
   }
 }
 
+// 分數視覺圖解 SVG 產生器
+function getFracDiagramSvg(item) {
+  if (!item) return '';
+  const text = (item.q || '') + ' ' + (item.explanation || '') + ' ' + (item.steps || '');
+  
+  // 1. 竹竿鋸段 (長 3m，每 1/2m 鋸成 1 段)
+  if (text.includes('竹竿') || (text.includes('3') && text.includes('1/2') && text.includes('鋸'))) {
+    return `
+      <svg class="frac-svg" width="240" height="150" viewBox="0 0 240 150">
+        <!-- 竹竿本體 -->
+        <rect x="20" y="55" width="200" height="24" rx="6" fill="#8CB369" stroke="#386641" stroke-width="2.5"/>
+        <!-- 6 等分刻度與鋸痕 -->
+        <line x1="53" y1="50" x2="53" y2="84" stroke="#BC4749" stroke-width="2" stroke-dasharray="3,2"/>
+        <line x1="86" y1="50" x2="86" y2="84" stroke="#BC4749" stroke-width="2" stroke-dasharray="3,2"/>
+        <line x1="120" y1="50" x2="120" y2="84" stroke="#BC4749" stroke-width="2" stroke-dasharray="3,2"/>
+        <line x1="153" y1="50" x2="153" y2="84" stroke="#BC4749" stroke-width="2" stroke-dasharray="3,2"/>
+        <line x1="186" y1="50" x2="186" y2="84" stroke="#BC4749" stroke-width="2" stroke-dasharray="3,2"/>
+        <!-- 鋸子圖示與標籤 -->
+        <text x="50" y="42" font-size="16">🪚</text>
+        <text x="120" y="38" font-size="12" fill="#2B4C2F" text-anchor="middle" font-weight="bold">竹竿全長 3 公尺</text>
+        <!-- 每一段標記 -->
+        <text x="36" y="71" font-size="10" fill="#FFFFFF" text-anchor="middle">1/2m</text>
+        <text x="70" y="71" font-size="10" fill="#FFFFFF" text-anchor="middle">1/2m</text>
+        <text x="103" y="71" font-size="10" fill="#FFFFFF" text-anchor="middle">1/2m</text>
+        <text x="136" y="71" font-size="10" fill="#FFFFFF" text-anchor="middle">1/2m</text>
+        <text x="170" y="71" font-size="10" fill="#FFFFFF" text-anchor="middle">1/2m</text>
+        <text x="203" y="71" font-size="10" fill="#FFFFFF" text-anchor="middle">1/2m</text>
+        <text x="120" y="112" font-size="12" fill="#BC4749" text-anchor="middle" font-weight="bold">3 ÷ 1/2 = 6 段</text>
+        <text x="120" y="132" font-size="11" fill="#6B7280" text-anchor="middle">除以 1/2 等於乘以 2（每 1 公尺有 2 段）</text>
+      </svg>
+    `;
+  }
+
+  // 2. 水管切段 (長 12/5m，每 3/5m 剪成 1 段)
+  if (text.includes('水管')) {
+    return `
+      <svg class="frac-svg" width="240" height="140" viewBox="0 0 240 140">
+        <!-- 水管模型 -->
+        <rect x="20" y="50" width="200" height="26" rx="5" fill="#48CAE4" stroke="#0077B6" stroke-width="2.5"/>
+        <!-- 4 等分 -->
+        <line x1="70" y1="45" x2="70" y2="81" stroke="#D90429" stroke-width="2.5" stroke-dasharray="3,2"/>
+        <line x1="120" y1="45" x2="120" y2="81" stroke="#D90429" stroke-width="2.5" stroke-dasharray="3,2"/>
+        <line x1="170" y1="45" x2="170" y2="81" stroke="#D90429" stroke-width="2.5" stroke-dasharray="3,2"/>
+        <text x="120" y="35" font-size="12" fill="#03045E" text-anchor="middle" font-weight="bold">全長 12/5 公尺 ✂️</text>
+        <text x="45" y="67" font-size="11" fill="#03045E" text-anchor="middle">3/5m</text>
+        <text x="95" y="67" font-size="11" fill="#03045E" text-anchor="middle">3/5m</text>
+        <text x="145" y="67" font-size="11" fill="#03045E" text-anchor="middle">3/5m</text>
+        <text x="195" y="67" font-size="11" fill="#03045E" text-anchor="middle">3/5m</text>
+        <text x="120" y="106" font-size="12" fill="#D90429" text-anchor="middle" font-weight="bold">12/5 ÷ 3/5 = 12 ÷ 3 = 4 段</text>
+        <text x="120" y="126" font-size="11" fill="#64748B" text-anchor="middle">同分母直接相除：分母 5 抵消</text>
+      </svg>
+    `;
+  }
+
+  // 3. 瓶裝飲料/牛奶/果汁/醬油分裝
+  if (text.includes('公升') && (text.includes('裝成') || text.includes('調製') || text.includes('牛奶') || text.includes('果汁') || text.includes('醬油'))) {
+    return `
+      <svg class="frac-svg" width="240" height="140" viewBox="0 0 240 140">
+        <!-- 大桶飲料 -->
+        <rect x="25" y="35" width="55" height="70" rx="8" fill="#FDE047" stroke="#CA8A04" stroke-width="2.5"/>
+        <text x="52" y="65" font-size="20" text-anchor="middle">🧃</text>
+        <text x="52" y="92" font-size="10.5" fill="#854D0E" text-anchor="middle">整桶大容量</text>
+        <text x="52" y="122" font-size="11" fill="#CA8A04" text-anchor="middle">被除數</text>
+
+        <text x="105" y="75" font-size="18" fill="#E65100" text-anchor="middle">分裝 ➜</text>
+
+        <!-- 小瓶子群 -->
+        <rect x="145" y="45" width="22" height="50" rx="4" fill="#FEF08A" stroke="#CA8A04" stroke-width="1.8"/>
+        <text x="156" y="72" font-size="11">🍼</text>
+        <rect x="175" y="45" width="22" height="50" rx="4" fill="#FEF08A" stroke="#CA8A04" stroke-width="1.8"/>
+        <text x="186" y="72" font-size="11">🍼</text>
+        <rect x="205" y="45" width="22" height="50" rx="4" fill="#FEF08A" stroke="#CA8A04" stroke-width="1.8"/>
+        <text x="216" y="72" font-size="11">🍼</text>
+        
+        <text x="186" y="112" font-size="11" fill="#854D0E" text-anchor="middle">每瓶小容量 (除數)</text>
+        <text x="120" y="132" font-size="11.5" fill="#C2410C" text-anchor="middle" font-weight="bold">總瓶數 = 大容量 ÷ 每瓶容量</text>
+      </svg>
+    `;
+  }
+
+  // 4. 長方形面積除以寬求長
+  if (text.includes('長方形') && (text.includes('面積') || text.includes('寬'))) {
+    return `
+      <svg class="frac-svg" width="220" height="140" viewBox="0 0 220 140">
+        <rect x="30" y="30" width="160" height="70" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2.5"/>
+        <text x="110" y="65" font-size="12" fill="#5B21B6" text-anchor="middle" font-weight="bold">長方形面積</text>
+        <text x="110" y="82" font-size="11" fill="#7C3AED" text-anchor="middle">面積 = 長 × 寬</text>
+        <text x="110" y="20" font-size="12" fill="#DC2626" text-anchor="middle" font-weight="bold">長 = 面積 ÷ 寬 (？)</text>
+        <text x="18" y="70" font-size="11" fill="#5B21B6" text-anchor="middle">寬</text>
+        <text x="110" y="125" font-size="11.5" fill="#4338CA" text-anchor="middle">長度 = 面積 ÷ 寬</text>
+      </svg>
+    `;
+  }
+
+  // 5. 南王國小合唱團 (長條比例模型 Bar Model)
+  if (text.includes('合唱團') || text.includes('全校人數')) {
+    return `
+      <svg class="frac-svg" width="240" height="140" viewBox="0 0 240 140">
+        <rect x="20" y="45" width="200" height="30" rx="4" fill="#E2E8F0" stroke="#475569" stroke-width="2"/>
+        <!-- 5/24 部分填滿顏色 -->
+        <rect x="20" y="45" width="45" height="30" rx="4" fill="#F43F5E" stroke="#BE123C" stroke-width="2"/>
+        <text x="42" y="65" font-size="11" fill="#FFFFFF" text-anchor="middle">5份</text>
+        <text x="42" y="32" font-size="11" fill="#BE123C" text-anchor="middle" font-weight="bold">合唱團 75人</text>
+        <text x="145" y="65" font-size="11" fill="#475569" text-anchor="middle">其餘 19 份</text>
+        <text x="120" y="98" font-size="11" fill="#1E293B" text-anchor="middle">全校共 24 份 (75 ÷ 5/24 = 360人)</text>
+        <text x="120" y="122" font-size="11.5" fill="#047857" text-anchor="middle" font-weight="bold">1份 = 75 ÷ 5 = 15人 ➜ 15 × 24 = 360人</text>
+      </svg>
+    `;
+  }
+
+  // 6. 水果比較問題 (香蕉 vs 芭樂)
+  if (text.includes('香蕉') || text.includes('芭樂')) {
+    return `
+      <svg class="frac-svg" width="220" height="135" viewBox="0 0 220 135">
+        <text x="50" y="45" font-size="28" text-anchor="middle">🍌</text>
+        <text x="50" y="70" font-size="11" fill="#854D0E" text-anchor="middle">香蕉 1 公斤 18元</text>
+        <text x="50" y="88" font-size="10.5" fill="#718096" text-anchor="middle">18 ÷ 1 = 18</text>
+
+        <text x="110" y="55" font-size="18" fill="#9CA3AF" text-anchor="middle">vs</text>
+
+        <text x="170" y="45" font-size="28" text-anchor="middle">🍈</text>
+        <text x="170" y="70" font-size="11" fill="#15803D" text-anchor="middle">芭樂 3/5公斤 18元</text>
+        <text x="170" y="88" font-size="10.5" fill="#15803D" text-anchor="middle">18 ÷ 3/5 = 30元</text>
+        <text x="110" y="118" font-size="11.5" fill="#B91C1C" text-anchor="middle" font-weight="bold">除數 3/5 &lt; 1 ➜ 商大於 18元 (芭樂較貴)</text>
+      </svg>
+    `;
+  }
+
+  // 7. 比大小 (商與被除數的關係)
+  if (text.includes('□') || text.includes('商小於被除數') || text.includes('商大於被除數')) {
+    return `
+      <svg class="frac-svg" width="220" height="120" viewBox="0 0 220 120">
+        <rect x="20" y="25" width="180" height="70" rx="8" fill="#F8FAFC" stroke="#94A3B8" stroke-width="2"/>
+        <text x="110" y="48" font-size="13" fill="#1E293B" text-anchor="middle" font-weight="bold">⚖️ 商的放大縮小規律</text>
+        <text x="110" y="70" font-size="11" fill="#2563EB" text-anchor="middle">除數 &gt; 1 ➜ 商變小 (商 &lt; 被除數)</text>
+        <text x="110" y="87" font-size="11" fill="#DC2626" text-anchor="middle">除數 &lt; 1 ➜ 商變大 (商 &gt; 被除數)</text>
+      </svg>
+    `;
+  }
+
+  // 8. 通用分數模型 (長條帶或披薩模型)
+  return `
+    <svg class="frac-svg" width="220" height="110" viewBox="0 0 220 110">
+      <rect x="25" y="25" width="170" height="30" rx="4" fill="#FED7AA" stroke="#EA580C" stroke-width="2"/>
+      <line x1="81" y1="25" x2="81" y2="55" stroke="#EA580C" stroke-width="2"/>
+      <line x1="138" y1="25" x2="138" y2="55" stroke="#EA580C" stroke-width="2"/>
+      <text x="110" y="45" font-size="11.5" fill="#9A3412" text-anchor="middle" font-weight="bold">長條分數分割模型</text>
+      <text x="110" y="85" font-size="11.5" fill="#C2410C" text-anchor="middle">除以分數 ➜ 乘以倒數 (上下顛倒)</text>
+    </svg>
+  `;
+}
+
 function renderFracWbQuizBody() {
   const rev = U2_WB_DATA.reviews.find(r => r.review_id === fracCurrentRevId);
   const container = document.getElementById('fracWbQuizBody');
@@ -1402,9 +1620,12 @@ function renderFracWbQuizBody() {
         else itemOpts = [item.ans, '1又1/2', '2/3', '4'];
       }
 
+      const visualSvg = getFracDiagramSvg(item);
+
       html += `
         <div class="wb-q-item">
           <div class="wb-q-text">${formatMath(item.q)}</div>
+          ${visualSvg ? `<div class="wb-diagram-box"><div class="diagram-tag">💡 看圖懂題意（分數模型）</div>${visualSvg}</div>` : ''}
           <div class="wb-opt-grid">
             ${itemOpts.map(opt => `
               <button type="button" class="wb-opt-btn ${fracAnswers[itemId] === opt ? 'selected' : ''}" data-opt="${opt}" onclick="fracPick('${itemId}', '${opt}', this)">

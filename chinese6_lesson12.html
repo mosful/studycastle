@@ -9,7 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -136,6 +168,102 @@
             padding-bottom: 8px;
         }
 
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 14px 0 6px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 生字成語陷阱圖鑑卡片 */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .vocab-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .vocab-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1.5px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+        .v-word {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Noto Serif TC', serif;
+        }
+        .v-zhu {
+            color: var(--accent-amber);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+        .v-meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .v-trap {
+            margin-top: 4px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
         /* 題目互動介面 */
         .quiz-hud {
             display: flex;
@@ -170,9 +298,9 @@
             color: #FFF;
             padding: 2px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .question-text {
@@ -185,7 +313,7 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .quiz-opt-btn {
@@ -288,6 +416,94 @@
             <p style="line-height: 1.8; font-size: 1.05rem;">在陰暗蕭瑟、疲憊沉悶的火車車廂中，目睹貧苦農村小姑娘不顧他人白眼奮力推開車窗，將懷中鮮紅的橘子擲向鐵軌邊為她送行的年幼弟弟，體會照亮冷漠人世的純粹親情光輝。</p>
         </div>
 
+        
+            <div class="section-card">
+                <h2 class="section-title">🗺️ 課文情節起承轉合思維導圖</h2>
+                <div class="story-flow-grid">
+                    
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌱 起因背景</div>
+                        <div class="flow-node-content">陰冷昏暗的暮色中，主角心境疲憊厭世，獨自坐在瀰漫煤煙氣味的二等火車車廂中，對周遭一切充滿厭煩。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌊 情節發展</div>
+                        <div class="flow-node-content">一位衣衫襤褸、面容土氣的鄉下小姑娘吃力地擠進車廂，舉止笨拙，引來主角內心的嫌惡與鄙夷。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">⚡ 高潮轉折</div>
+                        <div class="flow-node-content">當火車穿過幽暗隧道即將駛出平交道時，小姑娘突然奮力拉開沉重車窗；主角正欲呵斥，卻見她探出身子，將懷裡金黃燦爛的五六顆蜜柑用力拋向鐵道旁雀躍歡呼的弟弟們！</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌟 啟發結局</div>
+                        <div class="flow-node-content">橘子劃破陰霾暮色，像金色的火花般綻放；主角心頭的疲憊與冷漠瞬間融化，重拾對生活與人性的溫暖感動。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
+        
+            <div class="section-card">
+                <h2 class="section-title">💡 重點生字成語與部首象形圖鑑</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">暮色</span>
+                            <span class="v-zhu">ㄇㄨˋ ㄙㄜˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">傍晚昏暗的天色。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「暮」為日部，常與「幕」(螢幕)、「慕」(羨慕)混淆。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">衣衫襤褸</span>
+                            <span class="v-zhu">ㄧ ㄕㄢ ㄌㄢˊ ㄌㄩˇ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">衣服破爛不堪的樣子。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「襤褸」皆為衣部，常考改錯字陷阱。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">嫌惡</span>
+                            <span class="v-zhu">ㄒㄧㄢˊ ㄨˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">討厭、厭惡。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「惡」在此讀四聲ㄨˋ，不可讀成ㄜˋ。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">鮮艷</span>
+                            <span class="v-zhu">ㄒㄧㄢ ㄧㄢˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">色彩明亮耀眼。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「艷」常誤寫為「豔」之異體或缺筆畫。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">悵惘</span>
+                            <span class="v-zhu">ㄔㄤˋ ㄨㄤˇ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge" title="心部：與情感、內心想法相關">❤️ 心部·內心情思</span></div>
+                        <div class="v-meaning">心神沮喪、失意迷茫的樣子。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「悵」音ㄔㄤˋ，心部，常考詞義與情緒分析。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
         <div class="section-card">
             <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
             <div class="quiz-hud">
@@ -298,6 +514,7 @@
             <div class="question-box">
                 <span class="question-type" id="qType">考點解析</span>
                 <div class="question-text" id="qText">題目載入中...</div>
+                <div class="quiz-visual-box" id="quizVisualBox"></div>
             </div>
 
             <div class="options-grid" id="optGrid"></div>
@@ -308,7 +525,7 @@
     </div>
 
     <script>
-        const quizData = [{"type": "字音字形考點", "q": "下列文句「」中的字詞，何者字形「完全正確」？", "options": ["夕陽西下，窗外籠罩著濃濃的「慕」色", "那位鄉下小姑娘穿著衣衫「襤褸」的布衣", "主角心中對女孩的舉止充滿了「嫌惡」：ㄨˋ", "寒風呼嘯，令人感到無比「暢」惘"], "ans": "B", "steps": "A. 暮色應為「暮」；C. 題幹問字形，雖然惡讀ㄨˋ但B項「衣衫襤褸」字形極為精準；D. 「暢惘」應為「悵惘」。"}, {"type": "文學象徵手法解析", "q": "在小說《橘子》中，那一顆顆被女孩拋向車窗外鐵道邊的金黃橘子，主要象徵了什麼深層意義？", "options": ["揮霍無度的浪費心態", "刺破冷漠現實、純真而熾熱的親情與人性光輝", "對鐵道工人的惡作劇挑釁", "展示自己擁有的昂貴農產品"], "ans": "B", "steps": "金黃燦爛的橘子與灰暗陰沉的暮色形成強烈對比，象徵人間至真至純的親情與希望之光。"}, {"type": "改錯別字陷阱", "q": "下列句子中，何者「沒有」任何錯別字？", "options": ["火車穿過幽暗深遂的隧道，發出隆隆巨響。", "幾顆金黃鮮艷的蜜柑在空中劃出一道美麗的弧線。", "看著那群純真的孩童，主角原本厭世的情緒逐漸消式。", "夕陽殘照下，村落漸漸被深沉的暮靄所吞沒。"], "ans": "D", "steps": "A. 深「遂」應為深「邃」；B. 「鮮艷」常通用但C「消式」應為「消失」；D項「暮靄」字形完全無誤且用詞精準。"}, {"type": "人物心境轉折推論", "q": "主角對鄉下小女孩的態度，經歷了怎樣的心境轉變？", "options": ["一開始就熱情攀談，最後反目成仇", "從最初的嫌惡鄙夷，轉變為被小女孩無私純潔的親情深深震撼與感動", "自始至終都充滿冷漠與不屑", "因小女孩開窗吹冷風而憤怒地動手推搡"], "ans": "B", "steps": "主角由原本冷酷厭世、鄙視女孩粗鄙，在目睹拋橘瞬間徹底被純真親情洗滌心靈。"}, {"type": "色彩對比修辭效果", "q": "作者在文中刻意鋪陳「灰暗陰霾的天空、黑色的煤煙」與「金黃鮮麗的蜜柑」，這種對比手法的藝術效果在於：", "options": ["增加印刷書籍的美觀色彩", "強烈凸顯出溫暖親情在冰冷殘酷現實中的無比珍貴與救贖力量", "諷刺火車缺乏空調設備", "說明當時農產品染色的技術很發達"], "ans": "B", "steps": "黑白灰的窒息環境與金黃橘子形成視覺上的極致反差，強化情感衝擊力。"}, {"type": "詞義細膩體會", "q": "「悵惘」這個詞語最適合用來形容下列何種心態？", "options": ["欣喜若狂、手舞足蹈", "失落、迷茫且帶有淡淡惆悵的心境", "盛怒之下的暴躁反應", "大功告成後的自信滿滿"], "ans": "B", "steps": "「悵惘」形容惆悵迷惘、心中有所若失的複雜心境。"}, {"type": "課外素養文學常識", "q": "作者芥川龍之介是日本近代極具代表性的大文豪，日本純文學最高榮譽即以其命名為：", "options": ["直木賞", "芥川賞", "紫式部文學獎", "諾貝爾文學獎"], "ans": "B", "steps": "「芥川賞」（芥川龍之介獎）為日本最重要的純文學新人大獎。"}, {"type": "複句句型與邏輯", "q": "「（　）前方的路途有多麼坎坷幽暗，（　）心中保有一盞愛的明燈，生命便不再孤單。」空格最適當填入：", "options": ["因為……所以……", "即使……只要……", "寧可……也不……", "雖然……但是……"], "ans": "B", "steps": "「即使……只要……」結合假設條件與正面期許，表達堅定的人生信念。"}];
+        const quizData = [{"type": "字音字形考點", "q": "下列文句「」中的字詞，何者字形「完全正確」？", "options": ["夕陽西下，窗外籠罩著濃濃的「慕」色", "那位鄉下小姑娘穿著衣衫「襤褸」的布衣", "主角心中對女孩的舉止充滿了「嫌惡」：ㄨˋ", "寒風呼嘯，令人感到無比「暢」惘"], "ans": "B", "steps": "A. 暮色應為「暮」；C. 題幹問字形，雖然惡讀ㄨˋ但B項「衣衫襤褸」字形極為精準；D. 「暢惘」應為「悵惘」。", "visual_hint": "💡 《第十二課 橘子》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "文學象徵手法解析", "q": "在小說《橘子》中，那一顆顆被女孩拋向車窗外鐵道邊的金黃橘子，主要象徵了什麼深層意義？", "options": ["揮霍無度的浪費心態", "刺破冷漠現實、純真而熾熱的親情與人性光輝", "對鐵道工人的惡作劇挑釁", "展示自己擁有的昂貴農產品"], "ans": "B", "steps": "金黃燦爛的橘子與灰暗陰沉的暮色形成強烈對比，象徵人間至真至純的親情與希望之光。", "visual_hint": "💡 《第十二課 橘子》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "改錯別字陷阱", "q": "下列句子中，何者「沒有」任何錯別字？", "options": ["火車穿過幽暗深遂的隧道，發出隆隆巨響。", "幾顆金黃鮮艷的蜜柑在空中劃出一道美麗的弧線。", "看著那群純真的孩童，主角原本厭世的情緒逐漸消式。", "夕陽殘照下，村落漸漸被深沉的暮靄所吞沒。"], "ans": "D", "steps": "A. 深「遂」應為深「邃」；B. 「鮮艷」常通用但C「消式」應為「消失」；D項「暮靄」字形完全無誤且用詞精準。", "visual_hint": "💡 《第十二課 橘子》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "人物心境轉折推論", "q": "主角對鄉下小女孩的態度，經歷了怎樣的心境轉變？", "options": ["一開始就熱情攀談，最後反目成仇", "從最初的嫌惡鄙夷，轉變為被小女孩無私純潔的親情深深震撼與感動", "自始至終都充滿冷漠與不屑", "因小女孩開窗吹冷風而憤怒地動手推搡"], "ans": "B", "steps": "主角由原本冷酷厭世、鄙視女孩粗鄙，在目睹拋橘瞬間徹底被純真親情洗滌心靈。", "visual_hint": "💡 《第十二課 橘子》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "色彩對比修辭效果", "q": "作者在文中刻意鋪陳「灰暗陰霾的天空、黑色的煤煙」與「金黃鮮麗的蜜柑」，這種對比手法的藝術效果在於：", "options": ["增加印刷書籍的美觀色彩", "強烈凸顯出溫暖親情在冰冷殘酷現實中的無比珍貴與救贖力量", "諷刺火車缺乏空調設備", "說明當時農產品染色的技術很發達"], "ans": "B", "steps": "黑白灰的窒息環境與金黃橘子形成視覺上的極致反差，強化情感衝擊力。", "visual_hint": "💡 《第十二課 橘子》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "詞義細膩體會", "q": "「悵惘」這個詞語最適合用來形容下列何種心態？", "options": ["欣喜若狂、手舞足蹈", "失落、迷茫且帶有淡淡惆悵的心境", "盛怒之下的暴躁反應", "大功告成後的自信滿滿"], "ans": "B", "steps": "「悵惘」形容惆悵迷惘、心中有所若失的複雜心境。", "visual_hint": "💡 《第十二課 橘子》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "課外素養文學常識", "q": "作者芥川龍之介是日本近代極具代表性的大文豪，日本純文學最高榮譽即以其命名為：", "options": ["直木賞", "芥川賞", "紫式部文學獎", "諾貝爾文學獎"], "ans": "B", "steps": "「芥川賞」（芥川龍之介獎）為日本最重要的純文學新人大獎。", "visual_hint": "💡 《第十二課 橘子》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "複句句型與邏輯", "q": "「（　）前方的路途有多麼坎坷幽暗，（　）心中保有一盞愛的明燈，生命便不再孤單。」空格最適當填入：", "options": ["因為……所以……", "即使……只要……", "寧可……也不……", "雖然……但是……"], "ans": "B", "steps": "「即使……只要……」結合假設條件與正面期許，表達堅定的人生信念。", "visual_hint": "💡 《第十二課 橘子》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}];
         let curIdx = 0;
         let score = 0;
         let answered = false;
@@ -328,6 +545,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('qType').textContent = q.type || '考點陷阱';
             document.getElementById('qText').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, '第十二課 橘子');
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';

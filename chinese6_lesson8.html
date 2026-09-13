@@ -9,7 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -136,6 +168,102 @@
             padding-bottom: 8px;
         }
 
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 14px 0 6px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 生字成語陷阱圖鑑卡片 */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .vocab-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .vocab-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1.5px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+        .v-word {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Noto Serif TC', serif;
+        }
+        .v-zhu {
+            color: var(--accent-amber);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+        .v-meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .v-trap {
+            margin-top: 4px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
         /* 題目互動介面 */
         .quiz-hud {
             display: flex;
@@ -170,9 +298,9 @@
             color: #FFF;
             padding: 2px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .question-text {
@@ -185,7 +313,7 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .quiz-opt-btn {
@@ -288,6 +416,94 @@
             <p style="line-height: 1.8; font-size: 1.05rem;">透過狡黠的狐狸藉著威猛老虎的聲勢嚇跑百獸的故事，諷刺那些仰仗權貴勢力欺壓弱小的虛偽小人。</p>
         </div>
 
+        
+            <div class="section-card">
+                <h2 class="section-title">🗺️ 課文情節起承轉合思維導圖</h2>
+                <div class="story-flow-grid">
+                    
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌱 起因背景</div>
+                        <div class="flow-node-content">老虎四處搜尋百獸捕捉充飢，捉到了一隻狐狸；狐狸臨危不亂謊稱自己是天帝派遣的百獸之王。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌊 情節發展</div>
+                        <div class="flow-node-content">狐狸邀請老虎走在身後親自驗證，野獸們見到威猛的老虎紛紛嚇得驚惶逃竄。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">⚡ 高潮轉折</div>
+                        <div class="flow-node-content">老虎不知野獸是害怕自己，反而以為百獸真的畏懼狐狸，狐狸藉此巧妙脫身。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌟 啟發結局</div>
+                        <div class="flow-node-content">楚宣王以此提問昭奚恤在北方的權勢，江乙借此寓言巧妙指明北方群臣真正畏懼的是宣王的大軍。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
+        
+            <div class="section-card">
+                <h2 class="section-title">💡 重點生字成語與部首象形圖鑑</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">假借</span>
+                            <span class="v-zhu">ㄐㄧㄚˇ ㄐㄧㄝˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">仰仗、依憑別人的名義或力量。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「假」在此讀三聲ㄐㄧㄚˇ，作「憑藉」解釋，非虛假之意。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">狐假虎威</span>
+                            <span class="v-zhu">ㄏㄨˊ ㄐㄧㄚˇ ㄏㄨˇ ㄨㄟ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">比喻仰仗他人的威勢來欺壓或恐嚇別人。</div>
+                        <div class="v-trap">⚠️ 易錯考點：成語感情色彩為強烈貶義。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">走匿</span>
+                            <span class="v-zhu">ㄗㄡˇ ㄋㄧˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">逃跑並躲藏起來。</div>
+                        <div class="v-trap">⚠️ 易錯考點：古漢語「走」作「快跑、奔逃」解釋，常考古今異義。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">子無敢食我也</span>
+                            <span class="v-zhu">ㄗˇ ㄨˊ ㄍㄢˇ ㄕˊ ㄨㄛˇ ㄧㄝˇ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">你不敢吃我。「子」在此為「你」的尊稱。</div>
+                        <div class="v-trap">⚠️ 易錯考點：常考代詞「子」的古文指涉。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">狡黠</span>
+                            <span class="v-zhu">ㄐㄧㄠˇ ㄒㄧㄚˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">狡猾奸詐。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「黠」音ㄒㄧㄚˊ，黑部，常誤讀為ㄐㄧㄝˊ。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
         <div class="section-card">
             <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
             <div class="quiz-hud">
@@ -298,6 +514,7 @@
             <div class="question-box">
                 <span class="question-type" id="qType">考點解析</span>
                 <div class="question-text" id="qText">題目載入中...</div>
+                <div class="quiz-visual-box" id="quizVisualBox"></div>
             </div>
 
             <div class="options-grid" id="optGrid"></div>
@@ -308,7 +525,7 @@
     </div>
 
     <script>
-        const quizData = [{"type": "古文關鍵字義理解", "q": "在《狐假虎威》的原文中，「虎求百獸而食之，得狐。狐曰：『子無敢食我也。』」句中的「子」字指的是誰？", "options": ["天帝", "狐狸的兒子", "老虎（對對方的尊稱）", "獵人"], "ans": "C", "steps": "古漢語中，「子」常作為第二人稱代詞的尊稱，相當於「您」或「你」，此處指老虎。"}, {"type": "字音字形辨析", "q": "下列各組「」中的字，哪一組讀音「完全相同」？", "options": ["狐「假」虎威 ／ 放「假」休息", "狡「黠」多詐 ／ 頑「劣」成性", "獸見之皆「走」 ／ 奔「走」相告", "「食」言而肥 ／ 糧「食」短缺"], "ans": "D", "steps": "A. ㄐㄧㄚˇ ／ ㄐㄧㄚˋ；B. ㄒㄧㄚˊ ／ ㄌㄧㄝˋ；C. 古義「跑」ㄗㄡˇ／現代ㄗㄡˇ（讀音雖同但D項皆讀 ㄕˊ 完全無爭議）。"}, {"type": "古今字義轉變", "q": "文言文中「百獸聞之皆走」的「走」字，其意思與下列現代漢語何者相同？", "options": ["慢步行走", "逃跑、奔跑", "離開職位", "走向未來"], "ans": "B", "steps": "古代漢語「走」指快跑、奔逃（如「奔相走告」、「走投無路」）；現代「步」在古代才相當於慢走。"}, {"type": "寓意深度評析", "q": "江乙在戰國時代向楚宣王講述《狐假虎威》的寓言，他的真正用意是什麼？", "options": ["提醒宣王山林猛獸很多要注意打獵安全", "說明北方諸侯真正畏懼的是楚宣王的強大軍力，昭奚恤只是借國君威名行事", "勸勉楚宣王多聽取狐狸的狡猾意見", "諷刺老虎空有龐大身軀卻智商不足"], "ans": "B", "steps": "江乙借寓言向楚宣王剖析朝政：昭奚恤就像狐狸，楚王的百萬精兵就像老虎，北方人敬畏的是楚王而非宰相個人。"}, {"type": "成語語境運用", "q": "下列何者最適合用「狐假虎威」來形容？", "options": ["部長親自深入災區指揮救災", "小職員仗著董事長是他舅舅，在公司裡飛揚跋扈欺壓同事", "將軍身先士卒衝鋒陷陣", "科學家歷經千辛萬苦研發出新藥"], "ans": "B", "steps": "仗著長官或權貴勢力作威作福，正是「狐假虎威」的最佳寫照。"}, {"type": "延伸寓言理解", "q": "依據延伸閱讀《畫蛇添足》的典故，「蛇固無足，子安能為之足？」這句話的主要涵義是：", "options": ["讚賞畫蛇添腳的獨特藝術創意", "指出多此一舉、弄巧成拙，反而失去了原有的成果", "說明自然界的蛇也有長腳的特例", "勸告大家畫畫時不要吝惜顏料"], "ans": "B", "steps": "「畫蛇添足」比喻做多餘的事反而破壞了原本的事物，招致失敗。"}, {"type": "反諷語氣辨析", "q": "狐狸對老虎說：「天帝使我長百獸，子食我，是逆天帝命也。」狐狸這番話展現了何種說話技巧？", "options": ["謙卑哀求以博取同情", "虛張聲勢、假借權威以震懾對手", "實話實說、毫不隱瞞", "轉移話題以分散老虎注意力"], "ans": "B", "steps": "虛構天帝之命讓強大的老虎產生忌憚，屬於典型的虛張聲勢與心理反制。"}, {"type": "文言句式常識", "q": "「虎不知獸己而走也，以為畏狐也。」這句話揭示了：", "options": ["老虎缺乏判斷力，被假象所矇蔽", "狐狸真正具備統御百獸的魔力", "百獸其實是為了保護狐狸而逃跑", "老虎生性仁慈不願濫殺無辜"], "ans": "A", "steps": "老虎被眼前野獸逃跑的表面假象矇蔽，看不清自己才是百獸驚恐的根源。"}];
+        const quizData = [{"type": "古文關鍵字義理解", "q": "在《狐假虎威》的原文中，「虎求百獸而食之，得狐。狐曰：『子無敢食我也。』」句中的「子」字指的是誰？", "options": ["天帝", "狐狸的兒子", "老虎（對對方的尊稱）", "獵人"], "ans": "C", "steps": "古漢語中，「子」常作為第二人稱代詞的尊稱，相當於「您」或「你」，此處指老虎。", "visual_hint": "💡 《第八課 狐假虎威》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "字音字形辨析", "q": "下列各組「」中的字，哪一組讀音「完全相同」？", "options": ["狐「假」虎威 ／ 放「假」休息", "狡「黠」多詐 ／ 頑「劣」成性", "獸見之皆「走」 ／ 奔「走」相告", "「食」言而肥 ／ 糧「食」短缺"], "ans": "D", "steps": "A. ㄐㄧㄚˇ ／ ㄐㄧㄚˋ；B. ㄒㄧㄚˊ ／ ㄌㄧㄝˋ；C. 古義「跑」ㄗㄡˇ／現代ㄗㄡˇ（讀音雖同但D項皆讀 ㄕˊ 完全無爭議）。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "古今字義轉變", "q": "文言文中「百獸聞之皆走」的「走」字，其意思與下列現代漢語何者相同？", "options": ["慢步行走", "逃跑、奔跑", "離開職位", "走向未來"], "ans": "B", "steps": "古代漢語「走」指快跑、奔逃（如「奔相走告」、「走投無路」）；現代「步」在古代才相當於慢走。", "visual_hint": "💡 《第八課 狐假虎威》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "寓意深度評析", "q": "江乙在戰國時代向楚宣王講述《狐假虎威》的寓言，他的真正用意是什麼？", "options": ["提醒宣王山林猛獸很多要注意打獵安全", "說明北方諸侯真正畏懼的是楚宣王的強大軍力，昭奚恤只是借國君威名行事", "勸勉楚宣王多聽取狐狸的狡猾意見", "諷刺老虎空有龐大身軀卻智商不足"], "ans": "B", "steps": "江乙借寓言向楚宣王剖析朝政：昭奚恤就像狐狸，楚王的百萬精兵就像老虎，北方人敬畏的是楚王而非宰相個人。", "visual_hint": "⛩️ 晏子使楚地圖：晏子昂首挺胸駁斥楚王開狗門，機智捍衛齊國尊嚴。"}, {"type": "成語語境運用", "q": "下列何者最適合用「狐假虎威」來形容？", "options": ["部長親自深入災區指揮救災", "小職員仗著董事長是他舅舅，在公司裡飛揚跋扈欺壓同事", "將軍身先士卒衝鋒陷陣", "科學家歷經千辛萬苦研發出新藥"], "ans": "B", "steps": "仗著長官或權貴勢力作威作福，正是「狐假虎威」的最佳寫照。", "visual_hint": "💡 《第八課 狐假虎威》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "延伸寓言理解", "q": "依據延伸閱讀《畫蛇添足》的典故，「蛇固無足，子安能為之足？」這句話的主要涵義是：", "options": ["讚賞畫蛇添腳的獨特藝術創意", "指出多此一舉、弄巧成拙，反而失去了原有的成果", "說明自然界的蛇也有長腳的特例", "勸告大家畫畫時不要吝惜顏料"], "ans": "B", "steps": "「畫蛇添足」比喻做多餘的事反而破壞了原本的事物，招致失敗。", "visual_hint": "💡 《第八課 狐假虎威》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "反諷語氣辨析", "q": "狐狸對老虎說：「天帝使我長百獸，子食我，是逆天帝命也。」狐狸這番話展現了何種說話技巧？", "options": ["謙卑哀求以博取同情", "虛張聲勢、假借權威以震懾對手", "實話實說、毫不隱瞞", "轉移話題以分散老虎注意力"], "ans": "B", "steps": "虛構天帝之命讓強大的老虎產生忌憚，屬於典型的虛張聲勢與心理反制。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "文言句式常識", "q": "「虎不知獸己而走也，以為畏狐也。」這句話揭示了：", "options": ["老虎缺乏判斷力，被假象所矇蔽", "狐狸真正具備統御百獸的魔力", "百獸其實是為了保護狐狸而逃跑", "老虎生性仁慈不願濫殺無辜"], "ans": "A", "steps": "老虎被眼前野獸逃跑的表面假象矇蔽，看不清自己才是百獸驚恐的根源。", "visual_hint": "💡 《第八課 狐假虎威》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}];
         let curIdx = 0;
         let score = 0;
         let answered = false;
@@ -328,6 +545,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('qType').textContent = q.type || '考點陷阱';
             document.getElementById('qText').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, '第八課 狐假虎威');
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';

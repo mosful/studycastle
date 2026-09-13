@@ -9,7 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -136,6 +168,102 @@
             padding-bottom: 8px;
         }
 
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 14px 0 6px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 生字成語陷阱圖鑑卡片 */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .vocab-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .vocab-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1.5px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+        .v-word {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Noto Serif TC', serif;
+        }
+        .v-zhu {
+            color: var(--accent-amber);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+        .v-meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .v-trap {
+            margin-top: 4px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
         /* 題目互動介面 */
         .quiz-hud {
             display: flex;
@@ -170,9 +298,9 @@
             color: #FFF;
             padding: 2px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .question-text {
@@ -185,7 +313,7 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .quiz-opt-btn {
@@ -288,6 +416,119 @@
             <p style="line-height: 1.8; font-size: 1.05rem;">在人生的跑道中，遇到挫折與競爭要能調整心態、放下個人得失，體會團隊互助合作的無私榮耀。</p>
         </div>
 
+        
+            <div class="section-card">
+                <h2 class="section-title">🗺️ 課文情節起承轉合思維導圖</h2>
+                <div class="story-flow-grid">
+                    
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌱 起因背景</div>
+                        <div class="flow-node-content">大隊接力賽前，政彬站在起跑點，因老師將衝刺技巧好的名揚調至第四棒而感到委屈不服，手中接力棒頓覺沉重。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌊 情節發展</div>
+                        <div class="flow-node-content">看見名揚跳高腳踝受傷仍堅持上場，隊友們真誠彼此打氣展現強大向心力；政彬深受感動決定放下私心全力以赴。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">⚡ 高潮轉折</div>
+                        <div class="flow-node-content">政彬第一棒全力衝刺交棒，名揚在終點奮力超前奪冠；政彬上前相擁，高呼「我們贏了！」，體會團隊榮耀勝過個人得失。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
+        
+            <div class="section-card">
+                <h2 class="section-title">💡 重點生字成語與部首象形圖鑑</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">尷尬</span>
+                            <span class="v-zhu">ㄍㄢ ㄍㄚˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">處境困窘難堪，或神情不好意思。</div>
+                        <div class="v-trap">⚠️ 易錯考點：常誤寫為「監介」或「監尬」，左邊皆為「尤」部旁。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">芥蒂</span>
+                            <span class="v-zhu">ㄐㄧㄝˋ ㄉㄧˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge" title="艸部：與草木植物相關">🌱 艸部·植物生長</span></div>
+                        <div class="v-meaning">微小的梗塞，比喻積在心中的怨恨或不快。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「蒂」為草部，常誤寫為「帶」或「帝」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">抑制</span>
+                            <span class="v-zhu">ㄧˋ ㄓˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">壓抑、控制自己的情緒或行為。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「抑」為手部，常與「仰」(仰頭)、「迎」混淆。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">偏見</span>
+                            <span class="v-zhu">ㄆㄧㄢ ㄐㄧㄢˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">不客觀、偏袒一邊的成見。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「偏」為人部，常誤寫為「篇」或「遍」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">勝券在握</span>
+                            <span class="v-zhu">ㄕㄥˋ ㄑㄩㄢˋ ㄗㄞˋ ㄨㄛˋ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge" title="刀部：與利器切削、契約相關">🗡️ 刀部·利器契約</span></div>
+                        <div class="v-meaning">比喻很有把握取得勝利。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「券」為刀部(音ㄑㄩㄢˋ)，常誤讀為ㄐㄩㄢˋ或誤寫為「卷」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">拱手讓人</span>
+                            <span class="v-zhu">ㄍㄨㄥˇ ㄕㄡˇ ㄖㄤˋ ㄖㄣˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge" title="手部：與動作操作相關">✋ 手部·動作舉止</span></div>
+                        <div class="v-meaning">毫不爭抗，輕易地把權益或勝利讓給別人。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「拱」為手部，常誤寫為「供」(供給)或「洪」。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">勢均力敵</span>
+                            <span class="v-zhu">ㄕˋ ㄐㄩㄣ ㄌㄧˋ ㄉㄧˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">雙方實力相當，不分高下。</div>
+                        <div class="v-trap">⚠️ 易錯考點：常與「不相上下」為同義替換，但形容戰況力量更為強烈。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">至死不屈</span>
+                            <span class="v-zhu">ㄓˋ ㄙˇ ㄅㄨˋ ㄑㄩ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">到死都不肯屈服。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「屈」常誤寫為「區」或「掘」。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
         <div class="section-card">
             <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
             <div class="quiz-hud">
@@ -298,6 +539,7 @@
             <div class="question-box">
                 <span class="question-type" id="qType">考點解析</span>
                 <div class="question-text" id="qText">題目載入中...</div>
+                <div class="quiz-visual-box" id="quizVisualBox"></div>
             </div>
 
             <div class="options-grid" id="optGrid"></div>
@@ -308,7 +550,7 @@
     </div>
 
     <script>
-        const quizData = [{"type": "字音字形陷阱", "q": "下列各組「」中的字，何者讀音完全相同？", "options": ["「冠」軍爭奪賽 ／ 戴上皇「冠」", "「屏」氣凝神 ／ 天然「屏」障", "神情「尷」「尬」 ／ 嚴密監「管」", "怒不可「遏」 ／ 「竭」盡全力"], "ans": "B", "steps": "A. ㄍㄨㄢˋ ／ ㄍㄨㄢ；B. 皆讀 ㄅㄧㄥˇ（屏氣/屏障均可讀ㄅㄧㄥˇ或屏障讀ㄆㄧㄥˊ，但常用屏息為ㄅㄧㄥˇ；此處D遏ㄜˋ/竭ㄐㄧㄝˊ不同）；標準考題中「冠」冠軍四聲、皇冠一聲，讀音不同。"}, {"type": "改錯別字陷阱", "q": "下列文句中，何者「完全沒有」錯別字？", "options": ["士兵與敵軍頑抗到底，至死不區。", "良好的溝通可以拉近彼此間的拒離。", "這名男歌手終於放下心中的芥蒂，化解了原本彼此尷尬的氣氛。", "飛機篇離了航道，差點兒釀成嚴重大禍。"], "ans": "C", "steps": "A. 至死不「區」應改為「屈」；B. 「拒」離應改為「距」離；D. 「篇」離應改為「偏」離。"}, {"type": "成語語境辨析", "q": "「這次的籃球總決賽，面對實力（　）的對手，我們雖然勝算極大，但也絕不能將冠軍盃（　）。」空格依序填入何者最恰當？", "options": ["拱手讓人 ／ 勢均力敵", "勢均力敵 ／ 拱手讓人", "勝券在握 ／ 無理取鬧", "不相上下 ／ 盡心盡力"], "ans": "B", "steps": "形容雙方實力相當用「勢均力敵」；形容不能輕易將成果讓給別人用「拱手讓人」。"}, {"type": "課文深究與推論", "q": "在《跑道》一文中，政彬在接力賽獲勝後由衷說出「我們贏了！」，這句話主要傳達出何種思想情感？", "options": ["炫耀自己的衝刺實力超越五班選手", "從原本在意個人棒次與得失，昇華為體悟團隊精神與集體榮耀", "慶幸自己終於不用再承受第一棒的起跑壓力", "暗諷名揚如果沒有自己的幫助就不可能奪得金牌"], "ans": "B", "steps": "政彬放下了原本被換棒次的芥蒂與不平，真正體會到隊友帶傷奮戰、彼此打氣的團隊精神，因此將「我贏了」轉化為「我們贏了」。"}, {"type": "人物情緒描寫分析", "q": "「政彬雙手顫抖著緊握接力棒，凝視著前方漫長的紅磚跑道，心跳聲彷彿大鼓般重重敲擊著胸膛。」這段文字運用了何種描寫人物情緒的手法？", "options": ["語言對話直接說明", "透過動作與生理反應襯托緊張情緒", "藉由他人評價客觀反襯", "純粹景物象徵寓意"], "ans": "B", "steps": "「雙手顫抖」、「緊握」、「心跳如大鼓」皆屬於身體動作與生理反應，具體生動地呈現政彬當下的緊張與沉重壓力。"}, {"type": "素養閱讀推論題", "q": "依據延伸閱讀《景美女中拔河隊》，教練告誡隊員拔河「枯燥又無聊」的主要原因是什麼？", "options": ["因為拔河缺乏觀眾喝采與掌聲", "拔河的繩子不會給予即時回饋，必須耐得住寂寞長期苦練", "每天只能在操場跑步而不能練習戰術", "拔河比賽的時間太短，無法展現個人技巧"], "ans": "B", "steps": "閱讀篇章中明確指出：拔河這項運動「繩子不會給你即時回饋，要耐得住寂寞才能成功，兩分半鐘的勝負是靠一年365天換來的」。"}, {"type": "素養閱讀推論題", "q": "依據《景美女中拔河隊》篇章，拔河要能贏得世界冠軍，最「不可能」仰賴下列哪一項因素？", "options": ["隊員間的團隊合作", "雙手磨出硬繭的刻苦堅持", "臨場全憑個人運氣", "強大的心理抗壓意志力"], "ans": "C", "steps": "拔河是絕對的力量、默契與意志力競賽，全憑血汗苦練與團隊默契，絕不可能靠「個人運氣」奪冠。"}, {"type": "成語反義辨析", "q": "下列成語中，何者的意思與「勝券在握」最為「相反」？", "options": ["操之在己", "勝負難料", "胸有成竹", "十拿九穩"], "ans": "B", "steps": "「勝券在握」形容極有把握；「勝負難料」指不知鹿死誰手，難以預測勝負，兩者意思相反。"}];
+        const quizData = [{"type": "字音字形陷阱", "q": "下列各組「」中的字，何者讀音完全相同？", "options": ["「冠」軍爭奪賽 ／ 戴上皇「冠」", "「屏」氣凝神 ／ 天然「屏」障", "神情「尷」「尬」 ／ 嚴密監「管」", "怒不可「遏」 ／ 「竭」盡全力"], "ans": "B", "steps": "A. ㄍㄨㄢˋ ／ ㄍㄨㄢ；B. 皆讀 ㄅㄧㄥˇ（屏氣/屏障均可讀ㄅㄧㄥˇ或屏障讀ㄆㄧㄥˊ，但常用屏息為ㄅㄧㄥˇ；此處D遏ㄜˋ/竭ㄐㄧㄝˊ不同）；標準考題中「冠」冠軍四聲、皇冠一聲，讀音不同。", "visual_hint": "💡 《第一課 跑道》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "改錯別字陷阱", "q": "下列文句中，何者「完全沒有」錯別字？", "options": ["士兵與敵軍頑抗到底，至死不區。", "良好的溝通可以拉近彼此間的拒離。", "這名男歌手終於放下心中的芥蒂，化解了原本彼此尷尬的氣氛。", "飛機篇離了航道，差點兒釀成嚴重大禍。"], "ans": "C", "steps": "A. 至死不「區」應改為「屈」；B. 「拒」離應改為「距」離；D. 「篇」離應改為「偏」離。", "visual_hint": "💡 《第一課 跑道》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "成語語境辨析", "q": "「這次的籃球總決賽，面對實力（　）的對手，我們雖然勝算極大，但也絕不能將冠軍盃（　）。」空格依序填入何者最恰當？", "options": ["拱手讓人 ／ 勢均力敵", "勢均力敵 ／ 拱手讓人", "勝券在握 ／ 無理取鬧", "不相上下 ／ 盡心盡力"], "ans": "B", "steps": "形容雙方實力相當用「勢均力敵」；形容不能輕易將成果讓給別人用「拱手讓人」。", "visual_hint": "🤼 拔河中央繩結對峙：雙方力量旗鼓相當，不相上下。"}, {"type": "課文深究與推論", "q": "在《跑道》一文中，政彬在接力賽獲勝後由衷說出「我們贏了！」，這句話主要傳達出何種思想情感？", "options": ["炫耀自己的衝刺實力超越五班選手", "從原本在意個人棒次與得失，昇華為體悟團隊精神與集體榮耀", "慶幸自己終於不用再承受第一棒的起跑壓力", "暗諷名揚如果沒有自己的幫助就不可能奪得金牌"], "ans": "B", "steps": "政彬放下了原本被換棒次的芥蒂與不平，真正體會到隊友帶傷奮戰、彼此打氣的團隊精神，因此將「我贏了」轉化為「我們贏了」。", "visual_hint": "🌱 部首象形【艸】：心中長出細微草根小刺，引申為內心微小隔閡。"}, {"type": "人物情緒描寫分析", "q": "「政彬雙手顫抖著緊握接力棒，凝視著前方漫長的紅磚跑道，心跳聲彷彿大鼓般重重敲擊著胸膛。」這段文字運用了何種描寫人物情緒的手法？", "options": ["語言對話直接說明", "透過動作與生理反應襯托緊張情緒", "藉由他人評價客觀反襯", "純粹景物象徵寓意"], "ans": "B", "steps": "「雙手顫抖」、「緊握」、「心跳如大鼓」皆屬於身體動作與生理反應，具體生動地呈現政彬當下的緊張與沉重壓力。", "visual_hint": "💡 《第一課 跑道》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "素養閱讀推論題", "q": "依據延伸閱讀《景美女中拔河隊》，教練告誡隊員拔河「枯燥又無聊」的主要原因是什麼？", "options": ["因為拔河缺乏觀眾喝采與掌聲", "拔河的繩子不會給予即時回饋，必須耐得住寂寞長期苦練", "每天只能在操場跑步而不能練習戰術", "拔河比賽的時間太短，無法展現個人技巧"], "ans": "B", "steps": "閱讀篇章中明確指出：拔河這項運動「繩子不會給你即時回饋，要耐得住寂寞才能成功，兩分半鐘的勝負是靠一年365天換來的」。", "visual_hint": "🔥 字形家族辨析：火部「乾燥」、口部「噪音」、足部「急躁」、手部「操持」。"}, {"type": "素養閱讀推論題", "q": "依據《景美女中拔河隊》篇章，拔河要能贏得世界冠軍，最「不可能」仰賴下列哪一項因素？", "options": ["隊員間的團隊合作", "雙手磨出硬繭的刻苦堅持", "臨場全憑個人運氣", "強大的心理抗壓意志力"], "ans": "C", "steps": "拔河是絕對的力量、默契與意志力競賽，全憑血汗苦練與團隊默契，絕不可能靠「個人運氣」奪冠。", "visual_hint": "💡 《第一課 跑道》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "成語反義辨析", "q": "下列成語中，何者的意思與「勝券在握」最為「相反」？", "options": ["操之在己", "勝負難料", "胸有成竹", "十拿九穩"], "ans": "B", "steps": "「勝券在握」形容極有把握；「勝負難料」指不知鹿死誰手，難以預測勝負，兩者意思相反。", "visual_hint": "🗡️ 部首拆解【券從刀】：古代在木竹上刻刀為契約，手握必勝契約憑證。"}];
         let curIdx = 0;
         let score = 0;
         let answered = false;
@@ -328,6 +570,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('qType').textContent = q.type || '考點陷阱';
             document.getElementById('qText').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, '第一課 跑道');
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';

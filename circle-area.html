@@ -615,6 +615,42 @@
     border-radius: 12px; cursor: pointer; box-shadow: 0 4px 0 #0A5A59;
   }
 
+  /* 幾何視覺圖解容器樣式 */
+  .wb-diagram-box {
+    background: #FFFFFF;
+    border: 2px dashed #9D4EDD;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin: 10px 0 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(90, 24, 154, 0.08);
+  }
+  .diagram-tag {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, #7209B7, #F72585);
+    color: #FFF;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .circle-svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.06));
+  }
+  .circle-svg text {
+    font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+    font-weight: 800;
+  }
+
   @media (max-width: 480px) {
     .isle .label { display: none; }
     .isle .dot { width: 42px; height: 42px; font-size: 19px; }
@@ -928,10 +964,15 @@ function renderIntro(c){
 
 function renderLevel1(c){
   updateMascot('🔍', '第一關：圓周率探索！任何圓的「圓周長 ÷ 直徑」大約是多少呢？');
+  const visualSvg = getCircleDiagramSvg({q:'直徑 10 公分，圓周長 31.4 公分'});
   c.innerHTML = `
     <h2 class="stage-title">🔍 第一關：圓周率探索</h2>
     <p class="stage-sub">一個圓的直徑是 10 公分，圓周長是 31.4 公分，請問它的圓周率（圓周長 ÷ 直徑）是多少？</p>
-    <div style="font-size:36px; font-weight:800; color:var(--moon-purple); text-align:center; margin:20px 0;">31.4 ÷ 10 = ?</div>
+    <div class="wb-diagram-box">
+      <div class="diagram-tag">💡 看圖懂題意（幾何圖解）</div>
+      ${visualSvg}
+    </div>
+    <div style="font-size:36px; font-weight:800; color:var(--moon-purple); text-align:center; margin:16px 0;">31.4 ÷ 10 = ?</div>
     <div style="text-align:center; margin:14px 0;">
       <input type="text" class="wb-input" id="l1Inp" style="font-size:24px; text-align:center; width:150px;" placeholder="數值">
     </div>
@@ -976,10 +1017,15 @@ function renderLevel2(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getCircleDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">📏 第二關：圓周長計算</h2>
       <p class="stage-sub">${item.q}（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="text-align:center; margin:20px 0;">
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（幾何圖解）</div>
+        ${visualSvg}
+      </div>
+      <div style="text-align:center; margin:16px 0;">
         <input type="text" class="wb-input" id="l2Inp" style="font-size:24px; text-align:center; width:160px;" placeholder="數值">
       </div>
       <div class="btn-row" style="justify-content:center;">
@@ -1025,10 +1071,15 @@ function renderLevel3(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getCircleDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">🍕 第三關：圓面積計算</h2>
       <p class="stage-sub">${item.q}（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="text-align:center; margin:20px 0;">
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（幾何圖解）</div>
+        ${visualSvg}
+      </div>
+      <div style="text-align:center; margin:16px 0;">
         <input type="text" class="wb-input" id="l3Inp" style="font-size:24px; text-align:center; width:160px;" placeholder="數值">
       </div>
       <div class="btn-row" style="justify-content:center;">
@@ -1073,10 +1124,15 @@ function renderLevel4(c){
       return;
     }
     const item = pool[idx];
+    const visualSvg = getCircleDiagramSvg(item);
     c.innerHTML = `
       <h2 class="stage-title">🎨 第四關：塗色複合圖形</h2>
       <p class="stage-sub">${item.q}（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="text-align:center; margin:20px 0;">
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（幾何圖解）</div>
+        ${visualSvg}
+      </div>
+      <div style="text-align:center; margin:16px 0;">
         <input type="text" class="wb-input" id="l4Inp" style="font-size:24px; text-align:center; width:160px;" placeholder="平方公分/公尺">
       </div>
       <div class="btn-row" style="justify-content:center;">
@@ -1124,7 +1180,22 @@ function renderLevel5(c){
     c.innerHTML = `
       <h2 class="stage-title">🏆 第五關：倍數奧秘</h2>
       <p class="stage-sub">${item.q}（第 ${idx+1} / ${pool.length} 題）</p>
-      <div style="text-align:center; margin:20px 0;">
+      <div class="wb-diagram-box">
+        <div class="diagram-tag">💡 看圖懂題意（倍數幾何模型）</div>
+        <svg class="circle-svg" width="220" height="130" viewBox="0 0 220 130">
+          <circle cx="50" cy="65" r="24" fill="#DBEAFE" stroke="#3B82F6" stroke-width="2"/>
+          <text x="50" y="70" font-size="11" fill="#1E40AF" text-anchor="middle">小圓</text>
+          <text x="50" y="105" font-size="11" fill="#1E40AF" text-anchor="middle">半徑 1</text>
+          
+          <text x="100" y="70" font-size="18" fill="#4B5563" text-anchor="middle">➜</text>
+
+          <circle cx="160" cy="65" r="48" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2.5"/>
+          <text x="160" y="62" font-size="12" fill="#B45309" text-anchor="middle">大圓</text>
+          <text x="160" y="80" font-size="10.5" fill="#B45309" text-anchor="middle">半徑 N 倍</text>
+          <text x="160" y="125" font-size="11" fill="#D97706" text-anchor="middle" font-weight="bold">面積 = N × N 倍！</text>
+        </svg>
+      </div>
+      <div style="text-align:center; margin:16px 0;">
         <input type="text" class="wb-input" id="l5Inp" style="font-size:24px; text-align:center; width:140px;" placeholder="倍數">
       </div>
       <div class="btn-row" style="justify-content:center;">
@@ -1226,6 +1297,244 @@ function circlePick(itemId, val, btnEl) {
   }
 }
 
+// 幾何視覺圖解 SVG 產生器
+function getCircleDiagramSvg(item) {
+  if (!item) return '';
+  const text = (item.title || '') + ' ' + (item.diagram || '') + ' ' + (item.q || '') + ' ' + (item.left || '');
+  
+  // 1. 正方形內切圓四角塗色 (shaded_1)
+  if (item.id === 'shaded_1' || text.includes('正方形內切圓')) {
+    return `
+      <svg class="circle-svg" width="220" height="200" viewBox="0 0 220 200">
+        <defs>
+          <linearGradient id="gCorner" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F72585"/>
+            <stop offset="100%" stop-color="#7209B7"/>
+          </linearGradient>
+        </defs>
+        <!-- 正方形外框 (塗色底) -->
+        <rect x="30" y="20" width="160" height="160" rx="4" fill="url(#gCorner)" stroke="#3A0CA3" stroke-width="2.5"/>
+        <!-- 內切圓 (挖空白色) -->
+        <circle cx="110" cy="100" r="80" fill="#FFFFFF" stroke="#3A0CA3" stroke-width="2.5"/>
+        <!-- 尺寸標示 -->
+        <!-- 正方形邊長 16cm -->
+        <line x1="30" y1="188" x2="190" y2="188" stroke="#12303B" stroke-width="1.8"/>
+        <line x1="30" y1="183" x2="30" y2="193" stroke="#12303B" stroke-width="1.8"/>
+        <line x1="190" y1="183" x2="190" y2="193" stroke="#12303B" stroke-width="1.8"/>
+        <text x="110" y="198" font-size="12" fill="#12303B" text-anchor="middle">正方形邊長 16 cm</text>
+        <!-- 圓直徑 16cm / 半徑 8cm 標示 -->
+        <line x1="110" y1="100" x2="190" y2="100" stroke="#E63946" stroke-width="2" stroke-dasharray="3,2"/>
+        <circle cx="110" cy="100" r="3.5" fill="#E63946"/>
+        <text x="145" y="93" font-size="12" fill="#E63946" font-weight="bold">r = 8 cm</text>
+        <text x="110" y="125" font-size="11.5" fill="#5A189A" text-anchor="middle">塗色面積 = 正方形 - 圓</text>
+      </svg>
+    `;
+  }
+
+  // 2. 圓環塗色 (shaded_2)
+  if (item.id === 'shaded_2' || text.includes('圓環')) {
+    return `
+      <svg class="circle-svg" width="220" height="200" viewBox="0 0 220 200">
+        <defs>
+          <radialGradient id="gRing" cx="50%" cy="50%" r="50%">
+            <stop offset="50%" stop-color="#9D4EDD"/>
+            <stop offset="100%" stop-color="#480CA8"/>
+          </radialGradient>
+        </defs>
+        <!-- 大圓 (塗色) -->
+        <circle cx="110" cy="100" r="85" fill="url(#gRing)" stroke="#3A0CA3" stroke-width="2.5"/>
+        <!-- 小圓 (白色中空) -->
+        <circle cx="110" cy="100" r="45" fill="#FFFDF5" stroke="#3A0CA3" stroke-width="2.5"/>
+        <circle cx="110" cy="100" r="3.5" fill="#FFB703"/>
+        <!-- 小圓半徑 7m -->
+        <line x1="110" y1="100" x2="65" y2="100" stroke="#FFB703" stroke-width="2.5"/>
+        <text x="88" y="94" font-size="12" fill="#FFB703" text-anchor="middle">r=7m</text>
+        <!-- 大圓半徑 14m -->
+        <line x1="110" y1="100" x2="195" y2="100" stroke="#FFFFFF" stroke-width="2.5" stroke-dasharray="4,2"/>
+        <text x="155" y="94" font-size="12" fill="#FFFFFF" text-anchor="middle">R=14m</text>
+        <text x="110" y="192" font-size="12" fill="#3A0CA3" text-anchor="middle" font-weight="bold">圓環面積 = 大圓 - 小圓</text>
+      </svg>
+    `;
+  }
+
+  // 3. 直角三角形扣除內切圓 (shaded_3)
+  if (item.id === 'shaded_3' || text.includes('直角三角形')) {
+    return `
+      <svg class="circle-svg" width="220" height="200" viewBox="0 0 220 200">
+        <!-- 直角三角形 -->
+        <polygon points="30,170 190,170 30,30" fill="#FFD166" stroke="#D48800" stroke-width="2.5"/>
+        <!-- 內切圓 -->
+        <circle cx="75" cy="125" r="32" fill="#FFFFFF" stroke="#D48800" stroke-width="2"/>
+        <circle cx="75" cy="125" r="3" fill="#E63946"/>
+        <line x1="75" y1="125" x2="107" y2="125" stroke="#E63946" stroke-width="2"/>
+        <text x="92" y="120" font-size="11" fill="#E63946">r=20</text>
+        <!-- 底與高 -->
+        <text x="110" y="186" font-size="12" fill="#12303B" text-anchor="middle">底 120 cm</text>
+        <text x="22" y="105" font-size="12" fill="#12303B" text-anchor="middle" transform="rotate(-90 22,105)">高 100 cm</text>
+        <text x="145" y="80" font-size="11.5" fill="#B45309" text-anchor="middle">塗色 = 三角形 - 圓</text>
+      </svg>
+    `;
+  }
+
+  // 4. 等腰梯形扣除內切圓 (shaded_4)
+  if (item.id === 'shaded_4' || text.includes('梯形')) {
+    return `
+      <svg class="circle-svg" width="220" height="190" viewBox="0 0 220 190">
+        <!-- 梯形 (塗色底) -->
+        <polygon points="65,40 155,40 195,160 25,160" fill="#A7C957" stroke="#386641" stroke-width="2.5"/>
+        <!-- 內切圓 (直徑 30) -->
+        <circle cx="110" cy="100" r="45" fill="#FFFFFF" stroke="#386641" stroke-width="2"/>
+        <circle cx="110" cy="100" r="3" fill="#BC4749"/>
+        <line x1="110" y1="100" x2="155" y2="100" stroke="#BC4749" stroke-width="2"/>
+        <text x="132" y="94" font-size="11" fill="#BC4749">r=15</text>
+        <!-- 尺寸標示 -->
+        <text x="110" y="32" font-size="11" fill="#12303B" text-anchor="middle">上底 32 cm</text>
+        <text x="110" y="178" font-size="11" fill="#12303B" text-anchor="middle">下底 52 cm (高 30 cm)</text>
+      </svg>
+    `;
+  }
+
+  // 5. 長方形扣除內切圓 (shaded_5)
+  if (item.id === 'shaded_5' || text.includes('長方形扣除')) {
+    return `
+      <svg class="circle-svg" width="220" height="180" viewBox="0 0 220 180">
+        <rect x="25" y="30" width="170" height="100" rx="4" fill="#90E0EF" stroke="#0077B6" stroke-width="2.5"/>
+        <circle cx="110" cy="80" r="46" fill="#FFFFFF" stroke="#0077B6" stroke-width="2"/>
+        <circle cx="110" cy="80" r="3" fill="#D90429"/>
+        <line x1="110" y1="34" x2="110" y2="126" stroke="#D90429" stroke-width="2" stroke-dasharray="3,2"/>
+        <text x="116" y="85" font-size="11" fill="#D90429">直徑 90m</text>
+        <text x="110" y="148" font-size="12" fill="#03045E" text-anchor="middle">長 160m × 寬 90m</text>
+        <text x="110" y="168" font-size="11" fill="#0077B6" text-anchor="middle">塗色 = 長方形 - 圓面積</text>
+      </svg>
+    `;
+  }
+
+  // 6. 牛吃草問題 (繩長 120cm)
+  if (text.includes('牛') || text.includes('吃草')) {
+    return `
+      <svg class="circle-svg" width="220" height="190" viewBox="0 0 220 190">
+        <!-- 草地圓形吃草範圍 -->
+        <circle cx="110" cy="95" r="75" fill="#D8F3DC" stroke="#2D6A4F" stroke-width="2.5" stroke-dasharray="5,3"/>
+        <circle cx="110" cy="95" r="5" fill="#744210"/>
+        <!-- 繩子與半徑標示 -->
+        <line x1="110" y1="95" x2="175" y2="50" stroke="#B45309" stroke-width="3"/>
+        <text x="150" y="65" font-size="12" fill="#92400E" font-weight="bold">繩長 120 cm (半徑)</text>
+        <text x="180" y="48" font-size="20">🐮</text>
+        <text x="110" y="105" font-size="11" fill="#744210" text-anchor="middle">木樁固定點</text>
+        <text x="110" y="182" font-size="12" fill="#1B4332" text-anchor="middle" font-weight="bold">吃草面積 = 半徑 120cm 的圓面積</text>
+      </svg>
+    `;
+  }
+
+  // 7. 時鐘分針轉 1 圈
+  if (text.includes('分針') || text.includes('時鐘')) {
+    return `
+      <svg class="circle-svg" width="200" height="190" viewBox="0 0 200 190">
+        <circle cx="100" cy="95" r="75" fill="#F0F4FF" stroke="#4361EE" stroke-width="2.5"/>
+        <circle cx="100" cy="95" r="4" fill="#3A0CA3"/>
+        <!-- 鐘面刻度簡化 -->
+        <text x="100" y="38" font-size="12" fill="#4361EE" text-anchor="middle" font-weight="bold">12</text>
+        <text x="165" y="100" font-size="12" fill="#4361EE" text-anchor="middle" font-weight="bold">3</text>
+        <text x="100" y="162" font-size="12" fill="#4361EE" text-anchor="middle" font-weight="bold">6</text>
+        <text x="35" y="100" font-size="12" fill="#4361EE" text-anchor="middle" font-weight="bold">9</text>
+        <!-- 分針 -->
+        <line x1="100" y1="95" x2="100" y2="35" stroke="#E63946" stroke-width="3"/>
+        <text x="126" y="65" font-size="12" fill="#E63946" font-weight="bold">分針 11 cm</text>
+        <path d="M 100 25 A 70 70 0 1 1 99 25" fill="none" stroke="#E63946" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="100" y="182" font-size="11.5" fill="#3A0CA3" text-anchor="middle">旋轉 1 圈 = 半徑 11cm 的圓面積</text>
+      </svg>
+    `;
+  }
+
+  // 8. 圓規畫圓
+  if (text.includes('圓規')) {
+    const rMatch = text.match(/張開\s*(\d+)\s*公分/);
+    const rVal = rMatch ? rMatch[1] : '5';
+    return `
+      <svg class="circle-svg" width="200" height="180" viewBox="0 0 200 180">
+        <circle cx="100" cy="90" r="65" fill="#FDF0D5" stroke="#C1121F" stroke-width="2" stroke-dasharray="4,3"/>
+        <circle cx="100" cy="90" r="4" fill="#780000"/>
+        <!-- 圓規雙腳 -->
+        <line x1="100" y1="90" x2="100" y2="25" stroke="#4A5568" stroke-width="3.5"/>
+        <line x1="100" y1="90" x2="165" y2="90" stroke="#780000" stroke-width="2.5"/>
+        <circle cx="165" cy="90" r="3" fill="#780000"/>
+        <text x="135" y="82" font-size="12" fill="#C1121F" font-weight="bold">半徑 ${rVal} cm</text>
+        <text x="100" y="18" font-size="18" text-anchor="middle">📐</text>
+        <text x="100" y="172" font-size="12" fill="#780000" text-anchor="middle">圓規張開距離 = 圓的半徑！</text>
+      </svg>
+    `;
+  }
+
+  // 9. 輪胎或車輪
+  if (text.includes('輪胎') || text.includes('腳踏車')) {
+    const dMatch = text.match(/直徑[^\d]*(\d+)/) || text.match(/周長[^\d]*([\d\.]+)/);
+    const label = dMatch ? dMatch[0] : '車輪周長';
+    return `
+      <svg class="circle-svg" width="200" height="170" viewBox="0 0 200 170">
+        <circle cx="100" cy="80" r="65" fill="#333333" stroke="#111111" stroke-width="3"/>
+        <circle cx="100" cy="80" r="45" fill="#E2E8F0" stroke="#4A5568" stroke-width="2"/>
+        <circle cx="100" cy="80" r="12" fill="#718096"/>
+        <!-- 輪輻 -->
+        <line x1="100" y1="35" x2="100" y2="125" stroke="#718096" stroke-width="2"/>
+        <line x1="55" y1="80" x2="145" y2="80" stroke="#718096" stroke-width="2"/>
+        <!-- 滾動箭頭 -->
+        <path d="M 60 152 L 140 152" stroke="#E63946" stroke-width="2" marker-end="url(#arrow)"/>
+        <text x="100" y="165" font-size="11.5" fill="#E63946" text-anchor="middle" font-weight="bold">${label} (滾動一圈 = 圓周長)</text>
+      </svg>
+    `;
+  }
+
+  // 10. 預設標準圓形 (自動從題目文字解析 半徑 r 或 直徑 d)
+  const dMatch = text.match(/直徑[^\d]*(\d+)\s*(公分|公尺|cm|m)?/);
+  const rMatch = text.match(/半徑[^\d]*(\d+)\s*(公分|公尺|cm|m)?/);
+  
+  if (dMatch) {
+    const val = dMatch[1];
+    const unit = dMatch[2] || '公分';
+    return `
+      <svg class="circle-svg" width="200" height="170" viewBox="0 0 200 170">
+        <circle cx="100" cy="80" r="65" fill="#EBF4FF" stroke="#3182CE" stroke-width="2.5"/>
+        <circle cx="100" cy="80" r="4" fill="#2B6CB0"/>
+        <!-- 直徑線貫穿 -->
+        <line x1="35" y1="80" x2="165" y2="80" stroke="#E53E3E" stroke-width="2.5"/>
+        <line x1="35" y1="73" x2="35" y2="87" stroke="#E53E3E" stroke-width="2"/>
+        <line x1="165" y1="73" x2="165" y2="87" stroke="#E53E3E" stroke-width="2"/>
+        <text x="100" y="72" font-size="12" fill="#E53E3E" text-anchor="middle" font-weight="bold">直徑 d = ${val} ${unit}</text>
+        <text x="100" y="100" font-size="11" fill="#2B6CB0" text-anchor="middle">(半徑 r = ${val/2} ${unit})</text>
+        <text x="100" y="162" font-size="11.5" fill="#2C5282" text-anchor="middle">圓周長 = 直徑 × 3.14 ｜ 面積 = r × r × 3.14</text>
+      </svg>
+    `;
+  }
+  
+  if (rMatch) {
+    const val = rMatch[1];
+    const unit = rMatch[2] || '公分';
+    return `
+      <svg class="circle-svg" width="200" height="170" viewBox="0 0 200 170">
+        <circle cx="100" cy="80" r="65" fill="#FEFCBF" stroke="#D69E2E" stroke-width="2.5"/>
+        <circle cx="100" cy="80" r="4" fill="#B7791F"/>
+        <!-- 半徑線 -->
+        <line x1="100" y1="80" x2="165" y2="80" stroke="#DD6B20" stroke-width="2.5"/>
+        <circle cx="165" cy="80" r="3" fill="#DD6B20"/>
+        <text x="132" y="73" font-size="12" fill="#DD6B20" font-weight="bold">半徑 r = ${val} ${unit}</text>
+        <text x="100" y="100" font-size="11" fill="#744210" text-anchor="middle">(直徑 d = ${val * 2} ${unit})</text>
+        <text x="100" y="162" font-size="11.5" fill="#744210" text-anchor="middle">面積 = ${val} × ${val} × 3.14</text>
+      </svg>
+    `;
+  }
+
+  // 通用圓形圖解
+  return `
+    <svg class="circle-svg" width="180" height="150" viewBox="0 0 180 150">
+      <circle cx="90" cy="70" r="55" fill="#F3E8FF" stroke="#7E22CE" stroke-width="2.5"/>
+      <circle cx="90" cy="70" r="3.5" fill="#581C87"/>
+      <line x1="90" y1="70" x2="145" y2="70" stroke="#7E22CE" stroke-width="2"/>
+      <text x="117" y="64" font-size="11" fill="#7E22CE" font-weight="bold">半徑 r</text>
+      <text x="90" y="140" font-size="11" fill="#581C87" text-anchor="middle">圓周率 ≈ 3.14</text>
+    </svg>
+  `;
+}
+
 function renderCircleWbQuizBody() {
   if (!U4_WB_DATA) return;
   const rev = U4_WB_DATA.reviews.find(r => r.review_id === circleCurrentRevId);
@@ -1241,9 +1550,11 @@ function renderCircleWbQuizBody() {
       sec.table_data.forEach((row, rIdx) => {
         const id = `u4_r10_pi_${rIdx}`;
         const opts = ['3.14', '3.15', '3.12', '3.16'];
+        const visualSvg = getCircleDiagramSvg(row);
         html += `
           <div class="wb-q-item">
             <div class="wb-q-text">物品：<b>${row.item}</b> (圓周長: ${row.circumference} cm，直徑: ${row.diameter} cm)<br>計算：圓周長 ÷ 直徑 = ？</div>
+            ${visualSvg ? `<div class="wb-diagram-box"><div class="diagram-tag">💡 看圖懂題意（幾何圖解）</div>${visualSvg}</div>` : ''}
             <div class="wb-opt-grid">
               ${opts.map(opt => `
                 <button type="button" class="wb-opt-btn ${circleAnswers[id] === opt ? 'selected' : ''}" onclick="circlePick('${id}', '${opt}', this)">
@@ -1262,7 +1573,8 @@ function renderCircleWbQuizBody() {
       sec.items.forEach((item, iIdx) => {
         const itemId = `u4_r${circleCurrentRevId}_s${sIdx}_${iIdx}`;
         const qTitle = item.title ? `<b>${item.title}</b><br><small style="color:#5A189A;">${item.diagram || ''}</small>` : (item.q || `${item.left} ➜ 圓周長為？`);
-        
+        const visualSvg = getCircleDiagramSvg(item);
+
         let opts = [];
         const ansStr = String(item.ans);
         const numMatch = ansStr.match(/[0-9\.]+/);
@@ -1283,6 +1595,7 @@ function renderCircleWbQuizBody() {
         html += `
           <div class="wb-q-item">
             <div class="wb-q-text">${qTitle}</div>
+            ${visualSvg ? `<div class="wb-diagram-box"><div class="diagram-tag">💡 看圖懂題意（幾何圖解）</div>${visualSvg}</div>` : ''}
             <div class="wb-opt-grid">
               ${opts.map(opt => `
                 <button type="button" class="wb-opt-btn ${circleAnswers[itemId] === opt ? 'selected' : ''}" onclick="circlePick('${itemId}', '${opt}', this)">

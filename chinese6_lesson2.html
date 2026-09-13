@@ -9,7 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Noto+Serif+TC:wght@600;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+    <script src="chinese6_visual_engine.js"></script>
     <style>
+        /* 題目圖像式情境卡片 */
+        .quiz-visual-box {
+            margin: 14px 0 16px;
+            background: #FFFFFF;
+            border: 2px dashed #4F46E5;
+            border-radius: 14px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 6px rgba(79, 70, 229, 0.04);
+        }
+        .visual-badge-tag {
+            align-self: flex-start;
+            font-size: 11.5px;
+            font-weight: 800;
+            color: #3730A3;
+            background: #EEF2FF;
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .chinese-visual-svg {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+        }
         :root {
             --primary: #4F46E5;
             --primary-dark: #3730A3;
@@ -136,6 +168,102 @@
             padding-bottom: 8px;
         }
 
+        /* 課文思維導圖流向卡片 */
+        .story-flow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 14px 0 6px;
+        }
+        .story-flow-node {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-top: 5px solid var(--primary);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .flow-node-tag {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: #EEF2FF;
+            padding: 2px 8px;
+            border-radius: 6px;
+            align-self: flex-start;
+        }
+        .flow-node-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* 生字成語陷阱圖鑑卡片 */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .vocab-card {
+            background: #FFFFFF;
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .vocab-head {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            border-bottom: 1.5px dashed var(--border-color);
+            padding-bottom: 6px;
+        }
+        .v-word {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Noto Serif TC', serif;
+        }
+        .v-zhu {
+            color: var(--accent-amber);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .radical-badge {
+            display: inline-block;
+            background: #FEF3C7;
+            color: #92400E;
+            border: 1px solid #FCD34D;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+        .v-meaning {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .v-trap {
+            margin-top: 4px;
+            background: #FEF2F2;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
         /* 題目互動介面 */
         .quiz-hud {
             display: flex;
@@ -170,9 +298,9 @@
             color: #FFF;
             padding: 2px 8px;
             border-radius: 6px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .question-text {
@@ -185,7 +313,7 @@
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .quiz-opt-btn {
@@ -288,6 +416,99 @@
             <p style="line-height: 1.8; font-size: 1.05rem;">從日常衣食住行出發，勸勉後代子孫注重道德修養、勤儉持家、常懷感恩同理之心。</p>
         </div>
 
+        
+            <div class="section-card">
+                <h2 class="section-title">🗺️ 課文情節起承轉合思維導圖</h2>
+                <div class="story-flow-grid">
+                    
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌱 起因背景</div>
+                        <div class="flow-node-content">以日常飲食生活為例，提出「一粥一飯，當思來處不易；半絲半縷，恆念物力維艱」的惜福敬物精神。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">🌊 情節發展</div>
+                        <div class="flow-node-content">告誡行事要深謀遠慮、居安思危——「宜未雨而綢繆，毋臨渴而掘井」；並在待人接物上秉持「自奉必須儉約，宴客切勿流連」。</div>
+                    </div>
+                
+                    <div class="story-flow-node">
+                        <div class="flow-node-tag">⚡ 高潮轉折</div>
+                        <div class="flow-node-content">立身處世應心存仁厚善良，強調「施惠無念，受恩莫忘」以及「人有禍患，不可生喜幸心」，樹立崇高的人格修養。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
+        
+            <div class="section-card">
+                <h2 class="section-title">💡 重點生字成語與部首象形圖鑑</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">未雨綢繆</span>
+                            <span class="v-zhu">ㄨㄟˋ ㄩˇ ㄔㄡˊ ㄇㄡˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">在天還沒下雨前就把門窗綑緊，比喻事先做好準備。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「繆」音ㄇㄡˊ，常誤寫為「愁謀」或誤讀為ㄇㄧㄠˋ。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">臨渴掘井</span>
+                            <span class="v-zhu">ㄌㄧㄣˊ ㄎㄜˇ ㄐㄩㄝˊ ㄐㄧㄥˇ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">到了口渴才開始挖井，比喻事到臨頭才著手準備，為時已晚。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「掘」音ㄐㄩㄝˊ，手部，常誤讀為ㄑㄩ或與「倔強」(ㄐㄩㄝˊ)混淆。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">維艱</span>
+                            <span class="v-zhu">ㄨㄟˊ ㄐㄧㄢ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">非常艱難辛苦。</div>
+                        <div class="v-trap">⚠️ 易錯考點：「維」常與「唯」、「惟」混淆。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">綢繆</span>
+                            <span class="v-zhu">ㄔㄡˊ ㄇㄡˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">緊密纏縛，引申為防患未然。</div>
+                        <div class="v-trap">⚠️ 易錯考點：常考形近字：「綢」緞、「稠」密、「凋」謝。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">喜幸心</span>
+                            <span class="v-zhu">ㄒㄧˇ ㄒㄧㄥˋ ㄒㄧㄣ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge" title="心部：與情感、內心想法相關">❤️ 心部·內心情思</span></div>
+                        <div class="v-meaning">幸災樂禍的心態。</div>
+                        <div class="v-trap">⚠️ 易錯考點：古文詞義考點：「幸」在此指慶幸別人遭遇不幸，即幸災樂禍。</div>
+                    </div>
+                
+                    <div class="vocab-card">
+                        <div class="vocab-head">
+                            <span class="v-word">毋</span>
+                            <span class="v-zhu">ㄨˊ</span>
+                        </div>
+                        <div style="margin: 4px 0 6px;"><span class="radical-badge">📝 字形意象</span></div>
+                        <div class="v-meaning">不要、切莫。</div>
+                        <div class="v-trap">⚠️ 易錯考點：否定副詞，常誤寫為「母」或「舟」。</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+
         <div class="section-card">
             <h2 class="section-title">🎯 課堂素養高階挑戰（共 8 題）</h2>
             <div class="quiz-hud">
@@ -298,6 +519,7 @@
             <div class="question-box">
                 <span class="question-type" id="qType">考點解析</span>
                 <div class="question-text" id="qText">題目載入中...</div>
+                <div class="quiz-visual-box" id="quizVisualBox"></div>
             </div>
 
             <div class="options-grid" id="optGrid"></div>
@@ -308,7 +530,7 @@
     </div>
 
     <script>
-        const quizData = [{"type": "文言詞義理解", "q": "在《朱子治家格言選》中，「人有禍患，不可生喜幸心」這句話的「喜幸心」意思為何？", "options": ["感到無比幸福的心情", "看見他人遭殃而暗自慶幸、幸災樂禍的心態", "熱愛幫助別人的歡喜心", "遇見喜事時的欣慰之情"], "ans": "B", "steps": "在古漢語中，「喜幸」意指以他人的不幸為幸運，即現代語境中的「幸災樂禍」。"}, {"type": "字音字形辨析", "q": "下列文句中「」內的字，哪一個讀音「正確」？", "options": ["未雨綢「繆」：ㄇㄧㄠˋ", "臨渴「掘」井：ㄐㄩㄝˊ", "「甕」牖繩樞：ㄩㄥ", "半絲半「縷」：ㄌㄡˇ"], "ans": "B", "steps": "A. 繆音 ㄔㄡˊ ㄇㄡˊ；B. 掘音 ㄐㄩㄝˊ 正確；C. 甕音 ㄨㄥˋ；D. 縷音 ㄌㄩˇ。"}, {"type": "改錯別字陷阱", "q": "下列句子中，何者「沒有」錯別字？", "options": ["媽媽告誡我們凡事要未雨愁謀，免得事到臨頭慌亂不已。", "小狗用力掙脫了皮帶的束搏，向草地奔馳而去。", "做事若懂得給人留餘地，往往能在未來為自己拓展寬廣的退路。", "百貨公司正進行促稍活動，大家紛紛前往搶購。"], "ans": "C", "steps": "A. 未雨「愁謀」應改為「綢繆」；B. 束「搏」應改為「縛」；D. 促「稍」應改為「銷」。"}, {"type": "格言主旨深究", "q": "「一粥一飯，當思來處不易；半絲半縷，恆念物力維艱」所倡導的核心價值，與下列哪一句名言最相近？", "options": ["滿招損，謙受益", "誰知盤中飧，粒粒皆辛苦", "近朱者赤，近墨者黑", "良藥苦口利於病"], "ans": "B", "steps": "兩者皆強調糧食與生活資源得來不易，應常懷感恩、愛惜物力與勤儉之德。"}, {"type": "成語代換與修辭", "q": "「他平時不做準備，考試前一天才（　），難怪成績一塌糊塗。」空格中填入哪一個成語最恰當？", "options": ["未雨綢繆", "防微杜漸", "臨渴掘井", "樂極生悲"], "ans": "C", "steps": "「臨渴掘井」比喻平時不準備，事到臨頭才匆忙想辦法，符合句意。"}, {"type": "寓言閱讀理解", "q": "依據延伸閱讀《農夫與老鷹》，老鷹搶走農夫草帽的真正動機是什麼？", "options": ["老鷹野性未改，故意戲弄農夫", "老鷹想要將草帽當作築巢的材料", "引誘農夫離開即將倒塌的危牆以報答救命之恩", "老鷹飢餓難耐，誤把草帽當作獵物"], "ans": "C", "steps": "老鷹看見牆壁即將倒塌，用奪走草帽引開農夫，實踐「受恩莫忘」的報恩行為。"}, {"type": "文言寫作結構", "q": "《朱子治家格言》全篇多採用何種句式結構，讀起來朗朗上口、節奏對稱？", "options": ["自由詩句", "排比對仗之駢偶句式", "全篇押入聲韻", "反覆詠嘆之樂府體"], "ans": "B", "steps": "如「一粥一飯」對「半絲半縷」，「宜未雨而綢繆」對「毋臨渴而掘井」，皆為工整對仗的駢偶句法。"}, {"type": "成語語境代換", "q": "「他在慶祝派對上狂歡豪飲，隨後酒駕撞車，真是（　）。」括弧中最適合填入：", "options": ["自作自受", "樂極生悲", "因禍得福", "否極泰來"], "ans": "B", "steps": "「樂極生悲」指高興歡樂到極點，反而轉變成悲慘的災禍，最切合句意。"}];
+        const quizData = [{"type": "文言詞義理解", "q": "在《朱子治家格言選》中，「人有禍患，不可生喜幸心」這句話的「喜幸心」意思為何？", "options": ["感到無比幸福的心情", "看見他人遭殃而暗自慶幸、幸災樂禍的心態", "熱愛幫助別人的歡喜心", "遇見喜事時的欣慰之情"], "ans": "B", "steps": "在古漢語中，「喜幸」意指以他人的不幸為幸運，即現代語境中的「幸災樂禍」。", "visual_hint": "📜 庭院灑掃持家：黎明晨起勤奮灑掃，珍惜一粥一飯來處不易。"}, {"type": "字音字形辨析", "q": "下列文句中「」內的字，哪一個讀音「正確」？", "options": ["未雨綢「繆」：ㄇㄧㄠˋ", "臨渴「掘」井：ㄐㄩㄝˊ", "「甕」牖繩樞：ㄩㄥ", "半絲半「縷」：ㄌㄡˇ"], "ans": "B", "steps": "A. 繆音 ㄔㄡˊ ㄇㄡˊ；B. 掘音 ㄐㄩㄝˊ 正確；C. 甕音 ㄨㄥˋ；D. 縷音 ㄌㄩˇ。", "visual_hint": "📝 字形家族辨析：言部為「爭辯」、刀部為「分辨」、糸部為「辮子」、瓜部為「花瓣」。"}, {"type": "改錯別字陷阱", "q": "下列句子中，何者「沒有」錯別字？", "options": ["媽媽告誡我們凡事要未雨愁謀，免得事到臨頭慌亂不已。", "小狗用力掙脫了皮帶的束搏，向草地奔馳而去。", "做事若懂得給人留餘地，往往能在未來為自己拓展寬廣的退路。", "百貨公司正進行促稍活動，大家紛紛前往搶購。"], "ans": "C", "steps": "A. 未雨「愁謀」應改為「綢繆」；B. 束「搏」應改為「縛」；D. 促「稍」應改為「銷」。", "visual_hint": "💡 《第二課 朱子治家格言選》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "格言主旨深究", "q": "「一粥一飯，當思來處不易；半絲半縷，恆念物力維艱」所倡導的核心價值，與下列哪一句名言最相近？", "options": ["滿招損，謙受益", "誰知盤中飧，粒粒皆辛苦", "近朱者赤，近墨者黑", "良藥苦口利於病"], "ans": "B", "steps": "兩者皆強調糧食與生活資源得來不易，應常懷感恩、愛惜物力與勤儉之德。", "visual_hint": "💡 《第二課 朱子治家格言選》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "成語代換與修辭", "q": "「他平時不做準備，考試前一天才（　），難怪成績一塌糊塗。」空格中填入哪一個成語最恰當？", "options": ["未雨綢繆", "防微杜漸", "臨渴掘井", "樂極生悲"], "ans": "C", "steps": "「臨渴掘井」比喻平時不準備，事到臨頭才匆忙想辦法，符合句意。", "visual_hint": "☀️ 烈日沙漠挖井：比喻平時毫無準備，事到臨頭才慌忙想辦法。"}, {"type": "寓言閱讀理解", "q": "依據延伸閱讀《農夫與老鷹》，老鷹搶走農夫草帽的真正動機是什麼？", "options": ["老鷹野性未改，故意戲弄農夫", "老鷹想要將草帽當作築巢的材料", "引誘農夫離開即將倒塌的危牆以報答救命之恩", "老鷹飢餓難耐，誤把草帽當作獵物"], "ans": "C", "steps": "老鷹看見牆壁即將倒塌，用奪走草帽引開農夫，實踐「受恩莫忘」的報恩行為。", "visual_hint": "💡 《第二課 朱子治家格言選》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}, {"type": "文言寫作結構", "q": "《朱子治家格言》全篇多採用何種句式結構，讀起來朗朗上口、節奏對稱？", "options": ["自由詩句", "排比對仗之駢偶句式", "全篇押入聲韻", "反覆詠嘆之樂府體"], "ans": "B", "steps": "如「一粥一飯」對「半絲半縷」，「宜未雨而綢繆」對「毋臨渴而掘井」，皆為工整對仗的駢偶句法。", "visual_hint": "📜 庭院灑掃持家：黎明晨起勤奮灑掃，珍惜一粥一飯來處不易。"}, {"type": "成語語境代換", "q": "「他在慶祝派對上狂歡豪飲，隨後酒駕撞車，真是（　）。」括弧中最適合填入：", "options": ["自作自受", "樂極生悲", "因禍得福", "否極泰來"], "ans": "B", "steps": "「樂極生悲」指高興歡樂到極點，反而轉變成悲慘的災禍，最切合句意。", "visual_hint": "💡 《第二課 朱子治家格言選》情境導讀：仔細觀察上下文詞性、轉折語氣與修辭關鍵字！"}];
         let curIdx = 0;
         let score = 0;
         let answered = false;
@@ -328,6 +550,16 @@
             document.getElementById('quizScore').textContent = score;
             document.getElementById('qType').textContent = q.type || '考點陷阱';
             document.getElementById('qText').textContent = q.q;
+
+            // 渲染題目情境插畫與視覺鷹架
+            const visualBox = document.getElementById('quizVisualBox');
+            if (visualBox && typeof getChineseVisualBadge === 'function') {
+                const badgeSvg = getChineseVisualBadge(q, '第二課 朱子治家格言選');
+                visualBox.innerHTML = `
+                    <div class="visual-badge-tag">💡 看圖懂題意（情境與字形圖解）</div>
+                    ${badgeSvg}
+                `;
+            }
 
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';
