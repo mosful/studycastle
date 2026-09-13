@@ -428,6 +428,11 @@
             position: relative;
             transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             backdrop-filter: blur(10px);
+            cursor: pointer;
+        }
+
+        .game-card.coming-soon {
+            cursor: default;
         }
 
         .game-card:hover {
@@ -1503,7 +1508,7 @@
                 id: "chinese3_curriculum",
                 title: "3上國語自修 全冊學習城堡 🦁",
                 subject: "chinese",
-                grade: "junior",
+                grade: "middle",
                 tags: ["3上國語", "全冊自修", "課前預習", "成語辭典", "修辭解析", "段考題庫"],
                 url: "chinese3_curriculum.html",
                 image: "🦁",
@@ -1729,7 +1734,7 @@
                 }
 
                 return `
-                    <div class="game-card">
+                    <div class="game-card" onclick="window.location.href='${game.url}'">
                         <div class="card-banner" style="background: ${game.bgGradient};">
                             <span class="card-badge" style="background: ${game.badgeColor};">${game.badgeText}</span>
                             <button class="fav-btn ${isFav ? 'is-fav' : ''}" onclick="toggleFav('${game.id}', event)" title="收藏單元">
@@ -1742,7 +1747,7 @@
                             <h3 class="card-title">${game.title}</h3>
                             <p class="card-description">${game.description}</p>
                             <div class="card-footer">
-                                <a href="${game.url}" class="play-btn">
+                                <a href="${game.url}" class="play-btn" onclick="event.stopPropagation();">
                                     <span>🚀 開始冒險</span>
                                 </a>
                             </div>
