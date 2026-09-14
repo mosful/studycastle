@@ -10,6 +10,10 @@ PORTAL_HTML_CODE = '''<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>學習城堡 Study Castle | 國小自修、全冊題庫與互動學習樂園</title>
+    <!-- Favicon 網站圖示 -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%233B82F6'/><text x='50%' y='50%' dominant-baseline='central' text-anchor='middle' font-size='60'>🏰</text></svg>">
+    <link rel="apple-touch-icon" href="favicon.svg">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
