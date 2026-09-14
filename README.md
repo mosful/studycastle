@@ -1,100 +1,101 @@
-# 🏰 快樂學習冒險城堡 (Joyful Learning Adventure Castle)
+# 🏰 學習城堡 Study Castle
 
-專為國小與國中學生打造的互動式學習遊戲樂園！透過豐富的視覺主題、關卡式闖關冒險、即時答題回饋與成就激勵機制，讓孩子在趣味遊戲中輕鬆掌握核心數學與各學科知識。
+專為國小與國中學生打造的現代化互動式自修與學習樂園！全面收錄 115 上康軒國語三上／六上全冊自修、新超群數學、社會自修與新挑戰測驗卷題庫，讓孩子在趣味互動中奠定扎實學科素養！
 
-🔗 **線上體驗入口**：[studycastle/portal.html](https://studycastle/studycastle/)
-
----
-
-## 🎯 專案特色與架構重點
-
-1. **多載具無縫操作**：
-   - 全面支援 **iPad（平板）、智慧型手機（iOS/Android）與桌上型電腦**。
-   - 所有點擊元件符合行動觸控準則（最小高度 48px~56px、`touch-action: manipulation` 消除點擊延遲）。
-2. **沉浸式遊戲化學習**：
-   - 採用關卡制進階闖關、計時倒數挑戰、連擊（Combo）加分、三星成就評分、Confetti 煙火特效與本機最高分紀錄。
-3. **無伺服器架構（Serverless / Static Web App）**：
-   - 純前端技術建置，無需後端伺服器，直接透過 GitHub Pages 零成本快速部署。
-4. **社群交流與用戶反饋系統**：
-   - **Giscus 冒險家公開留言板**：整合 GitHub Discussions，支援深淺色主題、表情符號互動與學習心得分享。
-   - **免登入意見反饋信箱**：提供右下角快速彈窗，讓國小學生與家長無需 GitHub 帳號即可一鍵回報 Bug 或許願新單元。
-5. **真實雲端去重計數器與訪客 IP 顯示**：
-   - 整合 **不蒜子 (Busuanzi) 雲端去重計數器**（同 IP 當天只計 1 次 UV，防重複刷新累加），並即時查詢訪客真實 IP。
+🔗 **線上體驗入口**：[studycastle/portal.html](https://mosful.github.io/studycastle/portal.html) 或 [studycastle/index.html](https://mosful.github.io/studycastle/index.html)
 
 ---
 
-## 📚 目前已上線冒險單元 (10 大主題)
+## 🎯 專案亮點與核心特色
 
-### 🧮 國小三年級上學期數學（課本範圍 P.1 ~ P.117）
-| 單元 | 遊戲名稱 | 主題特色 | 檔案名稱 |
+1. **全新現代化首頁與強大查詢體驗**：
+   - 支援「三年級專區」、「六年級專區」、「低年級入門」與「跨學科益智」一鍵切換。
+   - 依國語、數學、社會、自然與英語多領域即時過濾，搭配熱門標籤搜尋（如 `#115上康軒`, `#質數`, `#圓面積`）。
+   - 核心旗艦自修置頂展示，6 上國語 12 課細項支援收合／展開，介面清爽高效。
+2. **115 上康軒最新課綱旗艦自修**：
+   - **3 上國語 115 上康軒城堡**：收錄全冊 12 課課文脈絡、生字成語辭典、字謎拆合、照樣造句與新挑戰測驗題庫。
+   - **6 上國語 全冊旗艦自修**：全冊 12 課、期中考查、期末大考與新挑戰測驗卷全真試題解析。
+   - **6 上社會 全冊自修城堡**：涵蓋 1~6 單元科技、理財、憲法、地方創生與世界文化。
+3. **沉浸式互動與遊戲化設計**：
+   - 互動字謎揭曉、部件拆合拼字、Web Audio 合成音效、Confetti 煙火彩花與最高分記錄。
+4. **極簡無伺服器架構 (Static Web App)**：
+   - 純原生 HTML5、CSS3、JavaScript 建置，相容電腦、iPad 平板與手機，可直接透過 GitHub Pages 零成本快速部署。
+
+---
+
+## 📚 收錄單元總覽 (共 31 個單元)
+
+### 🏮 國語文領域 (17 個單元)
+| 單元類型 | 單元名稱 | 涵蓋重點 | 檔案路徑 |
 |---|---|---|---|
-| **第①單元** | **數到10000 宇宙冒險** 🚀 | 萬以內位值辨認（千/百/十/個位）、數字合成、大小比較 | [math3_numbers.html](file:///c:/Code/studycastle/math3_numbers.html) |
-| **第②單元** | **四位數加減法 城堡大冒險** 🏰 | 四位數直式計算、無進借位至多次進借位混合挑戰 | [math3_addition.html](file:///c:/Code/studycastle/math3_addition.html) |
-| **第③單元** | **乘法小英雄 大冒險** 🦸 | 二位數×一位數乘法、乘法算式與積的速算闖關 | [math3_multiplication.html](file:///c:/Code/studycastle/math3_multiplication.html) |
-| **第④單元** | **幾毫米 測量小達人** 📏 | 毫米認識、公分/公尺/毫米長度單位互換與量感建立 | [math3_measurement.html](file:///c:/Code/studycastle/math3_measurement.html) |
-| **第⑤單元** | **角與幾何形狀 探索家** 📐 | 角與頂點邊識別、直角判斷、正方形與長方形幾何性質 | [math3_geometry.html](file:///c:/Code/studycastle/math3_geometry.html) |
+| **全冊旗艦** | **3上國語 115上康軒學習城堡** 🏮 | 1~12 課課文結構、成語、字謎拆合、造句與測驗 | `chinese3_curriculum.html` |
+| **全冊旗艦** | **6上國語 全冊自修學習城堡** 👑 | 1~12 課深度賞析、字音字形、高階成語、素養長文 | `chinese6_curriculum.html` |
+| **段考題庫** | **6上國語 期中自修考查** 📝 | 第 1～6 課課前預習、成語辭典與全真模擬測驗 | `chinese6_midterm.html` |
+| **段考題庫** | **6上國語 期末學力大考** 🎯 | 新挑戰測驗卷第 20～24 回高鑑別度試題與解析 | `chinese6_final.html` |
+| **單課自修** | **6上國語 L1~L12 單課網頁** 🏃 | 跑道、朱子治家格言、遇見更好的自己、空城計等 12 課 | `chinese6_lesson1.html` ~ `lesson12.html` |
+| **語文遊戲** | **成語接龍大挑戰** 📖 | 常用成語詞彙接龍、情境猜謎與填字闖關 | `idiom_game.html` |
 
----
-
-### 🌟 國小二年級 / 五六年級數學單元
-| 年級/領域 | 遊戲名稱 | 學習重點 | 檔案名稱 |
+### 🧮 數學領域 (11 個單元)
+| 年級 | 單元名稱 | 涵蓋重點 | 檔案路徑 |
 |---|---|---|---|
-| **低年級** | **大耳狗九九乘法冒險** 🐶 | 2~9 各段乘法記憶、混合練習與生活素養應用題 | [2mathgame.html](file:///c:/Code/studycastle/2mathgame.html) |
-| **中高年級** | **9是強 數學大冒險** 🚂 | 四則混合運算（先乘除後加減、括號優先）與火車冒險 | [5mathgame.html](file:///c:/Code/studycastle/5mathgame.html) |
-| **高年級** | **質數大航海 尋寶記** 🧭 | 質數與合數判斷、短除法、最大公因數(GCD)與最小公倍數(LCM) | [prime.html](file:///c:/Code/studycastle/prime.html) |
-| **高年級** | **分數廚師 大挑戰** 🍕 | 最簡分數、整數÷分數、分數÷分數、倒數與乘除互換 | [fraction-division.html](file:///c:/Code/studycastle/fraction-division.html) |
-| **高年級** | **小數太空探險** 🚀 | 整數÷小數、小數÷小數、乘以10倍數魔法、四捨五入求概數 | [decimal-division.html](file:///c:/Code/studycastle/decimal-division.html) |
+| **6上數學** | **質數海盜大冒險 ①** 🏴‍☠️ | 質數與合數、質因數分解、短除法、作業簿 1-3 回 | `prime.html` |
+| **6上數學** | **分數廚師大挑戰 ②** 🍕 | 分數除法、最簡分數、異分母除法、作業簿 4-6 回 | `fraction-division.html` |
+| **6上數學** | **小數太空探險 ③** 🚀 | 小數除法、四捨五入求概數、作業簿 7-9 回 | `decimal-division.html` |
+| **6上數學** | **圓周長與圓面積奇幻王國 ④** 🌕 | 圓周率 3.14、圓面積、塗色面積、作業簿 10-12 回 | `circle-area.html` |
+| **3上數學** | **數到10000 宇宙冒險 ①** 🌌 | 萬以內位值辨認、數字合成、大小比較與數線 | `math3_numbers.html` |
+| **3上數學** | **四位數加減法 大挑戰 ②** ➕ | 四位數直式計算、進位與借位技巧演練 | `math3_addition.html` |
+| **3上數學** | **乘法小英雄 大冒險 ③** ✖️ | 二位數×一位數乘法、乘法算式與積的速算 | `math3_multiplication.html` |
+| **3上數學** | **幾毫米 測量小達人 ④** 📏 | 毫米認識、長度單位互換與量感建立 | `math3_measurement.html` |
+| **3上數學** | **角與幾何形狀 探索家 ⑤** 📐 | 角與直角辨認、正方形與長方形幾何性質 | `math3_geometry.html` |
+| **基礎練習** | **大耳狗九九乘法速算** 🐶 | 2~9 各段乘法記憶、限時挑戰與反應力訓練 | `2mathgame.html` |
+| **綜合算術** | **快樂火車數學大冒險** 🚂 | 5 分鐘四則混合運算挑戰與榮譽勳章評分 | `5mathgame.html` |
+
+### 🌏 社會、自然與英語 (3 個單元)
+| 領域 | 單元名稱 | 涵蓋重點 | 檔案路徑 |
+|---|---|---|---|
+| **6上社會** | **6上社會自修 全冊學習城堡** 🌏 | 現代科技、理財消費、憲法規範、地方創生 | `social6_curriculum.html` |
+| **自然科學** | **元素週期表大探索** 🧪 | 常見化學元素符號、性質與生活科學應用 | `element_game.html` |
+| **生活英語** | **單字王奇幻冒險** 🔤 | 生活常用英語單字、語音發音與趣味拼字 | `vocab_game.html` |
 
 ---
 
-## 🛠️ 技術棧 (Technology Stack)
-
-- **核心架構**：語意化 HTML5、原生 CSS3（現代 CSS Custom Properties、Flexbox、CSS Grid、Glassmorphism 玻璃擬態設計）。
-- **邏輯控制**：原生 JavaScript (ES6+)、`async/await` 非同步資料處理、Web Storage API (`localStorage`)。
-- **字型與排版**：Google Fonts（`Fredoka`, `Baloo 2`, `Noto Sans TC`）。
-- **動態特效**：[canvas-confetti](https://www.jsdelivr.com/package/npm/canvas-confetti) 向量彩帶煙火特效。
-- **雲端計數與訪客統計**：
-  - **不蒜子 (Busuanzi)**：雲端 UV 去重訪客統計（同 IP 當日計算一次）。
-  - **ipify API**：即時安全獲取訪客外網 IP。
-
----
-
-## 📂 檔案目錄結構
+## 📂 專案目錄結構
 
 ```text
-studycastle/
-├── index.html                  # 個人首頁入口
-├── portal.html                 # 🏰 學習樂園總覽入口網站 (支援搜尋、分類、收藏與計數器)
-├── 2mathgame.html              # 二年級：大耳狗九九乘法
-├── 5mathgame.html              # 中高年級：9是強四則運算大冒險
-├── math3_numbers.html          # 三年級①：數到10000 宇宙冒險
-├── math3_addition.html         # 三年級②：四位數加減法 城堡大冒險
-├── math3_multiplication.html   # 三年級③：乘法小英雄 大冒險
-├── math3_measurement.html      # 三年級④：幾毫米 測量小達人
-├── math3_geometry.html         # 三年級⑤：角與幾何形狀 探索家
-├── prime.html                  # 高年級：質數大航海 (質因數/短除法/GCD/LCM)
-├── fraction-division.html      # 高年級：分數廚師大挑戰 (分數除法/最簡分數)
-├── decimal-division.html       # 高年級：小數太空探險 (小數除法/概數)
-└── README.md                   # 專案說明文件
+c:\Code\StudyCastle\
+├── index.html                           # 🏰 GitHub Pages 主要首頁
+├── portal.html                          # 🏰 平台入口 (完全同步 index.html)
+│
+├── [核心 HTML 課程頁面]                   # 31 個單元頁面 (國語、數學、社會、遊戲)
+├── chinese3_full_curriculum_database.json # 115上 國語三上 12 課完整資料庫
+├── chinese6_full_curriculum_database.json # 國語六上 12 課完整資料庫
+├── social6_full_curriculum_database.json  # 社會六上全冊完整資料庫
+├── chinese6_visual_engine.js            # 國語六上核心互動視覺引擎
+├── menu_cinnamoroll.png                 # 大耳狗九九乘法靜態資源
+│
+├── scripts/                             # 🛠️ 建置、萃取、更新與驗證工具腳本
+│   ├── generate_modern_portal.py        # 首頁生成與雙首頁同步腳本
+│   ├── verify_portal_links.py           # 首頁跳轉連結與完整度檢驗腳本
+│   ├── build_chinese3_final_db.py       # 國語三上資料庫建置腳本
+│   ├── enrich_workbook_data.py          # 練習簿資料擴充腳本
+│   └── ...                              # 其餘自動化工具
+│
+├── archive/                             # 📦 歸檔之中間資料與暫存檔 (已由 .gitignore 忽略)
+│   ├── ocr_raw/                         # 中介 OCR JSON 原始檔
+│   ├── temp_txt/                        # 中間分析文字紀錄
+│   └── extracted_pages/                 # PDF 高清截圖目錄
+│
+├── README.md                            # 專案說明文件
+└── .gitignore                           # Git 排除規則
 ```
 
 ---
 
-## 🚀 本地開發與使用
+## 🚀 本地執行與體驗
 
-本專案為純靜態網頁，無需安裝複雜依賴或建置工具：
-
-1. **直接開啟**：使用任一瀏覽器直接開啟 `portal.html` 即可體驗。
-2. **搭配本機伺服器（推薦）**：
-   ```bash
-   # 使用 Python 快速啟動本地伺服器
-   python -m http.server 8000
-   ```
-   瀏覽器造訪 `http://localhost:8000/portal.html` 即可。
-
----
-
-## 📄 版權聲明 (License)
-
-© 2026 快樂學習冒險城堡 | 設計用於促進學生趣味學習與奠定學科基礎。
-全站頁面專為各型 iPad、Android 平板、智慧型手機與電腦主流瀏覽器最佳化。
+本專案為純靜態網頁架構，任一現代瀏覽器直接開啟即可：
+```bash
+# 推薦使用 Python 啟動本機伺服器體驗最佳效果
+uv run python -m http.server 8000
+```
+瀏覽器造訪 `http://localhost:8000/portal.html` 或 `http://localhost:8000/index.html` 即可。

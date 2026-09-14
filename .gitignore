@@ -1,30 +1,20 @@
+# Python 虛擬環境與快取
 .venv/
 __pycache__/
 *.pyc
-extracted_pages/
-extracted_pages_math3/
+
+# 原始大型教材 PDF (避免上傳至倉庫)
 *.pdf
-math3_wb_p1_p25_ocr.json
-math3_summary.txt
-reviews_breakdown.txt
-p2_toc.txt
-p26.txt
-p26_lines.txt
-extracted_pages_chinese6/
-extracted_pages_chinese3/
-extracted_pages_social6/
-chinese6_*.json
-!chinese6_full_curriculum_database.json
-chinese6_*.txt
-chinese3_*.json
+
+# 暫存截圖與中介分析產物
+archive/
+extracted_pages*/
+
+# 根目錄 JSON 規則：只保留核心資料庫
+*.json
 !chinese3_full_curriculum_database.json
-chinese3_*.txt
-extracted_pages_chinese3_quiz/
-extracted_pages_chinese3_workbook/
-social6_*.json
-social6_*.txt
-review_preview_utf8.txt
-toc_inspection.txt
-summary_quiz_*.txt
-extracted_curriculum_raw.json
-initial_scan_toc.json
+!chinese6_full_curriculum_database.json
+!social6_full_curriculum_database.json
+
+# 暫存文字與中介分析
+*.txt

@@ -1,494 +1,529 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>快樂學習冒險城堡 | 互動學習遊戲總覽</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>學習城堡 Study Castle | 國小自修、全冊題庫與互動學習樂園</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap"
-        rel="stylesheet">
-    <!-- 不蒜子雲端去重訪客計數 -->
-    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
     <style>
-        /* ==========================================
-           1. 全域變數與重置 (Variables & Reset)
-           ========================================== */
         :root {
-            --primary: #4A90E2;
-            --primary-dark: #357ABD;
-            --secondary: #FF6B6B;
-            --accent-yellow: #FFD166;
-            --accent-green: #06D6A0;
-            --accent-purple: #8338EC;
-
-            --bg-gradient: linear-gradient(135deg, #EBF4FF 0%, #E6E6FA 50%, #FFF0F5 100%);
-            --card-bg: rgba(255, 255, 255, 0.92);
-            --text-main: #2D3748;
-            --text-muted: #718096;
-            --border-color: #E2E8F0;
-
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-md: 0 10px 20px -5px rgba(66, 153, 225, 0.15), 0 6px 10px -5px rgba(0, 0, 0, 0.04);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --radius-lg: 24px;
+            --primary: #3B82F6;
+            --primary-dark: #1D4ED8;
+            --primary-light: #EFF6FF;
+            --secondary: #8B5CF6;
+            --accent-orange: #F97316;
+            --accent-green: #10B981;
+            --accent-pink: #EC4899;
+            --bg-base: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --card-border: #E2E8F0;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --text-sub: #94A3B8;
+            --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 20px 35px -10px rgba(15, 23, 42, 0.12);
             --radius-md: 16px;
-            --radius-sm: 10px;
+            --radius-lg: 24px;
         }
 
         [data-theme="dark"] {
-            --bg-gradient: linear-gradient(135deg, #0F172A 0%, #1E1B4B 50%, #111827 100%);
-            --card-bg: rgba(30, 41, 59, 0.85);
+            --bg-base: #0B1120;
+            --card-bg: #1E293B;
+            --card-border: #334155;
             --text-main: #F8FAFC;
             --text-muted: #94A3B8;
-            --border-color: #334155;
-            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            --text-sub: #64748B;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+            --primary-light: #1E3A8A;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans TC', sans-serif; }
 
         body {
-            font-family: 'Noto Sans TC', 'Fredoka', sans-serif;
-            background: var(--bg-gradient);
-            background-attachment: fixed;
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(59, 130, 246, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 90% 85%, rgba(249, 115, 22, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 50%);
             color: var(--text-main);
             min-height: 100vh;
-            padding-bottom: 60px;
-            overflow-x: hidden;
+            padding-bottom: 70px;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* 背景裝飾圓形浮動粒子 */
-        .bg-bubbles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.15;
-            animation: floatUp 18s infinite linear;
-        }
-
-        @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-            }
-
-            100% {
-                transform: translateY(-200px) rotate(360deg);
-            }
-        }
-
-        /* ==========================================
-           2. 頁首頂欄 (Header Section)
-           ========================================== */
-        header {
-            max-width: 1200px;
+        /* 頂部全域導覽條 */
+        .navbar {
+            max-width: 1240px;
             margin: 0 auto;
-            padding: 30px 20px 20px;
-        }
-
-        .top-nav {
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
         }
-
-        .back-home-link {
+        .brand-logo {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 30px;
-            color: var(--text-main);
+            gap: 10px;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 0.95rem;
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-sm);
-            transition: all 0.25s ease;
+            color: var(--text-main);
+            font-weight: 900;
+            font-size: 1.35rem;
+            font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+            letter-spacing: 0.5px;
+        }
+        .brand-icon {
+            font-size: 1.8rem;
+            animation: bounceSoft 2.5s infinite ease-in-out;
+        }
+        @keyframes bounceSoft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
         }
 
-        .back-home-link:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary);
-            color: var(--primary);
-            box-shadow: var(--shadow-md);
-        }
-
-        .nav-actions {
+        .nav-right-actions {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
-
-        .theme-toggle-btn {
+        .btn-icon-toggle {
             background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 10px 16px;
-            border-radius: 30px;
+            border: 1.5px solid var(--card-border);
+            padding: 8px 14px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 700;
-            display: flex;
+            color: var(--text-muted);
+            display: inline-flex;
             align-items: center;
             gap: 6px;
-            backdrop-filter: blur(10px);
             box-shadow: var(--shadow-sm);
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
         }
-
-        .theme-toggle-btn:hover {
-            transform: scale(1.05);
+        .btn-icon-toggle:hover {
+            color: var(--text-main);
             border-color: var(--primary);
+            transform: translateY(-1px);
         }
 
-        .hero-banner {
+        /* 英雄標題區 */
+        .hero-section {
+            max-width: 1240px;
+            margin: 10px auto 24px;
+            padding: 0 20px;
             text-align: center;
-            padding: 40px 20px 30px;
+        }
+        .hero-box {
             background: var(--card-bg);
+            border: 2px solid var(--card-border);
             border-radius: var(--radius-lg);
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
+            padding: 36px 24px 30px;
             box-shadow: var(--shadow-md);
             position: relative;
             overflow: hidden;
-        }
-
-        .hero-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, #FF6B6B, #FFD166, #06D6A0, #118AB2, #8338EC);
-        }
-
-        .hero-title {
-            font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
-            font-size: clamp(2rem, 4.5vw, 3.2rem);
-            font-weight: 700;
-            color: var(--primary);
-            background: linear-gradient(135deg, #3A7BD5 0%, #3A6073 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        [data-theme="dark"] .hero-title {
-            background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            max-width: 650px;
-            margin: 0 auto 24px;
-            line-height: 1.6;
-        }
-
-        .stats-pills {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .stat-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: rgba(74, 144, 226, 0.1);
-            color: var(--primary);
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            border: 1px solid rgba(74, 144, 226, 0.2);
-        }
-
-        /* ==========================================
-           3. 控制列與篩選器 (Filter & Search Controls)
-           ========================================== */
-        .main-container {
-            max-width: 1200px;
-            margin: 30px auto 0;
-            padding: 0 20px;
-        }
-
-        .controls-wrapper {
-            background: var(--card-bg);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 30px;
             backdrop-filter: blur(10px);
         }
-
-        .search-and-grade-row {
+        .hero-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 5px;
+            background: linear-gradient(90deg, #3B82F6, #8B5CF6, #EC4899, #F97316, #10B981);
+        }
+        .hero-badge-tag {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .hero-heading {
+            font-family: 'Noto Serif TC', serif;
+            font-size: clamp(1.8rem, 4vw, 2.7rem);
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #1E3A8A 0%, #3B82F6 50%, #8B5CF6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        [data-theme="dark"] .hero-heading {
+            background: linear-gradient(135deg, #93C5FD 0%, #60A5FA 50%, #C4B5FD 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 720px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+        }
+        .stats-strip {
             display: flex;
+            justify-content: center;
+            gap: 12px;
             flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 20px;
+        }
+        .stat-chip {
+            background: var(--bg-base);
+            border: 1px solid var(--card-border);
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stat-chip b {
+            color: var(--primary);
+            font-size: 1rem;
         }
 
-        .search-box {
+        /* 核心控制面板 */
+        .controls-container {
+            max-width: 1240px;
+            margin: 0 auto 28px;
+            padding: 0 20px;
+        }
+        .filter-card {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 22px 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* 搜尋列與快速排序 */
+        .search-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+        .search-box-wrapper {
             flex: 1;
             min-width: 260px;
             position: relative;
         }
-
-        .search-input {
+        .search-box-wrapper input {
             width: 100%;
-            padding: 14px 20px 14px 48px;
+            padding: 13px 20px 13px 46px;
             border-radius: 30px;
-            border: 2px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.8);
+            border: 1.5px solid var(--card-border);
+            background: var(--bg-base);
             color: var(--text-main);
-            font-size: 1rem;
+            font-size: 0.98rem;
+            font-weight: 500;
             outline: none;
-            font-family: inherit;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
         }
-
-        [data-theme="dark"] .search-input {
-            background: rgba(15, 23, 42, 0.6);
-        }
-
-        .search-input:focus {
+        .search-box-wrapper input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.15);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            background: var(--card-bg);
         }
-
-        .search-icon {
+        .search-icon-svg {
             position: absolute;
-            left: 18px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 1.2rem;
             color: var(--text-muted);
+            font-size: 1.1rem;
             pointer-events: none;
         }
-
-        .filter-select-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .styled-select {
-            padding: 12px 20px;
-            border-radius: 30px;
-            border: 2px solid var(--border-color);
-            background: var(--card-bg);
-            color: var(--text-main);
-            font-size: 0.95rem;
-            font-weight: 700;
-            font-family: inherit;
-            cursor: pointer;
-            outline: none;
-            transition: all 0.25s ease;
-        }
-
-        .styled-select:hover,
-        .styled-select:focus {
-            border-color: var(--primary);
-        }
-
-        .action-btn {
-            padding: 12px 20px;
-            border-radius: 30px;
+        .search-clear-btn {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
             border: none;
-            font-size: 0.95rem;
-            font-weight: 700;
-            font-family: inherit;
+            color: var(--text-muted);
+            font-size: 1.1rem;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.25s ease;
-            box-shadow: var(--shadow-sm);
+            display: none;
         }
+        .search-clear-btn.show { display: block; }
 
-        .btn-random {
-            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);
-            color: #7A2846;
-        }
-
-        .btn-random:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-favorites {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            color: var(--text-main);
-        }
-
-        .btn-favorites.active {
-            border-color: #FFD166;
-            background: #FFF9E6;
-            color: #B48000;
-        }
-
-        /* 科目 Tab 標籤頁 */
-        .subject-tabs {
+        .select-filter-wrap {
             display: flex;
             gap: 10px;
+        }
+        .custom-select {
+            padding: 12px 18px;
+            border-radius: 30px;
+            border: 1.5px solid var(--card-border);
+            background: var(--bg-base);
+            color: var(--text-main);
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .custom-select:focus { border-color: var(--primary); }
+
+        /* 年級快選導覽條 (Grade Pills) */
+        .grade-nav-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
             overflow-x: auto;
-            padding-bottom: 5px;
+            padding-bottom: 4px;
             scrollbar-width: thin;
         }
-
-        .subject-tab {
-            padding: 10px 22px;
-            border-radius: 25px;
-            border: 2px solid transparent;
-            background: rgba(0, 0, 0, 0.04);
+        .grade-label {
+            font-size: 0.85rem;
+            font-weight: 800;
             color: var(--text-muted);
-            font-size: 0.95rem;
+            margin-right: 4px;
+            white-space: nowrap;
+        }
+        .grade-pill-btn {
+            padding: 7px 16px;
+            background: var(--bg-base);
+            border: 1.5px solid var(--card-border);
+            border-radius: 20px;
+            color: var(--text-muted);
+            font-size: 0.88rem;
             font-weight: 700;
             cursor: pointer;
             white-space: nowrap;
-            display: flex;
+            transition: all 0.2s ease;
+            display: inline-flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.25s ease;
+            gap: 6px;
         }
-
-        [data-theme="dark"] .subject-tab {
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .subject-tab:hover {
+        .grade-pill-btn:hover {
             color: var(--text-main);
-            background: rgba(74, 144, 226, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-1px);
         }
-
-        .subject-tab.active {
+        .grade-pill-btn.active {
             background: var(--primary);
+            border-color: var(--primary-dark);
             color: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.35);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
         }
-
-        .subject-tab .badge-count {
-            background: rgba(255, 255, 255, 0.25);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+        .grade-pill-btn .pill-count {
+            font-size: 0.75rem;
+            opacity: 0.85;
+            background: rgba(0,0,0,0.12);
+            padding: 1px 6px;
+            border-radius: 10px;
         }
-
-        .subject-tab.active .badge-count {
-            background: rgba(255, 255, 255, 0.3);
+        .grade-pill-btn.active .pill-count {
+            background: rgba(255,255,255,0.25);
             color: #FFF;
         }
 
-        /* ==========================================
-           4. 遊戲卡片網格 (Game Cards Grid)
-           ========================================== */
+        /* 學科標籤條 (Subject Tabs) */
+        .subject-nav-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            scrollbar-width: thin;
+            border-top: 1px dashed var(--card-border);
+            padding-top: 14px;
+        }
+        .subject-tab-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1.5px solid transparent;
+            background: rgba(0,0,0,0.03);
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        [data-theme="dark"] .subject-tab-btn {
+            background: rgba(255,255,255,0.04);
+        }
+        .subject-tab-btn:hover {
+            background: rgba(59, 130, 246, 0.08);
+            color: var(--text-main);
+        }
+        .subject-tab-btn.active {
+            background: var(--text-main);
+            color: var(--card-bg);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        /* 熱門快速標籤 (Quick Tag Cloud) */
+        .tag-cloud-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--card-border);
+            font-size: 0.8rem;
+        }
+        .tag-cloud-label {
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-right: 4px;
+        }
+        .tag-chip {
+            background: var(--bg-base);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+        .tag-chip:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-1px);
+        }
+
+        /* 內容展示區塊 */
+        .content-wrap {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 區塊標題 */
+        .section-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Noto Serif TC', serif;
+        }
+        .section-toggle-btn {
+            background: var(--card-bg);
+            border: 1.5px solid var(--card-border);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .section-toggle-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* 模組卡片網格 */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 28px;
+            gap: 22px;
+            margin-bottom: 36px;
         }
 
-        .game-card {
+        /* 單元卡片本體 */
+        .unit-card {
             background: var(--card-bg);
+            border: 2px solid var(--card-border);
             border-radius: var(--radius-lg);
-            border: 2px solid var(--border-color);
             overflow: hidden;
             box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
+            cursor: pointer;
             position: relative;
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            backdrop-filter: blur(10px);
+            transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
-        .game-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: var(--shadow-md);
+        .unit-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
             border-color: var(--primary);
         }
+        .unit-card.is-featured {
+            border-width: 2.5px;
+            border-color: #FDBA74;
+        }
+        .unit-card.is-featured::before {
+            content: '⭐ 核心自修旗艦';
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            z-index: 2;
+            font-size: 0.72rem;
+            font-weight: 900;
+            background: #EA580C;
+            color: #FFFFFF;
+            padding: 3px 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(234, 88, 12, 0.35);
+        }
 
-        .card-banner {
-            height: 180px;
-            background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%);
+        .card-header-banner {
+            height: 140px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
         }
-
-        .card-img {
-            max-height: 140px;
-            max-width: 80%;
-            object-fit: contain;
-            transition: transform 0.4s ease;
-            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
-        }
-
-        .game-card:hover .card-img {
-            transform: scale(1.1) rotate(-3deg);
-        }
-
         .card-emoji-icon {
-            font-size: 5.5rem;
-            user-select: none;
-            transition: transform 0.4s ease;
-            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+            font-size: 4rem;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
         }
-
-        .game-card:hover .card-emoji-icon {
-            transform: scale(1.15) rotate(5deg);
+        .unit-card:hover .card-emoji-icon {
+            transform: scale(1.12) rotate(3deg);
         }
-
-        .card-badge {
+        .card-badge-pill {
             position: absolute;
-            top: 14px;
-            left: 14px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: #FFFFFF;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            top: 12px;
+            right: 12px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #FFF;
+            padding: 4px 10px;
+            border-radius: 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+            z-index: 2;
         }
-
-        .fav-btn {
+        .card-fav-btn {
             position: absolute;
-            top: 14px;
-            right: 14px;
-            width: 38px;
-            height: 38px;
+            bottom: 10px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.85);
             border: none;
@@ -496,1149 +531,862 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            font-size: 1rem;
+            color: #94A3B8;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
             transition: all 0.2s ease;
-            z-index: 5;
+            z-index: 2;
         }
-
-        .fav-btn:hover {
-            transform: scale(1.2);
-            background: #FFFFFF;
+        .card-fav-btn:hover {
+            transform: scale(1.15);
+            background: #FFF;
+            color: #EF4444;
         }
-
-        .fav-btn.is-fav {
-            color: #FFD166;
+        .card-fav-btn.is-fav {
+            color: #EF4444;
             background: #FFF;
         }
 
         .card-body {
-            padding: 22px;
+            padding: 18px 20px;
             display: flex;
             flex-direction: column;
             flex: 1;
         }
-
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            font-family: 'Noto Serif TC', serif;
+            line-height: 1.4;
+        }
+        .card-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            margin-bottom: 14px;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
         .card-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
+            gap: 6px;
+            margin-bottom: 14px;
         }
-
-        .tag-pill {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.78rem;
+        .card-tag {
+            font-size: 0.72rem;
             font-weight: 700;
-            background: rgba(0, 0, 0, 0.05);
             color: var(--text-muted);
+            background: var(--bg-base);
+            border: 1px solid var(--card-border);
+            padding: 2px 8px;
+            border-radius: 8px;
+            transition: all 0.15s ease;
+        }
+        .card-tag:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
-        [data-theme="dark"] .tag-pill {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .card-title {
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 10px;
-            line-height: 1.35;
-        }
-
-        .card-description {
-            font-size: 0.92rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            flex: 1;
-        }
-
-        .card-footer {
-            margin-top: auto;
+        .card-action-bar {
+            padding-top: 12px;
+            border-top: 1px solid var(--card-border);
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            gap: 12px;
+            align-items: center;
         }
-
-        .play-btn {
-            width: 100%;
-            padding: 14px 20px;
-            border-radius: 30px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: #FFFFFF;
-            text-decoration: none;
-            text-align: center;
-            font-size: 1rem;
-            font-weight: 700;
-            box-shadow: 0 6px 16px rgba(74, 144, 226, 0.3);
-            transition: all 0.25s ease;
+        .card-grade-badge {
+            font-size: 0.76rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            background: var(--primary-light);
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .card-enter-btn {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--primary);
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
+            gap: 4px;
+            transition: transform 0.2s ease;
+        }
+        .unit-card:hover .card-enter-btn {
+            transform: translateX(3px);
+            color: var(--primary-dark);
         }
 
-        .play-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.45);
-        }
-
-        /* 預告 / 未開放遊戲卡片 */
-        .game-card.coming-soon {
-            opacity: 0.85;
-            border-style: dashed;
-        }
-
-        .game-card.coming-soon .card-banner {
-            background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%);
-            filter: grayscale(0.5);
-        }
-
-        [data-theme="dark"] .game-card.coming-soon .card-banner {
-            background: linear-gradient(135deg, #1E293B 0%, #334155 100%);
-        }
-
-        .coming-soon-btn {
-            background: #CBD5E1;
-            color: #64748B;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .coming-soon-btn:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* 空搜尋狀態 */
-        .empty-state {
-            grid-column: 1 / -1;
+        /* 查無資料提示 */
+        .empty-results-box {
             text-align: center;
             padding: 60px 20px;
             background: var(--card-bg);
+            border: 2px dashed var(--card-border);
             border-radius: var(--radius-lg);
-            border: 2px dashed var(--border-color);
+            display: none;
+            margin-bottom: 40px;
         }
+        .empty-results-box.show { display: block; }
+        .empty-icon { font-size: 3rem; margin-bottom: 12px; }
+        .empty-title { font-size: 1.25rem; font-weight: 800; color: var(--text-main); margin-bottom: 8px; }
+        .empty-subtitle { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 18px; }
 
-        .empty-icon {
-            font-size: 4rem;
-            margin-bottom: 16px;
-        }
-
-        .empty-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .empty-desc {
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
-
-        /* 冒險家留言板 (Giscus) */
-        .comments-section {
-            max-width: 1200px;
-            margin: 50px auto 20px;
-            padding: 0 20px;
-        }
-
-        .comments-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .comments-header h2 {
-            font-size: 1.5rem;
-            color: var(--text-main);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .comments-header p {
-            color: var(--text-muted);
-            font-size: 0.92rem;
-            margin-top: 6px;
-        }
-
-        .giscus-card {
-            background: var(--card-bg);
+        /* 頁尾資訊 */
+        .footer {
+            max-width: 1240px;
+            margin: 40px auto 0;
             padding: 24px 20px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-sm);
-            min-height: 180px;
-        }
-
-        /* 懸浮反饋按鈕 (FAB) */
-        .feedback-fab {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
-            color: #fff;
-            border: none;
-            border-radius: 30px;
-            padding: 12px 20px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-            cursor: pointer;
-            z-index: 990;
-            transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            touch-action: manipulation;
-        }
-
-        .feedback-fab:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.5);
-        }
-
-        .feedback-form-group {
-            margin-bottom: 16px;
-            text-align: left;
-        }
-
-        .feedback-form-group label {
-            display: block;
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 6px;
-        }
-
-        .feedback-input,
-        .feedback-select,
-        .feedback-textarea {
-            width: 100%;
-            padding: 10px 14px;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 0.95rem;
-            background: var(--card-bg);
-            color: var(--text-main);
-            outline: none;
-            transition: border-color 0.2s;
-            font-family: inherit;
-        }
-
-        .feedback-input:focus,
-        .feedback-select:focus,
-        .feedback-textarea:focus {
-            border-color: var(--primary);
-        }
-
-        /* 頁尾 */
-        footer {
-            max-width: 1200px;
-            margin: 50px auto 0;
-            padding: 24px 20px 40px;
             text-align: center;
+            border-top: 1px solid var(--card-border);
             color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.8;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .footer-device-tip {
-            margin-top: 10px;
             font-size: 0.88rem;
-            color: var(--primary);
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: rgba(74, 144, 226, 0.08);
-            padding: 8px 20px;
-            border-radius: 25px;
-            border: 1px solid rgba(74, 144, 226, 0.2);
+            line-height: 1.6;
         }
+        .footer b { color: var(--primary); }
 
-        .visitor-stats-bar {
-            margin-top: 12px;
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            opacity: 0.75;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            padding: 4px 14px;
-            background: rgba(0, 0, 0, 0.03);
-            border-radius: 15px;
-        }
-
-        [data-theme="dark"] .visitor-stats-bar {
-            background: rgba(255, 255, 255, 0.04);
-        }
-
-        .visitor-stats-bar strong {
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .visitor-stats-bar .v-sep {
-            opacity: 0.4;
-        }
-
-        /* 隨機抽選 Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-card {
-            background: var(--card-bg);
-            border-radius: var(--radius-lg);
-            padding: 36px;
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-            box-shadow: var(--shadow-lg);
-            transform: scale(0.8);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            border: 2px solid var(--primary);
-        }
-
-        .modal-overlay.active .modal-card {
-            transform: scale(1);
-        }
-
-        .modal-emoji {
-            font-size: 5rem;
-            margin-bottom: 16px;
-            animation: bounce 1s infinite alternate;
-        }
-
-        @keyframes bounce {
-            0% {
-                transform: translateY(0);
-            }
-
-            100% {
-                transform: translateY(-15px);
-            }
-        }
-
-        /* 響應式調整 (iPad / 平板與手機最佳化) */
-        @media (max-width: 1024px) {
-            .subject-tab {
-                padding: 12px 20px;
-                font-size: 1rem;
-                min-height: 48px;
-            }
-
-            .play-btn {
-                min-height: 48px;
-                font-size: 1.05rem;
-                padding: 12px 20px;
-            }
-
-            .styled-select,
-            .action-btn {
-                min-height: 48px;
-                font-size: 1rem;
-            }
-
-            .fav-btn {
-                width: 48px;
-                height: 48px;
-                font-size: 1.4rem;
-            }
-        }
-
+        /* 響應式微調 */
         @media (max-width: 768px) {
-            header {
-                padding: 20px 14px 10px;
-            }
-
-            .hero-banner {
-                padding: 30px 16px;
-            }
-
-            .hero-title {
-                font-size: 1.8rem;
-            }
-
-            .controls-wrapper {
-                padding: 16px;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .search-input {
-                font-size: 16px;
-                /* 防止 iOS 縮放 */
-            }
+            .hero-box { padding: 26px 16px 20px; }
+            .cards-grid { grid-template-columns: 1fr; gap: 16px; }
+            .card-header-banner { height: 120px; }
+            .card-emoji-icon { font-size: 3.2rem; }
         }
     </style>
 </head>
-
 <body>
 
-    <!-- 背景動態泡泡粒子 -->
-    <div class="bg-bubbles" id="bgBubbles"></div>
-
-    <!-- 頂部導覽 Header -->
-    <header>
-        <div class="top-nav">
-            <a href="index.html" class="back-home-link">
-                <span>🏠</span>
-                <span>返回個人主頁</span>
-            </a>
-            <div class="nav-actions">
-                <button class="theme-toggle-btn" id="themeToggleBtn">
-                    <span id="themeIcon">🌙</span>
-                    <span id="themeText">深色模式</span>
-                </button>
-            </div>
-        </div>
-
-        <div class="hero-banner">
-            <h1 class="hero-title">🎮 快樂學習冒險城堡</h1>
-            <p class="hero-subtitle">專為國小與國中學生打造的互動式學習遊戲，在闖關冒險中掌握趣味數學與多元科目！</p>
-            <div class="stats-pills">
-                <span class="stat-badge">✨ 已上線 17 大冒險單元</span>
-                <span class="stat-badge">📖 6上國語：第一~六課全面登場！</span>
-                <span class="stat-badge">🎉 3上數學：5 單元全部完成！</span>
-                <span class="stat-badge">🚀 支援手機/平板與電腦</span>
-            </div>
+    <!-- 頂部導航 -->
+    <header class="navbar">
+        <a href="portal.html" class="brand-logo">
+            <span class="brand-icon">🏰</span>
+            <span>學習城堡 Study Castle</span>
+        </a>
+        <div class="nav-right-actions">
+            <button class="btn-icon-toggle" id="btnThemeToggle" onclick="toggleTheme()">
+                <span id="themeIcon">🌓</span>
+                <span id="themeText">深色模式</span>
+            </button>
+            <button class="btn-icon-toggle" id="btnRandomPick" onclick="pickRandomUnit()">
+                <span>🎲</span>
+                <span>隨機冒險</span>
+            </button>
         </div>
     </header>
 
-    <!-- 主要內容區 -->
-    <main class="main-container">
+    <!-- 英雄橫幅 (Hero Section) -->
+    <section class="hero-section">
+        <div class="hero-box">
+            <div class="hero-badge-tag">✨ 115 上國小全冊自修與素養題庫全新登場</div>
+            <h1 class="hero-heading">讓學習像遊戲一樣充滿探索與驚喜！</h1>
+            <p class="hero-desc">
+                專為國小學童量身打造的互動學習樂園。收錄 115 上康軒最新三上／六上國語、新超群數學、社會全冊自修、趣味部件字謎與新挑戰測驗題庫。
+            </p>
+            <div class="stats-strip">
+                <div class="stat-chip">📚 總收錄單元：<b id="statTotalUnits">31</b> 個</div>
+                <div class="stat-chip">🏮 國語文課程：<b id="statChineseUnits">17</b> 個</div>
+                <div class="stat-chip">🧮 數學大冒險：<b id="statMathUnits">11</b> 個</div>
+                <div class="stat-chip">🏆 包含全冊自修：<b id="statFlagshipUnits">4</b> 套</div>
+            </div>
+        </div>
+    </section>
 
-        <!-- 搜尋與篩選列 -->
-        <section class="controls-wrapper">
-            <div class="search-and-grade-row">
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="searchInput" class="search-input" placeholder="搜尋遊戲名稱、關鍵字（如：乘法、質數、火車）..."
-                        autocomplete="off">
+    <!-- 核心查詢與篩選面板 -->
+    <section class="controls-container">
+        <div class="filter-card">
+            <!-- 搜尋與排序 -->
+            <div class="search-row">
+                <div class="search-box-wrapper">
+                    <span class="search-icon-svg">🔍</span>
+                    <input type="text" id="searchInput" placeholder="輸入單元名稱、課次、生字成語、修辭或關鍵字（如：115上康軒、質數、圓面積）..." oninput="handleSearchInput(event)">
+                    <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()">✕</button>
                 </div>
-
-                <div class="filter-select-group">
-                    <select id="gradeSelect" class="styled-select">
-                        <option value="all">🎓 全部年級/難度</option>
-                        <option value="junior">低年級 (1-2年級)</option>
-                        <option value="middle">中年級 (3-4年級)</option>
-                        <option value="senior">高年級/國中 (5年級以上)</option>
+                <div class="select-filter-wrap">
+                    <select class="custom-select" id="sortSelect" onchange="handleSortChange()">
+                        <option value="featured">⭐ 旗艦自修推薦優先</option>
+                        <option value="gradeAsc">🎒 年級由低至高 (3上➔6上)</option>
+                        <option value="gradeDesc">🎓 年級由高至低 (6上➔3上)</option>
+                        <option value="title">🔤 依單元名稱排序</option>
                     </select>
-
-                    <button class="action-btn btn-random" id="randomBtn">
-                        <span>🎲</span>
-                        <span>隨機選遊戲</span>
-                    </button>
-
-                    <button class="action-btn btn-favorites" id="favFilterBtn">
-                        <span>⭐</span>
-                        <span>最愛收藏</span>
-                    </button>
                 </div>
             </div>
 
-            <!-- 科目切換 Tabs -->
-            <div class="subject-tabs" id="subjectTabs">
-                <button class="subject-tab active" data-subject="all">
-                    <span>🌈</span> 全部科目 <span class="badge-count" id="countAll">10</span>
+            <!-- 年級快選列 (Grade Pills) -->
+            <div class="grade-nav-row">
+                <span class="grade-label">年級快選：</span>
+                <button class="grade-pill-btn active" data-grade="all" onclick="selectGrade('all')">
+                    全部年級 <span class="pill-count" id="countGradeAll">31</span>
                 </button>
-                <button class="subject-tab" data-subject="math">
-                    <span>🧮</span> 數學科 <span class="badge-count" id="countMath">10</span>
+                <button class="grade-pill-btn" data-grade="g3" onclick="selectGrade('g3')">
+                    🏮 三年級專區 <span class="pill-count" id="countGradeG3">7</span>
                 </button>
-                <button class="subject-tab" data-subject="chinese">
-                    <span>📖</span> 國語文 <span class="badge-count">規劃中</span>
+                <button class="grade-pill-btn" data-grade="g6" onclick="selectGrade('g6')">
+                    👑 六年級專區 <span class="pill-count" id="countGradeG6">20</span>
                 </button>
-                <button class="subject-tab" data-subject="science">
-                    <span>🧪</span> 自然科學 <span class="badge-count">規劃中</span>
+                <button class="grade-pill-btn" data-grade="g12" onclick="selectGrade('g12')">
+                    🎒 低年級／入門 <span class="pill-count" id="countGradeG12">2</span>
                 </button>
-                <button class="subject-tab" data-subject="english">
-                    <span>🔤</span> 英語文 <span class="badge-count">規劃中</span>
+                <button class="grade-pill-btn" data-grade="cross" onclick="selectGrade('cross')">
+                    🧪 跨學科遊戲 <span class="pill-count" id="countGradeCross">3</span>
+                </button>
+                <button class="grade-pill-btn" data-grade="fav" onclick="selectGrade('fav')">
+                    ❤️ 我的收藏 <span class="pill-count" id="countGradeFav">0</span>
                 </button>
             </div>
-        </section>
 
-        <!-- 遊戲單元卡片區 -->
-        <section class="cards-grid" id="cardsGrid">
-            <!-- 由 JavaScript 動態渲染卡片 -->
-        </section>
-
-        <!-- 冒險家交流留言板 (Giscus) -->
-        <section class="comments-section" id="commentsSection">
-            <div class="comments-header">
-                <h2>💬 冒險家交流留言板</h2>
-                <p>歡迎留下您的通關心得、給小冒險家的加油打氣或學習建議！</p>
+            <!-- 學科領域 Tab (Subject Filter) -->
+            <div class="subject-nav-row">
+                <button class="subject-tab-btn active" data-subject="all" onclick="selectSubject('all')">
+                    全部領域 (All)
+                </button>
+                <button class="subject-tab-btn" data-subject="chinese" onclick="selectSubject('chinese')">
+                    🏮 國語語文
+                </button>
+                <button class="subject-tab-btn" data-subject="math" onclick="selectSubject('math')">
+                    🧮 數學挑戰
+                </button>
+                <button class="subject-tab-btn" data-subject="social" onclick="selectSubject('social')">
+                    🌏 社會人文
+                </button>
+                <button class="subject-tab-btn" data-subject="science_english" onclick="selectSubject('science_english')">
+                    🧪 自然與英語
+                </button>
             </div>
-            <div class="giscus-card">
-                <div class="giscus"></div>
-                <script src="https://giscus.app/client.js" data-repo="mosful/StudyCastle" data-category="General"
-                    data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0"
-                    data-input-position="top" data-theme="preferred_color_scheme" data-lang="zh-TW" data-loading="lazy"
-                    crossorigin="anonymous" async>
-                    </script>
-            </div>
-        </section>
 
+            <!-- 熱門快速標籤 (Quick Tag Cloud) -->
+            <div class="tag-cloud-row">
+                <span class="tag-cloud-label">熱門關鍵字：</span>
+                <span class="tag-chip" onclick="applyTagSearch('115上康軒')">#115上康軒</span>
+                <span class="tag-chip" onclick="applyTagSearch('全冊旗艦')">#全冊旗艦</span>
+                <span class="tag-chip" onclick="applyTagSearch('質數')">#質數</span>
+                <span class="tag-chip" onclick="applyTagSearch('分數除法')">#分數除法</span>
+                <span class="tag-chip" onclick="applyTagSearch('圓面積')">#圓面積</span>
+                <span class="tag-chip" onclick="applyTagSearch('四位數加減')">#四位數加減</span>
+                <span class="tag-chip" onclick="applyTagSearch('成語接龍')">#成語接龍</span>
+                <span class="tag-chip" onclick="applyTagSearch('新挑戰測驗卷')">#新挑戰測驗卷</span>
+                <span class="tag-chip" onclick="applyTagSearch('字謎')">#字謎拆合</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 主要內容區 -->
+    <main class="content-wrap">
+        <!-- 旗艦自修區塊標題與單課收合按鈕 -->
+        <div class="section-bar">
+            <div class="section-title">
+                <span id="currentViewTitle">🏰 探索所有學習單元</span>
+                <span style="font-size:0.9rem; font-weight:normal; color:var(--text-muted);" id="resultCountBadge">(顯示 31 個單元)</span>
+            </div>
+            <button class="section-toggle-btn" id="btnToggleSubcards" onclick="toggleSubcardsView()">
+                👁️ 展開 6上國語 12 課單課細項
+            </button>
+        </div>
+
+        <!-- 卡片網格 -->
+        <div class="cards-grid" id="cardsGridContainer">
+            <!-- 由 JavaScript 動態渲染 -->
+        </div>
+
+        <!-- 查無資料提示 -->
+        <div class="empty-results-box" id="emptyResultsBox">
+            <div class="empty-icon">🔍</div>
+            <div class="empty-title">找不到符合條件的單元</div>
+            <div class="empty-subtitle">請嘗試換個搜尋關鍵字，或切換至「全部年級」與「全部領域」看看！</div>
+            <button class="btn-icon-toggle" style="background:var(--primary); color:#FFF; border:none;" onclick="resetAllFilters()">
+                🔄 重設所有篩選條件
+            </button>
+        </div>
     </main>
 
     <!-- 頁尾 -->
-    <footer>
-        <p>© 2026 快樂學習冒險城堡 | 設計用於促進學生趣味學習與奠定學科基礎</p>
-        <p class="footer-device-tip">📱 支援 iPad / 平板、手機與電腦各式瀏覽器 ｜ 專為觸控操作最佳化</p>
-        <div class="visitor-stats-bar">
-            <span>👀 總瀏覽人次：<strong id="busuanzi_value_site_uv">載入中...</strong></span>
-            <span class="v-sep">｜</span>
-            <span>🌐 您的 IP：<span id="visitorIp">查詢中...</span></span>
-        </div>
+    <footer class="footer">
+        <p>🏰 <b>學習城堡 Study Castle</b> · 致力於打造最懂臺灣學童的自修與互動學習體驗</p>
+        <p style="margin-top:4px; font-size:0.8rem;">收錄 115 上 康軒國語、新超群數學、翰林與南一課綱自修 · 題庫與解答版權屬於各出版社所有</p>
     </footer>
 
-    <!-- 隨機抽卡 Modal -->
-    <div class="modal-overlay" id="randomModal">
-        <div class="modal-card">
-            <div class="modal-emoji" id="modalEmoji">🎲</div>
-            <h2 class="empty-title" id="modalTitle">命運輪盤轉動中...</h2>
-            <p class="empty-desc" id="modalDesc">幫你挑選出最適合今天的學習大冒險！</p>
-            <div style="display: flex; gap: 12px; margin-top: 20px;">
-                <button class="action-btn btn-random" id="modalRerollBtn" style="flex:1;">🔄 再抽一次</button>
-                <a href="#" id="modalGoBtn" class="play-btn" style="flex:1.2;">🚀 立刻前往</a>
-            </div>
-            <button id="modalCloseBtn"
-                style="margin-top: 15px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9rem;">關閉視窗</button>
-        </div>
-    </div>
-
-    <!-- 懸浮反饋按鈕 (FAB) -->
-    <button class="feedback-fab" id="openFeedbackBtn" title="意見反饋與建議">
-        <span>💬</span>
-        <span>意見反饋</span>
-    </button>
-
-    <!-- 反饋表單 Modal -->
-    <div class="modal-overlay" id="feedbackModal">
-        <div class="modal-card" style="max-width: 480px; text-align: left;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <h3
-                    style="margin:0; font-size:1.3rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">
-                    💌 冒險反饋信箱
-                </h3>
-                <button id="closeFeedbackBtn"
-                    style="background:none; border:none; font-size:1.4rem; color:var(--text-muted); cursor:pointer; padding:4px 8px;">✕</button>
-            </div>
-            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:16px; line-height:1.6;">
-                遇到問題、有題目想建議，或是想許願新單元？歡迎告訴我們！
-            </p>
-            <form id="feedbackForm">
-                <div class="feedback-form-group">
-                    <label>📌 反饋類型</label>
-                    <select class="feedback-select" id="fbType" required>
-                        <option value="💡 題目與計算建議">💡 題目與計算建議</option>
-                        <option value="🐛 發現系統錯誤 (Bug)">🐛 發現系統錯誤 (Bug)</option>
-                        <option value="✨ 許願想玩的新單元">✨ 許願想玩的新單元</option>
-                        <option value="❤️ 給冒險城堡加油打氣">❤️ 給冒險城堡加油打氣</option>
-                    </select>
-                </div>
-                <div class="feedback-form-group">
-                    <label>📖 關聯單元（可選）</label>
-                    <select class="feedback-select" id="fbUnit">
-                        <option value="全站 / 首頁">全站 / 首頁</option>
-                        <option value="3上① 數到10000">3上① 數到10000</option>
-                        <option value="3上② 四位數加減">3上② 四位數加減</option>
-                        <option value="3上③ 乘法小英雄">3上③ 乘法小英雄</option>
-                        <option value="3上④ 幾毫米測量">3上④ 幾毫米測量</option>
-                        <option value="3上⑤ 角與幾何">3上⑤ 角與幾何</option>
-                        <option value="其他中高年級單元">其他中高年級單元</option>
-                    </select>
-                </div>
-                <div class="feedback-form-group">
-                    <label>👤 您的稱呼（選填）</label>
-                    <input type="text" class="feedback-input" id="fbName" placeholder="例如：三年二班小明、王媽媽、李老師">
-                </div>
-                <div class="feedback-form-group">
-                    <label>📝 詳細內容 <span style="color:var(--secondary)">*</span></label>
-                    <textarea class="feedback-textarea" id="fbContent" rows="3" placeholder="請詳細描述您的想法或遇到的狀況..."
-                        required></textarea>
-                </div>
-                <div style="display:flex; gap:10px; margin-top:20px;">
-                    <button type="button" class="action-btn" id="cancelFeedbackBtn" style="flex:1;">取消</button>
-                    <button type="submit" class="action-btn btn-primary" id="submitFeedbackBtn" style="flex:1.2;">🚀
-                        送出反饋</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- JavaScript 邏輯與擴充資料集 -->
     <script>
-        /* =========================================================
-           未來新增單元說明 (Developer Guide):
-           若未來要新增新遊戲或單元，只需在下面的 `GAMES_DATA` 陣列中
-           加入一筆物件即可！無須改動任何 DOM 結構與渲染邏輯。
-           ========================================================= */
-        const GAMES_DATA = [
+        // ==========================================
+        // 核心單元資料庫 (結構化升級版)
+        // ==========================================
+        const UNITS_DATA = [
+            // --- 旗艦自修：國語 3上 ---
             {
-                id: "2mathgame",
-                title: "大耳狗九九乘法：完整練習版",
-                subject: "math",
-                grade: "junior", // junior (低年級), middle (中年級), senior (高年級/國中)
-                tags: ["九九乘法", "2分鐘限時", "大耳狗", "基礎算術"],
-                url: "2mathgame.html",
-                image: "menu_cinnamoroll.png",
-                isEmoji: false,
-                bgGradient: "linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 100%)",
-                badgeText: "熱門練習",
-                badgeColor: "#FF6B6B",
-                description: "與大耳狗一同進行 2 分鐘九九乘法挑戰！培養基礎乘法反應力、記憶力與答題熟練度。",
-                available: true
+                id: "chinese3_curriculum",
+                title: "3上國語 115上康軒學習城堡 🏮",
+                subject: "chinese",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
+                tags: ["115上康軒", "3上國語", "全冊旗艦", "課課練習簿", "新挑戰測驗卷", "成語辭典", "字謎拆合"],
+                url: "chinese3_curriculum.html",
+                image: "🏮",
+                bgGradient: "linear-gradient(135deg, #FFF7ED 0%, #EA580C 100%)",
+                badgeText: "115上・全冊旗艦 🔥",
+                badgeColor: "#C2410C",
+                description: "精準對齊 115 上康軒最新國語 3 上 1~12 課！濃縮練習簿生字拆合與字謎、成語深究、照樣造句與新挑戰測驗卷 60 題全真試題解析！",
+                isFeatured: true,
+                isLessonSubcard: false
             },
+            // --- 旗艦自修：國語 6上 ---
             {
-                id: "5mathgame",
-                title: "快樂火車數學大冒險 (5分鐘版)",
-                subject: "math",
-                grade: "middle",
-                tags: ["加減乘除", "火車冒險", "綜合運算", "5分鐘限時"],
-                url: "5mathgame.html",
-                image: "🚂",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #E0F7FA 0%, #80DEEA 100%)",
-                badgeText: "綜合挑戰",
-                badgeColor: "#4DD0E1",
-                description: "搭上快樂火車，在 5 分鐘內挑戰各式四則算術題目，累積得分並贏取數學榮譽勳章！",
-                available: true
+                id: "chinese6_curriculum",
+                title: "6上國語 全冊自修學習城堡 👑",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "全冊旗艦", "L1~L12", "新挑戰測驗卷", "練習簿教用", "素養題庫"],
+                url: "chinese6_curriculum.html",
+                image: "👑",
+                bgGradient: "linear-gradient(135deg, #EEF2FF 0%, #4F46E5 100%)",
+                badgeText: "6上・全冊旗艦 🔥",
+                badgeColor: "#3730A3",
+                description: "依據康軒最新《新挑戰測驗卷》與《練習簿教用本》深度建構！涵蓋L1~L12全課次字音字形陷阱、高階成語語境代換、長文理解與互動題庫！",
+                isFeatured: true,
+                isLessonSubcard: false
             },
+            // --- 旗艦自修：社會 6上 ---
+            {
+                id: "social6_curriculum",
+                title: "6上社會自修 全冊學習城堡 🌏",
+                subject: "social",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上社會", "全冊旗艦", "現代科技", "理財消費", "憲法規範", "地方創生", "多元文化"],
+                url: "social6_curriculum.html",
+                image: "🌏",
+                bgGradient: "linear-gradient(135deg, #F0FDF4 0%, #059669 100%)",
+                badgeText: "6上・全冊自修 🔥",
+                badgeColor: "#059669",
+                description: "完整整合 6 上社會自修全冊 1~6 單元！包含現代科技、聰明理財、憲法規範、地方創生、世界文化在臺灣與段考題庫闖關！",
+                isFeatured: true,
+                isLessonSubcard: false
+            },
+
+            // --- 數學 6上四大核心單元 ---
             {
                 id: "prime",
                 title: "質數海盜大冒險 ①",
                 subject: "math",
-                grade: "senior",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
                 tags: ["質數與合數", "質因數分解", "短除法", "GCD/LCM", "作業簿第1-3回", "第①單元"],
                 url: "prime.html",
                 image: "🏴‍☠️",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #FEF3C7 0%, #FDE047 100%)",
+                bgGradient: "linear-gradient(135deg, #FEF3C7 0%, #F59E0B 100%)",
                 badgeText: "6上・第①單元",
-                badgeColor: "#F59E0B",
+                badgeColor: "#D97706",
                 description: "化身勇敢海盜航向質數島！精通質數判斷、質因數分解與短除法，內建作業簿隨堂測驗第 1~3 回 100% 完整題目與即時批改！",
-                available: true
+                isFeatured: true,
+                isLessonSubcard: false
             },
             {
                 id: "fraction-division",
                 title: "分數廚師大挑戰 ②",
                 subject: "math",
-                grade: "senior",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
                 tags: ["分數除法", "最簡分數", "約分", "異分母", "作業簿第4-6回", "第②單元"],
                 url: "fraction-division.html",
                 image: "🍕",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #FFF3E0 0%, #FF8F00 100%)",
                 badgeText: "6上・第②單元",
                 badgeColor: "#E65100",
                 description: "跟著大廚布蘭克學習分數除法！挑戰最簡分數、同異分母分數除法與商的關係，內建作業簿隨堂測驗第 4~6 回完整題庫！",
-                available: true
+                isFeatured: true,
+                isLessonSubcard: false
             },
             {
                 id: "decimal-division",
                 title: "小數太空探險 ③",
                 subject: "math",
-                grade: "senior",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
                 tags: ["小數除法", "四捨五入", "概數", "太空探險", "作業簿第7-9回", "第③單元"],
                 url: "decimal-division.html",
                 image: "🚀",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #E8EAF6 0%, #3949AB 100%)",
                 badgeText: "6上・第③單元",
                 badgeColor: "#283593",
                 description: "搭乘太空船探索小數除法宇宙！掌握整數與小數除法、四捨五入求概數，內建作業簿隨堂測驗第 7~9 回完整題目與直式詳解！",
-                available: true
+                isFeatured: true,
+                isLessonSubcard: false
             },
             {
                 id: "circle-area",
                 title: "圓周長與圓面積奇幻王國 ④",
                 subject: "math",
-                grade: "senior",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
                 tags: ["圓周長", "圓周率3.14", "圓面積", "複合塗色面積", "作業簿第10-12回", "第④單元"],
                 url: "circle-area.html",
                 image: "🌕",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #3A0CA3 0%, #7209B7 50%, #F72585 100%)",
                 badgeText: "6上・第④單元",
                 badgeColor: "#7209B7",
                 description: "探索圓形幾何世界！精通圓周長、圓周率 3.14、圓面積與複合圖形塗色面積計算，內建作業簿隨堂測驗第 10~12 回 100% 完整題目與解答！",
-                available: true
+                isFeatured: true,
+                isLessonSubcard: false
             },
-            // =========================================================
-            // 三年級上學期數學單元 (新超群 數學自修 3上，P.1–P.117)
-            // =========================================================
+
+            // --- 數學 3上自修五大單元 ---
             {
                 id: "math3_numbers",
                 title: "數到10000宇宙冒險 ①",
                 subject: "math",
-                grade: "middle",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
                 tags: ["萬以內的數", "位值", "數線", "比大小", "3上第①單元"],
                 url: "math3_numbers.html",
                 image: "🌌",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #DBEAFE 0%, #3B82F6 100%)",
                 badgeText: "3上・第①單元",
                 badgeColor: "#1D4ED8",
                 description: "搭乘宇宙飛船探索萬以內的神秘星球！學習千位、百位、十位、個位的位值觀念，掌握數列順序與大小比較！",
-                available: true
+                isFeatured: false,
+                isLessonSubcard: false
             },
             {
                 id: "math3_addition",
                 title: "四位數加減法大挑戰 ②",
                 subject: "math",
-                grade: "middle",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
                 tags: ["四位數加法", "四位數減法", "進位借位", "3上第②單元"],
                 url: "math3_addition.html",
                 image: "➕",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #DCFCE7 0%, #16A34A 100%)",
                 badgeText: "3上・第②單元",
                 badgeColor: "#15803D",
                 description: "挑戰四位數加減法！學習進位加法與借位減法的技巧，解開算術關卡成為萬位數計算小達人！",
-                available: true
+                isFeatured: false,
+                isLessonSubcard: false
             },
             {
                 id: "math3_multiplication",
                 title: "乘法小英雄大冒險 ③",
                 subject: "math",
-                grade: "middle",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
                 tags: ["乘法", "兩位數乘法", "乘法算式", "積", "3上第③單元"],
                 url: "math3_multiplication.html",
                 image: "✖️",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #FEF9C3 0%, #EAB308 100%)",
                 badgeText: "3上・第③單元",
                 badgeColor: "#B45309",
                 description: "化身數學小英雄，征服二位數×一位數乘法！學習乘法算式與積的計算，透過闖關冒險提升乘法速算能力！",
-                available: true
+                isFeatured: false,
+                isLessonSubcard: false
             },
             {
                 id: "math3_measurement",
                 title: "幾毫米測量小達人 ④",
                 subject: "math",
-                grade: "middle",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
                 tags: ["毫米", "長度測量", "公分公尺", "換算", "3上第④單元"],
                 url: "math3_measurement.html",
                 image: "📏",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #CCFBF1 0%, #0F766E 100%)",
                 badgeText: "3上・第④單元",
                 badgeColor: "#0F766E",
                 description: "拿起尺規成為測量達人！學習毫米的認識，公分與公尺的換算，透過實際測量任務培養長度量感！",
-                available: true
+                isFeatured: false,
+                isLessonSubcard: false
             },
             {
                 id: "math3_geometry",
                 title: "角與幾何形狀探索家 ⑤",
                 subject: "math",
-                grade: "middle",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
                 tags: ["角", "直角", "正方形", "長方形", "幾何", "3上第⑤單元"],
                 url: "math3_geometry.html",
                 image: "📐",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #EDE9FE 0%, #7C3AED 100%)",
                 badgeText: "3上・第⑤單元",
                 badgeColor: "#5B21B6",
                 description: "探索角的神奇世界！認識角、直角，以及正方形和長方形的性質，用幾何眼光發現生活中的數學美！",
-                available: true
+                isFeatured: false,
+                isLessonSubcard: false
             },
-            // =========================================================
-            // 六年級上學期國語單元 (康軒新挑戰測驗卷 + 練習簿教用 高難度素養版)
-            // =========================================================
-            {
-                id: "chinese6_curriculum",
-                title: "6上國語全冊學習城堡 👑",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "全冊旗艦版", "L1~L12", "新挑戰測驗卷", "練習簿教用", "素養題庫"],
-                url: "chinese6_curriculum.html",
-                image: "👑",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #EEF2FF 0%, #4F46E5 100%)",
-                badgeText: "6上・全冊旗艦 🔥",
-                badgeColor: "#3730A3",
-                description: "依據康軒最新《新挑戰測驗卷》與《練習簿教用本》深度建構！涵蓋L1~L12全課次字音字形陷阱、高階成語語境代換、素養長文與解析！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson1",
-                title: "跑道 🏃 (6上國語 L1)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第1課", "跑道", "記敘文", "團隊精神"],
-                url: "chinese6_lesson1.html",
-                image: "🏃‍♂️",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #FFECEC 0%, #FF6B6B 100%)",
-                badgeText: "6上・第①課",
-                badgeColor: "#E53E3E",
-                description: "理解接力賽中的團隊精神與個人心態轉變！挑戰「尷尬」、「芥蒂」、「勢均力敵」、「景美女中拔河隊」高階素養題！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson2",
-                title: "朱子治家格言選 📜 (6上國語 L2)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第2課", "朱子治家格言", "文言文", "品格教育"],
-                url: "chinese6_lesson2.html",
-                image: "📜",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #FEF3C7 0%, #D97706 100%)",
-                badgeText: "6上・第②課",
-                badgeColor: "#B45309",
-                description: "體會傳統家訓做人處事的哲學與智慧！深究「未雨綢繆」、「臨渴掘井」、「施惠無念」與《農夫與老鷹》寓言測驗！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson3",
-                title: "遇見更好的自己 🌟 (6上國語 L3)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第3課", "遇見更好的自己", "議論文", "勵志成長"],
-                url: "chinese6_lesson3.html",
-                image: "🌟",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #E0E7FF 0%, #4F46E5 100%)",
-                badgeText: "6上・第③課",
-                badgeColor: "#4338CA",
-                description: "探索自我省察與超越困境的思維！挑戰「砥礪」、「無遠弗屆」、「張忠謀終身學習」深度閱讀與論點論據分析！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson4",
-                title: "臺灣美食詩選 🍜 (6上國語 L4)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第4課", "臺灣美食詩選", "現代詩", "鄉土文化"],
-                url: "chinese6_lesson4.html",
-                image: "🍜",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #ECFDF5 0%, #059669 100%)",
-                badgeText: "6上・第④課",
-                badgeColor: "#047857",
-                description: "透過現代新詩感受臺灣小吃的韻味與層次！精熟感官摹寫、雙關修辭與鹽酥雞、肉圓的文學意象！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson5",
-                title: "最好的味覺禮物 🎁 (6上國語 L5)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第5課", "最好的味覺禮物", "記敘文", "溫馨親情"],
-                url: "chinese6_lesson5.html",
-                image: "🎁",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #FDF2F8 0%, #DB2777 100%)",
-                badgeText: "6上・第⑤課",
-                badgeColor: "#BE185D",
-                description: "品味特調果汁中的溫馨孝心！掌握「沁涼」、「疲憊」、「回味無窮」字音字形與條件複句分析！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson6",
-                title: "珍珠奶茶 🧋 (6上國語 L6)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第6課", "珍珠奶茶", "說明文", "臺灣文化"],
-                url: "chinese6_lesson6.html",
-                image: "🧋",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #FFF7ED 0%, #EA580C 100%)",
-                badgeText: "6上・第⑥課",
-                badgeColor: "#C2410C",
-                description: "開箱臺灣代表性飲品走向國際的傳奇故事！精析說明方法（數據、舉例）與文化創意產業發展！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson7",
-                title: "大小剛好的鞋子 👟 (6上國語 L7)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第7課", "大小剛好的鞋子", "生活散文", "人生哲理"],
-                url: "chinese6_lesson7.html",
-                image: "👟",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #FEF9C3 0%, #CA8A04 100%)",
-                badgeText: "6上・第⑦課",
-                badgeColor: "#A16207",
-                description: "由穿鞋體驗領悟知足常樂的生活哲學！掌握「蹣跚」、「恰如其分」、「削足適履」與托爾斯泰寓言思考！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson8",
-                title: "狐假虎威 🦊 (6上國語 L8)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第8課", "狐假虎威", "戰國策", "文言寓言"],
-                url: "chinese6_lesson8.html",
-                image: "🦊",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #FFEDD5 0%, #EA580C 100%)",
-                badgeText: "6上・第⑧課",
-                badgeColor: "#C2410C",
-                description: "戰國策經典寓言！深度理解「假」、「走」之古今字義、反諷語氣剖析與《畫蛇添足》延伸閱讀！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson9",
-                title: "空城計 🏯 (6上國語 L9)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第9課", "空城計", "三國演義", "古典小說"],
-                url: "chinese6_lesson9.html",
-                image: "🏯",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #F3E8FF 0%, #7E22CE 100%)",
-                badgeText: "6上・第⑨課",
-                badgeColor: "#6B21A8",
-                description: "孔明神機妙算退司馬懿！挑戰「憑欄」、「旌旗」、「笑容可掬」與心理戰術「知己知彼」深度分析！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson10",
-                title: "耶誕節 🎄 (6上國語 L10)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第10課", "耶誕節", "小婦人", "外國小說"],
-                url: "chinese6_lesson10.html",
-                image: "🎄",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #DCFCE7 0%, #16A34A 100%)",
-                badgeText: "6上・第⑩課",
-                badgeColor: "#15803D",
-                description: "小婦人馬區家的無私分享之愛！精通「匱乏」、「飢腸轆轆」、「雪中送炭」與人道同理心素養題！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson11",
-                title: "下午茶風波 ☕ (6上國語 L11)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第11課", "下午茶風波", "清秀佳人", "純真友誼"],
-                url: "chinese6_lesson11.html",
-                image: "☕",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #FCE7F3 0%, #BE185D 100%)",
-                badgeText: "6上・第⑪課",
-                badgeColor: "#9D174D",
-                description: "紅髮安妮的熱情與啼笑皆非的誤會！精熟「覆盆子」、「酩酊大醉」、「賠罪」與情節反差藝術！",
-                available: true
-            },
-            {
-                id: "chinese6_lesson12",
-                title: "橘子 🍊 (6上國語 L12)",
-                subject: "chinese",
-                grade: "senior",
-                tags: ["6上國語", "第12課", "橘子", "抒情散文", "溫暖親情"],
-                url: "chinese6_lesson12.html",
-                image: "🍊",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #FFEDD5 0%, #D97706 100%)",
-                badgeText: "6上・第⑫課",
-                badgeColor: "#B45309",
-                description: "芥川龍之介名篇！穿透冷漠人世的金黃親情暖光，精熟「衣衫襤褸」、「暮色」、「悵惘」與象徵修辭！",
-                available: true
-            },
+
+            // --- 6上國語段考考查 ---
             {
                 id: "chinese6_midterm",
                 title: "6上國語期中自修考查 📝",
                 subject: "chinese",
-                grade: "senior",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
                 tags: ["6上國語", "期中考", "第1~6課", "自修全真題庫"],
                 url: "chinese6_midterm.html",
                 image: "📝",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #FAF5FF 0%, #9333EA 100%)",
                 badgeText: "6上・期中考查",
                 badgeColor: "#7E22CE",
                 description: "涵蓋第 1～6 課核心知識！提供課前預習、成語辭典、修辭解析與期中段考全真題庫模擬！",
-                available: true
+                isFeatured: false,
+                isLessonSubcard: false
             },
             {
                 id: "chinese6_final",
                 title: "6上國語期末學力大考 🎯",
                 subject: "chinese",
-                grade: "senior",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
                 tags: ["6上國語", "期末考", "全真學力測驗", "新挑戰測驗卷", "第7~12課"],
                 url: "chinese6_final.html",
                 image: "🎯",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #CCFBF1 0%, #0D9488 100%)",
                 badgeText: "6上・期末學力 🔥",
                 badgeColor: "#0F766E",
                 description: "精選新挑戰測驗卷第 20～24 回期末考查與全真學力測驗高鑑別度試題！迎戰小六升中學資優素養評量！",
-                available: true
+                isFeatured: false,
+                isLessonSubcard: false
             },
-            {
-                id: "chinese3_curriculum",
-                title: "3上國語 115上康軒學習城堡 🏮",
-                subject: "chinese",
-                grade: "junior",
-                tags: ["115上康軒", "3上國語", "課課練習簿", "新挑戰測驗卷", "成語辭典", "修辭賞析", "字謎拆合"],
-                url: "chinese3_curriculum.html",
-                image: "🏮",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #FFF7ED 0%, #EA580C 100%)",
-                badgeText: "115上・康軒完整收錄 🔥",
-                badgeColor: "#C2410C",
-                description: "精準對齊 115 上康軒最新國語 3 上 1~12 課！濃縮練習簿生字拆合與字謎、成語深究、照樣造句與新挑戰測驗卷全真試題解析！",
-                available: true
-            },
-            {
-                id: "social6_curriculum",
-                title: "6上社會自修 全冊學習城堡 🌏",
-                subject: "social",
-                grade: "senior",
-                tags: ["6上社會", "全冊自修", "現代科技", "理財消費", "生活規範", "地方創生", "多元文化", "公民探究"],
-                url: "social6_curriculum.html",
-                image: "🌏",
-                isEmoji: true,
-                bgGradient: "linear-gradient(135deg, #F0FDF4 0%, #059669 100%)",
-                badgeText: "6上・全冊自修 🔥",
-                badgeColor: "#059669",
-                description: "完整整合 6 上社會自修全冊 1~6 單元！包含現代科技、聰明理財、憲法規範、地方創生、世界文化在臺灣與段考題庫闖關！",
-                available: true
-            },
-            // 全新上線跨學科單元 (New Subject Units)
+
+            // --- 跨學科與基礎練習單元 ---
             {
                 id: "idiom_game",
-                title: "成語接龍大挑戰",
+                title: "成語接龍大挑戰 📖",
                 subject: "chinese",
-                grade: "middle",
+                gradeCategory: "cross",
+                gradeLevel: 4,
+                gradeText: "中高年級",
                 tags: ["成語辭典", "詞彙接龍", "國語文", "趣味猜謎"],
                 url: "idiom_game.html",
                 image: "📖",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #FFFBEB 0%, #D97706 100%)",
-                badgeText: "全新上線 🔥",
+                badgeText: "國語益智 🔥",
                 badgeColor: "#D97706",
                 description: "考驗你的成語儲備量！通過填字、字尾接龍與情境猜謎闖關，輕鬆累積豐厚成語詞彙庫！",
-                available: true
+                isFeatured: false,
+                isLessonSubcard: false
             },
             {
                 id: "element_game",
-                title: "元素週期表大探索",
-                subject: "science",
-                grade: "senior",
+                title: "元素週期表大探索 🧪",
+                subject: "science_english",
+                gradeCategory: "cross",
+                gradeLevel: 6,
+                gradeText: "自然科學",
                 tags: ["化學元素", "自然科學", "實驗室", "科普圖鑑"],
                 url: "element_game.html",
                 image: "🧪",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #ECFDF5 0%, #10B981 100%)",
-                badgeText: "全新上線 🔥",
+                badgeText: "科普實驗 🔥",
                 badgeColor: "#059669",
                 description: "探索常見化學元素符號與生活中的科學應用，打造屬於你的小小化學實驗室！",
-                available: true
+                isFeatured: false,
+                isLessonSubcard: false
             },
             {
                 id: "vocab_game",
-                title: "單字王奇幻冒險",
-                subject: "english",
-                grade: "junior",
+                title: "單字王奇幻冒險 🔤",
+                subject: "science_english",
+                gradeCategory: "g12",
+                gradeLevel: 2,
+                gradeText: "生活英語",
                 tags: ["基礎英文", "生活單字", "聽力發音", "趣味拼字"],
                 url: "vocab_game.html",
                 image: "🔤",
-                isEmoji: true,
                 bgGradient: "linear-gradient(135deg, #EDE9FE 0%, #7C3AED 100%)",
-                badgeText: "全新上線 🔥",
+                badgeText: "英語發音 🔥",
                 badgeColor: "#7C3AED",
                 description: "從生活常用單字開始，搭配真人語音發音、圖形辨別與字母拼字，變身英語單字王！",
-                available: true
+                isFeatured: false,
+                isLessonSubcard: false
+            },
+            {
+                id: "2mathgame",
+                title: "大耳狗九九乘法速算 🐶",
+                subject: "math",
+                gradeCategory: "g12",
+                gradeLevel: 2,
+                gradeText: "低中年級",
+                tags: ["九九乘法", "2分鐘限時", "大耳狗", "基礎算術"],
+                url: "2mathgame.html",
+                image: "🐶",
+                bgGradient: "linear-gradient(135deg, #E0F2FE 0%, #38BDF8 100%)",
+                badgeText: "基礎熟練",
+                badgeColor: "#0284C7",
+                description: "與大耳狗一同進行 2 分鐘九九乘法挑戰！培養基礎乘法反應力、記憶力與答題熟練度。",
+                isFeatured: false,
+                isLessonSubcard: false
+            },
+            {
+                id: "5mathgame",
+                title: "快樂火車數學大冒險 🚂",
+                subject: "math",
+                gradeCategory: "cross",
+                gradeLevel: 3,
+                gradeText: "四則運算",
+                tags: ["加減乘除", "火車冒險", "綜合運算", "5分鐘限時"],
+                url: "5mathgame.html",
+                image: "🚂",
+                bgGradient: "linear-gradient(135deg, #E0F7FA 0%, #06B6D4 100%)",
+                badgeText: "綜合算術",
+                badgeColor: "#0891B2",
+                description: "搭上快樂火車，在 5 分鐘內挑戰各式四則算術題目，累積得分並贏取數學榮譽勳章！",
+                isFeatured: false,
+                isLessonSubcard: false
+            },
+
+            // --- 6上國語單課細項 (預設收合，可展開檢視) ---
+            {
+                id: "chinese6_lesson1",
+                title: "跑道 🏃 (6上國語 L1)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第1課", "跑道", "記敘文", "團隊精神"],
+                url: "chinese6_lesson1.html",
+                image: "🏃‍♂️",
+                bgGradient: "linear-gradient(135deg, #FFECEC 0%, #FF6B6B 100%)",
+                badgeText: "6上・第①課",
+                badgeColor: "#E53E3E",
+                description: "接力賽中的團隊精神與心態轉變！挑戰尷尬、芥蒂、勢均力敵與景美女中拔河隊素養題！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson2",
+                title: "朱子治家格言選 📜 (6上國語 L2)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第2課", "朱子治家格言", "文言文", "品格教育"],
+                url: "chinese6_lesson2.html",
+                image: "📜",
+                bgGradient: "linear-gradient(135deg, #FEF3C7 0%, #D97706 100%)",
+                badgeText: "6上・第②課",
+                badgeColor: "#B45309",
+                description: "傳統家訓做人處事的智慧！深究未雨綢繆、臨渴掘井、施惠無念與老鷹寓言測驗！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson3",
+                title: "遇見更好的自己 🌟 (6上國語 L3)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第3課", "遇見更好的自己", "議論文", "勵志成長"],
+                url: "chinese6_lesson3.html",
+                image: "🌟",
+                bgGradient: "linear-gradient(135deg, #E0E7FF 0%, #4F46E5 100%)",
+                badgeText: "6上・第③課",
+                badgeColor: "#4338CA",
+                description: "自我省察與超越困境思維！挑戰砥礪、無遠弗屆、張忠謀終身學習深度閱讀解析！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson4",
+                title: "臺灣美食詩選 🍜 (6上國語 L4)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第4課", "臺灣美食詩選", "現代詩", "鄉土文化"],
+                url: "chinese6_lesson4.html",
+                image: "🍜",
+                bgGradient: "linear-gradient(135deg, #ECFDF5 0%, #059669 100%)",
+                badgeText: "6上・第④課",
+                badgeColor: "#047857",
+                description: "新詩感受臺灣小吃韻味！精熟感官摹寫、雙關修辭與鹽酥雞、肉圓的文學意象！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson5",
+                title: "最好的味覺禮物 🎁 (6上國語 L5)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第5課", "最好的味覺禮物", "記敘文", "溫馨親情"],
+                url: "chinese6_lesson5.html",
+                image: "🎁",
+                bgGradient: "linear-gradient(135deg, #FDF2F8 0%, #DB2777 100%)",
+                badgeText: "6上・第⑤課",
+                badgeColor: "#BE185D",
+                description: "品味特調果汁中的溫馨孝心！掌握沁涼、疲憊、回味無窮字音字形與複句剖析！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson6",
+                title: "珍珠奶茶 🧋 (6上國語 L6)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第6課", "珍珠奶茶", "說明文", "臺灣文化"],
+                url: "chinese6_lesson6.html",
+                image: "🧋",
+                bgGradient: "linear-gradient(135deg, #FFF7ED 0%, #EA580C 100%)",
+                badgeText: "6上・第⑥課",
+                badgeColor: "#C2410C",
+                description: "開箱臺灣珍奶走向國際的傳奇故事！精析說明方法（數據、舉例）與文創發展！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson7",
+                title: "大小剛好的鞋子 👟 (6上國語 L7)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第7課", "大小剛好的鞋子", "生活散文", "人生哲理"],
+                url: "chinese6_lesson7.html",
+                image: "👟",
+                bgGradient: "linear-gradient(135deg, #FEF9C3 0%, #CA8A04 100%)",
+                badgeText: "6上・第⑦課",
+                badgeColor: "#A16207",
+                description: "由穿鞋領悟知足常樂！掌握蹣跚、恰如其分、削足適履成語與托爾斯泰寓言思考！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson8",
+                title: "狐假虎威 🦊 (6上國語 L8)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第8課", "狐假虎威", "戰國策", "文言寓言"],
+                url: "chinese6_lesson8.html",
+                image: "🦊",
+                bgGradient: "linear-gradient(135deg, #FFEDD5 0%, #EA580C 100%)",
+                badgeText: "6上・第⑧課",
+                badgeColor: "#C2410C",
+                description: "戰國策經典寓言！深度理解假、走之古今字義、反諷語氣剖析與畫蛇添足延伸！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson9",
+                title: "空城計 🏯 (6上國語 L9)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第9課", "空城計", "三國演義", "古典小說"],
+                url: "chinese6_lesson9.html",
+                image: "🏯",
+                bgGradient: "linear-gradient(135deg, #F3E8FF 0%, #7E22CE 100%)",
+                badgeText: "6上・第⑨課",
+                badgeColor: "#6B21A8",
+                description: "孔明神機妙算退司馬懿！挑戰憑欄、旌旗、笑容可掬成語與知己知彼戰術分析！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson10",
+                title: "耶誕節 🎄 (6上國語 L10)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第10課", "耶誕節", "小婦人", "外國小說"],
+                url: "chinese6_lesson10.html",
+                image: "🎄",
+                bgGradient: "linear-gradient(135deg, #DCFCE7 0%, #16A34A 100%)",
+                badgeText: "6上・第⑩課",
+                badgeColor: "#15803D",
+                description: "小婦人馬區家無私分享之愛！精通匱乏、飢腸轆轆、雪中送炭與同理心素養題！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson11",
+                title: "下午茶風波 ☕ (6上國語 L11)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第11課", "下午茶風波", "清秀佳人", "純真友誼"],
+                url: "chinese6_lesson11.html",
+                image: "☕",
+                bgGradient: "linear-gradient(135deg, #FCE7F3 0%, #BE185D 100%)",
+                badgeText: "6上・第⑪課",
+                badgeColor: "#9D174D",
+                description: "紅髮安妮的熱情與啼笑皆非的誤會！精熟覆盆子、酩酊大醉、賠罪與反差藝術！",
+                isFeatured: false,
+                isLessonSubcard: true
+            },
+            {
+                id: "chinese6_lesson12",
+                title: "橘子 🍊 (6上國語 L12)",
+                subject: "chinese",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["6上國語", "第12課", "橘子", "抒情散文", "溫暖親情"],
+                url: "chinese6_lesson12.html",
+                image: "🍊",
+                bgGradient: "linear-gradient(135deg, #FFEDD5 0%, #D97706 100%)",
+                badgeText: "6上・第⑫課",
+                badgeColor: "#B45309",
+                description: "芥川龍之介名篇！穿透冷漠人世的金黃親情，精熟衣衫襤褸、暮色、悵惘與象徵修辭！",
+                isFeatured: false,
+                isLessonSubcard: true
             }
         ];
 
-        // 本地儲存收藏夾
-        let favorites = JSON.parse(localStorage.getItem('portal_favorites') || '[]');
-        let currentSubject = 'all';
+        // 狀態管理
         let currentGrade = 'all';
-        let isFavOnly = false;
+        let currentSubject = 'all';
+        let searchQuery = '';
+        let showSubcards = false; // 是否展開 6上國語 12 課細項
+        let currentSort = 'featured';
+        let favorites = JSON.parse(localStorage.getItem('study_castle_favs') || '[]');
 
         // 初始化
         document.addEventListener('DOMContentLoaded', () => {
-            initBackgroundBubbles();
             initTheme();
+            updateStatistics();
             renderCards();
-            setupEventListeners();
-            initVisitorIp();
         });
 
-        // 浮動背景泡泡生成
-        function initBackgroundBubbles() {
-            const container = document.getElementById('bgBubbles');
-            const colors = ['#4A90E2', '#FF6B6B', '#FFD166', '#06D6A0', '#8338EC'];
-            for (let i = 0; i < 15; i++) {
-                const bubble = document.createElement('div');
-                bubble.className = 'bubble';
-                const size = Math.random() * 80 + 30;
-                bubble.style.width = `${size}px`;
-                bubble.style.height = `${size}px`;
-                bubble.style.left = `${Math.random() * 100}%`;
-                bubble.style.background = colors[Math.floor(Math.random() * colors.length)];
-                bubble.style.animationDuration = `${Math.random() * 10 + 12}s`;
-                bubble.style.animationDelay = `${Math.random() * 5}s`;
-                container.appendChild(bubble);
-            }
-        }
-
-        // 取得使用者真實 IP
-        async function initVisitorIp() {
-            try {
-                const ipRes = await fetch('https://api.ipify.org?format=json');
-                if (ipRes.ok) {
-                    const ipData = await ipRes.json();
-                    document.getElementById('visitorIp').textContent = ipData.ip || '已保護';
-                }
-            } catch (e) {
-                document.getElementById('visitorIp').textContent = '已連線';
-            }
-        }
-
-        // 主題切換 (Dark / Light)
+        // 深淺色模式切換
         function initTheme() {
-            const savedTheme = localStorage.getItem('portal_theme') || 'light';
+            const savedTheme = localStorage.getItem('study_castle_theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeUI(savedTheme);
-
-            document.getElementById('themeToggleBtn').addEventListener('click', () => {
-                const current = document.documentElement.getAttribute('data-theme');
-                const next = current === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', next);
-                localStorage.setItem('portal_theme', next);
-                updateThemeUI(next);
-            });
+            updateThemeBtnUi(savedTheme);
         }
 
-        function updateThemeUI(theme) {
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('study_castle_theme', next);
+            updateThemeBtnUi(next);
+        }
+
+        function updateThemeBtnUi(theme) {
             const icon = document.getElementById('themeIcon');
             const text = document.getElementById('themeText');
             if (theme === 'dark') {
@@ -1648,103 +1396,111 @@
                 icon.textContent = '🌙';
                 text.textContent = '深色模式';
             }
-            updateGiscusTheme(theme);
         }
 
-        // 同步切換 Giscus 留言板主題
-        function updateGiscusTheme(theme) {
-            const iframe = document.querySelector('iframe.giscus-frame');
-            if (!iframe) return;
-            const giscusTheme = theme === 'dark' ? 'dark' : 'light';
-            iframe.contentWindow.postMessage(
-                { giscus: { setConfig: { theme: giscusTheme } } },
-                'https://giscus.app'
-            );
+        // 統計徽章計算
+        function updateStatistics() {
+            document.getElementById('statTotalUnits').textContent = UNITS_DATA.length;
+            document.getElementById('statChineseUnits').textContent = UNITS_DATA.filter(u => u.subject === 'chinese').length;
+            document.getElementById('statMathUnits').textContent = UNITS_DATA.filter(u => u.subject === 'math').length;
+            document.getElementById('statFlagshipUnits').textContent = UNITS_DATA.filter(u => u.isFeatured).length;
+            
+            // 年級計數
+            document.getElementById('countGradeAll').textContent = UNITS_DATA.length;
+            document.getElementById('countGradeG3').textContent = UNITS_DATA.filter(u => u.gradeCategory === 'g3').length;
+            document.getElementById('countGradeG6').textContent = UNITS_DATA.filter(u => u.gradeCategory === 'g6').length;
+            document.getElementById('countGradeG12').textContent = UNITS_DATA.filter(u => u.gradeCategory === 'g12').length;
+            document.getElementById('countGradeCross').textContent = UNITS_DATA.filter(u => u.gradeCategory === 'cross').length;
+            document.getElementById('countGradeFav').textContent = favorites.length;
         }
 
-        // 渲染單元卡片
-        function renderCards() {
-            const grid = document.getElementById('cardsGrid');
-            const searchKeyword = document.getElementById('searchInput').value.trim().toLowerCase();
+        // 篩選與排序邏輯
+        function getFilteredUnits() {
+            return UNITS_DATA.filter(item => {
+                // 1. 單課細項收合過濾
+                if (!showSubcards && item.isLessonSubcard) {
+                    // 如果正在搜尋或特別選取標籤，則不受收合限制
+                    if (!searchQuery && currentGrade !== 'g6') {
+                        return false;
+                    }
+                }
 
-            // 篩選過濾邏輯
-            const filtered = GAMES_DATA.filter(game => {
-                // 科目
-                if (currentSubject !== 'all' && game.subject !== currentSubject) return false;
-                // 年級
-                if (currentGrade !== 'all') {
-                    if (currentGrade === 'junior' && game.grade !== 'junior') return false;
-                    if (currentGrade === 'middle' && game.grade !== 'middle' && game.grade !== 'junior') return false;
-                    if (currentGrade === 'senior' && game.grade !== 'senior') return false;
+                // 2. 年級過濾
+                if (currentGrade === 'fav') {
+                    if (!favorites.includes(item.id)) return false;
+                } else if (currentGrade !== 'all') {
+                    if (item.gradeCategory !== currentGrade) return false;
                 }
-                // 收藏
-                if (isFavOnly && !favorites.includes(game.id)) return false;
-                // 關鍵字搜尋
-                if (searchKeyword) {
-                    const inTitle = game.title.toLowerCase().includes(searchKeyword);
-                    const inDesc = game.description.toLowerCase().includes(searchKeyword);
-                    const inTags = game.tags.some(t => t.toLowerCase().includes(searchKeyword));
-                    if (!inTitle && !inDesc && !inTags) return false;
+
+                // 3. 學科過濾
+                if (currentSubject !== 'all') {
+                    if (item.subject !== currentSubject) return false;
                 }
+
+                // 4. 關鍵字搜尋 (標題、描述、標籤、年級)
+                if (searchQuery) {
+                    const q = searchQuery.toLowerCase().trim();
+                    const titleMatch = item.title.toLowerCase().includes(q);
+                    const descMatch = item.description.toLowerCase().includes(q);
+                    const tagMatch = item.tags.some(t => t.toLowerCase().includes(q));
+                    const gradeMatch = item.gradeText.toLowerCase().includes(q);
+                    if (!titleMatch && !descMatch && !tagMatch && !gradeMatch) return false;
+                }
+
                 return true;
+            }).sort((a, b) => {
+                if (currentSort === 'featured') {
+                    if (a.isFeatured !== b.isFeatured) return b.isFeatured ? 1 : -1;
+                    return a.gradeLevel - b.gradeLevel;
+                } else if (currentSort === 'gradeAsc') {
+                    return a.gradeLevel - b.gradeLevel;
+                } else if (currentSort === 'gradeDesc') {
+                    return b.gradeLevel - a.gradeLevel;
+                } else if (currentSort === 'title') {
+                    return a.title.localeCompare(b.title, 'zh-Hant');
+                }
+                return 0;
             });
+        }
 
-            if (filtered.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">🔍</div>
-                        <h3 class="empty-title">找不到符合條件的學習單元</h3>
-                        <p class="empty-desc">請嘗試調整搜尋關鍵字、切換科目或重置年級篩選喔！</p>
-                        <button class="action-btn btn-random" onclick="resetFilters()">🔄 重置所有篩選條件</button>
-                    </div>
-                `;
+        // 渲染卡片
+        function renderCards() {
+            const container = document.getElementById('cardsGridContainer');
+            const emptyBox = document.getElementById('emptyResultsBox');
+            const countBadge = document.getElementById('resultCountBadge');
+            const list = getFilteredUnits();
+
+            countBadge.textContent = `(顯示 ${list.length} 個單元)`;
+
+            if (list.length === 0) {
+                container.innerHTML = '';
+                emptyBox.classList.add('show');
                 return;
             }
 
-            grid.innerHTML = filtered.map(game => {
-                const isFav = favorites.includes(game.id);
-                const tagPills = game.tags.map(t => `<span class="tag-pill">#${t}</span>`).join('');
-
-                let mediaHtml = game.isEmoji
-                    ? `<span class="card-emoji-icon">${game.image}</span>`
-                    : `<img src="${game.image}" alt="${game.title}" class="card-img">`;
-
-                if (!game.available) {
-                    return `
-                        <div class="game-card coming-soon">
-                            <div class="card-banner" style="background: ${game.bgGradient};">
-                                <span class="card-badge" style="background: ${game.badgeColor};">${game.badgeText}</span>
-                                ${mediaHtml}
-                            </div>
-                            <div class="card-body">
-                                <div class="card-tags">${tagPills}</div>
-                                <h3 class="card-title">${game.title}</h3>
-                                <p class="card-description">${game.description}</p>
-                                <div class="card-footer">
-                                    <button class="play-btn coming-soon-btn" disabled>🔒 擴充建置中</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-
+            emptyBox.classList.remove('show');
+            container.innerHTML = list.map(item => {
+                const isFav = favorites.includes(item.id);
                 return `
-                    <div class="game-card">
-                        <div class="card-banner" style="background: ${game.bgGradient};">
-                            <span class="card-badge" style="background: ${game.badgeColor};">${game.badgeText}</span>
-                            <button class="fav-btn ${isFav ? 'is-fav' : ''}" onclick="toggleFav('${game.id}', event)" title="收藏單元">
-                                ${isFav ? '★' : '☆'}
+                    <div class="unit-card ${item.isFeatured ? 'is-featured' : ''}" onclick="navigateToUnit('${item.url}')">
+                        <div class="card-header-banner" style="background: ${item.bgGradient};">
+                            <span class="card-emoji-icon">${item.image}</span>
+                            <span class="card-badge-pill" style="background: ${item.badgeColor};">${item.badgeText}</span>
+                            <button class="card-fav-btn ${isFav ? 'is-fav' : ''}" onclick="toggleFavorite('${item.id}', event)" title="${isFav ? '取消收藏' : '加入收藏'}">
+                                ${isFav ? '❤️' : '🤍'}
                             </button>
-                            ${mediaHtml}
                         </div>
                         <div class="card-body">
-                            <div class="card-tags">${tagPills}</div>
-                            <h3 class="card-title">${game.title}</h3>
-                            <p class="card-description">${game.description}</p>
-                            <div class="card-footer">
-                                <a href="${game.url}" class="play-btn">
-                                    <span>🚀 開始冒險</span>
-                                </a>
+                            <h3 class="card-title">${item.title}</h3>
+                            <p class="card-desc">${item.description}</p>
+                            <div class="card-tags">
+                                ${item.tags.slice(0, 4).map(t => `
+                                    <span class="card-tag" onclick="handleTagClick('${t}', event)">#${t}</span>
+                                `).join('')}
+                            </div>
+                            <div class="card-action-bar">
+                                <span class="card-grade-badge">${item.gradeText}</span>
+                                <span class="card-enter-btn">立即進入 ➔</span>
                             </div>
                         </div>
                     </div>
@@ -1752,172 +1508,130 @@
             }).join('');
         }
 
-        // 切換收藏狀態
-        function toggleFav(id, e) {
-            e.preventDefault();
+        // 互動事件處理
+        function navigateToUnit(url) {
+            window.location.href = url;
+        }
+
+        function selectGrade(gradeKey) {
+            currentGrade = gradeKey;
+            document.querySelectorAll('.grade-pill-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.grade === gradeKey);
+            });
+            updateViewTitle();
+            renderCards();
+        }
+
+        function selectSubject(subjectKey) {
+            currentSubject = subjectKey;
+            document.querySelectorAll('.subject-tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.subject === subjectKey);
+            });
+            updateViewTitle();
+            renderCards();
+        }
+
+        function handleSearchInput(e) {
+            searchQuery = e.target.value.trim();
+            const clearBtn = document.getElementById('searchClearBtn');
+            clearBtn.classList.toggle('show', searchQuery.length > 0);
+            renderCards();
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            input.value = '';
+            searchQuery = '';
+            document.getElementById('searchClearBtn').classList.remove('show');
+            renderCards();
+        }
+
+        function applyTagSearch(tagName) {
+            const input = document.getElementById('searchInput');
+            input.value = tagName;
+            searchQuery = tagName;
+            document.getElementById('searchClearBtn').classList.add('show');
+            renderCards();
+            window.scrollTo({ top: 380, behavior: 'smooth' });
+        }
+
+        function handleTagClick(tagName, e) {
+            e.stopPropagation();
+            applyTagSearch(tagName);
+        }
+
+        function handleSortChange() {
+            currentSort = document.getElementById('sortSelect').value;
+            renderCards();
+        }
+
+        function toggleSubcardsView() {
+            showSubcards = !showSubcards;
+            const btn = document.getElementById('btnToggleSubcards');
+            if (showSubcards) {
+                btn.textContent = '📦 收合 6上國語 12 課細項';
+                btn.style.color = 'var(--primary)';
+            } else {
+                btn.textContent = '👁️ 展開 6上國語 12 課單課細項';
+                btn.style.color = 'var(--text-muted)';
+            }
+            renderCards();
+        }
+
+        function toggleFavorite(id, e) {
             e.stopPropagation();
             if (favorites.includes(id)) {
-                favorites = favorites.filter(item => item !== id);
+                favorites = favorites.filter(x => x !== id);
             } else {
                 favorites.push(id);
+                confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
             }
-            localStorage.setItem('portal_favorites', JSON.stringify(favorites));
+            localStorage.setItem('study_castle_favs', JSON.stringify(favorites));
+            document.getElementById('countGradeFav').textContent = favorites.length;
             renderCards();
         }
 
-        // 事件監聽綁定
-        function setupEventListeners() {
-            // 科目 Tabs
-            document.getElementById('subjectTabs').addEventListener('click', (e) => {
-                const tab = e.target.closest('.subject-tab');
-                if (!tab) return;
-                document.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                currentSubject = tab.dataset.subject;
-                renderCards();
-            });
-
-            // 年級選單
-            document.getElementById('gradeSelect').addEventListener('change', (e) => {
-                currentGrade = e.target.value;
-                renderCards();
-            });
-
-            // 關鍵字搜尋
-            document.getElementById('searchInput').addEventListener('input', () => {
-                renderCards();
-            });
-
-            // 收藏過濾按鈕
-            const favBtn = document.getElementById('favFilterBtn');
-            favBtn.addEventListener('click', () => {
-                isFavOnly = !isFavOnly;
-                favBtn.classList.toggle('active', isFavOnly);
-                renderCards();
-            });
-
-            // 隨機選遊戲 Modal
-            const modal = document.getElementById('randomModal');
-            document.getElementById('randomBtn').addEventListener('click', openRandomModal);
-            document.getElementById('modalRerollBtn').addEventListener('click', rollRandomGame);
-            document.getElementById('modalCloseBtn').addEventListener('click', () => modal.classList.remove('active'));
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.classList.remove('active');
-            });
-
-            // 反饋表單 Modal 互動
-            const fbModal = document.getElementById('feedbackModal');
-            const openFbBtn = document.getElementById('openFeedbackBtn');
-            const closeFbBtn = document.getElementById('closeFeedbackBtn');
-            const cancelFbBtn = document.getElementById('cancelFeedbackBtn');
-            const fbForm = document.getElementById('feedbackForm');
-
-            openFbBtn.addEventListener('click', () => fbModal.classList.add('active'));
-            closeFbBtn.addEventListener('click', () => fbModal.classList.remove('active'));
-            cancelFbBtn.addEventListener('click', () => fbModal.classList.remove('active'));
-            fbModal.addEventListener('click', (e) => {
-                if (e.target === fbModal) fbModal.classList.remove('active');
-            });
-
-            // Google Apps Script 網頁應用程式 URL（請於取得後填入下方字串中）
-            const GOOGLE_FEEDBACK_API_URL = 'https://script.google.com/macros/s/AKfycbyzkEjLZYH8mt0-AfA7xlLTS1HXBPlx4IeQByEmh2F-TiF_Vqfiu4vs9sKzrKehj2806g/exec';
-
-            fbForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const submitBtn = document.getElementById('submitFeedbackBtn');
-                const type = document.getElementById('fbType').value;
-                const unit = document.getElementById('fbUnit').value;
-                const name = document.getElementById('fbName').value.trim() || '熱心冒險家';
-                const content = document.getElementById('fbContent').value.trim();
-
-                if (!content) return;
-
-                // 1. 切換按鈕為傳送中狀態，避免重複提交
-                const originalBtnText = submitBtn.innerHTML;
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '🚀 傳送中...';
-
-                // 2. 封裝反饋資料並留存於瀏覽器 localStorage 備份
-                const payload = {
-                    time: new Date().toLocaleString(),
-                    type,
-                    unit,
-                    name,
-                    content,
-                    sourceUrl: window.location.href
-                };
-
-                try {
-                    const logs = JSON.parse(localStorage.getItem('portal_feedback_logs') || '[]');
-                    logs.push(payload);
-                    localStorage.setItem('portal_feedback_logs', JSON.stringify(logs));
-                } catch (err) {
-                    console.warn('Local storage error:', err);
-                }
-
-                // 3. 發送至 Google Apps Script 雲端試算表與 Email 通知
-                try {
-                    if (GOOGLE_FEEDBACK_API_URL && GOOGLE_FEEDBACK_API_URL.startsWith('http')) {
-                        await fetch(GOOGLE_FEEDBACK_API_URL, {
-                            method: 'POST',
-                            mode: 'no-cors',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-                        alert(`🎉 感謝 ${name} 的反饋！\n\n您的寶貴建議已成功傳送，城堡管理員已收到通知，感謝您協助我們變得更好！🏰✨`);
-                    } else {
-                        // 若尚未設定 URL 則執行本機備份提示
-                        alert(`🎉 感謝 ${name} 的反饋！\n\n您的寶貴建議我們已經收到，冒險城堡會持續改進！🏰✨`);
-                    }
-                    fbForm.reset();
-                    fbModal.classList.remove('active');
-                } catch (err) {
-                    console.error('Feedback submit error:', err);
-                    alert(`🎉 感謝 ${name} 的反饋！\n\n您的建議已保存在本機備份中，我們會持續改進！🏰✨`);
-                    fbForm.reset();
-                    fbModal.classList.remove('active');
-                } finally {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
-                }
-            });
+        function pickRandomUnit() {
+            const filtered = getFilteredUnits();
+            const pool = filtered.length > 0 ? filtered : UNITS_DATA;
+            const pick = pool[Math.floor(Math.random() * pool.length)];
+            confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
+            setTimeout(() => {
+                window.location.href = pick.url;
+            }, 600);
         }
 
-        // 隨機選遊戲邏輯
-        function openRandomModal() {
-            const modal = document.getElementById('randomModal');
-            modal.classList.add('active');
-            rollRandomGame();
-        }
-
-        function rollRandomGame() {
-            const availableGames = GAMES_DATA.filter(g => g.available);
-            if (availableGames.length === 0) return;
-
-            const randomGame = availableGames[Math.floor(Math.random() * availableGames.length)];
-
-            document.getElementById('modalEmoji').textContent = randomGame.isEmoji ? randomGame.image : '🐶';
-            document.getElementById('modalTitle').textContent = randomGame.title;
-            document.getElementById('modalDesc').textContent = randomGame.description;
-
-            const goBtn = document.getElementById('modalGoBtn');
-            goBtn.href = randomGame.url;
-        }
-
-        // 重置所有篩選
-        function resetFilters() {
-            currentSubject = 'all';
+        function resetAllFilters() {
             currentGrade = 'all';
-            isFavOnly = false;
+            currentSubject = 'all';
+            searchQuery = '';
+            showSubcards = false;
             document.getElementById('searchInput').value = '';
-            document.getElementById('gradeSelect').value = 'all';
-            document.getElementById('favFilterBtn').classList.remove('active');
-            document.querySelectorAll('.subject-tab').forEach(t => {
-                t.classList.toggle('active', t.dataset.subject === 'all');
-            });
+            document.getElementById('searchClearBtn').classList.remove('show');
+            document.querySelectorAll('.grade-pill-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.grade === 'all'));
+            document.querySelectorAll('.subject-tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.subject === 'all'));
+            document.getElementById('btnToggleSubcards').textContent = '👁️ 展開 6上國語 12 課單課細項';
+            updateViewTitle();
             renderCards();
+        }
+
+        function updateViewTitle() {
+            const titleEl = document.getElementById('currentViewTitle');
+            let gradeName = '所有年級';
+            if (currentGrade === 'g3') gradeName = '三年級專區';
+            else if (currentGrade === 'g6') gradeName = '六年級專區';
+            else if (currentGrade === 'g12') gradeName = '低年級入門專區';
+            else if (currentGrade === 'cross') gradeName = '跨學科益智遊戲';
+            else if (currentGrade === 'fav') gradeName = '我的最愛收藏';
+
+            let subjectName = '';
+            if (currentSubject === 'chinese') subjectName = ' · 國語語文';
+            else if (currentSubject === 'math') subjectName = ' · 數學挑戰';
+            else if (currentSubject === 'social') subjectName = ' · 社會人文';
+            else if (currentSubject === 'science_english') subjectName = ' · 自然與英語';
+
+            titleEl.textContent = `🏰 ${gradeName}${subjectName}`;
         }
     </script>
 </body>
-
 </html>

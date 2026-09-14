@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+# -*- coding: utf-8 -*-
+"""
+生成現代化、清爽、具備高查詢效率的 StudyCastle 首頁 (portal.html 與 index.html)
+"""
+import os
+
+PORTAL_HTML_CODE = '''<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -1635,3 +1641,13 @@
     </script>
 </body>
 </html>
+'''
+
+# 同步寫入 portal.html 與 index.html
+with open('portal.html', 'w', encoding='utf-8') as f:
+    f.write(PORTAL_HTML_CODE.strip() + '\n')
+
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(PORTAL_HTML_CODE.strip() + '\n')
+
+print("成功同步更新 portal.html 與 index.html！")
