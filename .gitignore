@@ -17,7 +17,10 @@ chinese6_*.json
 !chinese6_full_curriculum_database.json
 chinese6_*.txt
 chinese3_*.json
+!chinese3_full_curriculum_database.json
 chinese3_*.txt
+extracted_pages_chinese3_quiz/
+extracted_pages_chinese3_workbook/
 social6_*.json
 social6_*.txt
 review_preview_utf8.txt
