@@ -210,7 +210,7 @@ function renderWbQuizBody() {{
     sec.items.forEach((item, iIdx) => {{
       const itemId = `{unit_code}_r${{wbCurrentRevId}}_s${{sIdx}}_${{iIdx}}`;
       const qTitle = item.q;
-      const opts = item.options || [item.ans];
+      const opts = (item.options ? [...item.options] : [item.ans]).sort(() => Math.random() - 0.5);
 
       html += `
         <div class="wb-q-item">

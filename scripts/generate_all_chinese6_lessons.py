@@ -36,6 +36,9 @@ def generate_lesson_pages():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>6上國語 {lesson_title} | 素養高階挑戰 | 學習城堡</title>
+    <!-- Favicon 網站圖示 -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -507,26 +510,31 @@ def generate_lesson_pages():
             const optGrid = document.getElementById('optGrid');
             optGrid.innerHTML = '';
 
-            q.options.forEach((opt, idx) => {{
+            const correctText = (q.ans.length === 1 && ['A','B','C','D'].includes(q.ans))
+                ? q.options[['A','B','C','D'].indexOf(q.ans)]
+                : q.ans;
+
+            const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+            shuffledOptions.forEach((opt, idx) => {{
                 const btn = document.createElement('button');
                 btn.className = 'quiz-opt-btn';
                 btn.textContent = `${{['A', 'B', 'C', 'D'][idx]}}. ${{opt}}`;
-                btn.onclick = () => handleAnswer(opt, q, btn);
+                btn.onclick = () => handleAnswer(opt, correctText, q, btn);
                 optGrid.appendChild(btn);
             }});
         }}
 
-        function handleAnswer(chosen, q, btn) {{
+        function handleAnswer(chosen, correctText, q, btn) {{
             if (answered) return;
             answered = true;
 
-            const isCorrect = (chosen.trim() === q.ans.trim()) || 
-                              (q.ans.length === 1 && ['A','B','C','D'].includes(q.ans) && q.options[['A','B','C','D'].indexOf(q.ans)] === chosen);
+            const isCorrect = (chosen.trim() === correctText.trim());
 
             const allBtns = document.querySelectorAll('.quiz-opt-btn');
             allBtns.forEach(b => {{
                 b.disabled = true;
-                if (b.textContent.includes(q.ans) || (q.ans.length === 1 && b.textContent.startsWith(q.ans))) {{
+                if (b.textContent.includes(correctText.trim())) {{
                     b.classList.add('correct');
                 }}
             }});
