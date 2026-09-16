@@ -296,6 +296,123 @@ button, .opt-btn, .compare-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .p
   justify-content: center;
   gap: 6px;
 }
+
+/* ── 倒數計時開關與 HUD 按鈕樣式 ── */
+.timer-setting-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  padding: 12px 18px;
+  margin: 18px 0 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+.timer-setting-card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+}
+.timer-setting-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+.timer-setting-icon {
+  font-size: 1.8rem;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.timer-setting-title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 0.5px;
+}
+.timer-setting-subtitle {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 2px;
+}
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider-round {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 34px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.slider-round:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 2.5px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.switch-toggle input:checked + .slider-round {
+  background: linear-gradient(135deg, #10B981, #059669);
+  border-color: #34D399;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+.switch-toggle input:checked + .slider-round:before {
+  transform: translateX(24px);
+}
+.hud-timer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 6px 14px;
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(6px);
+}
+.hud-timer-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+.hud-timer-btn.active {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: #10B981;
+  color: #A7F3D0;
+}
+.timer-mode-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  margin-left: 6px;
+}
+
 </style>
 </head>
 <body>
@@ -342,7 +459,7 @@ button, .opt-btn, .compare-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .p
         <div class="planet-dot"><span class="pd-emoji">🌌</span><span class="pd-name">海王星</span></div>
       </div>
       <button class="start-btn" id="startBtn">🚀 啟動火箭！出發冒險！</button>
-      <p style="margin-top:16px;color:rgba(255,255,255,0.4);font-size:0.8rem;">共 5 關 × 每關 8 題 ｜ 每題 20 秒 ｜ 答對 6/8 才能前進</p>
+      <p id="startHintDesc" style="margin-top:14px;color:rgba(255,255,255,0.65);font-size:0.82rem;font-weight:600;">共 5 關 × 每關 8 題 ｜ 🧘 自主學習無時間限制 ｜ 答對 6/8 即可晉級</p>
       <div class="device-support-badge">
         📱 支援 iPad / 平板、手機與電腦 ｜ 觸控大按鈕好操作
       </div>
@@ -670,7 +787,72 @@ function showResult(){
   showScreen('resultScreen');
 }
 
+
+// ── 倒數計時偏好開關 (預設關閉，防禦性自主學習模式) ──
+let timerEnabled = false;
+
+function toggleTimerSetting(forcedVal) {
+  if (typeof forcedVal === 'boolean') {
+    timerEnabled = forcedVal;
+  } else {
+    timerEnabled = !timerEnabled;
+  }
+
+  // 同步開始畫面 UI
+  const chk = document.getElementById('timerCheckbox');
+  if (chk) chk.checked = timerEnabled;
+  
+  const icon = document.getElementById('startTimerIcon');
+  const sub = document.getElementById('startTimerSub');
+  const hintDesc = document.getElementById('startHintDesc');
+  if (hintDesc) {
+    hintDesc.textContent = timerEnabled 
+      ? '共 5 關 × 每關 8 題 ｜ ⚡ 限時 20 秒挑戰 ｜ 答對 6/8 即可晉級'
+      : '共 5 關 × 每關 8 題 ｜ 🧘 自主學習無時間限制 ｜ 答對 6/8 即可晉級';
+  }
+
+  if (icon) icon.textContent = timerEnabled ? '⚡' : '🧘';
+  if (sub) sub.textContent = timerEnabled ? '已開啟（每題 20 秒限時挑戰）' : '已關閉（無時間壓力，放鬆思考計算）';
+
+  // 同步 HUD 頂部按鈕
+  const hudBtn = document.getElementById('hudTimerBtn');
+  const hudText = document.getElementById('hudTimerText');
+  if (hudBtn && hudText) {
+    if (timerEnabled) {
+      hudBtn.classList.add('active');
+      hudText.textContent = '計時：開啟 ⚡';
+    } else {
+      hudBtn.classList.remove('active');
+      hudText.textContent = '計時：關閉 🧘';
+    }
+  }
+
+  // 同步控制計時進度條
+  const timerBar = document.getElementById('timerBar');
+  if (!timerEnabled) {
+    stopTimer();
+    if (timerBar) {
+      timerBar.style.width = '100%';
+      timerBar.classList.remove('urgent');
+    }
+  } else {
+    // 若在答題畫面且尚未作答，重新啟動計時
+    startTimer();
+  }
+}
+
+// 初始化開關狀態
+document.addEventListener('DOMContentLoaded', () => {
+  toggleTimerSetting(false);
+});
+
 function startTimer(){
+  if (!timerEnabled) {
+    stopTimer();
+    const bar = document.getElementById('timerBar');
+    if (bar) { bar.style.width = '100%'; bar.classList.remove('urgent'); }
+    return;
+  }
   state.timerLeft=TIMER_SECONDS; updateTimerBar(1); clearInterval(state.timerInterval);
   state.timerInterval=setInterval(()=>{
     state.timerLeft--; updateTimerBar(state.timerLeft/TIMER_SECONDS);
@@ -896,6 +1078,123 @@ function fireConfetti(){
 @media (max-width: 480px) {
   .wb-opt-grid { grid-template-columns: 1fr; }
 }
+
+/* ── 倒數計時開關與 HUD 按鈕樣式 ── */
+.timer-setting-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  padding: 12px 18px;
+  margin: 18px 0 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+.timer-setting-card:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+}
+.timer-setting-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+.timer-setting-icon {
+  font-size: 1.8rem;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.timer-setting-title {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 0.5px;
+}
+.timer-setting-subtitle {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 2px;
+}
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider-round {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 34px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.slider-round:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 2.5px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.switch-toggle input:checked + .slider-round {
+  background: linear-gradient(135deg, #10B981, #059669);
+  border-color: #34D399;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+.switch-toggle input:checked + .slider-round:before {
+  transform: translateX(24px);
+}
+.hud-timer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 6px 14px;
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(6px);
+}
+.hud-timer-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
+}
+.hud-timer-btn.active {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: #10B981;
+  color: #A7F3D0;
+}
+.timer-mode-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  margin-left: 6px;
+}
+
 </style>
 
 
