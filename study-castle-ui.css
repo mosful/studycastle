@@ -1,0 +1,431 @@
+/*
+ * 學習城堡共用介面基礎層
+ * 目標：平板優先、兒童易操作、保留各學科頁面的主題個性。
+ */
+
+:root {
+    --castle-blue: #2563EB;
+    --castle-blue-dark: #1D4ED8;
+    --castle-violet: #6D4AFF;
+    --castle-orange: #C2410C;
+    --castle-green: #047857;
+    --castle-ink: #172033;
+    --castle-muted: #526079;
+    --castle-surface: #FFFFFF;
+    --castle-canvas: #F5F7FC;
+    --castle-line: #CBD5E1;
+    --castle-focus: #F59E0B;
+    --castle-radius: 20px;
+    --castle-shadow: 0 10px 30px rgba(30, 41, 59, 0.10);
+    --castle-shadow-raised: 0 14px 34px rgba(30, 41, 59, 0.16);
+    color-scheme: light;
+}
+
+html {
+    min-width: 320px;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    min-width: 320px;
+    overflow-x: hidden;
+    font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+    font-size: clamp(16px, 1.25vw, 18px);
+    line-height: 1.7;
+    padding-right: max(env(safe-area-inset-right), 0px);
+    padding-left: max(env(safe-area-inset-left), 0px);
+    -webkit-tap-highlight-color: rgba(37, 99, 235, 0.18);
+}
+
+[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1.3;
+    text-wrap: balance;
+    scroll-margin-top: 88px;
+}
+
+p,
+li,
+.question-text,
+.hero-desc,
+.lesson-desc,
+.m-desc {
+    text-wrap: pretty;
+    overflow-wrap: anywhere;
+}
+
+a,
+button,
+input,
+select,
+textarea,
+[role="button"],
+[tabindex="0"] {
+    touch-action: manipulation;
+}
+
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+select {
+    min-height: 48px;
+}
+
+button,
+[role="button"] {
+    cursor: pointer;
+}
+
+input,
+select,
+textarea {
+    min-height: 50px;
+    font-size: 16px;
+}
+
+select {
+    color: var(--text-main, var(--castle-ink));
+    background-color: var(--card-bg, var(--castle-surface));
+}
+
+:where(a, button, input, select, textarea, [role="button"], [tabindex="0"]):focus-visible {
+    outline: 4px solid var(--castle-focus) !important;
+    outline-offset: 3px;
+    box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.92) !important;
+}
+
+:where(button, [role="button"], a):active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.skip-link {
+    position: fixed;
+    top: max(10px, env(safe-area-inset-top));
+    left: max(12px, env(safe-area-inset-left));
+    z-index: 100000;
+    padding: 12px 18px;
+    border: 3px solid #FFFFFF;
+    border-radius: 14px;
+    color: #FFFFFF;
+    background: var(--castle-blue-dark);
+    box-shadow: var(--castle-shadow-raised);
+    font-weight: 900;
+    text-decoration: none;
+    transform: translateY(-160%);
+    transition: transform 160ms ease;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+/* 共通操作元件：觸控區至少 48px，文字保持可讀。 */
+:where(.btn, .nav-btn, .btn-action, .next-btn, .start-btn, .mode-btn,
+    .opt, .opt-btn, .option-btn, .prime-btn, .level-card, .topic-card,
+    .tab-btn, .wb-tab, .wb-opt-btn, .wb-btn-submit, .wb-btn-reset,
+    .btn-icon-toggle, .grade-pill-btn, .subject-tab-btn, .section-toggle-btn,
+    .quick-item-btn, .quick-menu-close, .modal-close, .wb-close-btn,
+    .castle-modal-close-btn, .search-clear-btn, .card-fav-btn, .tag-chip) {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    font-size: max(0.98rem, 16px);
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+:where(.opt, .opt-btn, .option-btn, .wb-opt-btn, .prime-btn) {
+    min-height: 58px;
+}
+
+/* 讓內容卡片在大螢幕舒展，平板仍維持清楚的視線節奏。 */
+:where(.app, .container, .content-wrap, .controls-container, .hero-section) {
+    width: min(100%, 1240px);
+}
+
+:where(.section-card, .content-card, .question-box, .quiz-card, .filter-card,
+    .hero-box, .mode-card, .lesson-item-card, .vocab-card, .wb-q-item,
+    .castle-modal-box, .modal-box, .wb-modal) {
+    border-radius: var(--castle-radius);
+}
+
+:where(.modal-overlay, .wb-modal-overlay, .castle-modal-overlay, [role="dialog"]) {
+    overscroll-behavior: contain;
+}
+
+:where(.modal-box, .wb-modal, .castle-modal-box) {
+    max-height: min(88dvh, 900px);
+}
+
+.feedback,
+.feedback-box,
+[aria-live] {
+    overflow-wrap: anywhere;
+}
+
+/* 入口頁：降低裝飾干擾，強化主操作與學科辨識。 */
+.navbar {
+    padding-top: max(14px, env(safe-area-inset-top));
+}
+
+.hero-heading {
+    font-size: clamp(1.9rem, 4vw, 3.2rem);
+    letter-spacing: -0.02em;
+}
+
+.hero-desc {
+    color: var(--text-muted, var(--castle-muted));
+    font-size: clamp(1rem, 1.6vw, 1.12rem);
+    line-height: 1.85;
+}
+
+.hero-box,
+.filter-card,
+.unit-card {
+    border-color: var(--card-border, var(--castle-line));
+    box-shadow: var(--castle-shadow);
+}
+
+.unit-card {
+    min-width: 0;
+}
+
+.card-title,
+.card-desc,
+.card-meta,
+.section-title {
+    overflow-wrap: anywhere;
+}
+
+.cards-grid {
+    align-items: stretch;
+}
+
+.search-box-wrapper:focus-within {
+    border-color: var(--castle-blue) !important;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.16) !important;
+}
+
+.search-clear-btn,
+.card-fav-btn,
+.modal-close,
+.wb-close-btn,
+.castle-modal-close-btn,
+.quick-menu-close {
+    display: inline-grid;
+    place-items: center;
+    padding: 8px;
+}
+
+.tag-chip {
+    appearance: none;
+    background: var(--card-bg, var(--castle-surface));
+}
+
+/* 平板：兩欄卡片、可水平捲動的篩選列、較寬鬆的操作空間。 */
+@media (min-width: 640px) and (max-width: 1024px) {
+    body {
+        font-size: 17px;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 18px !important;
+    }
+
+    :where(.app, .container) {
+        max-width: min(92vw, 900px);
+    }
+
+    :where(.options-grid, .opt-grid, .wb-opt-grid) {
+        gap: 14px;
+    }
+
+    .hero-box {
+        padding: 34px 30px;
+    }
+}
+
+@media (max-width: 760px) {
+    body {
+        line-height: 1.65;
+    }
+
+    .navbar {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .nav-right-actions {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .btn-icon-toggle span:last-child {
+        display: inline;
+    }
+
+    :where(.grade-nav-row, .subject-nav-row, .tag-cloud-row, .tabs-nav, .wb-tabs) {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: thin;
+        scroll-snap-type: x proximity;
+        padding-bottom: 8px;
+    }
+
+    :where(.grade-pill-btn, .subject-tab-btn, .tag-chip, .tab-btn, .wb-tab) {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+    }
+
+    .section-bar,
+    .top-bar,
+    .header-nav {
+        gap: 10px;
+    }
+}
+
+@media (max-width: 520px) {
+    .navbar {
+        flex-direction: column;
+        padding-inline: 14px;
+    }
+
+    .nav-right-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .nav-right-actions .btn-icon-toggle {
+        justify-content: center;
+        min-width: 0;
+        padding-inline: 10px;
+    }
+
+    :where(.hero-section, .controls-container, .content-wrap) {
+        padding-inline: 12px;
+    }
+
+    .hero-box {
+        padding: 28px 14px 22px;
+    }
+
+    .hero-heading {
+        font-size: clamp(1.65rem, 9vw, 2.1rem);
+    }
+
+    .hero-badge-tag {
+        max-width: 100%;
+        white-space: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .stats-strip {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .stat-chip {
+        min-width: 0;
+        justify-content: center;
+        padding-inline: 8px;
+        text-align: center;
+    }
+
+    .filter-card {
+        padding: 16px 14px;
+    }
+
+    .search-box-wrapper,
+    .select-filter-wrap,
+    .custom-select {
+        width: 100%;
+        min-width: 0;
+    }
+
+    :where(.options-grid, .opt-grid, .wb-opt-grid) {
+        grid-template-columns: 1fr !important;
+    }
+
+    .final-stats {
+        grid-template-columns: 1fr !important;
+    }
+
+    .brand-logo {
+        font-size: 1rem;
+    }
+
+    .brand-icon {
+        font-size: 1.45rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .stats-strip {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    :where(button, [role="button"], .unit-card, a):hover {
+        filter: saturate(1.04);
+    }
+
+    .unit-card:hover {
+        box-shadow: var(--castle-shadow-raised);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media (prefers-contrast: more) {
+    :where(.section-card, .content-card, .question-box, .filter-card, .hero-box,
+        .unit-card, button, input, select, textarea) {
+        border-width: 2px !important;
+    }
+}
+
+@media print {
+    .skip-link,
+    .navbar,
+    .top-bar,
+    .back-to-top-btn,
+    .nav-right-actions {
+        display: none !important;
+    }
+}

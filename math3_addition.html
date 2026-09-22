@@ -98,7 +98,7 @@ body {
   display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
   background: var(--glass-bg); border: 1.5px solid var(--glass-border); border-radius: 20px;
   color: var(--star-white); font-weight: 700; font-size: 0.9rem; text-decoration: none;
-  backdrop-filter: blur(8px); cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans TC', sans-serif;
+  backdrop-filter: blur(8px); cursor: pointer; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s; font-family: 'Noto Sans TC', sans-serif;
 }
 .nav-btn:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
 .unit-badge {
@@ -135,7 +135,7 @@ body {
   width: 100%; max-width: 340px; padding: 18px 30px; border: none; border-radius: 50px;
   font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 1.3rem; font-weight: 800; cursor: pointer;
   background: linear-gradient(135deg, var(--castle-green) 0%, #15803D 50%, var(--castle-bright) 100%);
-  color: #FFF; box-shadow: 0 8px 0 rgba(22,101,52,0.5), 0 12px 30px rgba(34,197,94,0.4); transition: all 0.15s;
+  color: #FFF; box-shadow: 0 8px 0 rgba(22,101,52,0.5), 0 12px 30px rgba(34,197,94,0.4); transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s, visibility 0.15s;
 }
 .start-btn:hover { transform: translateY(-3px); box-shadow: 0 11px 0 rgba(22,101,52,0.5), 0 16px 36px rgba(34,197,94,0.5); }
 .start-btn:active { transform: translateY(5px); box-shadow: 0 3px 0 rgba(22,101,52,0.5); }
@@ -186,7 +186,7 @@ body {
 .opt-btn {
   padding: 16px 10px; border: 2px solid var(--glass-border); border-radius: 16px;
   font-size: clamp(1.1rem,3vw,1.4rem); font-weight: 700;
-  font-family: 'Baloo 2','Noto Sans TC',sans-serif; cursor: pointer; transition: all 0.2s;
+  font-family: 'Baloo 2','Noto Sans TC',sans-serif; cursor: pointer; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
   background: rgba(255,255,255,0.05); color: var(--star-white); backdrop-filter: blur(8px);
 }
 .opt-btn:hover:not(:disabled) { border-color: var(--castle-bright); background: rgba(34,197,94,0.2); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(34,197,94,0.3); }
@@ -195,7 +195,7 @@ body {
 .opt-btn.wrong-ans { border-color: var(--wrong-red); background: rgba(244,63,94,0.2); color: #FCA5A5; }
 .question-counter { text-align: center; font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 14px; font-weight: 700; }
 .question-dots { display: flex; justify-content: center; gap: 6px; margin-top: 6px; }
-.q-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: all 0.3s; }
+.q-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s, visibility 0.3s; }
 .q-dot.answered-correct { background: var(--correct-green); }
 .q-dot.answered-wrong { background: var(--wrong-red); }
 .q-dot.current { background: var(--castle-gold); transform: scale(1.3); }
@@ -218,12 +218,12 @@ body {
   padding: 16px 36px; border: none; border-radius: 50px;
   font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 1.2rem; font-weight: 800; cursor: pointer;
   background: linear-gradient(135deg, var(--castle-green), var(--castle-bright)); color: #FFF; margin-top: 10px;
-  box-shadow: 0 6px 0 rgba(22,101,52,0.5), 0 10px 25px rgba(34,197,94,0.35); transition: all 0.15s;
+  box-shadow: 0 6px 0 rgba(22,101,52,0.5), 0 10px 25px rgba(34,197,94,0.35); transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s, visibility 0.15s;
 }
 .next-btn:hover { transform: translateY(-3px); }
 .next-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(22,101,52,0.5); }
 .stars-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
-.star-icon { font-size: 2.8rem; filter: grayscale(1) opacity(0.3); transition: all 0.5s; }
+.star-icon { font-size: 2.8rem; filter: grayscale(1) opacity(0.3); transition: color 0.5s, background-color 0.5s, border-color 0.5s, box-shadow 0.5s, transform 0.5s, opacity 0.5s, visibility 0.5s; }
 .star-icon.lit { filter: none; animation: starPop 0.5s ease; }
 @keyframes starPop { 0% { transform: scale(0); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
 .final-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 28px; }
@@ -236,14 +236,14 @@ body {
   padding: 14px 28px; border: none; border-radius: 50px;
   font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 1.1rem; font-weight: 800; cursor: pointer;
   background: linear-gradient(135deg, var(--castle-green), var(--castle-bright)); color: #FFF;
-  box-shadow: 0 6px 0 rgba(22,101,52,0.45); transition: all 0.15s;
+  box-shadow: 0 6px 0 rgba(22,101,52,0.45); transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s, visibility 0.15s;
 }
 .replay-btn:hover { transform: translateY(-3px); }
 .portal-btn {
   padding: 14px 24px; border-radius: 50px; font-family: 'Baloo 2','Noto Sans TC',sans-serif;
   font-size: 1rem; font-weight: 700; cursor: pointer; background: rgba(255,255,255,0.08);
   border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
-  text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
 }
 .portal-btn:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
 @media (max-width: 480px) { .type-cards { grid-template-columns: 1fr; } .ve-ans,.ve-num,.ve-b { font-size: 1.8rem; } }
@@ -279,7 +279,7 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
   margin: 18px 0 16px;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 }
 .timer-setting-card:hover {
   border-color: rgba(255, 255, 255, 0.3);
@@ -326,7 +326,7 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
   background-color: rgba(255, 255, 255, 0.2);
   border: 1.5px solid rgba(255, 255, 255, 0.3);
   border-radius: 34px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .slider-round:before {
   position: absolute;
@@ -338,7 +338,7 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
   background-color: #FFFFFF;
   border-radius: 50%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .switch-toggle input:checked + .slider-round {
   background: linear-gradient(135deg, #10B981, #059669);
@@ -360,7 +360,7 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
   font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
   backdrop-filter: blur(6px);
 }
 .hud-timer-btn:hover {
@@ -398,7 +398,7 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
   z-index: 99999;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .castle-modal-overlay.open {
   opacity: 1;
@@ -413,7 +413,7 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
   padding: 28px 24px 24px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
   transform: scale(0.9) translateY(15px);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   text-align: center;
   position: relative;
   box-sizing: border-box;
@@ -457,7 +457,7 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
   font-weight: 800;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35);
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
   font-family: inherit;
 }
 .castle-modal-btn:hover {
@@ -483,7 +483,7 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
 }
 .castle-modal-close-btn:hover {
   background: #E2E8F0;
@@ -491,6 +491,9 @@ button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
 }
 
 </style>
+    <meta name="theme-color" content="#F5F7FC">
+    <link rel="stylesheet" href="study-castle-ui.css">
+    <script src="study-castle-ui.js" defer></script>
 </head>
 <body>
 <div class="castle-bg" id="castleBg">
@@ -994,12 +997,12 @@ window.alert = function(msg) {
 .wb-tab {
   flex: 1; min-width: 140px; padding: 10px 14px; border-radius: 12px; border: 2px solid #CBD5E1;
   background: #FFF; font-weight: 800; font-size: 13.5px; cursor: pointer; color: #64748B;
-  text-align: center; transition: all 0.2s;
+  text-align: center; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
 }
 .wb-tab.active { background: #F59E0B; border-color: #D97706; color: #FFF; box-shadow: 0 4px 0 #D97706; }
 .wb-sec-card { background: #FFF; border: 2px solid #E2E8F0; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
 .wb-sec-title { font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 12px; border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 6px; }
-.wb-q-item { background: #FEF3C7; border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 2px solid #FDE68A; transition: all 0.3s ease; position: relative; }
+.wb-q-item { background: #FEF3C7; border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 2px solid #FDE68A; transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; position: relative; }
 .wb-q-item.is-correct { border: 3px solid #10B981 !important; background: #ECFDF5 !important; }
 .wb-q-item.is-wrong { border: 3px solid #EF4444 !important; background: #FEF2F2 !important; }
 .wb-q-badge {
@@ -1026,7 +1029,7 @@ window.alert = function(msg) {
   font-weight: 800;
   color: #0F172A;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease, opacity 0.15s ease, visibility 0.15s ease;
   text-align: center;
   box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
   user-select: none;
@@ -1106,7 +1109,7 @@ window.alert = function(msg) {
   margin: 18px 0 16px;
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 }
 .timer-setting-card:hover {
   border-color: rgba(255, 255, 255, 0.3);
@@ -1153,7 +1156,7 @@ window.alert = function(msg) {
   background-color: rgba(255, 255, 255, 0.2);
   border: 1.5px solid rgba(255, 255, 255, 0.3);
   border-radius: 34px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .slider-round:before {
   position: absolute;
@@ -1165,7 +1168,7 @@ window.alert = function(msg) {
   background-color: #FFFFFF;
   border-radius: 50%;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .switch-toggle input:checked + .slider-round {
   background: linear-gradient(135deg, #10B981, #059669);
@@ -1187,7 +1190,7 @@ window.alert = function(msg) {
   font-size: 0.82rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
   backdrop-filter: blur(6px);
 }
 .hud-timer-btn:hover {
@@ -1225,7 +1228,7 @@ window.alert = function(msg) {
   z-index: 99999;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .castle-modal-overlay.open {
   opacity: 1;
@@ -1240,7 +1243,7 @@ window.alert = function(msg) {
   padding: 28px 24px 24px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
   transform: scale(0.9) translateY(15px);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   text-align: center;
   position: relative;
   box-sizing: border-box;
@@ -1284,7 +1287,7 @@ window.alert = function(msg) {
   font-weight: 800;
   cursor: pointer;
   box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35);
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
   font-family: inherit;
 }
 .castle-modal-btn:hover {
@@ -1310,7 +1313,7 @@ window.alert = function(msg) {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
 }
 .castle-modal-close-btn:hover {
   background: #E2E8F0;

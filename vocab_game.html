@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>單字王奇幻冒險 🔤 | 學習城堡生活英語</title>
     <!-- Favicon 網站圖示 -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -73,7 +73,7 @@
             text-decoration: none;
             cursor: pointer;
             box-shadow: 0 3px 0 #6D28D9;
-            transition: all 0.15s ease;
+            transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease, opacity 0.15s ease, visibility 0.15s ease;
         }
         .nav-btn:hover { background: #EDE9FE; transform: translateY(-2px); box-shadow: 0 5px 0 #6D28D9; }
         .nav-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 #6D28D9; }
@@ -118,7 +118,7 @@
             padding: 16px 18px;
             text-align: left;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
             display: flex;
             align-items: center;
             gap: 14px;
@@ -173,7 +173,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: all 0.15s;
+            transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s, visibility 0.15s;
         }
         .btn-speak:hover { transform: scale(1.05); }
         .btn-speak:active { transform: translateY(2px); }
@@ -221,7 +221,7 @@
             font-weight: 800;
             cursor: pointer;
             box-shadow: 0 3px 0 #6D28D9;
-            transition: all 0.15s;
+            transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s, visibility 0.15s;
         }
         .letter-chip:hover { background: #EDE9FE; transform: translateY(-2px); }
         .letter-chip:active { transform: translateY(2px); }
@@ -245,7 +245,7 @@
             color: var(--text-dark);
             cursor: pointer;
             box-shadow: 0 3px 0 #C4B5FD;
-            transition: all 0.15s;
+            transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s, visibility 0.15s;
             touch-action: manipulation;
         }
         .opt-btn:hover { background: #F5F3FF; border-color: var(--magic-purple); transform: translateY(-2px); }
@@ -280,13 +280,16 @@
             background: linear-gradient(135deg, #7C3AED, #9333EA);
             cursor: pointer;
             box-shadow: 0 4px 0 #6D28D9;
-            transition: all 0.15s;
+            transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s, visibility 0.15s;
         }
         .btn-action:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #6D28D9; }
         .btn-action:active { transform: translateY(2px); box-shadow: 0 1px 0 #6D28D9; }
 
         .hidden { display: none !important; }
     </style>
+    <meta name="theme-color" content="#F5F7FC">
+    <link rel="stylesheet" href="study-castle-ui.css">
+    <script src="study-castle-ui.js" defer></script>
 </head>
 <body>
 

@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>大耳狗九九乘法：完整練習版</title>
     <!-- Favicon 網站圖示 -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -215,7 +215,7 @@
             padding: 15px 0;
             cursor: pointer;
             box-shadow: 0 4px 0 #B0E0E6;
-            transition: all 0.1s;
+            transition: color 0.1s, background-color 0.1s, border-color 0.1s, box-shadow 0.1s, transform 0.1s, opacity 0.1s, visibility 0.1s;
             font-weight: bold;
         }
 
@@ -278,7 +278,7 @@
             text-decoration: none;
             cursor: pointer;
             box-shadow: 0 3px 0 #5CA0C0;
-            transition: all 0.15s ease;
+            transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease, opacity 0.15s ease, visibility 0.15s ease;
         }
         .castle-nav-btn:hover {
             background: #EBF8FF;
@@ -297,6 +297,9 @@
         }
 
     </style>
+    <meta name="theme-color" content="#F5F7FC">
+    <link rel="stylesheet" href="study-castle-ui.css">
+    <script src="study-castle-ui.js" defer></script>
 </head>
 <body>
 
@@ -309,7 +312,7 @@
         </div>
         
         <div id="menu-screen" class="screen active">
-            <img src="menu_cinnamoroll.png" alt="大耳狗飛翔" class="character-img" id="menu-img">
+            <img src="menu_cinnamoroll.png" alt="大耳狗飛翔" class="character-img" id="menu-img" width="150" height="150">
             <h1>大耳狗九九乘法</h1>
             
             <div class="switch-container">
@@ -351,7 +354,7 @@
                 <button class="btn btn-home" onclick="goHome()">🏠</button>
             </div>
 
-            <img src="https://placehold.co/150x150/89CFF0/FFFFFF?text=Thinking" alt="思考中" class="character-img" id="game-img">
+            <img src="https://placehold.co/150x150/89CFF0/FFFFFF?text=Thinking" alt="思考中" class="character-img" id="game-img" width="150" height="150">
             
             <div id="question-area"></div>
             
@@ -361,7 +364,7 @@
         </div>
 
         <div id="report-screen" class="screen">
-            <img src="https://placehold.co/150x150/98FB98/FFFFFF?text=Good+Job" alt="好棒" class="character-img" id="report-img">
+            <img src="https://placehold.co/150x150/98FB98/FFFFFF?text=Good+Job" alt="好棒" class="character-img" id="report-img" width="150" height="150">
             <h1 style="font-size: 2rem; color: #E65100;">挑戰完成！</h1>
             
             <div class="result-box">
