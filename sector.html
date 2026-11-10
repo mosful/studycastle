@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>大聯盟棒球場奇境：扇形周長與面積大冒險 ⑥ 6上數學 第6單元 | 學習城堡</title>
+<!-- Favicon 網站圖示 -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<meta name="description" content="國小 6 年級上學期數學第 6 單元：扇形的周長和面積。從美國職棒大聯盟道奇體育場扇形看臺出發，掌握扇形弧長、扇形周長（加兩半徑）、扇形面積、栓狗活動範圍、割補平移、重疊葉片面積與資優挑戰題！">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="study-castle-ui.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+
+<style>
+  :root {
+    --primary: #1D4ED8;
+    --primary-light: #3B82F6;
+    --primary-dark: #1E3A8A;
+    --accent: #F59E0B;
+    --accent-gold: #D97706;
+    --bg-gradient: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 50%, #F0FDF4 100%);
+    --card-bg: rgba(255, 255, 255, 0.96);
+    --card-shadow: 0 10px 25px -5px rgba(29, 78, 216, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --border-color: #BFDBFE;
+    --text-main: #0F172A;
+    --text-muted: #475569;
+    --radius-lg: 20px;
+    --radius-md: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* 頂部導覽列 */
+  .top-navbar {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .back-btn {
+    text-decoration: none;
+    background: #F1F5F9;
+    color: var(--text-main);
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #E2E8F0;
+  }
+  .back-btn:hover {
+    background: #E2E8F0;
+    transform: translateX(-2px);
+  }
+  .nav-brand {
+    font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .badge-tag {
+    background: #DBEAFE;
+    color: var(--primary-dark);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    border: 1px solid #93C5FD;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .stat-pill {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    color: #92400E;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-icon {
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+  }
+  .btn-icon:hover {
+    background: #E2E8F0;
+    transform: scale(1.05);
+  }
+
+  /* 英雄主視覺 */
+  .hero-container {
+    max-width: 1040px;
+    margin: 24px auto 16px;
+    padding: 0 16px;
+  }
+  .hero-banner {
+    background: linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 60%, #3B82F6 100%);
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    box-shadow: 0 12px 30px rgba(29, 78, 216, 0.25);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-banner::after {
+    content: "⚾🏟️📐";
+    position: absolute;
+    right: -10px;
+    bottom: -15px;
+    font-size: 5rem;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .hero-content h1 {
+    font-size: 2.1rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .hero-content p {
+    font-size: 1.05rem;
+    color: #BFDBFE;
+    max-width: 620px;
+    line-height: 1.5;
+  }
+  .hero-mascot {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  .mascot-avatar {
+    font-size: 2.8rem;
+    animation: floatMascot 3s ease-in-out infinite;
+  }
+  @keyframes floatMascot {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .mascot-bubble {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #FFF;
+  }
+
+  /* 關卡選單 Tabs */
+  .stage-nav {
+    max-width: 1040px;
+    margin: 16px auto;
+    padding: 0 16px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .stage-tab {
+    flex: 1;
+    min-width: 140px;
+    background: #FFFFFF;
+    border: 2px solid #E2E8F0;
+    border-radius: var(--radius-md);
+    padding: 12px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .stage-tab:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+  }
+  .stage-tab.active {
+    background: #EFF6FF;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.15);
+  }
+  .stage-tab-num {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .stage-tab-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
+  /* 主內容容器 */
+  .main-container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .section-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    padding: 28px;
+    margin-bottom: 24px;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-header {
+    border-bottom: 2px solid #F1F5F9;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .concept-box {
+    background: #F8FAFC;
+    border-left: 5px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin-bottom: 20px;
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+  .concept-box strong {
+    color: var(--primary-dark);
+  }
+  .concept-highlight {
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  /* 互動幾何實驗室 */
+  .lab-widget {
+    background: #FFFFFF;
+    border: 2px dashed #93C5FD;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .sector-sim-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    justify-content: center;
+  }
+  .svg-canvas-box {
+    width: 260px;
+    height: 260px;
+    background: #F8FAFC;
+    border: 2px solid #CBD5E1;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .sector-controls {
+    flex: 1;
+    min-width: 280px;
+  }
+  .slider-row {
+    margin-bottom: 14px;
+  }
+  .slider-row label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .slider-row input[type="range"] {
+    width: 100%;
+    accent-color: var(--primary);
+  }
+  .sector-metrics {
+    background: #EFF6FF;
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-top: 14px;
+    border: 1px solid #BFDBFE;
+  }
+  .metrics-line {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--primary-dark);
+  }
+
+  /* 測驗題目卡片 */
+  .quiz-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 16px;
+  }
+  .quiz-item {
+    background: #FFFFFF;
+    border: 2px solid #E2E8F0;
+    border-radius: var(--radius-md);
+    padding: 20px;
+    transition: all 0.2s ease;
+  }
+  .quiz-item.correct-item {
+    border-color: #10B981;
+    background: #F0FDF4;
+  }
+  .quiz-item.wrong-item {
+    border-color: #F87171;
+    background: #FEF2F2;
+  }
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .quiz-qnum {
+    background: #E2E8F0;
+    color: #334155;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+  .quiz-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1E293B;
+    flex: 1;
+    line-height: 1.6;
+  }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .quiz-opt-btn {
+    background: #F8FAFC;
+    border: 2px solid #CBD5E1;
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .quiz-opt-btn:hover:not(:disabled) {
+    background: #F1F5F9;
+    border-color: var(--primary-light);
+    transform: translateY(-1px);
+  }
+  .quiz-opt-btn.correct-opt {
+    background: #10B981 !important;
+    border-color: #059669 !important;
+    color: #FFF !important;
+  }
+  .quiz-opt-btn.wrong-opt {
+    background: #EF4444 !important;
+    border-color: #DC2626 !important;
+    color: #FFF !important;
+  }
+  .quiz-explain {
+    background: #EFF6FF;
+    border-left: 4px solid #3B82F6;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #1E3A8A;
+    display: none;
+    line-height: 1.6;
+  }
+
+  /* 底部按鈕區 */
+  .card-footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid #F1F5F9;
+    padding-top: 18px;
+  }
+  .btn-next-stage {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #FFF;
+    border: none;
+    padding: 12px 26px;
+    border-radius: var(--radius-md);
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.2);
+  }
+  .btn-next-stage:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(29, 78, 216, 0.3);
+  }
+
+  /* 榮譽殿堂 Final 頁 */
+  .badge-showcase {
+    text-align: center;
+    padding: 30px 10px;
+  }
+  .medal-icon {
+    font-size: 5rem;
+    margin-bottom: 16px;
+    animation: medalBounce 1.5s infinite alternate ease-in-out;
+  }
+  @keyframes medalBounce {
+    from { transform: scale(1); }
+    to { transform: scale(1.1) rotate(5deg); }
+  }
+
+  /* 彈窗樣式 */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 16px;
+  }
+  .modal-overlay.open {
+    display: flex;
+  }
+  .modal-content {
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    max-width: 540px;
+    width: 100%;
+    padding: 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: modalPop 0.25s ease-out;
+    position: relative;
+  }
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .modal-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #94A3B8;
+  }
+  .modal-close:hover { color: #334155; }
+  .modal-body {
+    font-size: 1rem;
+    color: #334155;
+    line-height: 1.7;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  @media (max-width: 768px) {
+    .hero-content h1 { font-size: 1.6rem; }
+    .hero-banner { padding: 22px 18px; }
+    .section-card { padding: 18px; }
+    .quiz-options { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 頂部導覽列 -->
+<header class="top-navbar">
+  <div class="nav-left">
+    <a href="portal.html" class="back-btn">
+      <span>🏰 返回傳送門</span>
+    </a>
+    <div class="nav-brand">
+      <span>🏟️ 扇形奇境</span>
+      <span class="badge-tag">6上 第⑥單元</span>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="stat-pill">
+      <span>⭐ 能量:</span>
+      <span id="scoreText">0</span>
+    </div>
+    <div class="stat-pill" style="background:#ECFDF5; border-color:#A7F3D0; color:#065F46;">
+      <span>🔥 連擊:</span>
+      <span id="comboText">0</span>
+    </div>
+    <button class="btn-icon" onclick="openGlossary()" title="知識寶典">📖</button>
+    <button class="btn-icon" id="soundBtn" onclick="toggleSound()" title="音效切換">🔊</button>
+  </div>
+</header>
+
+<!-- 主視覺橫幅 -->
+<section class="hero-container">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h1>大聯盟棒球場奇境：扇形周長與面積</h1>
+      <p>走進洛杉磯道奇球場，探索由兩條半徑與圓弧圍成的扇形幾何！精通弧長公式、周長防漏秘笈、扇形面積、栓狗活動範圍與複合圖形割補！</p>
+    </div>
+    <div class="hero-mascot">
+      <div class="mascot-avatar">⚾</div>
+      <div class="mascot-bubble" id="mascotMessage">歡迎來到扇形幾何棒球場！準備擊出滿貫全壘打了嗎？</div>
+    </div>
+  </div>
+</section>
+
+<!-- 關卡導航 Tabs -->
+<nav class="stage-nav" id="stageTabs">
+  <div class="stage-tab active" onclick="gotoStage(0)">
+    <span class="stage-tab-num">Stage 0</span>
+    <span class="stage-tab-title">球場前哨站</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(1)">
+    <span class="stage-tab-num">Stage 1</span>
+    <span class="stage-tab-title">扇形弧長與周長</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(2)">
+    <span class="stage-tab-num">Stage 2</span>
+    <span class="stage-tab-title">扇形面積公式</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(3)">
+    <span class="stage-tab-num">Stage 3</span>
+    <span class="stage-tab-title">複合圖形與割補</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(4)">
+    <span class="stage-tab-num">Stage 4</span>
+    <span class="stage-tab-title">栓狗範圍與葉片形</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(5)">
+    <span class="stage-tab-num">Stage 5</span>
+    <span class="stage-tab-title">大會考與資優殿堂</span>
+  </div>
+</nav>
+
+<!-- 主內容卡片區域 -->
+<main class="main-container" id="stageContainer">
+  <!-- 動態渲染各關卡內容 -->
+</main>
+
+<!-- 現代通用彈窗 Modal -->
+<div class="modal-overlay" id="castleModalOverlay" onclick="closeCastleModalOnBackdrop(event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <span id="castleModalIcon">💡</span>
+        <span id="castleModalTitle">系統提示</span>
+      </div>
+      <button class="modal-close" onclick="closeCastleModal()">✕</button>
+    </div>
+    <div class="modal-body" id="castleModalBody">
+      <!-- 內容動態填充 -->
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Web Audio API 音效引擎 ──
+let audioCtx = null;
+let soundEnabled = true;
+
+function initAudio() {
+  if (!audioCtx) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) audioCtx = new AudioContext();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
+function playTone(freq, type = 'sine', duration = 0.15, vol = 0.25) {
+  if (!soundEnabled) return;
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  } catch(e) {}
+}
+
+function playSound(name) {
+  if (!soundEnabled) return;
+  if (name === 'correct') {
+    playTone(523.25, 'triangle', 0.1, 0.2);
+    setTimeout(() => playTone(659.25, 'triangle', 0.1, 0.2), 80);
+    setTimeout(() => playTone(783.99, 'triangle', 0.2, 0.25), 160);
+  } else if (name === 'wrong') {
+    playTone(260, 'sawtooth', 0.15, 0.25);
+    setTimeout(() => playTone(196, 'sawtooth', 0.25, 0.3), 120);
+  } else if (name === 'level_clear') {
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((f, idx) => {
+      setTimeout(() => playTone(f, 'sine', 0.2, 0.3), idx * 100);
+    });
+  } else if (name === 'click') {
+    playTone(400, 'sine', 0.05, 0.1);
+  }
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  const btn = document.getElementById('soundBtn');
+  btn.textContent = soundEnabled ? '🔊' : '🔇';
+  showCastleModal('音效設定', soundEnabled ? '音效已開啟 🔊' : '音效已靜音 🔇', '🎵');
+}
+
+// ── 現代彈窗控制 (CastleModal) ──
+function showCastleModal(title, bodyHtml, icon = '💡', onClose = null) {
+  const overlay = document.getElementById('castleModalOverlay');
+  if (!overlay) return;
+  document.getElementById('castleModalTitle').textContent = title;
+  document.getElementById('castleModalBody').innerHTML = bodyHtml;
+  document.getElementById('castleModalIcon').textContent = icon;
+  overlay.classList.add('open');
+  window._castleModalOnClose = onClose;
+}
+
+function closeCastleModal() {
+  const overlay = document.getElementById('castleModalOverlay');
+  if (overlay) overlay.classList.remove('open');
+  if (typeof window._castleModalOnClose === 'function') {
+    const cb = window._castleModalOnClose;
+    window._castleModalOnClose = null;
+    cb();
+  }
+}
+
+function closeCastleModalOnBackdrop(e) {
+  if (e.target && e.target.id === 'castleModalOverlay') {
+    closeCastleModal();
+  }
+}
+
+window.alert = function(msg) {
+  showCastleModal('系統提示', `<div style="text-align:left; white-space:pre-line;">${msg}</div>`, '💡');
+};
+
+// ── 連擊與分數狀態 ──
+let userScore = 0;
+let userCombo = 0;
+let currentStage = 0;
+
+function addScore(pts = 10) {
+  userCombo++;
+  const bonus = Math.floor(userCombo / 3) * 5;
+  userScore += (pts + bonus);
+  document.getElementById('scoreText').textContent = userScore;
+  document.getElementById('comboText').textContent = userCombo;
+  if (userCombo >= 3) {
+    updateMascot(`🔥 全壘打！達成 ${userCombo} 連擊！額外加 ${bonus} 分！`);
+  }
+}
+
+function resetCombo() {
+  userCombo = 0;
+  document.getElementById('comboText').textContent = userCombo;
+}
+
+function updateMascot(msg) {
+  const el = document.getElementById('mascotMessage');
+  if (el) el.textContent = msg;
+}
+
+function shuffleArray(arr) {
+  const newArr = [...arr];
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+}
+
+// ── 各關卡資料結構 ──
+const stageData = [
+  // Stage 0: 暖身與道奇球場
+  {
+    title: "道奇球場前哨站：棒球場與扇形構成要素",
+    icon: "🏟️",
+    concept: `
+      <strong>從數學看世界・美國職棒大聯盟 (MLB) 道奇體育場：</strong><br>
+      美國職棒洛杉磯道奇隊（日籍球星大谷翔平所屬球隊）的主場「道奇體育場」，擁有 56,000 個座位，是全球座位數最多的棒球場。<br>
+      棒球場的本壘、左外野界線、右外野界線與全壘打牆外野看臺，正好構成一個<strong>巨大的扇形</strong>！<br>
+      • <strong>扇形的定義：</strong>由<strong>兩條半徑</strong>和一段<strong>弧</strong>所圍成的圓的一部分圖形。<br>
+      • <strong>半圓也是扇形：</strong>圓心角為 180° 的扇形稱為半圓。<br>
+      • <strong>兩條半徑必等長：</strong>同一個圓或扇形中，兩條半徑的長度必定相等！
+    `,
+    quizzes: [
+      {
+        q: "關於扇形的敘述，下面哪一個選項是「錯誤」的？",
+        options: ["半圓不是扇形", "扇形的兩條半徑一樣長", "扇形是由圓的兩條半徑和弧所圍成的圖形", "同一個扇形中，弧長會隨圓心角變大而變長"],
+        ans: "半圓不是扇形",
+        explain: "半圓也是扇形的一種（圓心角為 180° 的扇形），故「半圓不是扇形」為錯誤敘述。"
+      },
+      {
+        q: "棒球場兩側的一壘邊線與三壘邊線夾角為 90°，請問這個棒球場大約是幾分之幾圓的扇形？",
+        options: ["1/4 圓", "1/2 圓", "1/3 圓", "1/8 圓"],
+        ans: "1/4 圓",
+        explain: "90° ÷ 360° = 90/360 = 1/4 圓。"
+      },
+      {
+        q: "如果一個扇形的圓心角是 120°，它是幾分之幾圓？",
+        options: ["1/3 圓", "1/4 圓", "1/6 圓", "2/5 圓"],
+        ans: "1/3 圓",
+        explain: "120° ÷ 360° = 120/360 = 1/3 圓。"
+      }
+    ]
+  },
+
+  // Stage 1: 扇形弧長與周長 (6-1)
+  {
+    title: "第一關：扇形弧長與周長防漏秘笈 (6-1)",
+    icon: "📐",
+    concept: `
+      <strong>1. 扇形弧長公式 (Arc Length)：</strong><br>
+      弧長是圓周長的一部分：<br>
+      <div class="concept-highlight" style="display:inline-block; margin:6px 0; font-size:1.05rem;">
+        扇形弧長 ＝ 圓周長 × (圓心角 / 360°) ＝ 直徑 × 3.14 × (圓心角 / 360°)
+      </div><br>
+      <strong>2. 扇形周長公式 (Perimeter) ── 關鍵防漏！</strong><br>
+      周長是圍成圖形的所有邊界長度總和。<strong>扇形周長是由 1 段弧 ＋ 2 條半徑組成！</strong><br>
+      <div class="concept-highlight" style="display:inline-block; margin:6px 0; font-size:1.05rem;">
+        扇形周長 ＝ 扇形弧長 ＋ 半徑 × 2（即直徑）
+      </div><br>
+      ⚠️ <strong>學生最常犯錯：</strong>只算出弧長，忘記加上兩條半徑！切記「周長要封閉，兩邊半徑不能少」！
+    `,
+    hasSectorLab: true,
+    quizzes: [
+      {
+        q: "有 1 張直徑 10 公分的半圓形濾紙（1/2 圓），請問這張半圓濾紙的「周長」大約是多少公分？",
+        options: ["25.7 公分", "15.7 公分", "31.4 公分", "20.7 公分"],
+        ans: "25.7 公分",
+        explain: "濾紙弧長 = 10 × 3.14 ÷ 2 = 15.7 公分。扇形周長 = 弧長 + 直徑 = 15.7 + 10 = 25.7 公分。"
+      },
+      {
+        q: "直徑 30 公分的圓形壓克力板平分成 6 份，其中一份扇形（1/6 圓）的「周長」大約是幾公分？",
+        options: ["45.7 公分", "15.7 公分", "30.7 公分", "60.7 公分"],
+        ans: "45.7 公分",
+        explain: "半徑 = 30 ÷ 2 = 15 公分。弧長 = 30 × 3.14 ÷ 6 = 15.7 公分。周長 = 弧長 + 半徑×2 = 15.7 + 15 + 15 = 45.7 公分。"
+      },
+      {
+        q: "有一個半徑 24 公尺、圓心角 150° 的扇形，這座扇形的「弧長」大約是多少公尺？",
+        options: ["62.8 公尺", "31.4 公尺", "110.8 公尺", "48 公尺"],
+        ans: "62.8 公尺",
+        explain: "幾分之幾圓 = 150/360 = 5/12 圓。直徑 = 24 × 2 = 48 公尺。弧長 = 48 × 3.14 × (5/12) = 62.8 公尺。"
+      },
+      {
+        q: "有一個半徑 6 公分、圓心角 270° 的扇形，其「周長」大約是多少公分？",
+        options: ["40.26 公分", "28.26 公分", "34.26 公分", "12 公分"],
+        ans: "40.26 公分",
+        explain: "270/360 = 3/4 圓。弧長 = 12 × 3.14 × (3/4) = 28.26 公分。周長 = 28.26 + 6 + 6 = 40.26 公分。"
+      }
+    ]
+  },
+
+  // Stage 2: 扇形面積公式 (6-1)
+  {
+    title: "第二關：扇形面積計算與比例規律 (6-1)",
+    icon: "🍕",
+    concept: `
+      <strong>1. 扇形面積公式 (Sector Area)：</strong><br>
+      扇形面積等於圓面積乘以幾分之幾圓：<br>
+      <div class="concept-highlight" style="display:inline-block; margin:6px 0; font-size:1.05rem;">
+        扇形面積 ＝ 半徑 × 半徑 × 3.14 × (圓心角 / 360°)
+      </div><br>
+      <strong>2. 重要性質：半徑相同時的比例規律（課本 P87）</strong><br>
+      在同一個圓或半徑相同的扇形中：<br>
+      • 圓心角變成 2 倍，弧長也變成 2 倍，面積也變成 2 倍！<br>
+      • <strong>圓心角比 ＝ 弧長比 ＝ 面積比</strong>。<br>
+      <strong>3. 已知圓周長求扇形面積：</strong><br>
+      先用 圓周長 ÷ 3.14 ＝ 直徑，直徑 ÷ 2 ＝ 半徑，再套用扇形面積公式！
+    `,
+    quizzes: [
+      {
+        q: "有一個半徑 300 公尺、圓心角 240° 的扇形草坪，面積大約是幾平方公尺？",
+        options: ["188400 平方公尺", "282600 平方公尺", "94200 平方公尺", "141300 平方公尺"],
+        ans: "188400 平方公尺",
+        explain: "240° ÷ 360° = 2/3 圓。面積 = 300 × 300 × 3.14 × (2/3) = 188400 平方公尺。"
+      },
+      {
+        q: "一個圓形廣場的圓周長為 157 公尺，其中有一塊圓心角 72° 的扇形花圃，面積大約是幾平方公尺？",
+        options: ["392.5 平方公尺", "1962.5 平方公尺", "785 平方公尺", "157 平方公尺"],
+        ans: "392.5 平方公尺",
+        explain: "直徑 = 157 ÷ 3.14 = 50 公尺，半徑 = 25 公尺。72/360 = 1/5 圓。面積 = 25 × 25 × 3.14 × (1/5) = 392.5 平方公尺。"
+      },
+      {
+        q: "在圓周長 125.6 公尺的圓形花圃中，圍出一塊 3/8 圓的扇形草地，草地面積大約是幾平方公尺？",
+        options: ["471 平方公尺", "1256 平方公尺", "314 平方公尺", "628 平方公尺"],
+        ans: "471 平方公尺",
+        explain: "直徑 = 125.6 ÷ 3.14 = 40 公尺，半徑 = 20 公尺。草地面積 = 20 × 20 × 3.14 × (3/8) = 471 平方公尺。"
+      },
+      {
+        q: "在半徑相同的扇形中，如果扇形甲的圓心角是 60°，扇形乙的圓心角是 180°，那麼甲面積對乙面積的比值是多少？",
+        options: ["1/3", "3", "1/2", "2/3"],
+        ans: "1/3",
+        explain: "半徑相同時，面積比等於圓心角比：60°：180° = 1：3，比值 = 1/3。"
+      }
+    ]
+  },
+
+  // Stage 3: 複合圖形與割補平移 (6-2)
+  {
+    title: "第三關：複合圖形・割補與平移巧思 (6-2)",
+    icon: "🧩",
+    concept: `
+      <strong>1. 割補平移法（化繁為簡）：</strong><br>
+      看似不規則或零碎的塗色區域，通常可以透過<strong>切割、旋轉、平移或拼補</strong>，組合成熟悉的半圓、整圓或矩形！<br>
+      • 例如：兩個相對的 1/4 圓扇形，平移拼合後就是一個 1/2 圓（半圓）！<br>
+      <strong>2. 相減法（大圖扣小圖）：</strong><br>
+      • 長方形扣掉圓形：塗色面積 ＝ 長方形面積 － 圓面積。<br>
+      • 正方形四個角被 1/4 圓截去：扣除 4 個 1/4 圓 ＝ 扣除 1 個完整圓！<br>
+      <strong>3. 課本動動腦奇妙規律（P91）：</strong><br>
+      同一個正方形中，扣除 1 個大圓、扣除 2 個半圓、或扣除 4 個 1/4 圓，<strong>剩下的塗色面積全部一模一樣大</strong>！
+    `,
+    quizzes: [
+      {
+        q: "如圖，長 30 公分、寬 20 公分的長方形中，兩側各挖去一個直徑 20 公分的半圓，塗色面積是多少？（圓周率以 3.14 計）",
+        options: ["286 平方公分", "600 平方公分", "314 平方公分", "443 平方公分"],
+        ans: "286 平方公分",
+        explain: "兩側半圓可拼成一個半徑 10 公分的完整圓。長方形面積 = 30 × 20 = 600。圓面積 = 10 × 10 × 3.14 = 314。塗色面積 = 600 - 314 = 286 平方公分。"
+      },
+      {
+        q: "邊長 10 公分的大正方形，四個角落分別有 1 個半徑 5 公分的 1/4 圓。若將這四個 1/4 圓挖空，剩下的面積大約是幾平方公分？",
+        options: ["21.5 平方公分", "78.5 平方公分", "25 平方公分", "50 平方公分"],
+        ans: "21.5 平方公分",
+        explain: "4 個 1/4 圓合為 1 個半徑 5 公分的圓：5 × 5 × 3.14 = 78.5。正方形面積 = 10 × 10 = 100。剩餘面積 = 100 - 78.5 = 21.5 平方公分。"
+      },
+      {
+        q: "有一張半徑 10 公分的 1/4 圓色紙，剪去一個底和高都是 10 公分的等腰直角三角形後，剩下的面積大約是幾平方公分？",
+        options: ["28.5 平方公分", "78.5 平方公分", "50 平方公分", "21.5 平方公分"],
+        ans: "28.5 平方公分",
+        explain: "1/4 圓面積 = 10 × 10 × 3.14 × (1/4) = 78.5。三角形面積 = 10 × 10 ÷ 2 = 50。剩餘面積 = 78.5 - 50 = 28.5 平方公分。"
+      }
+    ]
+  },
+
+  // Stage 4: 栓狗範圍與葉片面積 (6-2)
+  {
+    title: "第四關：拴狗活動範圍與葉片重疊面積 (6-2)",
+    icon: "🐕",
+    concept: `
+      <strong>1. 房屋轉角拴狗活動範圍（經典高頻考題）：</strong><br>
+      一條長 10 公尺的繩子拴在長 8m、寬 6m 的長方形房屋外角落：<br>
+      • <strong>主活動範圍：</strong>在開闊處可活動 <strong>3/4 圓</strong>（半徑 10 公尺）。<br>
+        面積 ＝ 10 × 10 × 3.14 × 3/4 ＝ 235.5 平方公尺。<br>
+      • <strong>轉角折減範圍：</strong>繩子繞過長 8m 的牆角後，剩下 10 － 8 ＝ <strong>2 公尺</strong>，形成半徑 2 公尺的 <strong>1/4 圓</strong>！<br>
+        面積 ＝ 2 × 2 × 3.14 × 1/4 ＝ 3.14 平方公尺。<br>
+      • （繞過寬 6m 處：10 － 6 ＝ 4 公尺，若有轉角則為半徑 4m 的 1/4 圓）。<br>
+      • <strong>總活動面積 ＝ 主扇形 ＋ 轉角小扇形</strong>！<br>
+      <strong>2. 葉片重疊形（兩圓弧相交）：</strong><br>
+      邊長 a 的正方形中，兩相對頂點為圓心畫兩個 1/4 圓，相交形成的葉片面積：<br>
+      <div class="concept-highlight" style="display:inline-block; margin:6px 0;">
+        葉片面積 ＝ (兩個 1/4 圓面積和) － 正方形面積 ＝ 半圓面積 － 正方形面積
+      </div>
+    `,
+    quizzes: [
+      {
+        q: "用一條長 10 公尺的繩子把一隻狗拴在長 8m、寬 6m 房屋的角落（如課本 P88）。繞過長邊轉角後剩下 2m 繩長。這隻狗能活動的範圍總面積大約是幾平方公尺？",
+        options: ["238.64 平方公尺", "235.5 平方公尺", "314 平方公尺", "248.06 平方公尺"],
+        ans: "238.64 平方公尺",
+        explain: "主範圍（3/4 圓）= 10×10×3.14×(3/4) = 235.5。轉角小範圍（1/4 圓，半徑 2m）= 2×2×3.14×(1/4) = 3.14。總面積 = 235.5 + 3.14 = 238.64 平方公尺。"
+      },
+      {
+        q: "邊長 10 公分的正方形內，兩個相對頂點各畫一個半徑 10 公分的 1/4 圓，兩弧交疊的「葉片形」面積大約是幾平方公分？",
+        options: ["57 平方公分", "43 平方公分", "78.5 平方公分", "28.5 平方公分"],
+        ans: "57 平方公分",
+        explain: "兩扇形和 = 10×10×3.14×(1/4)×2 = 157 平方公分（相當於半圓）。葉片面積 = 兩扇形和 - 正方形面積 = 157 - (10×10) = 57 平方公分。"
+      },
+      {
+        q: "承上題，如果問正方形內扣除中間葉片後，「兩側空白區域」的面積總和大約是多少？",
+        options: ["43 平方公分", "57 平方公分", "21.5 平方公分", "78.5 平方公分"],
+        ans: "43 平方公分",
+        explain: "正方形面積 = 100，葉片面積 = 57。兩側空白 = 100 - 57 = 43 平方公分（每側空白約 21.5 平方公分）。"
+      }
+    ]
+  },
+
+  // Stage 5: 大會考與資優挑戰 (練習 6 全攻略)
+  {
+    title: "第五關：大會考與資優殿堂 (練習 6 全攻略)",
+    icon: "🏆",
+    concept: `
+      <strong>本關整合課本 P92~P93 練習 6 實戰測驗、學力檢測題與資優挑戰題：</strong><br>
+      • <strong>學力檢測關鍵：</strong>辨識長方形挖空兩半圓時的算式對應。<br>
+      • <strong>資優挑戰思維：</strong>外面 3/4 圓環面積是裡面 1/4 小圓的 24 倍，透過設小圓面積為基準量 1，計算大圓與圓環的比例關係！
+    `,
+    quizzes: [
+      {
+        q: "【113 學力檢測】長 30、寬 20 的長方形，中間挖去兩側直徑 20 的半圓，下列哪個算式能算出正確面積？",
+        options: [
+          "30×20－(20÷2)×(20÷2)×3.14",
+          "30×20－20×2×3.14",
+          "30×20－20×20×3.14÷2",
+          "30×20－(20÷2)×(20÷2)×3.14÷2"
+        ],
+        ans: "30×20－(20÷2)×(20÷2)×3.14",
+        explain: "長方形面積 30×20，兩側半圓直徑皆為 20（半徑 20÷2），合起來剛好是一個完整圓面積 (20÷2)×(20÷2)×3.14。"
+      },
+      {
+        q: "如圖，圓心角分別為 270° 與 30° 的兩個相鄰扇形，半徑皆為 6 公尺。這兩個扇形合起來的塗色面積大約是多少平方公尺？",
+        options: ["94.2 平方公尺", "113.04 平方公尺", "28.26 平方公尺", "56.52 平方公尺"],
+        ans: "94.2 平方公尺",
+        explain: "圓心角總和 = 270° + 30° = 300°。300/360 = 5/6 圓。面積 = 6 × 6 × 3.14 × (5/6) = 94.2 平方公尺。"
+      },
+      {
+        q: "【資優挑戰題】外面 3/4 個圓環的面積是裡面 1/4 個小圓面積的 24 倍。已知圖中白色區域的面積約 66 平方公分，大圓面積大約是多少？",
+        options: ["216 平方公分", "198 平方公分", "264 平方公分", "180 平方公分"],
+        ans: "216 平方公分",
+        explain: "將 1/4 小圓當作 1 份，則 3/4 圓環 = 24 份 ➔ 完整圓環 = 24 ÷ (3/4) = 32 份。小圓完整 = 4 份 ➔ 大圓 = 圓環 + 小圓 = 32 + 4 = 36 份。白色部分 = 1/4 圓環 (8份) + 3/4 小圓 (3份) = 11 份 = 66。每份 = 6。故大圓 = 36 × 6 = 216 平方公分！"
+      }
+    ]
+  }
+];
+
+const glossaryTerms = [
+  { term: "扇形 (Sector)", def: "由圓的兩條等長半徑和一段圓弧所圍成的封閉幾何圖形。半圓也是扇形的一種。" },
+  { term: "圓心角 (Central Angle)", def: "扇形兩條半徑在圓心處所夾的角。平角為 180°，周角為 360°。" },
+  { term: "扇形弧長 (Arc Length)", def: "圓周長 × (圓心角 / 360°) ＝ 直徑 × 3.14 × 幾分之幾圓。" },
+  { term: "扇形周長 (Sector Perimeter)", def: "扇形邊界總長度 ＝ 扇形弧長 ＋ 兩條半徑（即 弧長 ＋ 直徑）。" },
+  { term: "扇形面積 (Sector Area)", def: "圓面積 × (圓心角 / 360°) ＝ 半徑 × 半徑 × 3.14 × 幾分之幾圓。" },
+  { term: "葉片形 (Lens Area)", def: "正方形內兩個相對 1/4 圓弧相交形成的橄欖形區域。面積 ＝ 半圓面積 － 正方形面積。" }
+];
+
+// ── 渲染關卡內容 ──
+function renderStage(stageIdx) {
+  currentStage = stageIdx;
+  const container = document.getElementById('stageContainer');
+  const tabs = document.querySelectorAll('.stage-tab');
+  tabs.forEach((tab, i) => {
+    tab.classList.toggle('active', i === stageIdx);
+  });
+
+  const data = stageData[stageIdx];
+  if (!data) return;
+
+  let html = `
+    <div class="section-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span>${data.icon}</span>
+          <span>${data.title}</span>
+        </h2>
+        <span class="badge-tag">Stage ${stageIdx} / 5</span>
+      </div>
+
+      <div class="concept-box">
+        ${data.concept}
+      </div>
+  `;
+
+  // 若為 Stage 1 加入扇形幾何模擬器
+  if (data.hasSectorLab) {
+    html += `
+      <div class="lab-widget">
+        <h3 style="margin-bottom:12px; color:var(--primary-dark); display:flex; align-items:center; gap:8px;">
+          <span>🏟️</span><span>道奇球場扇形幾何動態生成器</span>
+        </h3>
+        <p style="color:var(--text-muted); margin-bottom:16px;">
+          拖動滑桿調整「半徑」與「圓心角」，即時繪製扇形，觀察弧長、周長與面積的動態變化！
+        </p>
+        <div class="sector-sim-wrap">
+          <div class="svg-canvas-box">
+            <svg id="sectorSvg" width="240" height="240" viewBox="0 0 240 240"></svg>
+          </div>
+          <div class="sector-controls">
+            <div class="slider-row">
+              <label>
+                <span>扇形半徑 (r)</span>
+                <span id="radiusVal" style="color:var(--primary); font-weight:800;">10 公分</span>
+              </label>
+              <input type="range" id="radiusSlider" min="5" max="30" value="10" oninput="updateSectorSim()">
+            </div>
+            <div class="slider-row">
+              <label>
+                <span>圓心角 (θ)</span>
+                <span id="angleVal" style="color:#D97706; font-weight:800;">90° (1/4 圓)</span>
+              </label>
+              <input type="range" id="angleSlider" min="30" max="330" step="15" value="90" oninput="updateSectorSim()">
+            </div>
+            <div class="sector-metrics">
+              <div class="metrics-line" id="metricArc">扇形弧長 ＝ 15.7 公分</div>
+              <div class="metrics-line" id="metricPerimeter" style="color:#B45309;">
+                扇形周長 ＝ 15.7 ＋ 10 ＋ 10 ＝ 35.7 公分
+              </div>
+              <div class="metrics-line" id="metricArea" style="color:#047857;">
+                扇形面積 ＝ 10 × 10 × 3.14 × (1/4) ＝ 78.5 平方公分
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 測驗題庫卡片
+  html += `
+      <h3 style="margin:24px 0 10px; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+        <span>✏️</span><span>闖關即時測驗 (選項自動隨機化)</span>
+      </h3>
+      <div class="quiz-list" id="stageQuizList">
+  `;
+
+  data.quizzes.forEach((quiz, qIdx) => {
+    const shuffledOptions = shuffleArray(quiz.options);
+    html += `
+      <div class="quiz-item" id="quizCard_${stageIdx}_${qIdx}">
+        <div class="quiz-header">
+          <span class="quiz-qnum">題目 ${qIdx + 1}</span>
+          <div class="quiz-text">${quiz.q}</div>
+        </div>
+        <div class="quiz-options">
+          ${shuffledOptions.map(opt => `
+            <button class="quiz-opt-btn" onclick="checkAnswer(${stageIdx}, ${qIdx}, this, '${encodeURIComponent(opt)}', '${encodeURIComponent(quiz.ans)}')">
+              ${opt}
+            </button>
+          `).join('')}
+        </div>
+        <div class="quiz-explain" id="explain_${stageIdx}_${qIdx}">
+          <strong>💡 詳解分析：</strong> ${quiz.explain}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+      </div>
+      <div class="card-footer">
+        <button class="back-btn" onclick="prevStage()">⬅️ 上一關</button>
+        <button class="btn-next-stage" onclick="nextStage()">
+          ${stageIdx === 5 ? '前往榮譽殿堂 🏆' : '前往下一關 ➡️'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = html;
+  window.scrollTo({ top: 180, behavior: 'smooth' });
+
+  if (data.hasSectorLab) {
+    updateSectorSim();
+  }
+}
+
+// ── 扇形幾何 SVG 即時模擬器 ──
+function updateSectorSim() {
+  const r = parseInt(document.getElementById('radiusSlider').value, 10);
+  const ang = parseInt(document.getElementById('angleSlider').value, 10);
+
+  document.getElementById('radiusVal').textContent = `${r} 公分`;
+  const frac = (ang / 360).toFixed(3).replace(/\.000$/, '');
+  let fracText = `${ang}°`;
+  if (ang === 90) fracText = '90° (1/4 圓)';
+  else if (ang === 180) fracText = '180° (1/2 圓)';
+  else if (ang === 60) fracText = '60° (1/6 圓)';
+  else if (ang === 120) fracText = '120° (1/3 圓)';
+  else if (ang === 240) fracText = '240° (2/3 圓)';
+  else if (ang === 270) fracText = '270° (3/4 圓)';
+  document.getElementById('angleVal').textContent = fracText;
+
+  // 數值運算
+  const d = r * 2;
+  const arcLen = d * 3.14 * (ang / 360);
+  const perimeter = arcLen + d;
+  const area = r * r * 3.14 * (ang / 360);
+
+  document.getElementById('metricArc').textContent = 
+    `扇形弧長 ＝ ${d} × 3.14 × (${ang}/360) ＝ ${arcLen.toFixed(2)} 公分`;
+  document.getElementById('metricPerimeter').textContent = 
+    `扇形周長 ＝ ${arcLen.toFixed(2)} ＋ ${r} ＋ ${r} ＝ ${perimeter.toFixed(2)} 公分`;
+  document.getElementById('metricArea').textContent = 
+    `扇形面積 ＝ ${r} × ${r} × 3.14 × (${ang}/360) ＝ ${area.toFixed(2)} 平方公分`;
+
+  // SVG 繪製扇形
+  const svg = document.getElementById('sectorSvg');
+  if (!svg) return;
+  svg.innerHTML = '';
+
+  const cx = 120;
+  const cy = 120;
+  const scale = 3.2; // 縮放比例
+  const visualR = Math.min(100, Math.max(30, r * scale));
+
+  // 角度轉弧度 (0度向右，順時針繪製)
+  const rad = (ang * Math.PI) / 180;
+  const startX = cx + visualR;
+  const startY = cy;
+  const endX = cx + visualR * Math.cos(rad);
+  const endY = cy + visualR * Math.sin(rad);
+
+  const largeArcFlag = ang > 180 ? 1 : 0;
+  const pathD = `M ${cx} ${cy} L ${startX} ${startY} A ${visualR} ${visualR} 0 ${largeArcFlag} 1 ${endX} ${endY} Z`;
+
+  // 扇形主體
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', pathD);
+  path.setAttribute('fill', 'rgba(59, 130, 246, 0.25)');
+  path.setAttribute('stroke', '#1D4ED8');
+  path.setAttribute('stroke-width', '2.5');
+  svg.appendChild(path);
+
+  // 圓心點
+  const centerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  centerCircle.setAttribute('cx', cx);
+  centerCircle.setAttribute('cy', cy);
+  centerCircle.setAttribute('r', '4');
+  centerCircle.setAttribute('fill', '#EF4444');
+  svg.appendChild(centerCircle);
+
+  // 弧線高亮
+  const arcPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  const arcD = `M ${startX} ${startY} A ${visualR} ${visualR} 0 ${largeArcFlag} 1 ${endX} ${endY}`;
+  arcPath.setAttribute('d', arcD);
+  arcPath.setAttribute('fill', 'none');
+  arcPath.setAttribute('stroke', '#F59E0B');
+  arcPath.setAttribute('stroke-width', '4');
+  svg.appendChild(arcPath);
+}
+
+// ── 檢查測驗答案 ──
+function checkAnswer(stageIdx, qIdx, btn, encodedSelected, encodedCorrect) {
+  const selected = decodeURIComponent(encodedSelected);
+  const correct = decodeURIComponent(encodedCorrect);
+  const card = document.getElementById(`quizCard_${stageIdx}_${qIdx}`);
+  const explain = document.getElementById(`explain_${stageIdx}_${qIdx}`);
+  const allBtns = card.querySelectorAll('.quiz-opt-btn');
+
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if (decodeURIComponent(b.getAttribute('onclick').split("'")[7]) === correct) {
+      b.classList.add('correct-opt');
+    }
+  });
+
+  if (selected === correct) {
+    btn.classList.add('correct-opt');
+    card.classList.add('correct-item');
+    playSound('correct');
+    addScore(10);
+    updateMascot('🎯 漂亮！全壘打！觀念非常清晰！');
+  } else {
+    btn.classList.add('wrong-opt');
+    card.classList.add('wrong-item');
+    playSound('wrong');
+    resetCombo();
+    updateMascot('⚾ 差一點點，看看解題步驟，下一球一定得分！');
+  }
+
+  explain.style.display = 'block';
+}
+
+// ── 關卡跳轉與榮譽殿堂 ──
+function gotoStage(idx) {
+  playSound('click');
+  renderStage(idx);
+}
+
+function nextStage() {
+  if (currentStage < 5) {
+    playSound('level_clear');
+    if (typeof confetti === 'function') {
+      confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+    }
+    renderStage(currentStage + 1);
+  } else {
+    renderFinal();
+  }
+}
+
+function prevStage() {
+  if (currentStage > 0) {
+    playSound('click');
+    renderStage(currentStage - 1);
+  } else {
+    showCastleModal('提示', '已經是第一關囉！', '🏰');
+  }
+}
+
+function renderFinal() {
+  playSound('level_clear');
+  if (typeof confetti === 'function') {
+    confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+  }
+  const container = document.getElementById('stageContainer');
+  const tabs = document.querySelectorAll('.stage-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+
+  container.innerHTML = `
+    <div class="section-card badge-showcase">
+      <div class="medal-icon">🏅</div>
+      <h2 style="font-size:2rem; font-weight:900; color:var(--primary-dark); margin-bottom:12px;">
+        恭喜完成【扇形奇境】全部挑戰！
+      </h2>
+      <p style="font-size:1.15rem; color:var(--text-muted); max-width:600px; margin:0 auto 24px;">
+        你已完全掌握扇形弧長、周長防漏秘笈、扇形面積、栓狗活動範圍、割補平移與資優幾何推理！獲頒「<strong>幾何全壘打大王</strong>」榮譽勳章！
+      </p>
+      <div style="display:flex; justify-content:center; gap:16px; margin-bottom:28px;">
+        <div class="stat-pill" style="font-size:1.1rem; padding:8px 20px;">
+          <span>⭐ 最終總得分：</span><strong style="color:#B45309;">${userScore} 分</strong>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:center; gap:16px;">
+        <button class="btn-next-stage" onclick="gotoStage(0)">🔄 再次挑戰複習</button>
+        <a href="portal.html" class="back-btn" style="padding:10px 24px; font-size:1.05rem;">🏰 返回傳送門</a>
+      </div>
+    </div>
+  `;
+  window.scrollTo({ top: 180, behavior: 'smooth' });
+}
+
+// ── 辭典彈窗 ──
+function openGlossary() {
+  playSound('click');
+  let body = '<div style="display:flex; flex-direction:column; gap:14px;">';
+  glossaryTerms.forEach(t => {
+    body += `
+      <div style="background:#EFF6FF; border-left:4px solid var(--primary); padding:10px 14px; border-radius:0 8px 8px 0;">
+        <div style="font-weight:800; color:var(--primary-dark); margin-bottom:4px;">${t.term}</div>
+        <div style="font-size:0.95rem; color:#334155;">${t.def}</div>
+      </div>
+    `;
+  });
+  body += '</div>';
+  showCastleModal('扇形幾何・核心知識寶典', body, '📖');
+}
+
+// ── 頁面初始化 ──
+document.addEventListener('DOMContentLoaded', () => {
+  renderStage(0);
+});
+</script>
+</body>
+</html>

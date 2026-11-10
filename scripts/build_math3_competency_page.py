@@ -1,0 +1,1136 @@
+# -*- coding: utf-8 -*-
+"""
+生成 math3_competency.html - 國小三年級數學「Follow Me 學素養」全冊旗艦互動學習頁面
+特別註明：108 課綱跨領域生活素養題型 / 內容
+"""
+
+import os
+
+html_content = '''<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>3上數學 Follow Me 素養魔法冒險王 🌟 (全冊跨領域素養導向專題) | 學習城堡</title>
+<!-- Favicon 網站圖示 -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<meta name="description" content="國小 3 年級上學期數學「Follow Me 學素養」全冊跨領域主題探究：特別註明素養導向題型！包含小精靈萬以內數、綠島自由行四位數加法、早餐熱量乘法、小小怪獸量身高毫米換算、露營帳篷除法、消毒水容量、分數密碼與勇者之盾！">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="study-castle-ui.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+
+<style>
+  :root {
+    --primary: #D97706;
+    --primary-light: #FBBF24;
+    --primary-dark: #B45309;
+    --secondary: #10B981;
+    --bg-gradient: linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 50%, #ECFDF5 100%);
+    --card-bg: rgba(255, 255, 255, 0.96);
+    --card-shadow: 0 10px 25px -5px rgba(217, 119, 6, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --border-color: #FDE68A;
+    --text-main: #0F172A;
+    --text-muted: #475569;
+    --radius-lg: 20px;
+    --radius-md: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .top-navbar {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .back-btn {
+    text-decoration: none;
+    background: #F1F5F9;
+    color: var(--text-main);
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #E2E8F0;
+  }
+  .back-btn:hover {
+    background: #E2E8F0;
+    transform: translateX(-2px);
+  }
+  .nav-brand {
+    font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .badge-tag {
+    background: #FEF3C7;
+    color: var(--primary-dark);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    border: 1px solid #FCD34D;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .stat-pill {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    color: #92400E;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-icon {
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+  }
+  .btn-icon:hover {
+    background: #E2E8F0;
+    transform: scale(1.05);
+  }
+
+  .hero-container {
+    max-width: 1040px;
+    margin: 24px auto 16px;
+    padding: 0 16px;
+  }
+  .hero-banner {
+    background: linear-gradient(135deg, #B45309 0%, #D97706 60%, #10B981 100%);
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    box-shadow: 0 12px 30px rgba(217, 119, 6, 0.25);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-banner::after {
+    content: "🌟🧚🏝️";
+    position: absolute;
+    right: -10px;
+    bottom: -15px;
+    font-size: 5rem;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .hero-content h1 {
+    font-size: 2.1rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .hero-content p {
+    font-size: 1.05rem;
+    color: #FEF3C7;
+    max-width: 620px;
+    line-height: 1.5;
+  }
+  .hero-mascot {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  .mascot-avatar {
+    font-size: 2.8rem;
+    animation: floatMascot 3s ease-in-out infinite;
+  }
+  @keyframes floatMascot {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .mascot-bubble {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #FFF;
+  }
+
+  .stage-nav {
+    max-width: 1040px;
+    margin: 16px auto;
+    padding: 0 16px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .stage-tab {
+    flex: 1;
+    min-width: 110px;
+    background: #FFFFFF;
+    border: 2px solid #E2E8F0;
+    border-radius: var(--radius-md);
+    padding: 10px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .stage-tab:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+  }
+  .stage-tab.active {
+    background: #FEF3C7;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.15);
+  }
+  .stage-tab-num {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .stage-tab-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text-main);
+    white-space: nowrap;
+  }
+
+  .main-container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .section-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    padding: 28px;
+    margin-bottom: 24px;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-header {
+    border-bottom: 2px solid #F1F5F9;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .concept-box {
+    background: #FFFBEB;
+    border-left: 5px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin-bottom: 20px;
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+  .concept-box strong {
+    color: var(--primary-dark);
+  }
+  .concept-highlight {
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  .lab-widget {
+    background: #FFFFFF;
+    border: 2px dashed #FCD34D;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .slider-row {
+    margin-bottom: 14px;
+  }
+  .slider-row label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .slider-row input[type="range"] {
+    width: 100%;
+    accent-color: var(--primary);
+  }
+  .lab-metrics {
+    background: #FFFBEB;
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-top: 14px;
+    border: 1px solid #FDE68A;
+  }
+  .metrics-line {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--primary-dark);
+  }
+
+  .quiz-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 16px;
+  }
+  .quiz-item {
+    background: #FFFFFF;
+    border: 2px solid #E2E8F0;
+    border-radius: var(--radius-md);
+    padding: 20px;
+    transition: all 0.2s ease;
+  }
+  .quiz-item.correct-item {
+    border-color: #10B981;
+    background: #F0FDF4;
+  }
+  .quiz-item.wrong-item {
+    border-color: #F87171;
+    background: #FEF2F2;
+  }
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .quiz-qnum {
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+  .quiz-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1E293B;
+    flex: 1;
+    line-height: 1.6;
+  }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .quiz-opt-btn {
+    background: #F8FAFC;
+    border: 2px solid #CBD5E1;
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .quiz-opt-btn:hover:not(:disabled) {
+    background: #F1F5F9;
+    border-color: var(--primary-light);
+    transform: translateY(-1px);
+  }
+  .quiz-opt-btn.correct-opt {
+    background: #10B981 !important;
+    border-color: #059669 !important;
+    color: #FFF !important;
+  }
+  .quiz-opt-btn.wrong-opt {
+    background: #EF4444 !important;
+    border-color: #DC2626 !important;
+    color: #FFF !important;
+  }
+  .quiz-explain {
+    background: #EFF6FF;
+    border-left: 4px solid #3B82F6;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #1E3A8A;
+    display: none;
+    line-height: 1.6;
+  }
+
+  .card-footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid #F1F5F9;
+    padding-top: 18px;
+  }
+  .btn-next-stage {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #FFF;
+    border: none;
+    padding: 12px 26px;
+    border-radius: var(--radius-md);
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+  }
+  .btn-next-stage:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(217, 119, 6, 0.3);
+  }
+
+  .badge-showcase {
+    text-align: center;
+    padding: 30px 10px;
+  }
+  .medal-icon {
+    font-size: 5rem;
+    margin-bottom: 16px;
+    animation: medalBounce 1.5s infinite alternate ease-in-out;
+  }
+  @keyframes medalBounce {
+    from { transform: scale(1); }
+    to { transform: scale(1.1) rotate(5deg); }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 16px;
+  }
+  .modal-overlay.open {
+    display: flex;
+  }
+  .modal-content {
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    max-width: 540px;
+    width: 100%;
+    padding: 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: modalPop 0.25s ease-out;
+    position: relative;
+  }
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .modal-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #94A3B8;
+  }
+  .modal-close:hover { color: #334155; }
+  .modal-body {
+    font-size: 1rem;
+    color: #334155;
+    line-height: 1.7;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  @media (max-width: 768px) {
+    .hero-content h1 { font-size: 1.6rem; }
+    .hero-banner { padding: 22px 18px; }
+    .section-card { padding: 18px; }
+    .quiz-options { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-navbar">
+  <div class="nav-left">
+    <a href="portal.html" class="back-btn">
+      <span>🏰 返回傳送門</span>
+    </a>
+    <div class="nav-brand">
+      <span>🌟 3上素養冒險王</span>
+      <span class="badge-tag">3上・全冊素養導向題型</span>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="stat-pill">
+      <span>⭐ 能量:</span>
+      <span id="scoreText">0</span>
+    </div>
+    <div class="stat-pill" style="background:#ECFDF5; border-color:#A7F3D0; color:#065F46;">
+      <span>🔥 連擊:</span>
+      <span id="comboText">0</span>
+    </div>
+    <button class="btn-icon" onclick="openGlossary()" title="素養寶典">📖</button>
+    <button class="btn-icon" id="soundBtn" onclick="toggleSound()" title="音效切換">🔊</button>
+  </div>
+</header>
+
+<section class="hero-container">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h1>3上數學 Follow Me 素養魔法冒險王</h1>
+      <p>【特別註明：108 課綱跨領域生活素養題型】解鎖全冊 9 大生活主題探究！從小精靈萬以內數、綠島行程比價、健康卡路里計算到勇者盾牌幾何，全方位啟發生活數學素養！</p>
+    </div>
+    <div class="hero-mascot">
+      <div class="mascot-avatar">🧚</div>
+      <div class="mascot-bubble" id="mascotMessage">歡迎來到三年級生活素養冒險島！準備用數學解決生活中的大小難題了嗎？</div>
+    </div>
+  </div>
+</section>
+
+<nav class="stage-nav" id="stageTabs">
+  <div class="stage-tab active" onclick="gotoStage(0)">
+    <span class="stage-tab-num">Quest 1</span>
+    <span class="stage-tab-title">小精靈工廠</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(1)">
+    <span class="stage-tab-num">Quest 2</span>
+    <span class="stage-tab-title">綠島自由行</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(2)">
+    <span class="stage-tab-num">Quest 3</span>
+    <span class="stage-tab-title">熱量知多少</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(3)">
+    <span class="stage-tab-num">Quest 4</span>
+    <span class="stage-tab-title">怪獸量身高</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(4)">
+    <span class="stage-tab-num">Quest 5</span>
+    <span class="stage-tab-title">餅乾形狀櫥窗</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(5)">
+    <span class="stage-tab-num">Quest 6</span>
+    <span class="stage-tab-title">夏日露營趣</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(6)">
+    <span class="stage-tab-num">Quest 7</span>
+    <span class="stage-tab-title">消毒水DIY</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(7)">
+    <span class="stage-tab-num">Quest 8</span>
+    <span class="stage-tab-title">駭客任務密碼</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(8)">
+    <span class="stage-tab-num">Quest 9</span>
+    <span class="stage-tab-title">修理勇者之盾</span>
+  </div>
+</nav>
+
+<main class="main-container" id="stageContainer">
+</main>
+
+<div class="modal-overlay" id="castleModalOverlay" onclick="closeCastleModalOnBackdrop(event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <span id="castleModalIcon">💡</span>
+        <span id="castleModalTitle">系統提示</span>
+      </div>
+      <button class="modal-close" onclick="closeCastleModal()">✕</button>
+    </div>
+    <div class="modal-body" id="castleModalBody">
+    </div>
+  </div>
+</div>
+
+<script>
+let audioCtx = null;
+let soundEnabled = true;
+
+function initAudio() {
+  if (!audioCtx) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) audioCtx = new AudioContext();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
+function playTone(freq, type = 'sine', duration = 0.15, vol = 0.25) {
+  if (!soundEnabled) return;
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  } catch(e) {}
+}
+
+function playSound(name) {
+  if (!soundEnabled) return;
+  if (name === 'correct') {
+    playTone(523.25, 'triangle', 0.1, 0.2);
+    setTimeout(() => playTone(659.25, 'triangle', 0.1, 0.2), 80);
+    setTimeout(() => playTone(783.99, 'triangle', 0.2, 0.25), 160);
+  } else if (name === 'wrong') {
+    playTone(260, 'sawtooth', 0.15, 0.25);
+    setTimeout(() => playTone(196, 'sawtooth', 0.25, 0.3), 120);
+  } else if (name === 'level_clear') {
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((f, idx) => {
+      setTimeout(() => playTone(f, 'sine', 0.2, 0.3), idx * 100);
+    });
+  } else if (name === 'click') {
+    playTone(400, 'sine', 0.05, 0.1);
+  }
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  const btn = document.getElementById('soundBtn');
+  btn.textContent = soundEnabled ? '🔊' : '🔇';
+  showCastleModal('音效設定', soundEnabled ? '音效已開啟 🔊' : '音效已靜音 🔇', '🎵');
+}
+
+function showCastleModal(title, bodyHtml, icon = '💡', onClose = null) {
+  const overlay = document.getElementById('castleModalOverlay');
+  if (!overlay) return;
+  document.getElementById('castleModalTitle').textContent = title;
+  document.getElementById('castleModalBody').innerHTML = bodyHtml;
+  document.getElementById('castleModalIcon').textContent = icon;
+  overlay.classList.add('open');
+  window._castleModalOnClose = onClose;
+}
+
+function closeCastleModal() {
+  const overlay = document.getElementById('castleModalOverlay');
+  if (overlay) overlay.classList.remove('open');
+  if (typeof window._castleModalOnClose === 'function') {
+    const cb = window._castleModalOnClose;
+    window._castleModalOnClose = null;
+    cb();
+  }
+}
+
+function closeCastleModalOnBackdrop(e) {
+  if (e.target && e.target.id === 'castleModalOverlay') {
+    closeCastleModal();
+  }
+}
+
+window.alert = function(msg) {
+  showCastleModal('系統提示', `<div style="text-align:left; white-space:pre-line;">${msg}</div>`, '💡');
+};
+
+let userScore = 0;
+let userCombo = 0;
+let currentStage = 0;
+
+function addScore(pts = 10) {
+  userCombo++;
+  const bonus = Math.floor(userCombo / 3) * 5;
+  userScore += (pts + bonus);
+  document.getElementById('scoreText').textContent = userScore;
+  document.getElementById('comboText').textContent = userCombo;
+  if (userCombo >= 3) {
+    updateMascot(`🔥 素養之星！達成 ${userCombo} 連擊！額外加 ${bonus} 分！`);
+  }
+}
+
+function resetCombo() {
+  userCombo = 0;
+  document.getElementById('comboText').textContent = userCombo;
+}
+
+function updateMascot(msg) {
+  const el = document.getElementById('mascotMessage');
+  if (el) el.textContent = msg;
+}
+
+function shuffleArray(arr) {
+  const newArr = [...arr];
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+}
+
+const stageData = [
+  // Quest 1: 小精靈工廠 (第1單元)
+  {
+    title: "Quest 1：耶誕小精靈工廠 (萬以內的數・數列累積)",
+    icon: "🧚",
+    concept: `
+      <strong>【108課綱生活素養導向題型】耶誕玩具累加大作戰（課本素養 P1）：</strong><br>
+      小精靈們在耶誕節前各要做出 <strong>10000 個玩具</strong>！<br>
+      • <strong>小耶：</strong>已經完成 4000 個，每天製作 1000 個（第 1 天 5000、第 2 天 6000、第 3 天 7000、第 4 天 8000、第 5 天 9000）。<br>
+      • <strong>快快：</strong>已經完成 3000 個，每天製作 2000 個（第 1 天 5000、第 2 天 7000、第 3 天 9000）。<br>
+      • <strong>比一比：</strong>快快第 3 天就達到 9000 個，比小耶（第 5 天）更快達成目標！
+    `,
+    quizzes: [
+      {
+        q: "【素養生活題】小耶已完成 4000 個（每天做 1000 個），快快已完成 3000 個（每天做 2000 個）。誰會先做完 9000 個玩具？",
+        options: ["快快（第 3 天達成）", "小耶（第 5 天達成）", "兩人同時達成", "無法判斷"],
+        ans: "快快（第 3 天達成）",
+        explain: "快快第 1 天 5000、第 2 天 7000、第 3 天 9000 個，只需 3 天。小耶需要 (9000-4000)÷1000 = 5 天。"
+      }
+    ]
+  },
+
+  // Quest 2: 綠島自由行 (第2單元)
+  {
+    title: "Quest 2：綠島自由行精打細算 (四位數加法・行程比價)",
+    icon: "🏝️",
+    concept: `
+      <strong>【108課綱生活素養導向題型】綠島旅遊方案比價（課本素養 P2）：</strong><br>
+      小楓收集了 3 種綠島旅遊方案：<br>
+      • <strong>方案 A：</strong>搭船 1120 元 ＋ 住宿 4600 元 ＝ <strong>5720 元</strong>。<br>
+      • <strong>方案 B：</strong>搭船 1056 元 ＋ 住宿 4650 元 ＝ <strong>5706 元</strong>。<br>
+      • <strong>方案 C：</strong>搭飛機 2036 元 ＋ 住宿 4300 元 ＝ <strong>6336 元</strong>。<br>
+      • <strong>生活精明選擇：</strong>方案 B（5706 元）最便宜、最省錢！
+    `,
+    hasTravelLab: true,
+    quizzes: [
+      {
+        q: "【素養生活題】小楓比較綠島行程：方案 A 需 5720 元、方案 B 需 5706 元、方案 C 需 6336 元。哪一種方案最省錢？",
+        options: ["方案 B (5706元)", "方案 A (5720元)", "方案 C (6336元)", "三種都一樣"],
+        ans: "方案 B (5706元)",
+        explain: "四位數比大小：5706 < 5720 < 6336，因此方案 B 最省錢。"
+      }
+    ]
+  },
+
+  // Quest 3: 熱量知多少 (第3單元)
+  {
+    title: "Quest 3：早餐熱量知多少 (整數乘法・健康卡路里)",
+    icon: "🥪",
+    concept: `
+      <strong>【108課綱生活素養導向題型】健康飲食卡路里計算（課本素養 P3）：</strong><br>
+      • 1 個三明治 208 大卡、1 碗八寶粥 273 大卡、1 瓶牛奶 80 大卡<br>
+      • 1 個小籠包 62 大卡、1 瓶柳橙汁 106 大卡、1 個鍋貼 74 大卡<br>
+      • <strong>小明早餐吃了 5 個小籠包和 1 瓶牛奶：</strong><br>
+        小籠包熱量 ＝ 62 × 5 ＝ 310 大卡。<br>
+        總熱量 ＝ 310 ＋ 80 ＝ <strong>390 大卡</strong>！
+    `,
+    quizzes: [
+      {
+        q: "【素養生活題】1 個小籠包 62 大卡，1 瓶牛奶 80 大卡。早餐吃 5 個小籠包和 1 瓶牛奶，一共攝取多少大卡熱量？",
+        options: ["390 大卡", "310 大卡", "380 大卡", "410 大卡"],
+        ans: "390 大卡",
+        explain: "小籠包 62 × 5 = 310 大卡，總熱量 = 310 + 80 = 390 大卡。"
+      }
+    ]
+  },
+
+  // Quest 4: 怪獸量身高 (第4單元)
+  {
+    title: "Quest 4：外星小怪獸量身高 (長度測量・毫米公分換算)",
+    icon: "👾",
+    concept: `
+      <strong>【108課綱生活素養導向題型】外星密碼身高測量（課本素養 P4）：</strong><br>
+      迷你星球健康檢查：<br>
+      • <strong>長度單位關係：</strong>1 公分 ＝ 10 毫米 (mm)。<br>
+      • 小怪獸身高測量為 <strong>924 毫米</strong>：<br>
+        924 毫米 ＝ 920 毫米 ＋ 4 毫米 ＝ <strong>92 公分 4 毫米</strong>！
+    `,
+    quizzes: [
+      {
+        q: "【素養生活題】外星小怪獸的身高測量為 924 毫米，換算成公分和毫米是多少？",
+        options: ["92 公分 4 毫米", "9 公分 24 毫米", "924 公分", "90 公分 24 毫米"],
+        ans: "92 公分 4 毫米",
+        explain: "1 公分 = 10 毫米，924 ÷ 10 = 92 公分餘 4 毫米。"
+      }
+    ]
+  },
+
+  // Quest 5: 餅乾形狀櫥窗 (第5單元)
+  {
+    title: "Quest 5：餅乾形狀櫥窗大搜查 (直角・正方形與長方形)",
+    icon: "🍪",
+    concept: `
+      <strong>【108課綱生活素養導向題型】點心幾何特徵大辨識（課本素養 P5）：</strong><br>
+      • <strong>正方形餅乾：</strong>4 條邊一樣長，有 4 個直角。<br>
+      • <strong>長方形餅乾：</strong>對邊一樣長，有 4 個直角。<br>
+      • <strong>三角形餅乾：</strong>有 3 條邊、3 個角。
+    `,
+    quizzes: [
+      {
+        q: "【素養生活題】櫥窗中有一款餅乾「4 條邊全部一樣長，且 4 個角都是直角」，這是什麼形狀的餅乾？",
+        options: ["正方形", "長方形", "圓形", "三角形"],
+        ans: "正方形",
+        explain: "四邊等長且四角皆為直角的圖形是正方形。"
+      }
+    ]
+  },
+
+  // Quest 6: 夏日露營趣 (第6單元)
+  {
+    title: "Quest 6：夏日露營趣 (除法與餘數・住滿帳篷規劃)",
+    icon: "⛺",
+    concept: `
+      <strong>【108課綱生活素養導向題型】夏日營隊帳篷租借（課本素養 P6）：</strong><br>
+      規則：每頂帳篷必須剛好住滿，不能有空位。<br>
+      • 男生 16 人：<br>
+        • 租四人帳：16 ÷ 4 ＝ 4（剛好住滿 4 頂）。<br>
+        • 租六人帳：16 ÷ 6 ＝ 2 餘 4（剩 4 人不能住滿，不可租）。<br>
+        • 租八人帳：16 ÷ 8 ＝ 2（剛好住滿 2 頂）。<br>
+      • 女生 12 人：12 ÷ 4 ＝ 3 頂四人帳，或 12 ÷ 6 ＝ 2 頂六人帳。
+    `,
+    quizzes: [
+      {
+        q: "【素養生活題】男生有 16 人，帳篷規定每頂都必須住滿。男生可以選擇租借哪種帳篷？",
+        options: ["四人帳或八人帳", "只有六人帳", "四人帳或六人帳", "六人帳或八人帳"],
+        ans: "四人帳或八人帳",
+        explain: "16 ÷ 4 = 4（可住滿 4 頂四人帳），16 ÷ 8 = 2（可住滿 2 頂八人帳）。16 ÷ 6 = 2 餘 4 無法住滿。"
+      }
+    ]
+  },
+
+  // Quest 7: 消毒水DIY (第7單元)
+  {
+    title: "Quest 7：衛福部消毒水 DIY (容量・公升與毫升調配)",
+    icon: "🧪",
+    concept: `
+      <strong>【108課綱生活素養導向題型】學校防疫消毒水配方（課本素養 P7）：</strong><br>
+      衛福部 1000 ppm 稀釋指引：<br>
+      • <strong>容量單位關係：</strong>1 公升 ＝ 1000 毫升 (mL)。<br>
+      • 1 公升的清水容量 ＞ 100 毫升的漂白水。<br>
+      • 1 公升（1000 mL）清水 ＋ 10 mL 漂白水 ＝ <strong>1010 毫升消毒水</strong>。<br>
+      • 10 公升（10000 mL）清水 ＋ 100 mL 漂白水 ＝ <strong>10100 毫升消毒水</strong>！
+    `,
+    quizzes: [
+      {
+        q: "【素養生活題】1 公升的清水和 100 毫升的藥水，哪一種的容量比較多？",
+        options: ["1 公升的清水 (1000 毫升)", "100 毫升的藥水", "兩者一樣多", "無法比較"],
+        ans: "1 公升的清水 (1000 毫升)",
+        explain: "1 公升 = 1000 毫升，1000 毫升 > 100 毫升。"
+      }
+    ]
+  },
+
+  // Quest 8: 駭客任務密碼 (第8單元)
+  {
+    title: "Quest 8：駭客任務分數密碼 (平分與真分數辨識)",
+    icon: "💻",
+    concept: `
+      <strong>【108課綱生活素養導向題型】神秘密碼分數解碼（課本素養 P8）：</strong><br>
+      • 圓形平分成 2 份，其中 1 份是 <strong>1/2</strong>。<br>
+      • 長方形平分成 4 份，塗色 3 份是 <strong>3/4</strong>。<br>
+      • 6 個等分塗滿是 6/6（也就是整體的 1）！<br>
+      • 解讀分數時，<strong>每一份的大小必須完全一樣（平分）</strong>才能以分數表示。
+    `,
+    quizzes: [
+      {
+        q: "【素養生活題】一個大披薩平分成 8 片，弟弟吃了其中 5 片，弟弟吃掉了幾個披薩？",
+        options: ["5/8 個", "3/8 個", "8/5 個", "5 個"],
+        ans: "5/8 個",
+        explain: "平分成 8 份取 5 份，記作 5/8 個披薩。"
+      }
+    ]
+  },
+
+  // Quest 9: 修理勇者之盾 (第9單元)
+  {
+    title: "Quest 9：修理勇者之盾 (圓的構成・圓心與半徑)",
+    icon: "🛡️",
+    concept: `
+      <strong>【108課綱生活素養導向題型】工廠重鑄勇者盾牌（課本素養 P9）：</strong><br>
+      • <strong>尋找圓心：</strong>將圓形設計圖「對折再對折」，兩條摺痕的交點就是<strong>圓心</strong>！<br>
+      • <strong>半徑與直徑：</strong><br>
+        從圓心到圓周上的直線長度是<strong>半徑</strong>。<br>
+        通過圓心且兩端都在圓周上的直線是<strong>直徑</strong>（直徑 ＝ 半徑 × 2）！
+    `,
+    quizzes: [
+      {
+        q: "【素養生活題】將一張圓形紙片「對折再對折」，兩條折痕的交叉點剛好是這個圓的什麼位置？",
+        options: ["圓心", "半徑", "圓周", "直徑"],
+        ans: "圓心",
+        explain: "圓形兩條對稱軸（直徑）的交點就是圓心。"
+      }
+    ]
+  }
+];
+
+const glossaryTerms = [
+  { term: "數學素養 (Mathematical Literacy)", def: "能用數學眼光觀察世界、用數學思維分析問題，並用數學語言與技能解決生活真實問題的能力。" },
+  { term: "四位數加減", def: "千位、百位、十位、個位對齊，掌握進位與借位原則的加減法計算。" },
+  { term: "平分與分數", def: "將一個整體平分成若干等份，其中的幾等份以「分母分之分子」表示。" },
+  { term: "圓的構成要素", def: "圓心（中心點）、半徑（圓心到邊界距離）、直徑（通過圓心兩端在邊界的直線，直徑＝半徑×2）。" }
+];
+
+function renderStage(stageIdx) {
+  currentStage = stageIdx;
+  const container = document.getElementById('stageContainer');
+  const tabs = document.querySelectorAll('.stage-tab');
+  tabs.forEach((tab, i) => {
+    tab.classList.toggle('active', i === stageIdx);
+  });
+
+  const data = stageData[stageIdx];
+  if (!data) return;
+
+  let html = `
+    <div class="section-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span>${data.icon}</span>
+          <span>${data.title}</span>
+        </h2>
+        <span class="badge-tag">Quest ${stageIdx + 1} / 9</span>
+      </div>
+
+      <div class="concept-box">
+        ${data.concept}
+      </div>
+  `;
+
+  html += `
+      <h3 style="margin:24px 0 10px; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+        <span>✏️</span><span>素養探究測驗 (選項自動隨機化)</span>
+      </h3>
+      <div class="quiz-list" id="stageQuizList">
+  `;
+
+  data.quizzes.forEach((quiz, qIdx) => {
+    const shuffledOptions = shuffleArray(quiz.options);
+    html += `
+      <div class="quiz-item" id="quizCard_${stageIdx}_${qIdx}">
+        <div class="quiz-header">
+          <span class="quiz-qnum">素養題 ${qIdx + 1}</span>
+          <div class="quiz-text">${quiz.q}</div>
+        </div>
+        <div class="quiz-options">
+          ${shuffledOptions.map(opt => `
+            <button class="quiz-opt-btn" onclick="checkAnswer(${stageIdx}, ${qIdx}, this, '${encodeURIComponent(opt)}', '${encodeURIComponent(quiz.ans)}')">
+              ${opt}
+            </button>
+          `).join('')}
+        </div>
+        <div class="quiz-explain" id="explain_${stageIdx}_${qIdx}">
+          <strong>💡 生活素養詳解：</strong> ${quiz.explain}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+      </div>
+      <div class="card-footer">
+        <button class="back-btn" onclick="prevStage()">⬅️ 上一個任務</button>
+        <button class="btn-next-stage" onclick="nextStage()">
+          ${stageIdx === 8 ? '領取素養小達人認證 🌟' : '挑戰下個素養任務 ➡️'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = html;
+  window.scrollTo({ top: 180, behavior: 'smooth' });
+}
+
+function checkAnswer(stageIdx, qIdx, btn, encodedSelected, encodedCorrect) {
+  const selected = decodeURIComponent(encodedSelected);
+  const correct = decodeURIComponent(encodedCorrect);
+  const card = document.getElementById(`quizCard_${stageIdx}_${qIdx}`);
+  const explain = document.getElementById(`explain_${stageIdx}_${qIdx}`);
+  const allBtns = card.querySelectorAll('.quiz-opt-btn');
+
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if (decodeURIComponent(b.getAttribute('onclick').split("'")[7]) === correct) {
+      b.classList.add('correct-opt');
+    }
+  });
+
+  if (selected === correct) {
+    btn.classList.add('correct-opt');
+    card.classList.add('correct-item');
+    playSound('correct');
+    addScore(10);
+    updateMascot('🎯 答對了！生活素養掌握得非常棒！');
+  } else {
+    btn.classList.add('wrong-opt');
+    card.classList.add('wrong-item');
+    playSound('wrong');
+    resetCombo();
+    updateMascot('💡 沒關係，仔細看看生活詳解，數學在身邊！');
+  }
+
+  explain.style.display = 'block';
+}
+
+function gotoStage(idx) {
+  playSound('click');
+  renderStage(idx);
+}
+
+function nextStage() {
+  if (currentStage < 8) {
+    playSound('level_clear');
+    if (typeof confetti === 'function') {
+      confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+    }
+    renderStage(currentStage + 1);
+  } else {
+    renderFinal();
+  }
+}
+
+function prevStage() {
+  if (currentStage > 0) {
+    playSound('click');
+    renderStage(currentStage - 1);
+  } else {
+    showCastleModal('提示', '已經是第一個任務囉！', '🏰');
+  }
+}
+
+function renderFinal() {
+  playSound('level_clear');
+  if (typeof confetti === 'function') {
+    confetti({ particleCount: 160, spread: 100, origin: { y: 0.6 } });
+  }
+  const container = document.getElementById('stageContainer');
+  const tabs = document.querySelectorAll('.stage-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+
+  container.innerHTML = `
+    <div class="section-card badge-showcase">
+      <div class="medal-icon">🌟</div>
+      <h2 style="font-size:2rem; font-weight:900; color:var(--primary-dark); margin-bottom:12px;">
+        恭喜榮獲【3上數學全能素養小達人】榮譽認證！
+      </h2>
+      <p style="font-size:1.15rem; color:var(--text-muted); max-width:620px; margin:0 auto 24px;">
+        你已成功完成小精靈萬以內數、綠島行程比價、健康卡路里計算、怪獸量身高、露營帳篷分配、消毒水調配、分數密碼與勇者之盾！真正掌握了用數學探索生活的超能力！
+      </p>
+      <div style="display:flex; justify-content:center; gap:16px; margin-bottom:28px;">
+        <div class="stat-pill" style="font-size:1.1rem; padding:8px 20px;">
+          <span>⭐ 最終總得分：</span><strong style="color:#B45309;">${userScore} 分</strong>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:center; gap:16px;">
+        <button class="btn-next-stage" onclick="gotoStage(0)">🔄 再次挑戰複習</button>
+        <a href="portal.html" class="back-btn" style="padding:10px 24px; font-size:1.05rem;">🏰 返回傳送門</a>
+      </div>
+    </div>
+  `;
+  window.scrollTo({ top: 180, behavior: 'smooth' });
+}
+
+function openGlossary() {
+  playSound('click');
+  let body = '<div style="display:flex; flex-direction:column; gap:14px;">';
+  glossaryTerms.forEach(t => {
+    body += `
+      <div style="background:#FEF3C7; border-left:4px solid var(--primary); padding:10px 14px; border-radius:0 8px 8px 0;">
+        <div style="font-weight:800; color:var(--primary-dark); margin-bottom:4px;">${t.term}</div>
+        <div style="font-size:0.95rem; color:#334155;">${t.def}</div>
+      </div>
+    `;
+  });
+  body += '</div>';
+  showCastleModal('跨領域素養・核心知識寶典', body, '📖');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderStage(0);
+});
+</script>
+</body>
+</html>
+'''
+
+with open('math3_competency.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print(f"Successfully generated math3_competency.html (size: {len(html_content)} chars)")
+

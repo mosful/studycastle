@@ -12,6 +12,16 @@ files_to_check = [
     "fraction-division.html",
     "decimal-division.html",
     "circle-area.html",
+    "ratio.html",
+    "sector.html",
+    "speed.html",
+    "pattern.html",
+    "math6_competency.html",
+    "math3_competency.html",
+    "math3_division.html",
+    "math3_capacity.html",
+    "math3_fraction.html",
+    "math3_circle.html",
     "index.html",
     "portal.html"
 ]

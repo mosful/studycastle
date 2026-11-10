@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國小 3 上數學 第 7 單元：公升與毫升大探索 | 學習城堡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0284C7;
+            --primary-dark: #0369A1;
+            --primary-bg: #E0F2FE;
+            --accent: #0D9488;
+            --accent-bg: #F0FDFA;
+            --cyan: #06B6D4;
+            --amber: #D97706;
+            --rose: #E11D48;
+            --text-dark: #0F172A;
+            --text-gray: #475569;
+            --card-bg: #FFFFFF;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.1), 0 8px 10px -6px rgba(2, 132, 199, 0.1);
+            --shadow-hover: 0 20px 30px -10px rgba(2, 132, 199, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 80px;
+            line-height: 1.6;
+        }
+
+        .header-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 14px 24px;
+            border-bottom: 1px solid rgba(186, 230, 253, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: var(--primary-bg);
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #BAE6FD;
+            transform: translateX(-3px);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #0369A1 0%, #0284C7 50%, #0D9488 100%);
+            color: white;
+            padding: 40px 32px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "💧";
+            font-size: 130px;
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            opacity: 0.95;
+            max-width: 650px;
+        }
+
+        /* Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid #BAE6FD;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--primary-bg);
+            padding-bottom: 12px;
+        }
+
+        .card-icon {
+            font-size: 1.6rem;
+            background: var(--primary-bg);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .highlight-box {
+            background: var(--primary-bg);
+            border-left: 5px solid var(--primary);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 14px 0;
+            font-weight: 500;
+        }
+
+        .alert-box {
+            background: #FEF3C7;
+            border-left: 5px solid var(--amber);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 14px 0;
+            color: #92400E;
+            font-weight: 600;
+        }
+
+        /* 互動量筒模擬器 */
+        .interactive-tool {
+            background: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: var(--shadow);
+            border: 2px solid #BAE6FD;
+        }
+
+        .tool-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .beaker-board {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+            background: #F8FAFC;
+            padding: 30px;
+            border-radius: var(--radius-md);
+            border: 1px dashed #7DD3FC;
+        }
+
+        /* 量筒 SVG 容器 */
+        .cylinder-container {
+            width: 140px;
+            height: 280px;
+            position: relative;
+            background: rgba(224, 242, 254, 0.4);
+            border: 4px solid #0369A1;
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            box-shadow: inset 0 0 15px rgba(2, 132, 199, 0.15);
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        .water-fill {
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(56, 189, 248, 0.8) 0%, rgba(2, 132, 199, 0.9) 100%);
+            transition: height 0.4s ease-out;
+            position: relative;
+        }
+
+        .water-surface {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: #BAE6FD;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        /* 量筒刻度線 */
+        .scale-mark {
+            position: absolute;
+            right: 0;
+            width: 16px;
+            height: 2px;
+            background: #0369A1;
+        }
+
+        .scale-mark.major {
+            width: 28px;
+            height: 3px;
+        }
+
+        .scale-label {
+            position: absolute;
+            right: 32px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #0369A1;
+            transform: translateY(-50%);
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .control-panel {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .preset-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-preset {
+            background: #E0F2FE;
+            color: #0369A1;
+            border: 2px solid #BAE6FD;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-preset:hover, .btn-preset.active {
+            background: #0284C7;
+            color: white;
+            border-color: #0284C7;
+        }
+
+        .status-badge {
+            background: #FFFFFF;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .status-badge h3 {
+            color: var(--primary-dark);
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 換算工具 */
+        .convert-board {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-top: 16px;
+            background: #F0F9FF;
+            padding: 20px;
+            border-radius: var(--radius-md);
+        }
+
+        .tool-input {
+            width: 100px;
+            padding: 10px 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border: 2px solid #7DD3FC;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            outline: none;
+            color: var(--primary-dark);
+        }
+
+        .btn-calc {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-calc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
+        }
+
+        /* 練習區 Quiz */
+        .quiz-section {
+            margin-top: 40px;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid #BAE6FD;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .quiz-badge {
+            background: #E0F2FE;
+            color: #0369A1;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .quiz-question {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 640px) {
+            .quiz-options {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .opt-btn {
+            background: #F8FAFC;
+            border: 2px solid #E2E8F0;
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .opt-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: var(--primary-bg);
+            transform: translateY(-2px);
+        }
+
+        .opt-btn.correct {
+            background: #DCFCE7 !important;
+            border-color: #22C55E !important;
+            color: #15803D !important;
+        }
+
+        .opt-btn.wrong {
+            background: #FEE2E2 !important;
+            border-color: #EF4444 !important;
+            color: #B91C1C !important;
+        }
+
+        .feedback-box {
+            display: none;
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .feedback-correct {
+            background: #F0FDF4;
+            border-left: 4px solid #22C55E;
+            color: #166534;
+        }
+
+        .feedback-wrong {
+            background: #FEF2F2;
+            border-left: 4px solid #EF4444;
+            color: #991B1B;
+        }
+
+        /* 總分結算 */
+        .quiz-summary-card {
+            background: linear-gradient(135deg, #0369A1 0%, #0284C7 100%);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-score {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 12px 0;
+            color: #FDE047;
+        }
+
+        .btn-reset {
+            background: #FFFFFF;
+            color: var(--primary-dark);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.2s;
+            margin-top: 14px;
+        }
+
+        .btn-reset:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-nav">
+        <a href="portal.html" class="back-btn">
+            <span>🏰</span> 回學習城堡首頁
+        </a>
+        <div style="font-weight: 800; color: var(--primary-dark); font-size: 1rem;">
+            國小 3 上數學・第 7 單元
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero 區塊 -->
+        <section class="hero">
+            <span class="hero-badge">國小 3 上數學・第 ⑦ 單元</span>
+            <h1>💧 公升與毫升大探索：容量與健康飲水</h1>
+            <p>
+                歡迎來到清涼的水精靈王國！認識國際通用的容量標準單位「公升（L）」與「毫升（mL）」，學會量筒讀取刻度的視線水平技巧，掌握千進位的神奇單位換算，化身聰明健康的飲水小達人！
+            </p>
+        </section>
+
+        <!-- 5 大核心觀念卡片 -->
+        <div class="grid-2">
+            <!-- 觀念 1 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">🥛</div>
+                    <span>7-1 認識公升（Liter, L）</span>
+                </div>
+                <p>為了精確度量較多液體的多少，使用國際通用單位<strong>「公升」</strong>：</p>
+                <div class="highlight-box">
+                    • 英文符號記作：<strong>L</strong>（或 <strong>l</strong>）。<br>
+                    • 生活量感：大瓶家庭號鮮奶（約 1～2 公升）、大水壺（約 1 公升）。<br>
+                    • 1 公升量杯的水正好倒滿 1 公升容器。
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">
+                    ★ 估測小技巧：以 1 公升為基準，估測湯鍋約 3～5 公升，水桶約 10 公升。
+                </p>
+            </div>
+
+            <!-- 觀念 2 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">🧪</div>
+                    <span>7-2 認識毫升（Milliliter, mL）</span>
+                </div>
+                <p>度量較少液體時，使用較小的標準單位<strong>「毫升」</strong>：</p>
+                <div class="highlight-box">
+                    • 英文符號記作：<strong>mL</strong>（或 <strong>ml</strong>，亦稱 c.c.）。<br>
+                    • 學校每週含氟漱口水：約 <strong>10 毫升</strong>。<br>
+                    • 養樂多一瓶：約 <strong>100 毫升</strong>。<br>
+                    • 鋁箔包飲料：約 <strong>250 毫升</strong>。<br>
+                    • 寶特瓶礦泉水：約 <strong>600 毫升</strong>。
+                </div>
+                <div class="alert-box">
+                    👀 <strong>讀刻度關鍵心法：視線必須與液面（凹液面）保持水平！</strong><br>
+                    由上往下俯視會偏高，由下往上仰視會偏低。
+                </div>
+            </div>
+
+            <!-- 觀念 3 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">🔄</div>
+                    <span>7-3 公升與毫升的千進位換算</span>
+                </div>
+                <p>公升與毫升的關係是極度重要的<strong>「千進位」</strong>：</p>
+                <div class="highlight-box" style="font-size: 1.15rem; text-align: center; font-weight: 800; color: var(--primary-dark);">
+                    1 公升（L） ＝ 1000 毫升（mL）
+                </div>
+                <div class="highlight-box">
+                    <strong>• 單名數化複名數：</strong><br>
+                    <code>2005 mL ＝ 2 L 5 mL</code>（注意百位與十位的 0）<br>
+                    <code>3450 mL ＝ 3 L 450 mL</code><br><br>
+                    <strong>• 複名數化單名數：</strong><br>
+                    <code>4 L 80 mL ＝ 4080 mL</code>
+                </div>
+            </div>
+
+            <!-- 觀念 4 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">⚖️</div>
+                    <span>7-4 容量的比較與加減計算</span>
+                </div>
+                <p>容量的大小比較與日常生活加減運算：</p>
+                <div class="highlight-box">
+                    <strong>1. 比較大小法則：</strong><br>
+                    先比大單位「公升」，公升數相同再比「毫升」。<br>
+                    例：<code>3 L 100 mL ＞ 2 L 950 mL</code><br>
+                    例：<code>2050 mL ＝ 2 L 50 mL</code>
+                </div>
+                <div class="highlight-box">
+                    <strong>2. 生活加減實例：</strong><br>
+                    有一瓶 1 公升的水，喝掉 120 毫升後還剩多少？<br>
+                    把 1 公升化成 1000 毫升：<br>
+                    <code>1000 － 120 ＝ 880（毫升）</code>
+                </div>
+            </div>
+        </div>
+
+        <!-- 觀念 5 寬幅展示：生活健康飲水素養 -->
+        <div class="card" style="margin-bottom: 32px; background: linear-gradient(135deg, #F0FDFA 0%, #E0F2FE 100%); border-color: #99F6E4;">
+            <div class="card-title" style="color: #0F766E;">
+                <div class="card-icon" style="background: #CCFBF1; color: #0F766E;">🌱</div>
+                <span>7-5 生活健康素養：水是維持生命的奇蹟之泉</span>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                <div>
+                    <h3 style="color: #0F766E; margin-bottom: 8px;">💧 人體約有 60% 是水</h3>
+                    <p style="font-size: 0.95rem; color: #334155;">
+                        水可以幫助人體調節體溫、維持新陳代謝並運送養分。當感到口渴時，身體其實已經輕度缺水囉！
+                    </p>
+                </div>
+                <div>
+                    <h3 style="color: #0F766E; margin-bottom: 8px;">🥤 每日建議飲水量</h3>
+                    <p style="font-size: 0.95rem; color: #334155;">
+                        國小學童每天建議攝取 <strong>1200 ～ 1500 毫升</strong> 的純水；大人的每日建議飲水量約為 <strong>1500 ～ 2000 毫升</strong>。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 即時單位雙向換算機 -->
+            <div class="convert-board">
+                <span style="font-weight: 700; color: #0F766E;">🧮 單位快速換算器：</span>
+                <input type="number" id="inLiter" value="2" min="0" max="99" class="tool-input" placeholder="公升">
+                <span style="font-weight: 700;">公升</span>
+                <input type="number" id="inMilli" value="350" min="0" max="999" class="tool-input" placeholder="毫升">
+                <span style="font-weight: 700;">毫升</span>
+                <button class="btn-calc" onclick="convertCapacity()">＝ 立即換算</button>
+                <div id="convertResult" style="font-weight: 800; color: #0369A1; font-size: 1.15rem; margin-left: 8px;">
+                    ＝ 2350 毫升 (mL)
+                </div>
+            </div>
+        </div>
+
+        <!-- 互動工具：動態量筒刻度模擬器 -->
+        <section class="interactive-tool">
+            <div class="tool-title">
+                <span>🧪</span>
+                <span>動態量筒／量杯刻度模擬實驗室</span>
+            </div>
+            <p style="color: var(--text-gray); margin-bottom: 18px;">
+                點選下方預設容量按鈕或自訂注入水量，觀察量筒液面升降，體會視線水平判讀技巧：
+            </p>
+
+            <div class="beaker-board">
+                <!-- 量筒視覺化 -->
+                <div class="cylinder-container">
+                    <!-- 刻度 1000, 750, 500, 250 mL -->
+                    <div class="scale-mark major" style="bottom: 100%;"><span class="scale-label">1000mL(1L)</span></div>
+                    <div class="scale-mark" style="bottom: 75%;"><span class="scale-label">750mL</span></div>
+                    <div class="scale-mark major" style="bottom: 50%;"><span class="scale-label">500mL</span></div>
+                    <div class="scale-mark" style="bottom: 25%;"><span class="scale-label">250mL</span></div>
+                    <div class="scale-mark major" style="bottom: 0%;"><span class="scale-label">0</span></div>
+
+                    <!-- 液體 -->
+                    <div class="water-fill" id="cylinderWater" style="height: 50%;">
+                        <div class="water-surface"></div>
+                    </div>
+                </div>
+
+                <!-- 控制與說明 -->
+                <div class="control-panel">
+                    <div class="preset-buttons">
+                        <button class="btn-preset" onclick="setVolume(100)">100 mL (養樂多)</button>
+                        <button class="btn-preset" onclick="setVolume(250)">250 mL (鋁箔包)</button>
+                        <button class="btn-preset active" onclick="setVolume(500)">500 mL (中水壺)</button>
+                        <button class="btn-preset" onclick="setVolume(750)">750 mL (大杯飲料)</button>
+                        <button class="btn-preset" onclick="setVolume(1000)">1000 mL (1公升滿量)</button>
+                    </div>
+
+                    <div class="status-badge">
+                        <h3 id="currentVolTitle">💧 目前容量：500 毫升 (mL)</h3>
+                        <p id="volDescText" style="color: #475569; margin-bottom: 6px;">
+                            相當於 <strong>0.5 公升</strong>，或是半瓶寶特瓶水的容量。
+                        </p>
+                        <div style="background: #E0F2FE; color: #0369A1; padding: 8px 12px; border-radius: 6px; font-weight: 700; font-size: 0.9rem;">
+                            👀 視線指引：請確保眼睛平視 500 mL 凹液面刻度，避免仰視或俯視造成誤差！
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 練習 7 實戰評量題庫 -->
+        <section class="quiz-section">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+                <div>
+                    <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--primary-dark);">🎯 練習 7：公升與毫升闖關挑戰</h2>
+                    <p style="color: var(--text-gray);">完整取材自課本 P80~P109、生活量感、千進位換算與加減評量！</p>
+                </div>
+                <span style="font-weight: 700; color: var(--primary-dark); background: var(--primary-bg); padding: 6px 14px; border-radius: 999px;">
+                    共 10 題
+                </span>
+            </div>
+
+            <div id="quizContainer">
+                <!-- 題目將由 JavaScript 渲染並隨機打亂選項 -->
+            </div>
+
+            <!-- 總分結算卡 -->
+            <div id="quizSummary" class="quiz-summary-card" style="display: none;">
+                <h2>🎉 挑戰完成！容量大師成就解鎖</h2>
+                <div class="summary-score" id="finalScore">0 分</div>
+                <p id="summaryMessage" style="font-size: 1.1rem; opacity: 0.95;"></p>
+                <button class="btn-reset" onclick="resetQuiz()">🔄 再挑戰一次</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // --- Web Audio API 音效 ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
+                osc.frequency.exponentialRampToValueAtTime(880.00, audioCtx.currentTime + 0.15); // A5
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(261.63, audioCtx.currentTime); // C4
+                osc.frequency.exponentialRampToValueAtTime(174.61, audioCtx.currentTime + 0.2); // F3
+                gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.35);
+            } else if (type === 'complete') {
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const noteOsc = audioCtx.createOscillator();
+                    const noteGain = audioCtx.createGain();
+                    noteOsc.connect(noteGain);
+                    noteGain.connect(audioCtx.destination);
+                    noteOsc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.1);
+                    noteGain.gain.setValueAtTime(0.18, audioCtx.currentTime + idx * 0.1);
+                    noteGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + idx * 0.1 + 0.25);
+                    noteOsc.start(audioCtx.currentTime + idx * 0.1);
+                    noteOsc.stop(audioCtx.currentTime + idx * 0.1 + 0.25);
+                });
+            }
+        }
+
+        // --- 單位雙向換算器 ---
+        function convertCapacity() {
+            const lVal = parseInt(document.getElementById('inLiter').value, 10) || 0;
+            const mlVal = parseInt(document.getElementById('inMilli').value, 10) || 0;
+            const totalMl = (lVal * 1000) + mlVal;
+
+            const resEl = document.getElementById('convertResult');
+            resEl.textContent = `＝ ${totalMl} 毫升 (mL)`;
+            playSound('correct');
+        }
+
+        // --- 動態量筒水位模擬器 ---
+        function setVolume(ml) {
+            const waterEl = document.getElementById('cylinderWater');
+            const percent = Math.min(100, Math.max(0, (ml / 1000) * 100));
+            waterEl.style.height = `${percent}%`;
+
+            // 更新按鈕樣式
+            const btns = document.querySelectorAll('.btn-preset');
+            btns.forEach(b => {
+                if (b.textContent.includes(`${ml} mL`) || (ml === 1000 && b.textContent.includes('1000 mL'))) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+
+            document.getElementById('currentVolTitle').textContent = `💧 目前容量：${ml} 毫升 (mL)`;
+            const descEl = document.getElementById('volDescText');
+            if (ml === 1000) {
+                descEl.innerHTML = `正好倒滿量筒，等於 <strong>1 公升 (1 L)</strong>！`;
+            } else if (ml >= 500) {
+                descEl.innerHTML = `相當於 <strong>${ml / 1000} 公升</strong>，大約是隨身大水壺或手搖飲料的容量。`;
+            } else {
+                descEl.innerHTML = `相當於 <strong>${ml} 毫升</strong>，適合用於小量杯或瓶裝乳品度量。`;
+            }
+            playSound('correct');
+        }
+
+        // --- 練習 7 實戰測驗題庫 ---
+        const QUIZ_RAW_DATA = [
+            {
+                id: 1,
+                tag: "生活量感・漱口水",
+                q: "國小每週推行的含氟漱口水防齲計畫，每位同學每次大約使用多少漱口水？",
+                opts: ["10 毫升", "10 公升", "100 公升", "1 毫升"],
+                ans: 0,
+                exp: "漱口水只要一小小口即可，約為 10 毫升（約 10 mL）。"
+            },
+            {
+                id: 2,
+                tag: "刻度讀取技巧",
+                q: "用量筒測量液體容量時，眼睛視線應該如何觀察刻度才最準確？",
+                opts: [
+                    "視線必須與液面保持水平",
+                    "由上往下俯視",
+                    "由下往上仰視",
+                    "斜斜地看比較清楚"
+                ],
+                ans: 0,
+                exp: "讀取量筒或量杯時，視線必須與凹液面保持水平，俯視會偏高、仰視會偏低。"
+            },
+            {
+                id: 3,
+                tag: "千進位黃金關係",
+                q: "1 公升等於多少毫升？",
+                opts: ["1000 毫升", "100 毫升", "10 毫升", "10000 毫升"],
+                ans: 0,
+                exp: "公升與毫升是千進位：1 公升（1 L）＝ 1000 毫升（1000 mL）。"
+            },
+            {
+                id: 4,
+                tag: "複名數換單名數",
+                q: "3 公升 450 毫升等於多少毫升？",
+                opts: ["3450 毫升", "3045 毫升", "345 毫升", "750 毫升"],
+                ans: 0,
+                exp: "3 公升 ＝ 3000 毫升，3000 ＋ 450 ＝ 3450 毫升。"
+            },
+            {
+                id: 5,
+                tag: "易錯題・含0換算",
+                q: "「2005 毫升」換算成公升和毫升，是多少？",
+                opts: [
+                    "2 公升 5 毫升",
+                    "2 公升 50 毫升",
+                    "20 公升 5 毫升",
+                    "2 公升 500 毫升"
+                ],
+                ans: 0,
+                exp: "2005 毫升拆成 2000 毫升 ＋ 5 毫升 ＝ 2 公升 5 毫升（注意百位與十位都是 0）。"
+            },
+            {
+                id: 6,
+                tag: "容量比大小",
+                q: "比較大小：甲容器裝有 2 公升 50 毫升的水，乙容器裝有 2050 毫升的水，誰裝的水比較多？",
+                opts: [
+                    "一樣多",
+                    "甲容器比較多",
+                    "乙容器比較多",
+                    "無法比較"
+                ],
+                ans: 0,
+                exp: "2 公升 50 毫升 ＝ 2050 毫升，因此兩容器的水「一樣多」。"
+            },
+            {
+                id: 7,
+                tag: "生活飲水減法",
+                q: "有一瓶 1 公升的水，哥哥喝掉 120 毫升後，還剩下幾毫升的水？",
+                opts: ["880 毫升", "980 毫升", "820 毫升", "780 毫升"],
+                ans: 0,
+                exp: "1 公升 ＝ 1000 毫升，1000 － 120 ＝ 880 毫升。"
+            },
+            {
+                id: 8,
+                tag: "生活果汁加法",
+                q: "媽媽買了一瓶 2 公升 300 毫升的柳橙汁，阿姨買了一瓶 1 公升 600 毫升的蘋果汁，兩瓶合起來是多少？",
+                opts: [
+                    "3 公升 900 毫升",
+                    "3 公升 300 毫升",
+                    "4 公升 900 毫升",
+                    "390 毫升"
+                ],
+                ans: 0,
+                exp: "公升相加：2 ＋ 1 ＝ 3 公升；毫升相加：300 ＋ 600 ＝ 900 毫升。合起來是 3 公升 900 毫升。"
+            },
+            {
+                id: 9,
+                tag: "生活素養・人體水分",
+                q: "水是維持人體健康的重要關鍵，請問人體大約有多少比例是由水組成的？",
+                opts: ["約 60%", "約 10%", "約 30%", "約 99%"],
+                ans: 0,
+                exp: "人體大約有 60% 是由水組成，負責調節體溫、新陳代謝與運送養分。"
+            },
+            {
+                id: 10,
+                tag: "學童飲水量常識",
+                q: "國小學童每天建議的純水飲用量大約是多少最合適？",
+                opts: [
+                    "1200 ～ 1500 毫升",
+                    "100 ～ 200 毫升",
+                    "5000 ～ 6000 毫升",
+                    "50 毫升"
+                ],
+                ans: 0,
+                exp: "國小學童每天建議攝取 1200 ～ 1500 毫升的純水，避免一次牛飲，少量多次補充最健康！"
+            }
+        ];
+
+        // Fisher-Yates 隨機打亂演算法
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        let processedQuiz = [];
+        let userAnswers = {};
+        let score = 0;
+
+        function initQuiz() {
+            processedQuiz = QUIZ_RAW_DATA.map((item, idx) => {
+                const optionObjects = item.opts.map((optText, optIdx) => ({
+                    text: optText,
+                    isCorrect: optIdx === item.ans
+                }));
+                const shuffledOpts = shuffleArray([...optionObjects]);
+                const newCorrectIndex = shuffledOpts.findIndex(o => o.isCorrect);
+
+                return {
+                    id: item.id,
+                    displayNum: idx + 1,
+                    tag: item.tag,
+                    q: item.q,
+                    options: shuffledOpts.map(o => o.text),
+                    correctIndex: newCorrectIndex,
+                    exp: item.exp
+                };
+            });
+
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            userAnswers = {};
+
+            processedQuiz.forEach((qItem) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.id = `quizCard_${qItem.id}`;
+
+                const optHtml = qItem.options.map((opt, oIdx) => `
+                    <button class="opt-btn" onclick="selectOption(${qItem.id}, ${oIdx})">
+                        <span>(${String.fromCharCode(65 + oIdx)})</span>
+                        <span>${opt}</span>
+                    </button>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="quiz-header">
+                        <span class="quiz-badge">${qItem.tag}</span>
+                        <span style="font-weight: 700; color: var(--text-gray);">第 ${qItem.displayNum} / 10 題</span>
+                    </div>
+                    <div class="quiz-question">${qItem.displayNum}. ${qItem.q}</div>
+                    <div class="quiz-options" id="optGroup_${qItem.id}">
+                        ${optHtml}
+                    </div>
+                    <div class="feedback-box" id="feedback_${qItem.id}"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qId, selectedIdx) {
+            if (userAnswers[qId] !== undefined) return;
+            userAnswers[qId] = selectedIdx;
+
+            const qItem = processedQuiz.find(q => q.id === qId);
+            const optGroup = document.getElementById(`optGroup_${qId}`);
+            const buttons = optGroup.getElementsByClassName('opt-btn');
+            const feedbackEl = document.getElementById(`feedback_${qId}`);
+
+            Array.from(buttons).forEach(btn => btn.disabled = true);
+
+            const isCorrect = (selectedIdx === qItem.correctIndex);
+            if (isCorrect) {
+                buttons[selectedIdx].classList.add('correct');
+                feedbackEl.className = 'feedback-box feedback-correct';
+                feedbackEl.style.display = 'block';
+                feedbackEl.innerHTML = `<strong>🎉 太棒了！回答正確！</strong><br>${qItem.exp}`;
+                playSound('correct');
+            } else {
+                buttons[selectedIdx].classList.add('wrong');
+                buttons[qItem.correctIndex].classList.add('correct');
+                feedbackEl.className = 'feedback-box feedback-wrong';
+                feedbackEl.style.display = 'block';
+                feedbackEl.innerHTML = `<strong>💡 差一點點！正確答案是 (${String.fromCharCode(65 + qItem.correctIndex)}) ${qItem.options[qItem.correctIndex]}</strong><br>${qItem.exp}`;
+                playSound('wrong');
+            }
+
+            checkAllAnswered();
+        }
+
+        function checkAllAnswered() {
+            if (Object.keys(userAnswers).length === processedQuiz.length) {
+                let correctCount = 0;
+                processedQuiz.forEach(q => {
+                    if (userAnswers[q.id] === q.correctIndex) {
+                        correctCount++;
+                    }
+                });
+                score = correctCount * 10;
+
+                const summaryCard = document.getElementById('quizSummary');
+                const scoreEl = document.getElementById('finalScore');
+                const msgEl = document.getElementById('summaryMessage');
+
+                scoreEl.textContent = `${score} 分`;
+                if (score === 100) {
+                    msgEl.textContent = "🏆 完美全對！你已經完全精通公升、毫升與飲水素養，獲頒容量大師勳章！";
+                } else if (score >= 80) {
+                    msgEl.textContent = "🌟 表現優異！對千進位換算與生活容量掌握極佳，是稱職的容量探險家！";
+                } else {
+                    msgEl.textContent = "💪 再接再厲！記住 1 L ＝ 1000 mL 的千進位秘訣，多看量筒刻度就會更厲害！";
+                }
+
+                summaryCard.style.display = 'block';
+                summaryCard.scrollIntoView({ behavior: 'smooth' });
+                playSound('complete');
+            }
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizSummary').style.display = 'none';
+            initQuiz();
+            window.scrollTo({ top: document.querySelector('.quiz-section').offsetTop - 80, behavior: 'smooth' });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initQuiz();
+        });
+    </script>
+</body>
+</html>

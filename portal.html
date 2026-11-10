@@ -763,7 +763,7 @@
                 專為國小學童量身打造的互動學習樂園。收錄 115 上康軒最新三上／六上國語（全面融入 29 份主教材與教師專用手冊精華）、新超群數學、社會全冊自修、趣味部件字謎與新挑戰測驗題庫。
             </p>
             <div class="stats-strip">
-                <div class="stat-chip">📚 總收錄單元：<b id="statTotalUnits">31</b> 個</div>
+                <div class="stat-chip">📚 總收錄單元：<b id="statTotalUnits">41</b> 個</div>
                 <div class="stat-chip">🏮 國語文課程：<b id="statChineseUnits">17</b> 個</div>
                 <div class="stat-chip">🧮 數學大冒險：<b id="statMathUnits">11</b> 個</div>
                 <div class="stat-chip">🏆 包含全冊自修：<b id="statFlagshipUnits">4</b> 套</div>
@@ -855,7 +855,7 @@
         <div class="section-bar">
             <div class="section-title">
                 <span id="currentViewTitle">🏰 探索所有學習單元</span>
-                <span style="font-size:0.9rem; font-weight:normal; color:var(--text-muted);" id="resultCountBadge">(顯示 31 個單元)</span>
+                <span style="font-size:0.9rem; font-weight:normal; color:var(--text-muted);" id="resultCountBadge">(顯示 41 個單元)</span>
             </div>
             <button class="section-toggle-btn" id="btnToggleSubcards" onclick="toggleSubcardsView()">
                 👁️ 展開 6上國語 12 課單課細項
@@ -944,7 +944,25 @@
                 isLessonSubcard: false
             },
 
-            // --- 數學 6上四大核心單元 ---
+            // --- 數學 6上全冊素養旗艦與八大核心單元 ---
+                        // --- 數學 6上全冊跨領域素養導向旗艦 ---
+            {
+                id: "math6_competency",
+                title: "Follow Me 學素養 🌟 (全冊素養導向專案)",
+                subject: "math",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["108課綱素養題", "素養導向生活題", "跨領域探究", "畢業旅行分組", "BMI健康體位", "披薩CP值", "低碳通勤", "全冊素養旗艦"],
+                url: "math6_competency.html",
+                image: "🌟",
+                bgGradient: "linear-gradient(135deg, #065F46 0%, #059669 50%, #10B981 100%)",
+                badgeText: "🌟 6上・全冊素養題型",
+                badgeColor: "#059669",
+                description: "【108課綱生活素養導向專案】完整收錄 1~8 單元跨領域生活素養大探究！從畢業旅行分組、烘焙分裝、BMI健康體位密碼、披薩CP值性價比到節能減碳鐵馬行，內建即時BMI神算儀與全能素養大冒險！",
+                isFeatured: true,
+                isLessonSubcard: false
+            },
             {
                 id: "prime",
                 title: "質數海盜大冒險 ①",
@@ -1013,8 +1031,93 @@
                 isFeatured: true,
                 isLessonSubcard: false
             },
+            {
+                id: "ratio",
+                title: "比與比值大冒險 ⑤",
+                subject: "math",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["比和比值", "前項與後項", "相等的比", "最簡單整數比", "按比分配", "第⑤單元"],
+                url: "ratio.html",
+                image: "⚖️",
+                bgGradient: "linear-gradient(135deg, #0F766E 0%, #0D9488 50%, #14B8A6 100%)",
+                badgeText: "6上・第⑤單元",
+                badgeColor: "#0D9488",
+                description: "土耳其棉堡奇境！精通比與比值、土耳其紅茶調配模擬、最簡整數比魔法天平、比例式與按比分配生活應用，內建課本練習5完整題庫與資優題！",
+                isFeatured: true,
+                isLessonSubcard: false
+            },
+            {
+                id: "sector",
+                title: "扇形周長與面積 ⑥",
+                subject: "math",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["扇形", "扇形弧長", "扇形周長", "扇形面積", "栓狗活動範圍", "複合圖形割補", "第⑥單元"],
+                url: "sector.html",
+                image: "⚾",
+                bgGradient: "linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 50%, #3B82F6 100%)",
+                badgeText: "6上・第⑥單元",
+                badgeColor: "#1D4ED8",
+                description: "大聯盟道奇棒球場扇形奇境！精通扇形弧長公式、周長加兩半徑防漏秘笈、扇形面積、房屋轉角拴狗活動範圍與複合圖形割補，內建練習6與資優挑戰題！",
+                isFeatured: true,
+                isLessonSubcard: false
+            },
+            {
+                id: "speed",
+                title: "速率魔法特快車 ⑦",
+                subject: "math",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["速率", "時速", "分速", "秒速", "平均速率", "公式金三角", "相遇與追趕", "第⑦單元"],
+                url: "speed.html",
+                image: "🚄",
+                bgGradient: "linear-gradient(135deg, #0369A1 0%, #0284C7 50%, #38BDF8 100%)",
+                badgeText: "6上・第⑦單元",
+                badgeColor: "#0284C7",
+                description: "秘魯印加古道與高鐵奇境！精通速率意義、路程公式金三角、時速分速秒速秒換算、平均速率防陷阱、相向相遇與同向追趕，內建練習7完整題庫！",
+                isFeatured: true,
+                isLessonSubcard: false
+            },
+            {
+                id: "pattern",
+                title: "數量關係與規律 ⑧",
+                subject: "math",
+                gradeCategory: "g6",
+                gradeLevel: 6,
+                gradeText: "國小 6 上",
+                tags: ["數量關係", "和差積商", "加法原理", "乘法原理", "排列組合", "圖形規律", "週期排列", "第⑧單元"],
+                url: "pattern.html",
+                image: "🔺",
+                bgGradient: "linear-gradient(135deg, #3730A3 0%, #4F46E5 50%, #B45309 100%)",
+                badgeText: "6上・第⑧單元",
+                badgeColor: "#4F46E5",
+                description: "羅浮宮玻璃金字塔奇境！精通和差積商兩數量關係式、加法與乘法原理、排列組合穿搭、併桌排椅子與空心正多邊形隊形規律、火車座位週期定位，內建練習8完整題庫！",
+                isFeatured: true,
+                isLessonSubcard: false
+            },
 
-            // --- 數學 3上自修五大單元 ---
+            // --- 數學 3上自修五大單元 + 全冊素養旗艦 ---
+            {
+                id: "math3_competency",
+                title: "Follow Me 學素養 🌟 (全冊素養導向專案)",
+                subject: "math",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
+                tags: ["108課綱素養題", "素養導向生活題", "生活情境探究", "綠島自由行", "早餐熱量", "外星量身高", "消毒水DIY", "3上素養旗艦"],
+                url: "math3_competency.html",
+                image: "🌟",
+                bgGradient: "linear-gradient(135deg, #065F46 0%, #059669 50%, #10B981 100%)",
+                badgeText: "🌟 3上・全冊素養題型",
+                badgeColor: "#059669",
+                description: "【108課綱生活素養導向專案】完整收錄 3上全冊 1~9 單元跨領域生活素養大探究！從耶誕精靈累加、綠島比價、早餐熱量試算、小怪獸長度測量、露營帳篷整除到防疫消毒水配方，內建9大生活素養闖關測驗！",
+                isFeatured: true,
+                isLessonSubcard: false
+            },
             {
                 id: "math3_numbers",
                 title: "數到10000宇宙冒險 ①",
@@ -1098,6 +1201,74 @@
                 badgeColor: "#5B21B6",
                 description: "探索角的神奇世界！認識角、直角，以及正方形和長方形的性質，用幾何眼光發現生活中的數學美！",
                 isFeatured: false,
+                isLessonSubcard: false
+            },
+            {
+                id: "math3_division",
+                title: "除法大冒險：分裝、平分與餘數 ⑥",
+                subject: "math",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
+                tags: ["除法意義", "包含除與等分除", "餘數小於除數", "除法直式", "奇數與偶數", "3上第⑥單元"],
+                url: "math3_division.html",
+                image: "➗",
+                bgGradient: "linear-gradient(135deg, #1E3A8A 0%, #2563EB 50%, #0D9488 100%)",
+                badgeText: "3上・第⑥單元",
+                badgeColor: "#1E3A8A",
+                description: "進入除法魔法王國！從分裝與平分掌握除法意義，精通除法直式四步心法，牢記「餘數小於除數」黃金鐵律，認識 0 與 1 的除法性質，解開奇數與偶數代碼，內建練習 6 完整題庫！",
+                isFeatured: true,
+                isLessonSubcard: false
+            },
+            {
+                id: "math3_capacity",
+                title: "公升與毫升大探索 ⑦",
+                subject: "math",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
+                tags: ["容量單位", "公升", "毫升", "千進位換算", "視線水平", "飲水素養", "3上第⑦單元"],
+                url: "math3_capacity.html",
+                image: "💧",
+                bgGradient: "linear-gradient(135deg, #0369A1 0%, #0284C7 50%, #0D9488 100%)",
+                badgeText: "3上・第⑦單元",
+                badgeColor: "#0284C7",
+                description: "進入清涼水精靈王國！認識容量標準單位公升（L）與毫升（mL），精通量筒凹液面視線水平讀取技法，掌握千進位單位互換與生活加減，內建練習 7 完整題庫！",
+                isFeatured: true,
+                isLessonSubcard: false
+            },
+            {
+                id: "math3_fraction",
+                title: "分數王國：平分與幾分之幾 ⑧",
+                subject: "math",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
+                tags: ["分數意義", "平分先決條件", "單位分數", "真分數累加", "分子等於分母為1", "同分母比大小", "3上第⑧單元"],
+                url: "math3_fraction.html",
+                image: "🍕",
+                bgGradient: "linear-gradient(135deg, #C2410C 0%, #EA580C 50%, #D97706 100%)",
+                badgeText: "3上・第⑧單元",
+                badgeColor: "#EA580C",
+                description: "美味分數分享大冒險！掌握平分的先決鐵律，認識分子與分母由下往上的正確構造，理解單位分數累加與分子等於分母為 1 的黃金真理，內建練習 8 完整題庫！",
+                isFeatured: true,
+                isLessonSubcard: false
+            },
+            {
+                id: "math3_circle",
+                title: "圓的世界：圓心、半徑與圓規 ⑨",
+                subject: "math",
+                gradeCategory: "g3",
+                gradeLevel: 3,
+                gradeText: "國小 3 上",
+                tags: ["圓心", "半徑無限等長", "直徑最長", "直徑等於半徑兩倍", "圓規畫圓技法", "幾何對稱", "3上第⑨單元"],
+                url: "math3_circle.html",
+                image: "🎡",
+                bgGradient: "linear-gradient(135deg, #5B21B6 0%, #7C3AED 50%, #9333EA 100%)",
+                badgeText: "3上・第⑨單元",
+                badgeColor: "#7C3AED",
+                description: "探索完美對稱的幾何殿堂！摺紙找圓心、發現半徑與直徑的倍數關係（直徑＝半徑×2），掌握圓規針尖與張開距離的繪圖關鍵，內建練習 9 完整題庫！",
+                isFeatured: true,
                 isLessonSubcard: false
             },
 

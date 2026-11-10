@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國小 3 上數學 第 9 單元：圓的世界 | 學習城堡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #7C3AED;
+            --primary-dark: #6D28D9;
+            --primary-bg: #EDE9FE;
+            --accent: #9333EA;
+            --accent-bg: #F3E8FF;
+            --amber: #D97706;
+            --rose: #E11D48;
+            --text-dark: #1E1B4B;
+            --text-gray: #475569;
+            --card-bg: #FFFFFF;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.12), 0 8px 10px -6px rgba(124, 58, 237, 0.1);
+            --shadow-hover: 0 20px 30px -10px rgba(124, 58, 237, 0.22);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #FAF5FF 0%, #EDE9FE 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 80px;
+            line-height: 1.6;
+        }
+
+        .header-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 14px 24px;
+            border-bottom: 1px solid rgba(221, 214, 254, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: var(--primary-bg);
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #DDD6FE;
+            transform: translateX(-3px);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 50%, #9333EA 100%);
+            color: white;
+            padding: 40px 32px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "🎡";
+            font-size: 130px;
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            opacity: 0.22;
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            opacity: 0.95;
+            max-width: 650px;
+        }
+
+        /* Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid #DDD6FE;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--primary-bg);
+            padding-bottom: 12px;
+        }
+
+        .card-icon {
+            font-size: 1.6rem;
+            background: var(--primary-bg);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .highlight-box {
+            background: var(--primary-bg);
+            border-left: 5px solid var(--primary);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 14px 0;
+            font-weight: 500;
+        }
+
+        .alert-box {
+            background: #FEF3C7;
+            border-left: 5px solid var(--amber);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 14px 0;
+            color: #92400E;
+            font-weight: 600;
+        }
+
+        /* 畫圓動態實驗室 */
+        .interactive-tool {
+            background: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: var(--shadow);
+            border: 2px solid #DDD6FE;
+        }
+
+        .tool-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .circle-stage {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 36px;
+            align-items: center;
+            justify-content: center;
+            background: #FAF5FF;
+            padding: 28px;
+            border-radius: var(--radius-md);
+            border: 1px dashed #C4B5FD;
+        }
+
+        .svg-circle-canvas {
+            width: 240px;
+            height: 240px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            box-shadow: inset 0 0 20px rgba(124, 58, 237, 0.08);
+            border: 1px solid #DDD6FE;
+        }
+
+        .tool-controls {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .circle-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #DDD6FE;
+            outline: none;
+            -webkit-appearance: none;
+            margin-top: 10px;
+        }
+
+        .circle-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .info-pill {
+            display: inline-block;
+            background: #EDE9FE;
+            color: #6D28D9;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        /* 神算儀 */
+        .quick-calc-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            margin-top: 16px;
+            background: #F5F3FF;
+            padding: 18px;
+            border-radius: var(--radius-md);
+        }
+
+        .tool-input {
+            width: 90px;
+            padding: 10px 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            border: 2px solid #C4B5FD;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            outline: none;
+            color: var(--primary-dark);
+        }
+
+        .btn-calc {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-calc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(124, 58, 237, 0.3);
+        }
+
+        /* 練習區 Quiz */
+        .quiz-section {
+            margin-top: 40px;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid #DDD6FE;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .quiz-badge {
+            background: #EDE9FE;
+            color: #6D28D9;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .quiz-question {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 640px) {
+            .quiz-options {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .opt-btn {
+            background: #F8FAFC;
+            border: 2px solid #E2E8F0;
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .opt-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: var(--primary-bg);
+            transform: translateY(-2px);
+        }
+
+        .opt-btn.correct {
+            background: #DCFCE7 !important;
+            border-color: #22C55E !important;
+            color: #15803D !important;
+        }
+
+        .opt-btn.wrong {
+            background: #FEE2E2 !important;
+            border-color: #EF4444 !important;
+            color: #B91C1C !important;
+        }
+
+        .feedback-box {
+            display: none;
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .feedback-correct {
+            background: #F0FDF4;
+            border-left: 4px solid #22C55E;
+            color: #166534;
+        }
+
+        .feedback-wrong {
+            background: #FEF2F2;
+            border-left: 4px solid #EF4444;
+            color: #991B1B;
+        }
+
+        /* 總分結算 */
+        .quiz-summary-card {
+            background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 100%);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-score {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 12px 0;
+            color: #FDE047;
+        }
+
+        .btn-reset {
+            background: #FFFFFF;
+            color: var(--primary-dark);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.2s;
+            margin-top: 14px;
+        }
+
+        .btn-reset:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-nav">
+        <a href="portal.html" class="back-btn">
+            <span>🏰</span> 回學習城堡首頁
+        </a>
+        <div style="font-weight: 800; color: var(--primary-dark); font-size: 1rem;">
+            國小 3 上數學・第 9 單元
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero 區塊 -->
+        <section class="hero">
+            <span class="hero-badge">國小 3 上數學・第 ⑨ 單元</span>
+            <h1>🎡 圓的世界：圓心、半徑與圓規的魔法</h1>
+            <p>
+                歡迎來到完美的幾何圓形殿堂！觀察摩天輪與時鐘的優美旋轉，摺出圓心、探索無限等長的半徑與直徑，掌握手持圓規畫出完美圓形的關鍵技法！
+            </p>
+        </section>
+
+        <!-- 5 大核心觀念卡片 -->
+        <div class="grid-2">
+            <!-- 觀念 1 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">🎯</div>
+                    <span>9-1 圓的中心點：認識「圓心」</span>
+                </div>
+                <p>圓形是處處對稱的封閉曲線，它的正中心稱為<strong>「圓心」</strong>：</p>
+                <div class="highlight-box">
+                    • <strong>對折找圓心：</strong>拿一張圓形紙片對折再對折，展開後兩條摺痕的「十字交點」就是<strong>圓心</strong>。<br>
+                    • 圓規的針尖刺在紙上的固定點，就是所畫出圓的<strong>圓心</strong>。
+                </div>
+            </div>
+
+            <!-- 觀念 2 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">📏</div>
+                    <span>9-2 無限等長的骨幹：認識「半徑」</span>
+                </div>
+                <p>從圓心出發連接到圓周的線段稱為<strong>「半徑」</strong>：</p>
+                <div class="highlight-box">
+                    • <strong>定義：</strong>從圓心到圓周上任意一點的線段。<br>
+                    • <strong>兩大重要特徵：</strong><br>
+                    ① 同一個圓內有<strong>無限多條</strong>半徑。<br>
+                    ② 同一個圓內<strong>每一條半徑都一樣長</strong>！
+                </div>
+            </div>
+
+            <!-- 觀念 3 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">👑</div>
+                    <span>9-3 圓內最長線段：認識「直徑」</span>
+                </div>
+                <p>穿過圓心橫跨圓周兩端的線段稱為<strong>「直徑」</strong>：</p>
+                <div class="highlight-box">
+                    • <strong>定義：</strong>通過圓心，且兩端都在圓周上的線段。<br>
+                    • <strong>兩大重要特徵：</strong><br>
+                    ① 同一個圓內直徑也有無限多條，且<strong>每條直徑都一樣長</strong>。<br>
+                    ② 直徑是圓內<strong>最長的一條線段</strong>！
+                </div>
+            </div>
+
+            <!-- 觀念 4 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">✨</div>
+                    <span>9-4 直徑與半徑的倍數關係</span>
+                </div>
+                <p>直徑正好是由兩條在同一直線上的半徑所組成：</p>
+                <div class="highlight-box" style="font-size: 1.2rem; text-align: center; font-weight: 800; color: var(--primary-dark);">
+                    直徑 ＝ 半徑 × 2<br>
+                    半徑 ＝ 直徑 ÷ 2
+                </div>
+                <div class="highlight-box">
+                    例：半徑 4 公分的圓，直徑是 <code>4 × 2 ＝ 8 公分</code>。<br>
+                    例：直徑 10 公分的圓，半徑是 <code>10 ÷ 2 ＝ 5 公分</code>。
+                </div>
+            </div>
+        </div>
+
+        <!-- 觀念 5 寬幅展示：圓規的操作技巧 -->
+        <div class="card" style="margin-bottom: 32px;">
+            <div class="card-title">
+                <div class="card-icon">🖋️</div>
+                <span>9-5 圓規的正確使用心法與常見陷阱</span>
+            </div>
+            <p>畫出漂亮圓形的專業法寶就是<strong>「圓規」</strong>：</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-top: 12px;">
+                <div style="background: #F5F3FF; padding: 18px; border-radius: var(--radius-md); border: 2px solid #C4B5FD;">
+                    <h3 style="color: #6D28D9; margin-bottom: 8px;">📌 圓規構造對應</h3>
+                    <p>• 針尖位置 ＝ <strong>圓心</strong></p>
+                    <p>• 兩腳打開的距離 ＝ <strong>半徑長度</strong></p>
+                </div>
+                <div style="background: #FEF2F2; padding: 18px; border-radius: var(--radius-md); border: 2px solid #FCA5A5;">
+                    <h3 style="color: #B91C1C; margin-bottom: 8px;">⚠️ 考試最常錯陷阱！</h3>
+                    <p>若題目要求「畫出一個<strong>直徑 8 公分</strong>的圓」：</p>
+                    <p style="font-weight: 800; color: #991B1B; margin-top: 4px;">
+                        圓規兩腳絕對不能開 8 公分！必須打開「半徑」<code>8 ÷ 2 ＝ 4 公分</code>！
+                    </p>
+                </div>
+            </div>
+
+            <!-- 極速神算儀 -->
+            <div class="quick-calc-box">
+                <span style="font-weight: 700; color: #6D28D9;">🧮 直徑半徑極速神算儀：</span>
+                <span style="font-weight: 700;">輸入半徑：</span>
+                <input type="number" id="inputRadius" value="4" min="1" max="99" class="tool-input">
+                <span style="font-weight: 700;">公分</span>
+                <button class="btn-calc" onclick="calcDiameter()">計算直徑</button>
+                <div id="calcResult" style="font-weight: 800; color: #6D28D9; font-size: 1.15rem; margin-left: 8px;">
+                    → 直徑是 8 公分，圓規需打開 4 公分
+                </div>
+            </div>
+        </div>
+
+        <!-- 互動工具：動態畫圓模擬實驗室 -->
+        <section class="interactive-tool">
+            <div class="tool-title">
+                <span>🎡</span>
+                <span>動態圓規畫圓模擬實驗室</span>
+            </div>
+            <p style="color: var(--text-gray); margin-bottom: 18px;">
+                拖動下方半徑滑桿，觀察圓形大小動態改變，並即時檢視圓心、半徑線與直徑線的幾何關係：
+            </p>
+
+            <div class="circle-stage">
+                <!-- SVG 畫圓 -->
+                <div class="svg-circle-canvas">
+                    <svg id="circleSvg" width="240" height="240" viewBox="-120 -120 240 240"></svg>
+                </div>
+
+                <!-- 控制與數值 -->
+                <div class="tool-controls">
+                    <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 6px;">
+                        <span>調整半徑長度 (r)：</span>
+                        <span id="radiusLabel" style="color: var(--primary); font-size: 1.2rem;">4 公分</span>
+                    </div>
+                    <input type="range" id="radiusSlider" min="2" max="6" value="4" step="0.5" class="circle-slider" oninput="updateCircle(this.value)">
+
+                    <div style="margin-top: 24px;">
+                        <span class="info-pill" id="pillCenter">📍 圓心：O (正中心固定點)</span>
+                        <span class="info-pill" id="pillRadius">📏 半徑：4 公分</span>
+                        <span class="info-pill" id="pillDiameter">👑 直徑：8 公分</span>
+                        <span class="info-pill" id="pillCompass">🖋️ 圓規張開：4 公分</span>
+                    </div>
+
+                    <p style="font-size: 0.9rem; color: #64748B; margin-top: 14px;">
+                        藍線代表半徑（從圓心到圓周），紅線穿過圓心代表直徑（是半徑的 2 倍長）。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 練習 9 實戰評量題庫 -->
+        <section class="quiz-section">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+                <div>
+                    <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--primary-dark);">🎯 練習 9：圓的世界闖關挑戰</h2>
+                    <p style="color: var(--text-gray);">完整取材自課本 P102~P137、圓心半徑直徑性質與圓規畫圓技法！</p>
+                </div>
+                <span style="font-weight: 700; color: var(--primary-dark); background: var(--primary-bg); padding: 6px 14px; border-radius: 999px;">
+                    共 10 題
+                </span>
+            </div>
+
+            <div id="quizContainer">
+                <!-- 題目將由 JavaScript 渲染並隨機打亂選項 -->
+            </div>
+
+            <!-- 總分結算卡 -->
+            <div id="quizSummary" class="quiz-summary-card" style="display: none;">
+                <h2>🎉 挑戰完成！圓的魔法大師誕生</h2>
+                <div class="summary-score" id="finalScore">0 分</div>
+                <p id="summaryMessage" style="font-size: 1.1rem; opacity: 0.95;"></p>
+                <button class="btn-reset" onclick="resetQuiz()">🔄 再挑戰一次</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // --- Web Audio API 音效 ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime); // E5
+                osc.frequency.exponentialRampToValueAtTime(987.77, audioCtx.currentTime + 0.15); // B5
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(261.63, audioCtx.currentTime); // C4
+                osc.frequency.exponentialRampToValueAtTime(174.61, audioCtx.currentTime + 0.2); // F3
+                gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.35);
+            } else if (type === 'complete') {
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const noteOsc = audioCtx.createOscillator();
+                    const noteGain = audioCtx.createGain();
+                    noteOsc.connect(noteGain);
+                    noteGain.connect(audioCtx.destination);
+                    noteOsc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.1);
+                    noteGain.gain.setValueAtTime(0.18, audioCtx.currentTime + idx * 0.1);
+                    noteGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + idx * 0.1 + 0.25);
+                    noteOsc.start(audioCtx.currentTime + idx * 0.1);
+                    noteOsc.stop(audioCtx.currentTime + idx * 0.1 + 0.25);
+                });
+            }
+        }
+
+        // --- 神算儀 ---
+        function calcDiameter() {
+            const r = parseFloat(document.getElementById('inputRadius').value);
+            if (isNaN(r) || r <= 0) {
+                alert("請輸入有效的正數！");
+                return;
+            }
+            const d = r * 2;
+            document.getElementById('calcResult').textContent = `→ 直徑是 ${d} 公分，畫圓時圓規需打開 ${r} 公分`;
+            playSound('correct');
+        }
+
+        // --- 動態 SVG 圓形繪製 ---
+        function updateCircle(rVal) {
+            const r = parseFloat(rVal);
+            document.getElementById('radiusLabel').textContent = `${r} 公分`;
+            document.getElementById('pillRadius').textContent = `📏 半徑：${r} 公分`;
+            document.getElementById('pillDiameter').textContent = `👑 直徑：${r * 2} 公分`;
+            document.getElementById('pillCompass').textContent = `🖋️ 圓規張開：${r} 公分`;
+
+            const svg = document.getElementById('circleSvg');
+            svg.innerHTML = '';
+
+            const pixelRadius = r * 18; // 縮放比例
+
+            // 外圓輪廓
+            const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            circle.setAttribute("cx", 0);
+            circle.setAttribute("cy", 0);
+            circle.setAttribute("r", pixelRadius);
+            circle.setAttribute("fill", "rgba(237, 233, 254, 0.4)");
+            circle.setAttribute("stroke", "#7C3AED");
+            circle.setAttribute("stroke-width", "3");
+            svg.appendChild(circle);
+
+            // 直徑線（紅虛線）
+            const dLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            dLine.setAttribute("x1", -pixelRadius);
+            dLine.setAttribute("y1", 0);
+            dLine.setAttribute("x2", pixelRadius);
+            dLine.setAttribute("y2", 0);
+            dLine.setAttribute("stroke", "#EF4444");
+            dLine.setAttribute("stroke-width", "2");
+            dLine.setAttribute("stroke-dasharray", "4,4");
+            svg.appendChild(dLine);
+
+            // 半徑線（藍粗線）
+            const rLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            rLine.setAttribute("x1", 0);
+            rLine.setAttribute("y1", 0);
+            rLine.setAttribute("x2", pixelRadius * 0.707);
+            rLine.setAttribute("y2", -pixelRadius * 0.707);
+            rLine.setAttribute("stroke", "#2563EB");
+            rLine.setAttribute("stroke-width", "3");
+            svg.appendChild(rLine);
+
+            // 圓心點
+            const center = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            center.setAttribute("cx", 0);
+            center.setAttribute("cy", 0);
+            center.setAttribute("r", 5);
+            center.setAttribute("fill", "#6D28D9");
+            svg.appendChild(center);
+
+            // 圓心文字 O
+            const textO = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            textO.setAttribute("x", -14);
+            textO.setAttribute("y", 16);
+            textO.setAttribute("fill", "#6D28D9");
+            textO.setAttribute("font-weight", "800");
+            textO.setAttribute("font-size", "14px");
+            textO.textContent = "O";
+            svg.appendChild(textO);
+        }
+
+        // --- 練習 9 實戰測驗題庫 ---
+        const QUIZ_RAW_DATA = [
+            {
+                id: 1,
+                tag: "對折找圓心",
+                q: "把一張圓形紙片對折再對折，展開後兩條摺痕的相交點稱為什麼？",
+                opts: ["圓心", "半徑", "直徑", "圓周"],
+                ans: 0,
+                exp: "兩條直徑摺痕的十字交點正好是圓的正中心，稱作「圓心」。"
+            },
+            {
+                id: 2,
+                tag: "半徑特徵",
+                q: "關於同一個圓的「半徑」，下列哪一項敘述是正確的？",
+                opts: [
+                    "有無限多條，而且每條半徑都一樣長",
+                    "只有 1 條半徑",
+                    "每條半徑長度都不一樣",
+                    "半徑是圓內最長的線段"
+                ],
+                ans: 0,
+                exp: "從圓心到圓周任意一點都是半徑，同一個圓內有無數條半徑且全都等長。"
+            },
+            {
+                id: 3,
+                tag: "直徑特徵",
+                q: "通過圓心且兩端都在圓周上的線段稱為什麼？",
+                opts: ["直徑", "半徑", "圓心", "直線"],
+                ans: 0,
+                exp: "通過圓心且兩端都在圓周上的線段稱為「直徑」，也是圓內最長的線段。"
+            },
+            {
+                id: 4,
+                tag: "直徑半徑倍數關係",
+                q: "若一個圓的半徑是 6 公分，它的直徑是多少公分？",
+                opts: ["12 公分", "3 公分", "6 公分", "18 公分"],
+                ans: 0,
+                exp: "直徑 ＝ 半徑 × 2，6 × 2 ＝ 12 公分。"
+            },
+            {
+                id: 5,
+                tag: "反向推算半徑",
+                q: "若一個圓的直徑是 10 公分，它的半徑是多少公分？",
+                opts: ["5 公分", "20 公分", "10 公分", "2 公分"],
+                ans: 0,
+                exp: "半徑 ＝ 直徑 ÷ 2，10 ÷ 2 ＝ 5 公分。"
+            },
+            {
+                id: 6,
+                tag: "圓規操作陷阱",
+                q: "用圓規畫出一個「直徑 8 公分」的圓，圓規兩腳張開的距離應該是多少？",
+                opts: ["4 公分", "8 公分", "16 公分", "2 公分"],
+                ans: 0,
+                exp: "圓規兩腳張開的距離是「半徑」。直徑 8 公分的圓，半徑是 8 ÷ 2 ＝ 4 公分，因此圓規應打開 4 公分。"
+            },
+            {
+                id: 7,
+                tag: "圓規各部位對應",
+                q: "使用圓規畫圓時，針尖固定在紙上的那一點代表什麼？",
+                opts: ["圓心", "直徑", "半徑", "圓周"],
+                ans: 0,
+                exp: "針尖固定的一點就是旋轉中心，代表「圓心」。"
+            },
+            {
+                id: 8,
+                tag: "圓的最長線段",
+                q: "在同一個圓內，所有連接圓周兩點的線段中，最長的是哪一條？",
+                opts: ["直徑", "半徑", "任意弦", "摺痕"],
+                ans: 0,
+                exp: "同一個圓內，通過圓心的直徑是長度最長的一條線段。"
+            },
+            {
+                id: 9,
+                tag: "生活中的圓規用途",
+                q: "除了畫圓之外，圓規在數學中還常常用來做什麼？",
+                opts: [
+                    "測量比較線段長短與複製線段",
+                    "測量物體的重量",
+                    "當作剪刀剪紙",
+                    "測量水壺容量"
+                ],
+                ans: 0,
+                exp: "圓規兩腳跨距固定，可以用來比較兩線段的長短或複製相同長度的線段。"
+            },
+            {
+                id: 10,
+                tag: "幾何思維挑戰",
+                q: "在一個邊長 10 公分正方形內部畫一個最大的圓，這個圓的「直徑」是多少公分？",
+                opts: ["10 公分", "5 公分", "20 公分", "15 公分"],
+                ans: 0,
+                exp: "正方形內最大的圓正好與四個邊相切，因此圓的直徑等於正方形的邊長，即為 10 公分（半徑為 5 公分）。"
+            }
+        ];
+
+        // Fisher-Yates 隨機打亂演算法
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        let processedQuiz = [];
+        let userAnswers = {};
+        let score = 0;
+
+        function initQuiz() {
+            processedQuiz = QUIZ_RAW_DATA.map((item, idx) => {
+                const optionObjects = item.opts.map((optText, optIdx) => ({
+                    text: optText,
+                    isCorrect: optIdx === item.ans
+                }));
+                const shuffledOpts = shuffleArray([...optionObjects]);
+                const newCorrectIndex = shuffledOpts.findIndex(o => o.isCorrect);
+
+                return {
+                    id: item.id,
+                    displayNum: idx + 1,
+                    tag: item.tag,
+                    q: item.q,
+                    options: shuffledOpts.map(o => o.text),
+                    correctIndex: newCorrectIndex,
+                    exp: item.exp
+                };
+            });
+
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            userAnswers = {};
+
+            processedQuiz.forEach((qItem) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.id = `quizCard_${qItem.id}`;
+
+                const optHtml = qItem.options.map((opt, oIdx) => `
+                    <button class="opt-btn" onclick="selectOption(${qItem.id}, ${oIdx})">
+                        <span>(${String.fromCharCode(65 + oIdx)})</span>
+                        <span>${opt}</span>
+                    </button>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="quiz-header">
+                        <span class="quiz-badge">${qItem.tag}</span>
+                        <span style="font-weight: 700; color: var(--text-gray);">第 ${qItem.displayNum} / 10 題</span>
+                    </div>
+                    <div class="quiz-question">${qItem.displayNum}. ${qItem.q}</div>
+                    <div class="quiz-options" id="optGroup_${qItem.id}">
+                        ${optHtml}
+                    </div>
+                    <div class="feedback-box" id="feedback_${qItem.id}"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qId, selectedIdx) {
+            if (userAnswers[qId] !== undefined) return;
+            userAnswers[qId] = selectedIdx;
+
+            const qItem = processedQuiz.find(q => q.id === qId);
+            const optGroup = document.getElementById(`optGroup_${qId}`);
+            const buttons = optGroup.getElementsByClassName('opt-btn');
+            const feedbackEl = document.getElementById(`feedback_${qId}`);
+
+            Array.from(buttons).forEach(btn => btn.disabled = true);
+
+            const isCorrect = (selectedIdx === qItem.correctIndex);
+            if (isCorrect) {
+                buttons[selectedIdx].classList.add('correct');
+                feedbackEl.className = 'feedback-box feedback-correct';
+                feedbackEl.style.display = 'block';
+                feedbackEl.innerHTML = `<strong>🎉 太棒了！回答正確！</strong><br>${qItem.exp}`;
+                playSound('correct');
+            } else {
+                buttons[selectedIdx].classList.add('wrong');
+                buttons[qItem.correctIndex].classList.add('correct');
+                feedbackEl.className = 'feedback-box feedback-wrong';
+                feedbackEl.style.display = 'block';
+                feedbackEl.innerHTML = `<strong>💡 差一點點！正確答案是 (${String.fromCharCode(65 + qItem.correctIndex)}) ${qItem.options[qItem.correctIndex]}</strong><br>${qItem.exp}`;
+                playSound('wrong');
+            }
+
+            checkAllAnswered();
+        }
+
+        function checkAllAnswered() {
+            if (Object.keys(userAnswers).length === processedQuiz.length) {
+                let correctCount = 0;
+                processedQuiz.forEach(q => {
+                    if (userAnswers[q.id] === q.correctIndex) {
+                        correctCount++;
+                    }
+                });
+                score = correctCount * 10;
+
+                const summaryCard = document.getElementById('quizSummary');
+                const scoreEl = document.getElementById('finalScore');
+                const msgEl = document.getElementById('summaryMessage');
+
+                scoreEl.textContent = `${score} 分`;
+                if (score === 100) {
+                    msgEl.textContent = "🏆 完美全勝！你已經徹底精通圓心、半徑、直徑與圓規畫圓，獲頒幾何魔法大師勳章！";
+                } else if (score >= 80) {
+                    msgEl.textContent = "🌟 表現優異！對直徑半徑關係與圓規操作掌握純熟，是傑出的圓形探索家！";
+                } else {
+                    msgEl.textContent = "💪 繼續加油！牢記「直徑＝半徑×2」與「圓規兩腳是半徑」，多畫幾次一定更熟練！";
+                }
+
+                summaryCard.style.display = 'block';
+                summaryCard.scrollIntoView({ behavior: 'smooth' });
+                playSound('complete');
+            }
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizSummary').style.display = 'none';
+            initQuiz();
+            window.scrollTo({ top: document.querySelector('.quiz-section').offsetTop - 80, behavior: 'smooth' });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            updateCircle(4);
+            initQuiz();
+        });
+    </script>
+</body>
+</html>

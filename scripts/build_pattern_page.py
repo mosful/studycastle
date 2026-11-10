@@ -1,0 +1,1280 @@
+# -*- coding: utf-8 -*-
+"""
+生成 pattern.html - 國小六年級數學第 8 單元「數量關係」現代化互動學習頁面
+"""
+
+import os
+
+html_content = '''<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>羅浮宮金字塔奇境：數量關係與規律大冒險 ⑧ 6上數學 第8單元 | 學習城堡</title>
+<!-- Favicon 網站圖示 -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<meta name="description" content="國小 6 年級上學期數學第 8 單元：數量關係。從法國羅浮宮玻璃金字塔幾何排列出發，精通和差積商關係式、加法與乘法原理、排列組合穿搭、併桌排椅子與空心正多邊形規律、火車座位週期定位！">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="study-castle-ui.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+
+<style>
+  :root {
+    --primary: #4F46E5;
+    --primary-light: #818CF8;
+    --primary-dark: #3730A3;
+    --accent: #F59E0B;
+    --accent-gold: #D97706;
+    --bg-gradient: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 50%, #FEF3C7 100%);
+    --card-bg: rgba(255, 255, 255, 0.96);
+    --card-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --border-color: #C7D2FE;
+    --text-main: #0F172A;
+    --text-muted: #475569;
+    --radius-lg: 20px;
+    --radius-md: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .top-navbar {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .back-btn {
+    text-decoration: none;
+    background: #F1F5F9;
+    color: var(--text-main);
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #E2E8F0;
+  }
+  .back-btn:hover {
+    background: #E2E8F0;
+    transform: translateX(-2px);
+  }
+  .nav-brand {
+    font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .badge-tag {
+    background: #E0E7FF;
+    color: var(--primary-dark);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    border: 1px solid #A5B4FC;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .stat-pill {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    color: #92400E;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-icon {
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+  }
+  .btn-icon:hover {
+    background: #E2E8F0;
+    transform: scale(1.05);
+  }
+
+  .hero-container {
+    max-width: 1040px;
+    margin: 24px auto 16px;
+    padding: 0 16px;
+  }
+  .hero-banner {
+    background: linear-gradient(135deg, #3730A3 0%, #4F46E5 60%, #B45309 100%);
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    box-shadow: 0 12px 30px rgba(79, 70, 229, 0.25);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-banner::after {
+    content: "🏛️🔺🧩";
+    position: absolute;
+    right: -10px;
+    bottom: -15px;
+    font-size: 5rem;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .hero-content h1 {
+    font-size: 2.1rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .hero-content p {
+    font-size: 1.05rem;
+    color: #E0E7FF;
+    max-width: 620px;
+    line-height: 1.5;
+  }
+  .hero-mascot {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  .mascot-avatar {
+    font-size: 2.8rem;
+    animation: floatMascot 3s ease-in-out infinite;
+  }
+  @keyframes floatMascot {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .mascot-bubble {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #FFF;
+  }
+
+  .stage-nav {
+    max-width: 1040px;
+    margin: 16px auto;
+    padding: 0 16px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .stage-tab {
+    flex: 1;
+    min-width: 140px;
+    background: #FFFFFF;
+    border: 2px solid #E2E8F0;
+    border-radius: var(--radius-md);
+    padding: 12px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .stage-tab:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+  }
+  .stage-tab.active {
+    background: #EEF2FF;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+  }
+  .stage-tab-num {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .stage-tab-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
+  .main-container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .section-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    padding: 28px;
+    margin-bottom: 24px;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-header {
+    border-bottom: 2px solid #F1F5F9;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .concept-box {
+    background: #F8FAFC;
+    border-left: 5px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin-bottom: 20px;
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+  .concept-box strong {
+    color: var(--primary-dark);
+  }
+  .concept-highlight {
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  .lab-widget {
+    background: #FFFFFF;
+    border: 2px dashed #A5B4FC;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .slider-row {
+    margin-bottom: 14px;
+  }
+  .slider-row label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .slider-row input[type="range"] {
+    width: 100%;
+    accent-color: var(--primary);
+  }
+  .pattern-metrics {
+    background: #EEF2FF;
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-top: 14px;
+    border: 1px solid #C7D2FE;
+  }
+  .metrics-line {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--primary-dark);
+  }
+
+  .quiz-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 16px;
+  }
+  .quiz-item {
+    background: #FFFFFF;
+    border: 2px solid #E2E8F0;
+    border-radius: var(--radius-md);
+    padding: 20px;
+    transition: all 0.2s ease;
+  }
+  .quiz-item.correct-item {
+    border-color: #10B981;
+    background: #F0FDF4;
+  }
+  .quiz-item.wrong-item {
+    border-color: #F87171;
+    background: #FEF2F2;
+  }
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .quiz-qnum {
+    background: #E2E8F0;
+    color: #334155;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+  .quiz-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1E293B;
+    flex: 1;
+    line-height: 1.6;
+  }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .quiz-opt-btn {
+    background: #F8FAFC;
+    border: 2px solid #CBD5E1;
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .quiz-opt-btn:hover:not(:disabled) {
+    background: #F1F5F9;
+    border-color: var(--primary-light);
+    transform: translateY(-1px);
+  }
+  .quiz-opt-btn.correct-opt {
+    background: #10B981 !important;
+    border-color: #059669 !important;
+    color: #FFF !important;
+  }
+  .quiz-opt-btn.wrong-opt {
+    background: #EF4444 !important;
+    border-color: #DC2626 !important;
+    color: #FFF !important;
+  }
+  .quiz-explain {
+    background: #EFF6FF;
+    border-left: 4px solid #3B82F6;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #1E3A8A;
+    display: none;
+    line-height: 1.6;
+  }
+
+  .card-footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid #F1F5F9;
+    padding-top: 18px;
+  }
+  .btn-next-stage {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #FFF;
+    border: none;
+    padding: 12px 26px;
+    border-radius: var(--radius-md);
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+  }
+  .btn-next-stage:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+  }
+
+  .badge-showcase {
+    text-align: center;
+    padding: 30px 10px;
+  }
+  .medal-icon {
+    font-size: 5rem;
+    margin-bottom: 16px;
+    animation: medalBounce 1.5s infinite alternate ease-in-out;
+  }
+  @keyframes medalBounce {
+    from { transform: scale(1); }
+    to { transform: scale(1.1) rotate(5deg); }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 16px;
+  }
+  .modal-overlay.open {
+    display: flex;
+  }
+  .modal-content {
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    max-width: 540px;
+    width: 100%;
+    padding: 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: modalPop 0.25s ease-out;
+    position: relative;
+  }
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .modal-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #94A3B8;
+  }
+  .modal-close:hover { color: #334155; }
+  .modal-body {
+    font-size: 1rem;
+    color: #334155;
+    line-height: 1.7;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  @media (max-width: 768px) {
+    .hero-content h1 { font-size: 1.6rem; }
+    .hero-banner { padding: 22px 18px; }
+    .section-card { padding: 18px; }
+    .quiz-options { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-navbar">
+  <div class="nav-left">
+    <a href="portal.html" class="back-btn">
+      <span>🏰 返回傳送門</span>
+    </a>
+    <div class="nav-brand">
+      <span>🏛️ 數量關係奇境</span>
+      <span class="badge-tag">6上 第⑧單元</span>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="stat-pill">
+      <span>⭐ 能量:</span>
+      <span id="scoreText">0</span>
+    </div>
+    <div class="stat-pill" style="background:#ECFDF5; border-color:#A7F3D0; color:#065F46;">
+      <span>🔥 連擊:</span>
+      <span id="comboText">0</span>
+    </div>
+    <button class="btn-icon" onclick="openGlossary()" title="知識寶典">📖</button>
+    <button class="btn-icon" id="soundBtn" onclick="toggleSound()" title="音效切換">🔊</button>
+  </div>
+</header>
+
+<section class="hero-container">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h1>羅浮宮金字塔奇境：數量關係與規律</h1>
+      <p>探索法國羅浮宮玻璃金字塔的層層排列！精通和差積商關係式、加法與乘法原理、組合搭配穿搭、併桌排椅子與空心正多邊形規律！</p>
+    </div>
+    <div class="hero-mascot">
+      <div class="mascot-avatar">🔺</div>
+      <div class="mascot-bubble" id="mascotMessage">歡迎來到數量關係神殿！尋找隱藏在數字中的規律密碼吧！</div>
+    </div>
+  </div>
+</section>
+
+<nav class="stage-nav" id="stageTabs">
+  <div class="stage-tab active" onclick="gotoStage(0)">
+    <span class="stage-tab-num">Stage 0</span>
+    <span class="stage-tab-title">羅浮宮前哨站</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(1)">
+    <span class="stage-tab-num">Stage 1</span>
+    <span class="stage-tab-title">兩數量關係式</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(2)">
+    <span class="stage-tab-num">Stage 2</span>
+    <span class="stage-tab-title">加法與乘法原理</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(3)">
+    <span class="stage-tab-num">Stage 3</span>
+    <span class="stage-tab-title">數字排列與條件組合</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(4)">
+    <span class="stage-tab-num">Stage 4</span>
+    <span class="stage-tab-title">圖形相連與空心隊形</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(5)">
+    <span class="stage-tab-num">Stage 5</span>
+    <span class="stage-tab-title">週期規律與大會考</span>
+  </div>
+</nav>
+
+<main class="main-container" id="stageContainer">
+</main>
+
+<div class="modal-overlay" id="castleModalOverlay" onclick="closeCastleModalOnBackdrop(event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <span id="castleModalIcon">💡</span>
+        <span id="castleModalTitle">系統提示</span>
+      </div>
+      <button class="modal-close" onclick="closeCastleModal()">✕</button>
+    </div>
+    <div class="modal-body" id="castleModalBody">
+    </div>
+  </div>
+</div>
+
+<script>
+let audioCtx = null;
+let soundEnabled = true;
+
+function initAudio() {
+  if (!audioCtx) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) audioCtx = new AudioContext();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
+function playTone(freq, type = 'sine', duration = 0.15, vol = 0.25) {
+  if (!soundEnabled) return;
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  } catch(e) {}
+}
+
+function playSound(name) {
+  if (!soundEnabled) return;
+  if (name === 'correct') {
+    playTone(523.25, 'triangle', 0.1, 0.2);
+    setTimeout(() => playTone(659.25, 'triangle', 0.1, 0.2), 80);
+    setTimeout(() => playTone(783.99, 'triangle', 0.2, 0.25), 160);
+  } else if (name === 'wrong') {
+    playTone(260, 'sawtooth', 0.15, 0.25);
+    setTimeout(() => playTone(196, 'sawtooth', 0.25, 0.3), 120);
+  } else if (name === 'level_clear') {
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((f, idx) => {
+      setTimeout(() => playTone(f, 'sine', 0.2, 0.3), idx * 100);
+    });
+  } else if (name === 'click') {
+    playTone(400, 'sine', 0.05, 0.1);
+  }
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  const btn = document.getElementById('soundBtn');
+  btn.textContent = soundEnabled ? '🔊' : '🔇';
+  showCastleModal('音效設定', soundEnabled ? '音效已開啟 🔊' : '音效已靜音 🔇', '🎵');
+}
+
+function showCastleModal(title, bodyHtml, icon = '💡', onClose = null) {
+  const overlay = document.getElementById('castleModalOverlay');
+  if (!overlay) return;
+  document.getElementById('castleModalTitle').textContent = title;
+  document.getElementById('castleModalBody').innerHTML = bodyHtml;
+  document.getElementById('castleModalIcon').textContent = icon;
+  overlay.classList.add('open');
+  window._castleModalOnClose = onClose;
+}
+
+function closeCastleModal() {
+  const overlay = document.getElementById('castleModalOverlay');
+  if (overlay) overlay.classList.remove('open');
+  if (typeof window._castleModalOnClose === 'function') {
+    const cb = window._castleModalOnClose;
+    window._castleModalOnClose = null;
+    cb();
+  }
+}
+
+function closeCastleModalOnBackdrop(e) {
+  if (e.target && e.target.id === 'castleModalOverlay') {
+    closeCastleModal();
+  }
+}
+
+window.alert = function(msg) {
+  showCastleModal('系統提示', `<div style="text-align:left; white-space:pre-line;">${msg}</div>`, '💡');
+};
+
+let userScore = 0;
+let userCombo = 0;
+let currentStage = 0;
+
+function addScore(pts = 10) {
+  userCombo++;
+  const bonus = Math.floor(userCombo / 3) * 5;
+  userScore += (pts + bonus);
+  document.getElementById('scoreText').textContent = userScore;
+  document.getElementById('comboText').textContent = userCombo;
+  if (userCombo >= 3) {
+    updateMascot(`🔥 智慧爆發！達成 ${userCombo} 連擊！額外加 ${bonus} 分！`);
+  }
+}
+
+function resetCombo() {
+  userCombo = 0;
+  document.getElementById('comboText').textContent = userCombo;
+}
+
+function updateMascot(msg) {
+  const el = document.getElementById('mascotMessage');
+  if (el) el.textContent = msg;
+}
+
+function shuffleArray(arr) {
+  const newArr = [...arr];
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+}
+
+const stageData = [
+  // Stage 0: 暖身與羅浮宮金字塔
+  {
+    title: "羅浮宮前哨站：玻璃金字塔與奇偶規律",
+    icon: "🏛️",
+    concept: `
+      <strong>從數學看世界・法國巴黎羅浮宮玻璃金字塔：</strong><br>
+      羅浮宮玻璃金字塔由著名建築師貝聿銘設計，從上往下看，每層使用的菱形玻璃片依序為 1 片、2 片、3 片……每往下一層就增加 1 片玻璃，呈現完美的等差遞增規律！<br>
+      • <strong>奇數與偶數運算規律（課本 P109 暖身）：</strong><br>
+        1. 奇數 ＋ 奇數 ＝ <strong>偶數</strong>（例如 33 ＋ 奇數 ＝ 偶數）<br>
+        2. 奇數 － 奇數 ＝ <strong>偶數</strong>（例如 55 － 奇數 ＝ 偶數）<br>
+        3. 奇數 × 偶數 ＝ <strong>偶數</strong>（例如 77 × 偶數 ＝ 偶數）
+    `,
+    quizzes: [
+      {
+        q: "關於奇數與偶數的運算，下面哪一個敘述是「正確」的？",
+        options: ["33 和奇數的和是偶數", "55 和奇數的差是奇數", "77 和偶數的積是奇數", "兩個奇數相乘一定是偶數"],
+        ans: "33 和奇數的和是偶數",
+        explain: "奇數＋奇數＝偶數。例如 33 + 1 = 34（偶數）。"
+      },
+      {
+        q: "羅浮宮玻璃金字塔某側面，第 1 層有 1 片，第 2 層有 2 片，...第 10 層有幾片玻璃？",
+        options: ["10 片", "9 片", "11 片", "20 片"],
+        ans: "10 片",
+        explain: "每往下一層增加 1 片，第 n 層就有 n 片玻璃，因此第 10 層有 10 片。"
+      },
+      {
+        q: "算算看：(奇數 × 奇數) ＋ 奇數 的結果是奇數還是偶數？",
+        options: ["偶數", "奇數", "可能是奇數也可能是偶數", "無法確定"],
+        ans: "偶數",
+        explain: "奇數 × 奇數 ＝ 奇數；奇數 ＋ 奇數 ＝ 偶數。"
+      }
+    ]
+  },
+
+  // Stage 1: 兩數量關係式 (8-1)
+  {
+    title: "第一關：兩數量關係式 (和差積商關係) (8-1)",
+    icon: "⚖️",
+    concept: `
+      <strong>兩數量之間的四大基本關係：</strong><br>
+      • <strong>1. 和固定：</strong>例如一天 24 小時中，白晝與黑夜的和固定。<br>
+        關係式：<strong>白晝 ＋ 黑夜 ＝ 24</strong>，若夏至白晝 13時36分，則黑夜 ＝ 24時 － 13時36分 ＝ 10小時24分。<br>
+      • <strong>2. 差固定（年齡不變性）：</strong><br>
+        昱仁今年 12 歲，妹妹 10 歲，歲數差永遠是 2 歲！<br>
+        關係式：<strong>昱仁年齡 － 妹妹年齡 ＝ 2</strong>（或 昱仁年齡 ＝ 妹妹年齡 ＋ 2）。<br>
+      • <strong>3. 積固定（反比直觀）：</strong>長方形面積固定時，長 × 寬 ＝ 面積。或分期付款：期數 × 每期金額 ＝ 總價。<br>
+      • <strong>4. 商固定（正比直觀）：</strong>果汁店每杯木瓜牛奶單價固定。關係式：<strong>總金額 ＝ 65 × 杯數</strong>。
+    `,
+    quizzes: [
+      {
+        q: "夏至是一年中白晝最長的一天，某地夏至白晝長 13 小時 36 分鐘。請問當天的黑夜時間是多久？",
+        options: ["10 小時 24 分鐘", "11 小時 24 分鐘", "10 小時 36 分鐘", "11 小時 36 分鐘"],
+        ans: "10 小時 24 分鐘",
+        explain: "24 小時 - 13 小時 36 分鐘 = 10 小時 24 分鐘。"
+      },
+      {
+        q: "當美君 2 歲時，爺爺是 66 歲。當美君 12 歲時，爺爺是幾歲？兩人的年齡關係式為何？",
+        options: ["76 歲；爺爺年齡 ＝ 美君年齡 ＋ 64", "76 歲；爺爺年齡 ＝ 美君年齡 × 33", "78 歲；爺爺年齡 ＝ 美君年齡 ＋ 66", "72 歲；爺爺年齡 ＝ 美君年齡 ＋ 60"],
+        ans: "76 歲；爺爺年齡 ＝ 美君年齡 ＋ 64",
+        explain: "年齡差固定：66 - 2 = 64 歲。當美君 12 歲時，爺爺年齡 = 12 + 64 = 76 歲。"
+      },
+      {
+        q: "鮮鮮果汁店賣木瓜牛奶，賣出 2 杯 130 元、3 杯 195 元、4 杯 260 元。買 x 杯的「總金額」關係式為何？",
+        options: ["總金額 ＝ 65 × x", "總金額 ＝ 130 × x", "總金額 ＝ 65 ＋ x", "總金額 ＝ x ÷ 65"],
+        ans: "總金額 ＝ 65 × x",
+        explain: "每杯單價 130 ÷ 2 = 65 元。總金額 = 65 × 杯數。"
+      }
+    ]
+  },
+
+  // Stage 2: 加法與乘法原理 (8-2)
+  {
+    title: "第二關：排列組合・加法與乘法原理 (8-2)",
+    icon: "🍱",
+    concept: `
+      <strong>排列組合兩大奠基神定律：</strong><br>
+      • <strong>加法原理（互斥獨立事件，只選一種）：</strong><br>
+        美食廣場有 A 區 3 家餐廳、B 區 4 家餐廳、C 區 2 家餐廳。嘉玲只能選 1 家餐廳用餐：<br>
+        選擇數 ＝ 3 ＋ 4 ＋ 2 ＝ <strong>9 種選擇</strong>！<br>
+      • <strong>乘法原理（分步驟搭配事件，缺一不可）：</strong><br>
+        1. 穿搭問題：衣櫃有 3 件上衣和 4 條褲子，一套穿搭 ＝ 3 × 4 ＝ <strong>12 種穿搭</strong>。<br>
+        2. 登山路徑：從入口到涼亭有 4 條步道，涼亭到出口有 3 條步道，總走法 ＝ 4 × 3 ＝ <strong>12 種走法</strong>。<br>
+        3. 飲料調配：3 種飲料 × 3 種甜度 × 4 種冰量 ＝ <strong>36 種搭配</strong>！
+    `,
+    hasComboLab: true,
+    quizzes: [
+      {
+        q: "美食廣場分成 A 區 3 間、B 區 4 間、C 區 2 間餐廳。小華打算選其中 1 間餐廳吃晚餐，共有幾種不同選擇？",
+        options: ["9 種", "24 種", "14 種", "7 種"],
+        ans: "9 種",
+        explain: "互斥選擇使用加法原理：3 + 4 + 2 = 9 種。"
+      },
+      {
+        q: "立奇從衣櫃裡挑選上衣和褲子，有 3 件不同上衣和 4 條不同長褲，共有幾種成套搭配方式？",
+        options: ["12 種", "7 種", "10 種", "14 種"],
+        ans: "12 種",
+        explain: "分步搭配使用乘法原理：3 × 4 = 12 種。"
+      },
+      {
+        q: "好味茶店有 3 種飲料（紅茶、綠茶、烏龍茶），每種飲料可選 3 種甜度與 4 種冰量，吉鈴外帶一杯飲料共有幾種搭配？",
+        options: ["36 種", "10 種", "12 種", "24 種"],
+        ans: "36 種",
+        explain: "飲料 × 甜度 × 冰量 = 3 × 3 × 4 = 36 種搭配。"
+      }
+    ]
+  },
+
+  // Stage 3: 數字組成與條件排列 (8-2)
+  {
+    title: "第三關：數字組裝與條件排列 (8-2)",
+    icon: "🔢",
+    concept: `
+      <strong>二位數組裝必備思維：</strong><br>
+      • <strong>情況 A：數字不能重複（含數字 0）</strong><br>
+        用 0、1、2、3 組成二位數（不可重複）：<br>
+        • 十位數字不能是 0，有 1、2、3 共 <strong>3 種選擇</strong>。<br>
+        • 個位數字扣除十位選走的，剩下 0 和其他共 <strong>3 種選擇</strong>。<br>
+        • 總共有 3 × 3 ＝ <strong>9 個二位數</strong>。<br>
+      • <strong>情況 B：數字能重複，且限制為「奇數」</strong><br>
+        用 1、2、3、5 組成二位數（可重複）：<br>
+        • 個位數字必須是奇數（1、3 或 5 共 <strong>3 種</strong>）。<br>
+        • 十位數字可隨意選 1、2、3、5 共 <strong>4 種</strong>。<br>
+        • 共有 4 × 3 ＝ <strong>12 個奇數</strong>！
+    `,
+    quizzes: [
+      {
+        q: "用 0、1、2、3 四個數字組成一個二位數，數字「不能重複」，總共可以組成幾個二位數？",
+        options: ["9 個", "12 個", "16 個", "6 個"],
+        ans: "9 個",
+        explain: "十位數不可為 0（有 1, 2, 3 共 3 種），個位數從剩下的 3 個數字中選 1 個，共 3 × 3 = 9 個。"
+      },
+      {
+        q: "用 1、2、3、5 四個數字組成二位數，數字「可以重複」，總共可以組成幾個「奇數」？",
+        options: ["12 個", "16 個", "9 個", "6 個"],
+        ans: "12 個",
+        explain: "個位數需為奇數（1, 3, 5 共 3 種），十位數有 4 種選擇，共 4 × 3 = 12 個奇數。"
+      },
+      {
+        q: "用 1、2、3、5 四個數字組成二位數，數字「可以重複」，總共可以組成幾個二位數？",
+        options: ["16 個", "12 個", "9 個", "20 個"],
+        ans: "16 個",
+        explain: "十位數有 4 種選擇，個位數也有 4 種選擇，共 4 × 4 = 16 個。"
+      }
+    ]
+  },
+
+  // Stage 4: 圖形相連與空心隊形規律 (8-3)
+  {
+    title: "第四關：圖形相連與空心隊形規律 (8-3)",
+    icon: "🪑",
+    concept: `
+      <strong>圖形相連與扣角四大核心規律：</strong><br>
+      • <strong>1. 長方形餐桌併桌排椅子（課本 P118）：</strong><br>
+        1 張桌坐 6 人；每增加 1 張桌，增加 4 張椅。<br>
+        公式：<strong>椅子數 ＝ 6 ＋ 4 × (桌數 － 1) ＝ 4 × 桌數 ＋ 2</strong><br>
+        排 20 張餐桌需要：4 × 20 ＋ 2 ＝ <strong>82 張椅子</strong>！<br>
+      • <strong>2. 相連正三角形（棉花棒）（課本 P119）：</strong><br>
+        1 個用 3 根；每增加 1 個，增加 2 根。<br>
+        公式：<strong>棉花棒數 ＝ 3 ＋ 2 × (個數 － 1) ＝ 2 × 個數 ＋ 1</strong><br>
+        排 28 個正三角形需要：2 × 28 ＋ 1 ＝ <strong>57 根</strong>！<br>
+      • <strong>3. 空心正方形與正多邊形隊形（扣減重疊頂點）（課本 P121）：</strong><br>
+        每邊 n 個人的空心正方形：4 邊共 4n 人，但 4 個角各算兩次！<br>
+        公式：<strong>總人數 ＝ 4 × n － 4 ＝ (n － 1) × 4</strong><br>
+        每邊 15 人的空心正方形：(15 － 1) × 4 ＝ <strong>56 人</strong>！
+    `,
+    hasPatternLab: true,
+    quizzes: [
+      {
+        q: "公司舉辦宴會將餐桌橫著併排（1 張坐 6 人，每多併 1 張多坐 4 人）。如果要併排 20 張餐桌，共需要幾張椅子？",
+        options: ["82 張", "80 張", "84 張", "86 張"],
+        ans: "82 張",
+        explain: "公式為 6 + 4 × (20 - 1) = 6 + 76 = 82 張（或 4 × 20 + 2 = 82 張）。"
+      },
+      {
+        q: "用棉花棒排成相連的正三角形（如課本 P119），如果要排 28 個相連的正三角形，共需要幾根棉花棒？",
+        options: ["57 根", "56 根", "84 根", "58 根"],
+        ans: "57 根",
+        explain: "首個 3 根，每增 1 個加 2 根：3 + 2 × (28 - 1) = 3 + 54 = 57 根。"
+      },
+      {
+        q: "運動會大會操隊形，要排成每邊 15 個人的「空心正方形」隊形，共需要幾個人？",
+        options: ["56 人", "60 人", "52 人", "58 人"],
+        ans: "56 人",
+        explain: "4 邊扣除 4 個角重疊：(15 - 1) × 4 = 14 × 4 = 56 人。"
+      },
+      {
+        q: "排成每邊有 9 個花片的「空心正五邊形」，共需要幾個花片？",
+        options: ["40 個", "45 個", "35 個", "36 個"],
+        ans: "40 個",
+        explain: "5 邊扣除 5 個頂點重疊：(9 - 1) × 5 = 8 × 5 = 40 個花片。"
+      }
+    ]
+  },
+
+  // Stage 5: 週期規律與資優大會考 (8-3 + 練習 8 全攻略)
+  {
+    title: "第五關：週期規律與資優大會考 (練習 8 全攻略)",
+    icon: "🏆",
+    concept: `
+      <strong>週期性排列與矩陣位置定位：</strong><br>
+      • <strong>火車座位排列（4 個一輪週期）：</strong><br>
+        1, 5, 9...（除以 4 餘 1）是「左靠窗」；<br>
+        2, 6, 10...（除以 4 餘 2）是「左靠走道」；<br>
+        3, 7, 11...（除以 4 餘 3）是「右靠走道」；<br>
+        4, 8, 12...（除以 4 整除）是「右靠窗」！<br>
+        • 例：36 號車票 ➔ 36 ÷ 4 ＝ 9 整除，位在<strong>第 9 排右邊靠窗</strong>！<br>
+        • 例：43 號車票 ➔ 43 ÷ 4 ＝ 10 餘 3，位在<strong>第 11 排右邊靠走道</strong>！<br>
+      • <strong>相連正方形鉛筆數：</strong>排 20 個相連正方形 ＝ 4 ＋ 3 × 19 ＝ <strong>61 枝鉛筆</strong>。
+    `,
+    quizzes: [
+      {
+        q: "火車車廂座位每排 4 個（如課本 P120）。雪卿買到 36 號車票，請問她的座位位置在哪裡？",
+        options: ["第 9 排右邊靠窗", "第 9 排左邊靠窗", "第 10 排右邊靠窗", "第 9 排右邊靠走道"],
+        ans: "第 9 排右邊靠窗",
+        explain: "36 ÷ 4 = 9 整除，因此是第 9 排，整除對應右邊靠窗。"
+      },
+      {
+        q: "承上題，心怡買到 43 號車票，請問她的座位位置在哪裡？",
+        options: ["第 11 排右邊靠走道", "第 10 排右邊靠走道", "第 11 排左邊靠走道", "第 10 排右邊靠窗"],
+        ans: "第 11 排右邊靠走道",
+        explain: "43 ÷ 4 = 10 餘 3。10 + 1 = 11（第 11 排），餘數 3 對應右邊靠走道。"
+      },
+      {
+        q: "用鉛筆排出相連的正方形（1 個用 4 枝，每多排 1 個多用 3 枝）。排 20 個相連正方形共需幾枝鉛筆？",
+        options: ["61 枝", "60 枝", "80 枝", "64 枝"],
+        ans: "61 枝",
+        explain: "4 + 3 × (20 - 1) = 4 + 57 = 61 枝（或 3 × 20 + 1 = 61 枝）。"
+      },
+      {
+        q: "置物櫃每行有 8 格（橫向 8 格為一列）。請問 77 號置物櫃是在第幾列？第幾行？",
+        options: ["第 10 列第 5 行", "第 9 列第 5 行", "第 10 列第 7 行", "第 8 列第 5 行"],
+        ans: "第 10 列第 5 行",
+        explain: "77 ÷ 8 = 9 餘 5。9 + 1 = 10，因此在第 10 列第 5 行。"
+      }
+    ]
+  }
+];
+
+const glossaryTerms = [
+  { term: "數量關係 (Number Relationship)", def: "兩個或多個數量之間隨變動而維持的固定數學規律（如和固定、差固定、積固定、商固定）。" },
+  { term: "加法原理 (Addition Principle)", def: "各個事件互相獨立互斥時，所有可能發生的選擇總數等於各個事件數量相加。" },
+  { term: "乘法原理 (Multiplication Principle)", def: "一個事件需要分成多個步驟連續完成時，總搭配方法數等於各步驟選擇數相乘。" },
+  { term: "相連圖形規律 (Connected Patterns)", def: "基本圖形共用邊線或邊緣時的數列遞增關係。例如相連三角形為 2n+1，相連正方形為 3n+1。" },
+  { term: "空心隊形扣角 (Hollow Polygon)", def: "正多邊形邊界排隊時，頂點處會重複計數，因此總數為 (每邊人數 - 1) × 邊數。" },
+  { term: "週期排列 (Periodic Sequence)", def: "按固定規律循環重複出現的序列，通常利用除法求餘數來快速定位目標位置。" }
+];
+
+function renderStage(stageIdx) {
+  currentStage = stageIdx;
+  const container = document.getElementById('stageContainer');
+  const tabs = document.querySelectorAll('.stage-tab');
+  tabs.forEach((tab, i) => {
+    tab.classList.toggle('active', i === stageIdx);
+  });
+
+  const data = stageData[stageIdx];
+  if (!data) return;
+
+  let html = `
+    <div class="section-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span>${data.icon}</span>
+          <span>${data.title}</span>
+        </h2>
+        <span class="badge-tag">Stage ${stageIdx} / 5</span>
+      </div>
+
+      <div class="concept-box">
+        ${data.concept}
+      </div>
+  `;
+
+  if (data.hasComboLab) {
+    html += `
+      <div class="lab-widget">
+        <h3 style="margin-bottom:12px; color:var(--primary-dark); display:flex; align-items:center; gap:8px;">
+          <span>👔</span><span>乘法原理穿搭與飲料試衣間</span>
+        </h3>
+        <p style="color:var(--text-muted); margin-bottom:14px;">
+          點選不同數量的上衣與褲子，即時展示乘法原理的成套組合搭配總數！
+        </p>
+        <div class="slider-row">
+          <label>
+            <span>上衣件數 (M)</span>
+            <span id="shirtVal" style="color:var(--primary); font-weight:800;">3 件</span>
+          </label>
+          <input type="range" id="shirtSlider" min="1" max="5" value="3" oninput="updateComboLab()">
+        </div>
+        <div class="slider-row">
+          <label>
+            <span>長褲件數 (N)</span>
+            <span id="pantVal" style="color:#D97706; font-weight:800;">4 條</span>
+          </label>
+          <input type="range" id="pantSlider" min="1" max="5" value="4" oninput="updateComboLab()">
+        </div>
+        <div class="pattern-metrics">
+          <div class="metrics-line" id="metricComboTotal">成套穿搭總數 ＝ 3 × 4 ＝ 12 種組合</div>
+          <div style="font-size:0.95rem; color:#475569;" id="metricComboExplain">
+            每件上衣皆可搭配 4 條不同褲子，分步完成一件完整的穿搭！
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  if (data.hasPatternLab) {
+    html += `
+      <div class="lab-widget">
+        <h3 style="margin-bottom:12px; color:var(--primary-dark); display:flex; align-items:center; gap:8px;">
+          <span>🪑</span><span>圖形相連與空心隊形動態計算機</span>
+        </h3>
+        <p style="color:var(--text-muted); margin-bottom:14px;">
+          選擇圖形類型並調整數量，觀察算式與總數量規律！
+        </p>
+        <div style="display:flex; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+          <button class="btn-next-stage" style="padding:8px 14px; font-size:0.9rem;" onclick="setPatternMode('table')">🪑 併桌排椅子</button>
+          <button class="btn-next-stage" style="padding:8px 14px; font-size:0.9rem;" onclick="setPatternMode('triangle')">🔺 相連正三角形</button>
+          <button class="btn-next-stage" style="padding:8px 14px; font-size:0.9rem;" onclick="setPatternMode('square')">⏹️ 空心正方形隊形</button>
+        </div>
+        <div class="slider-row">
+          <label>
+            <span id="patternCountLabel">餐桌張數 (n)</span>
+            <span id="patternCountVal" style="color:var(--primary); font-weight:800;">5 張</span>
+          </label>
+          <input type="range" id="patternSlider" min="1" max="30" value="5" oninput="updatePatternLab()">
+        </div>
+        <div class="pattern-metrics">
+          <div class="metrics-line" id="metricPatternFormula">算式 ＝ 6 ＋ 4 × (5 － 1) ＝ 22 張椅子</div>
+          <div style="font-size:0.95rem; color:#475569;" id="metricPatternTip">
+            第一張餐桌坐 6 人，之後每多併一張桌子增加 4 張椅子。
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  html += `
+      <h3 style="margin:24px 0 10px; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+        <span>✏️</span><span>闖關即時測驗 (選項自動隨機化)</span>
+      </h3>
+      <div class="quiz-list" id="stageQuizList">
+  `;
+
+  data.quizzes.forEach((quiz, qIdx) => {
+    const shuffledOptions = shuffleArray(quiz.options);
+    html += `
+      <div class="quiz-item" id="quizCard_${stageIdx}_${qIdx}">
+        <div class="quiz-header">
+          <span class="quiz-qnum">題目 ${qIdx + 1}</span>
+          <div class="quiz-text">${quiz.q}</div>
+        </div>
+        <div class="quiz-options">
+          ${shuffledOptions.map(opt => `
+            <button class="quiz-opt-btn" onclick="checkAnswer(${stageIdx}, ${qIdx}, this, '${encodeURIComponent(opt)}', '${encodeURIComponent(quiz.ans)}')">
+              ${opt}
+            </button>
+          `).join('')}
+        </div>
+        <div class="quiz-explain" id="explain_${stageIdx}_${qIdx}">
+          <strong>💡 詳解分析：</strong> ${quiz.explain}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+      </div>
+      <div class="card-footer">
+        <button class="back-btn" onclick="prevStage()">⬅️ 上一關</button>
+        <button class="btn-next-stage" onclick="nextStage()">
+          ${stageIdx === 5 ? '前往榮譽殿堂 🏆' : '前往下一關 ➡️'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = html;
+  window.scrollTo({ top: 180, behavior: 'smooth' });
+
+  if (data.hasComboLab) {
+    updateComboLab();
+  }
+  if (data.hasPatternLab) {
+    updatePatternLab();
+  }
+}
+
+function updateComboLab() {
+  const m = parseInt(document.getElementById('shirtSlider').value, 10);
+  const n = parseInt(document.getElementById('pantSlider').value, 10);
+  document.getElementById('shirtVal').textContent = `${m} 件`;
+  document.getElementById('pantVal').textContent = `${n} 條`;
+  const total = m * n;
+  document.getElementById('metricComboTotal').textContent = 
+    `成套穿搭總數 ＝ ${m} × ${n} ＝ ${total} 種組合`;
+}
+
+let currentPatternMode = 'table';
+function setPatternMode(mode) {
+  currentPatternMode = mode;
+  const label = document.getElementById('patternCountLabel');
+  if (mode === 'table') label.textContent = '餐桌張數 (n)';
+  else if (mode === 'triangle') label.textContent = '正三角形個數 (n)';
+  else if (mode === 'square') label.textContent = '每邊人數 (n)';
+  updatePatternLab();
+}
+
+function updatePatternLab() {
+  const n = parseInt(document.getElementById('patternSlider').value, 10);
+  document.getElementById('patternCountVal').textContent = `${n}`;
+  const formulaEl = document.getElementById('metricPatternFormula');
+  const tipEl = document.getElementById('metricPatternTip');
+
+  if (currentPatternMode === 'table') {
+    const chairs = 6 + 4 * (n - 1);
+    formulaEl.textContent = `椅子總數 ＝ 6 ＋ 4 × (${n} － 1) ＝ ${chairs} 張椅子`;
+    tipEl.textContent = `第一張桌坐 6 人，之後每多併一張桌子增加 4 張椅子（公式：4n ＋ 2）。`;
+  } else if (currentPatternMode === 'triangle') {
+    const sticks = 3 + 2 * (n - 1);
+    formulaEl.textContent = `棉花棒總數 ＝ 3 ＋ 2 × (${n} － 1) ＝ ${sticks} 根`;
+    tipEl.textContent = `第一個三角形用 3 根，之後每多一個三角形增加 2 根（公式：2n ＋ 1）。`;
+  } else if (currentPatternMode === 'square') {
+    const people = (n - 1) * 4;
+    formulaEl.textContent = `隊形總人數 ＝ (${n} － 1) × 4 ＝ ${people} 人`;
+    tipEl.textContent = `每邊 ${n} 人，四邊共 4 × ${n} 人，扣除 4 個角重複計數（公式：4n － 4）。`;
+  }
+}
+
+function checkAnswer(stageIdx, qIdx, btn, encodedSelected, encodedCorrect) {
+  const selected = decodeURIComponent(encodedSelected);
+  const correct = decodeURIComponent(encodedCorrect);
+  const card = document.getElementById(`quizCard_${stageIdx}_${qIdx}`);
+  const explain = document.getElementById(`explain_${stageIdx}_${qIdx}`);
+  const allBtns = card.querySelectorAll('.quiz-opt-btn');
+
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if (decodeURIComponent(b.getAttribute('onclick').split("'")[7]) === correct) {
+      b.classList.add('correct-opt');
+    }
+  });
+
+  if (selected === correct) {
+    btn.classList.add('correct-opt');
+    card.classList.add('correct-item');
+    playSound('correct');
+    addScore(10);
+    updateMascot('🎯 解密成功！規律掌握得非常精準！');
+  } else {
+    btn.classList.add('wrong-opt');
+    card.classList.add('wrong-item');
+    playSound('wrong');
+    resetCombo();
+    updateMascot('🧩 差一點點，看看解題算式，掌握規律超容易！');
+  }
+
+  explain.style.display = 'block';
+}
+
+function gotoStage(idx) {
+  playSound('click');
+  renderStage(idx);
+}
+
+function nextStage() {
+  if (currentStage < 5) {
+    playSound('level_clear');
+    if (typeof confetti === 'function') {
+      confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+    }
+    renderStage(currentStage + 1);
+  } else {
+    renderFinal();
+  }
+}
+
+function prevStage() {
+  if (currentStage > 0) {
+    playSound('click');
+    renderStage(currentStage - 1);
+  } else {
+    showCastleModal('提示', '已經是第一關囉！', '🏰');
+  }
+}
+
+function renderFinal() {
+  playSound('level_clear');
+  if (typeof confetti === 'function') {
+    confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+  }
+  const container = document.getElementById('stageContainer');
+  const tabs = document.querySelectorAll('.stage-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+
+  container.innerHTML = `
+    <div class="section-card badge-showcase">
+      <div class="medal-icon">🏅</div>
+      <h2 style="font-size:2rem; font-weight:900; color:var(--primary-dark); margin-bottom:12px;">
+        恭喜完成【數量關係奇境】全部挑戰！
+      </h2>
+      <p style="font-size:1.15rem; color:var(--text-muted); max-width:600px; margin:0 auto 24px;">
+        你已完全掌握和差積商關係式、加法與乘法原理、組合搭配穿搭、併桌排椅子與空心正多邊形規律、火車座位週期定位！獲頒「<strong>數理規律大宗師</strong>」榮譽勳章！
+      </p>
+      <div style="display:flex; justify-content:center; gap:16px; margin-bottom:28px;">
+        <div class="stat-pill" style="font-size:1.1rem; padding:8px 20px;">
+          <span>⭐ 最終總得分：</span><strong style="color:#B45309;">${userScore} 分</strong>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:center; gap:16px;">
+        <button class="btn-next-stage" onclick="gotoStage(0)">🔄 再次挑戰複習</button>
+        <a href="portal.html" class="back-btn" style="padding:10px 24px; font-size:1.05rem;">🏰 返回傳送門</a>
+      </div>
+    </div>
+  `;
+  window.scrollTo({ top: 180, behavior: 'smooth' });
+}
+
+function openGlossary() {
+  playSound('click');
+  let body = '<div style="display:flex; flex-direction:column; gap:14px;">';
+  glossaryTerms.forEach(t => {
+    body += `
+      <div style="background:#EEF2FF; border-left:4px solid var(--primary); padding:10px 14px; border-radius:0 8px 8px 0;">
+        <div style="font-weight:800; color:var(--primary-dark); margin-bottom:4px;">${t.term}</div>
+        <div style="font-size:0.95rem; color:#334155;">${t.def}</div>
+      </div>
+    `;
+  });
+  body += '</div>';
+  showCastleModal('數量關係・核心知識寶典', body, '📖');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderStage(0);
+});
+</script>
+</body>
+</html>
+'''
+
+with open('pattern.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print(f"Successfully generated pattern.html (size: {len(html_content)} chars)")
+

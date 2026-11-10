@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國小 3 上數學 第 8 單元：分數王國 | 學習城堡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EA580C;
+            --primary-dark: #C2410C;
+            --primary-bg: #FFEDD5;
+            --accent: #D97706;
+            --accent-bg: #FEF3C7;
+            --amber: #F59E0B;
+            --rose: #E11D48;
+            --text-dark: #1C1917;
+            --text-gray: #57534E;
+            --card-bg: #FFFFFF;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 10px 25px -5px rgba(234, 88, 12, 0.12), 0 8px 10px -6px rgba(234, 88, 12, 0.1);
+            --shadow-hover: 0 20px 30px -10px rgba(234, 88, 12, 0.22);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 80px;
+            line-height: 1.6;
+        }
+
+        .header-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 14px 24px;
+            border-bottom: 1px solid rgba(254, 215, 170, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: var(--primary-bg);
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #FED7AA;
+            transform: translateX(-3px);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #C2410C 0%, #EA580C 50%, #D97706 100%);
+            color: white;
+            padding: 40px 32px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "🍕";
+            font-size: 130px;
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            opacity: 0.95;
+            max-width: 650px;
+        }
+
+        /* Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid #FED7AA;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--primary-bg);
+            padding-bottom: 12px;
+        }
+
+        .card-icon {
+            font-size: 1.6rem;
+            background: var(--primary-bg);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .highlight-box {
+            background: var(--primary-bg);
+            border-left: 5px solid var(--primary);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 14px 0;
+            font-weight: 500;
+        }
+
+        .alert-box {
+            background: #FEF2F2;
+            border-left: 5px solid var(--rose);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 14px 0;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
+        /* 分數動態模擬器 */
+        .interactive-tool {
+            background: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: var(--shadow);
+            border: 2px solid #FED7AA;
+        }
+
+        .tool-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .fraction-stage {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 36px;
+            align-items: center;
+            justify-content: center;
+            background: #FFFBF5;
+            padding: 28px;
+            border-radius: var(--radius-md);
+            border: 1px dashed #FDBA74;
+        }
+
+        .pizza-svg-box {
+            width: 220px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fraction-math-display {
+            font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+
+        .frac-num {
+            border-bottom: 3px solid var(--primary-dark);
+            padding: 0 8px;
+            line-height: 1.1;
+        }
+
+        .frac-den {
+            padding: 0 8px;
+            line-height: 1.1;
+        }
+
+        .tool-controls {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .btn-cut {
+            background: #FFEDD5;
+            color: #C2410C;
+            border: 2px solid #FDBA74;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-cut:hover, .btn-cut.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .slider-group {
+            margin-top: 18px;
+        }
+
+        .fraction-slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #FED7AA;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .fraction-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        /* 練習區 Quiz */
+        .quiz-section {
+            margin-top: 40px;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid #FED7AA;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .quiz-badge {
+            background: #FFEDD5;
+            color: #C2410C;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .quiz-question {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 640px) {
+            .quiz-options {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .opt-btn {
+            background: #F8FAFC;
+            border: 2px solid #E2E8F0;
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .opt-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: var(--primary-bg);
+            transform: translateY(-2px);
+        }
+
+        .opt-btn.correct {
+            background: #DCFCE7 !important;
+            border-color: #22C55E !important;
+            color: #15803D !important;
+        }
+
+        .opt-btn.wrong {
+            background: #FEE2E2 !important;
+            border-color: #EF4444 !important;
+            color: #B91C1C !important;
+        }
+
+        .feedback-box {
+            display: none;
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .feedback-correct {
+            background: #F0FDF4;
+            border-left: 4px solid #22C55E;
+            color: #166534;
+        }
+
+        .feedback-wrong {
+            background: #FEF2F2;
+            border-left: 4px solid #EF4444;
+            color: #991B1B;
+        }
+
+        /* 總分結算 */
+        .quiz-summary-card {
+            background: linear-gradient(135deg, #C2410C 0%, #EA580C 100%);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-score {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 12px 0;
+            color: #FDE047;
+        }
+
+        .btn-reset {
+            background: #FFFFFF;
+            color: var(--primary-dark);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.2s;
+            margin-top: 14px;
+        }
+
+        .btn-reset:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header-nav">
+        <a href="portal.html" class="back-btn">
+            <span>🏰</span> 回學習城堡首頁
+        </a>
+        <div style="font-weight: 800; color: var(--primary-dark); font-size: 1rem;">
+            國小 3 上數學・第 8 單元
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hero 區塊 -->
+        <section class="hero">
+            <span class="hero-badge">國小 3 上數學・第 ⑧ 單元</span>
+            <h1>🍕 分數王國：平分的美好與幾分之幾</h1>
+            <p>
+                歡迎來到美味的分數分享王國！從「平分」一塊蛋糕與披薩開始，認識分母與分子的秘密，掌握單位分數的累加與大小比較，解開「分子等於分母就等於 1」的黃金真理！
+            </p>
+        </section>
+
+        <!-- 5 大核心觀念卡片 -->
+        <div class="grid-2">
+            <!-- 觀念 1 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">🍰</div>
+                    <span>8-1 認識幾分之一（單位分數）</span>
+                </div>
+                <p>當一個完整的東西被「平分」時，每一等份可以用分數表示：</p>
+                <div class="highlight-box">
+                    • 1 塊布朗尼平分成 2 份，每份是 <strong>1/2</strong> 塊（讀作：二分之一塊）。<br>
+                    • 1 個乳酪蛋糕平分成 8 份，每份是 <strong>1/8</strong> 個（讀作：八分之一塊）。
+                </div>
+                <div class="alert-box">
+                    ⚠️ <strong>平分的先決鐵律：</strong><br>
+                    每份必須<strong>「全部分完」</strong>而且<strong>「大小一模一樣」</strong>！若沒平分，絕對不能用分數表示！
+                </div>
+            </div>
+
+            <!-- 觀念 2 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">✍️</div>
+                    <span>8-2 分數的構造與正確寫法</span>
+                </div>
+                <p>分數由三個部分組成，請記住正確的由下往上順序：</p>
+                <div class="highlight-box" style="display: flex; align-items: center; justify-content: space-around;">
+                    <div style="text-align: center;">
+                        <span style="font-size: 0.9rem; color: #EA580C; font-weight: 700;">分子 (取幾份)</span>
+                        <div style="border-bottom: 3px solid #C2410C; font-size: 2rem; font-weight: 800;">3</div>
+                        <div style="font-size: 2rem; font-weight: 800;">8</div>
+                        <span style="font-size: 0.9rem; color: #EA580C; font-weight: 700;">分母 (平分成幾份)</span>
+                    </div>
+                    <div style="font-size: 0.95rem;">
+                        <strong>書寫步序：</strong><br>
+                        ① 先寫分母（8）<br>
+                        ② 再畫分數線（—）<br>
+                        ③ 最後寫分子（3）
+                    </div>
+                </div>
+            </div>
+
+            <!-- 觀念 3 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">➕</div>
+                    <span>8-3 幾分之幾（單位分數累加）</span>
+                </div>
+                <p>當我們拿走好多份幾分之一時，分子會像整數點數一樣往上數：</p>
+                <div class="highlight-box">
+                    • 1 個 1/8 是 <strong>1/8</strong>。<br>
+                    • 2 個 1/8 是 <strong>2/8</strong>。<br>
+                    • 5 個 1/8 是 <strong>5/8</strong>。<br>
+                    • 8 個 1/8 是 <strong>8/8</strong>。
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">
+                    ★ 分數有兩種量：連續量（一條繩子、一條彩帶）與離散量（一盒蘋果）。
+                </p>
+            </div>
+
+            <!-- 觀念 4 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">👑</div>
+                    <span>8-4 分數與 1 的完美關係</span>
+                </div>
+                <p>當分子和分母完全一樣大時，代表把整份全拿走了：</p>
+                <div class="highlight-box" style="font-size: 1.15rem; text-align: center; font-weight: 800; color: var(--primary-dark);">
+                    8/8 ＝ 1　　4/4 ＝ 1　　5/5 ＝ 1
+                </div>
+                <div class="highlight-box">
+                    <strong>重要口訣：</strong><br>
+                    當<strong>「分子等於分母」</strong>時，這個分數的值正好就等於 <strong>1</strong>！
+                </div>
+            </div>
+        </div>
+
+        <!-- 觀念 5 寬幅展示：同分母分數大小比較 -->
+        <div class="card" style="margin-bottom: 32px;">
+            <div class="card-title">
+                <div class="card-icon">⚖️</div>
+                <span>8-5 同分母分數的大小比較法則</span>
+            </div>
+            <p>在三年級階段，當<strong>「分母相同」</strong>時，代表每等份都切得一樣大：</p>
+            <div style="background: #FFF7ED; border: 2px solid #FDBA74; border-radius: var(--radius-md); padding: 20px; margin-top: 12px;">
+                <div style="font-size: 1.25rem; font-weight: 800; color: #C2410C; margin-bottom: 8px;">
+                    ✨ 黃金法則：分母相同時，分子越大，分數就越大！
+                </div>
+                <p style="font-size: 1rem; color: #44403C;">
+                    例如：5/8 個披薩 ＞ 3/8 個披薩，因為 5 個 1/8 比 3 個 1/8 還要多！<br>
+                    再例如：7/10 條彩帶 ＞ 4/10 條彩帶。
+                </p>
+            </div>
+        </div>
+
+        <!-- 互動工具：動態分數披薩切割實驗室 -->
+        <section class="interactive-tool">
+            <div class="tool-title">
+                <span>🍕</span>
+                <span>動態分數披薩切片互動實驗室</span>
+            </div>
+            <p style="color: var(--text-gray); margin-bottom: 18px;">
+                選擇平分成幾份（分母），並拖曳拉桿調整拿取的片數（分子），觀察分數的圖形與讀法：
+            </p>
+
+            <div class="fraction-stage">
+                <!-- SVG 披薩展示 -->
+                <div class="pizza-svg-box">
+                    <svg id="pizzaSvg" width="200" height="200" viewBox="-105 -105 210 210"></svg>
+                </div>
+
+                <!-- 分數數值展示 -->
+                <div class="tool-controls">
+                    <div>
+                        <span style="font-weight: 700; color: var(--primary-dark);">① 選擇平分數（分母）：</span>
+                        <div style="margin-top: 8px;">
+                            <button class="btn-cut" onclick="setDenominator(2)">平分 2 份</button>
+                            <button class="btn-cut" onclick="setDenominator(4)">平分 4 份</button>
+                            <button class="btn-cut active" onclick="setDenominator(8)">平分 8 份</button>
+                            <button class="btn-cut" onclick="setDenominator(10)">平分 10 份</button>
+                        </div>
+                    </div>
+
+                    <div class="slider-group">
+                        <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 6px;">
+                            <span>② 調整拿取片數（分子）：</span>
+                            <span id="sliderValText" style="color: var(--primary); font-size: 1.1rem;">5 份</span>
+                        </div>
+                        <input type="range" id="sliceSlider" min="0" max="8" value="5" class="fraction-slider" oninput="updateNumerator(this.value)">
+                    </div>
+
+                    <div style="margin-top: 20px; background: #FFFFFF; padding: 16px; border-radius: var(--radius-md); border: 1px solid #FED7AA; display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 0.9rem; color: #78716C;">當前分數表現：</div>
+                            <div id="fractionReadText" style="font-weight: 800; color: #C2410C; font-size: 1.15rem; margin-top: 4px;">
+                                八分之五 個披薩
+                            </div>
+                        </div>
+                        <div class="fraction-math-display">
+                            <span class="frac-num" id="displayNum">5</span>
+                            <span class="frac-den" id="displayDen">8</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 練習 8 實戰評量題庫 -->
+        <section class="quiz-section">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+                <div>
+                    <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--primary-dark);">🎯 練習 8：分數王國闖關挑戰</h2>
+                    <p style="color: var(--text-gray);">完整取材自課本 P90~P125、平分判定、真分數累加與同分母比大小！</p>
+                </div>
+                <span style="font-weight: 700; color: var(--primary-dark); background: var(--primary-bg); padding: 6px 14px; border-radius: 999px;">
+                    共 10 題
+                </span>
+            </div>
+
+            <div id="quizContainer">
+                <!-- 題目將由 JavaScript 渲染並隨機打亂選項 -->
+            </div>
+
+            <!-- 總分結算卡 -->
+            <div id="quizSummary" class="quiz-summary-card" style="display: none;">
+                <h2>🎉 挑戰完成！分數大師勳章解鎖</h2>
+                <div class="summary-score" id="finalScore">0 分</div>
+                <p id="summaryMessage" style="font-size: 1.1rem; opacity: 0.95;"></p>
+                <button class="btn-reset" onclick="resetQuiz()">🔄 再挑戰一次</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // --- Web Audio API 音效 ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.exponentialRampToValueAtTime(783.99, audioCtx.currentTime + 0.15); // G5
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, audioCtx.currentTime); // A3
+                osc.frequency.exponentialRampToValueAtTime(146.83, audioCtx.currentTime + 0.2); // D3
+                gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.35);
+            } else if (type === 'complete') {
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const noteOsc = audioCtx.createOscillator();
+                    const noteGain = audioCtx.createGain();
+                    noteOsc.connect(noteGain);
+                    noteGain.connect(audioCtx.destination);
+                    noteOsc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.1);
+                    noteGain.gain.setValueAtTime(0.18, audioCtx.currentTime + idx * 0.1);
+                    noteGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + idx * 0.1 + 0.25);
+                    noteOsc.start(audioCtx.currentTime + idx * 0.1);
+                    noteOsc.stop(audioCtx.currentTime + idx * 0.1 + 0.25);
+                });
+            }
+        }
+
+        // --- 披薩動態 SVG 渲染 ---
+        let currentDen = 8;
+        let currentNum = 5;
+
+        function setDenominator(den) {
+            currentDen = den;
+            const slider = document.getElementById('sliceSlider');
+            slider.max = den;
+            if (currentNum > den) currentNum = den;
+            slider.value = currentNum;
+
+            const btns = document.querySelectorAll('.btn-cut');
+            btns.forEach(b => {
+                if (b.textContent.includes(`平分 ${den} 份`)) {
+                    b.classList.add('active');
+                } else {
+                    b.classList.remove('active');
+                }
+            });
+
+            renderPizza();
+            playSound('correct');
+        }
+
+        function updateNumerator(num) {
+            currentNum = parseInt(num, 10);
+            renderPizza();
+        }
+
+        function renderPizza() {
+            const svg = document.getElementById('pizzaSvg');
+            svg.innerHTML = '';
+            const r = 90;
+            const angleStep = (2 * Math.PI) / currentDen;
+
+            // 背景盤子
+            const bgCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            bgCircle.setAttribute("cx", 0);
+            bgCircle.setAttribute("cy", 0);
+            bgCircle.setAttribute("r", r + 8);
+            bgCircle.setAttribute("fill", "#FED7AA");
+            svg.appendChild(bgCircle);
+
+            // 繪製每一片
+            for (let i = 0; i < currentDen; i++) {
+                const startAngle = i * angleStep - Math.PI / 2;
+                const endAngle = (i + 1) * angleStep - Math.PI / 2;
+
+                const x1 = r * Math.cos(startAngle);
+                const y1 = r * Math.sin(startAngle);
+                const x2 = r * Math.cos(endAngle);
+                const y2 = r * Math.sin(endAngle);
+
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                const d = `M 0 0 L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z`;
+                path.setAttribute("d", d);
+
+                const isSelected = i < currentNum;
+                path.setAttribute("fill", isSelected ? "#EA580C" : "#FFF7ED");
+                path.setAttribute("stroke", "#C2410C");
+                path.setAttribute("stroke-width", "2");
+                svg.appendChild(path);
+            }
+
+            // 更新文字
+            document.getElementById('displayNum').textContent = currentNum;
+            document.getElementById('displayDen').textContent = currentDen;
+            document.getElementById('sliderValText').textContent = `${currentNum} 份`;
+
+            const chineseNums = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+            const denZh = chineseNums[currentDen] || currentDen;
+            const numZh = chineseNums[currentNum] || currentNum;
+
+            const readTextEl = document.getElementById('fractionReadText');
+            if (currentNum === currentDen && currentDen > 0) {
+                readTextEl.innerHTML = `${denZh}分之${numZh} 個 <strong>＝ 1 個完整披薩！</strong>`;
+            } else {
+                readTextEl.textContent = `${denZh}分之${numZh} 個披薩`;
+            }
+        }
+
+        // --- 練習 8 實戰測驗題庫 ---
+        const QUIZ_RAW_DATA = [
+            {
+                id: 1,
+                tag: "平分先決條件",
+                q: "將一條緞帶剪開，下列哪一種情況「可以」用分數表示為 2/7 條緞帶？",
+                opts: [
+                    "將緞帶「平分成 7 等份」，取其中的 2 份",
+                    "將緞帶隨意剪成 7 段，取其中的 2 段",
+                    "將緞帶平分成 2 段，取其中的 7 份",
+                    "將緞帶平分成 8 等份，取其中的 2 份"
+                ],
+                ans: 0,
+                exp: "只有「平分成 7 等份」（每份都一樣長）並取其中 2 份時，才能記作 2/7 條緞帶。"
+            },
+            {
+                id: 2,
+                tag: "單位分數定義",
+                q: "1 個乳酪蛋糕平分成 8 份，分給 8 個人，每個人可以分到多少個蛋糕？",
+                opts: ["1/8 個", "8/1 個", "1 個", "8 個"],
+                ans: 0,
+                exp: "平分成 8 份，每 1 份是八分之一個蛋糕，記作 1/8 個。"
+            },
+            {
+                id: 3,
+                tag: "分數各部位名稱",
+                q: "在分數「5/8」中，數字「8」在橫線下方，稱為什麼？",
+                opts: ["分母", "分子", "分數線", "商數"],
+                ans: 0,
+                exp: "在橫線下方的數字稱為「分母」，代表平分成幾等份；上方的數字稱為「分子」。"
+            },
+            {
+                id: 4,
+                tag: "單位分數累加",
+                q: "4 份是 4 個 1/8，記作多少？",
+                opts: ["4/8", "1/8", "8/4", "4/1"],
+                ans: 0,
+                exp: "4 個 1/8 累加起來就是 4/8（八分之四）。"
+            },
+            {
+                id: 5,
+                tag: "分數與 1 的關係",
+                q: "一盒雞蛋有 10 顆，整盒平分給 10 個人，10 個人合起來共拿了 10 個 1/10 盒，也就是多少？",
+                opts: ["1 盒 (10/10 盒)", "10 盒", "1/10 盒", "0 盒"],
+                ans: 0,
+                exp: "10 個 1/10 盒就是 10/10 盒，分子分母相等即等於 1 盒。"
+            },
+            {
+                id: 6,
+                tag: "同分母比大小",
+                q: "小華吃了 5/8 個披薩，小明吃了 3/8 個披薩，誰吃得比較多？",
+                opts: ["小華比較多", "小明比較多", "兩人一樣多", "無法比較"],
+                ans: 0,
+                exp: "分母相同時分子越大分數越大。5/8 ＞ 3/8，因此小華吃得比較多。"
+            },
+            {
+                id: 7,
+                tag: "生活連續量應用",
+                q: "一條彩帶長 1 公尺，平分成 6 段，每段長幾公尺？",
+                opts: ["1/6 公尺", "6 公尺", "6/1 公尺", "1 公尺"],
+                ans: 0,
+                exp: "1 公尺平分成 6 段，每段長就是 1/6 公尺。"
+            },
+            {
+                id: 8,
+                tag: "書寫順序常識",
+                q: "書寫分數時，正確的筆順是由下往上，應該先寫什麼？",
+                opts: [
+                    "先寫分母，再畫分數線，最後寫分子",
+                    "先寫分子，再畫分數線，最後寫分母",
+                    "先畫分數線，再寫分子，最後寫分母",
+                    "隨便先寫哪一個都可以"
+                ],
+                ans: 0,
+                exp: "分數規範由下往上：先寫分母，再畫分數線，最後寫分子。"
+            },
+            {
+                id: 9,
+                tag: "分數圖形概念",
+                q: "一個圓形如果被畫了 3 條通過圓心的直線平分成 6 塊，塗色了 4 塊，塗色部分占整個圓的多少？",
+                opts: ["4/6", "2/6", "6/4", "1/6"],
+                ans: 0,
+                exp: "平分成 6 塊（分母是 6），塗色 4 塊（分子是 4），因此是 4/6。"
+            },
+            {
+                id: 10,
+                tag: "資優概念思考",
+                q: "小安有一條繩子，剪去 7/7 條，請問他還剩下多少條繩子？",
+                opts: ["0 條", "1 條", "7 條", "1/7 條"],
+                ans: 0,
+                exp: "7/7 條就等於 1 條完整繩子。小安把整條剪去了，因此剩下 0 條。"
+            }
+        ];
+
+        // Fisher-Yates 隨機打亂演算法
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        let processedQuiz = [];
+        let userAnswers = {};
+        let score = 0;
+
+        function initQuiz() {
+            processedQuiz = QUIZ_RAW_DATA.map((item, idx) => {
+                const optionObjects = item.opts.map((optText, optIdx) => ({
+                    text: optText,
+                    isCorrect: optIdx === item.ans
+                }));
+                const shuffledOpts = shuffleArray([...optionObjects]);
+                const newCorrectIndex = shuffledOpts.findIndex(o => o.isCorrect);
+
+                return {
+                    id: item.id,
+                    displayNum: idx + 1,
+                    tag: item.tag,
+                    q: item.q,
+                    options: shuffledOpts.map(o => o.text),
+                    correctIndex: newCorrectIndex,
+                    exp: item.exp
+                };
+            });
+
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            userAnswers = {};
+
+            processedQuiz.forEach((qItem) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.id = `quizCard_${qItem.id}`;
+
+                const optHtml = qItem.options.map((opt, oIdx) => `
+                    <button class="opt-btn" onclick="selectOption(${qItem.id}, ${oIdx})">
+                        <span>(${String.fromCharCode(65 + oIdx)})</span>
+                        <span>${opt}</span>
+                    </button>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="quiz-header">
+                        <span class="quiz-badge">${qItem.tag}</span>
+                        <span style="font-weight: 700; color: var(--text-gray);">第 ${qItem.displayNum} / 10 題</span>
+                    </div>
+                    <div class="quiz-question">${qItem.displayNum}. ${qItem.q}</div>
+                    <div class="quiz-options" id="optGroup_${qItem.id}">
+                        ${optHtml}
+                    </div>
+                    <div class="feedback-box" id="feedback_${qItem.id}"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qId, selectedIdx) {
+            if (userAnswers[qId] !== undefined) return;
+            userAnswers[qId] = selectedIdx;
+
+            const qItem = processedQuiz.find(q => q.id === qId);
+            const optGroup = document.getElementById(`optGroup_${qId}`);
+            const buttons = optGroup.getElementsByClassName('opt-btn');
+            const feedbackEl = document.getElementById(`feedback_${qId}`);
+
+            Array.from(buttons).forEach(btn => btn.disabled = true);
+
+            const isCorrect = (selectedIdx === qItem.correctIndex);
+            if (isCorrect) {
+                buttons[selectedIdx].classList.add('correct');
+                feedbackEl.className = 'feedback-box feedback-correct';
+                feedbackEl.style.display = 'block';
+                feedbackEl.innerHTML = `<strong>🎉 太棒了！回答正確！</strong><br>${qItem.exp}`;
+                playSound('correct');
+            } else {
+                buttons[selectedIdx].classList.add('wrong');
+                buttons[qItem.correctIndex].classList.add('correct');
+                feedbackEl.className = 'feedback-box feedback-wrong';
+                feedbackEl.style.display = 'block';
+                feedbackEl.innerHTML = `<strong>💡 差一點點！正確答案是 (${String.fromCharCode(65 + qItem.correctIndex)}) ${qItem.options[qItem.correctIndex]}</strong><br>${qItem.exp}`;
+                playSound('wrong');
+            }
+
+            checkAllAnswered();
+        }
+
+        function checkAllAnswered() {
+            if (Object.keys(userAnswers).length === processedQuiz.length) {
+                let correctCount = 0;
+                processedQuiz.forEach(q => {
+                    if (userAnswers[q.id] === q.correctIndex) {
+                        correctCount++;
+                    }
+                });
+                score = correctCount * 10;
+
+                const summaryCard = document.getElementById('quizSummary');
+                const scoreEl = document.getElementById('finalScore');
+                const msgEl = document.getElementById('summaryMessage');
+
+                scoreEl.textContent = `${score} 分`;
+                if (score === 100) {
+                    msgEl.textContent = "🏆 完美全對！你已經完全通曉分數概念、平分真理與大小比較，獲頒分數大師勳章！";
+                } else if (score >= 80) {
+                    msgEl.textContent = "🌟 表現優異！對單位分數與同分母大小比較掌握極佳，是優秀的分數探險家！";
+                } else {
+                    msgEl.textContent = "💪 再接再厲！記住「平分才算分數」與「分子等於分母就等於 1」，一定能考滿分！";
+                }
+
+                summaryCard.style.display = 'block';
+                summaryCard.scrollIntoView({ behavior: 'smooth' });
+                playSound('complete');
+            }
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizSummary').style.display = 'none';
+            initQuiz();
+            window.scrollTo({ top: document.querySelector('.quiz-section').offsetTop - 80, behavior: 'smooth' });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPizza();
+            initQuiz();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>秘魯高鐵奇境：速率魔法特快車 ⑦ 6上數學 第7單元 | 學習城堡</title>
+<!-- Favicon 網站圖示 -->
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" href="favicon.svg">
+<meta name="description" content="國小 6 年級上學期數學第 7 單元：速率。從秘魯馬丘比丘印加古道與臺灣高鐵 288km/h 出發，掌握速率公式、時速/分速/秒速單位換算、公式金三角、平均速率防陷阱、相向相遇與同向追趕！">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="study-castle-ui.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js"></script>
+
+<style>
+  :root {
+    --primary: #0284C7;
+    --primary-light: #38BDF8;
+    --primary-dark: #0369A1;
+    --accent: #F59E0B;
+    --accent-gold: #D97706;
+    --bg-gradient: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 50%, #EFF6FF 100%);
+    --card-bg: rgba(255, 255, 255, 0.96);
+    --card-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    --border-color: #BAE6FD;
+    --text-main: #0F172A;
+    --text-muted: #475569;
+    --radius-lg: 20px;
+    --radius-md: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .top-navbar {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .back-btn {
+    text-decoration: none;
+    background: #F1F5F9;
+    color: var(--text-main);
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #E2E8F0;
+  }
+  .back-btn:hover {
+    background: #E2E8F0;
+    transform: translateX(-2px);
+  }
+  .nav-brand {
+    font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .badge-tag {
+    background: #E0F2FE;
+    color: var(--primary-dark);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    border: 1px solid #7DD3FC;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .stat-pill {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    color: #92400E;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-icon {
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+  }
+  .btn-icon:hover {
+    background: #E2E8F0;
+    transform: scale(1.05);
+  }
+
+  .hero-container {
+    max-width: 1040px;
+    margin: 24px auto 16px;
+    padding: 0 16px;
+  }
+  .hero-banner {
+    background: linear-gradient(135deg, #0369A1 0%, #0284C7 60%, #38BDF8 100%);
+    color: #FFFFFF;
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+    box-shadow: 0 12px 30px rgba(2, 132, 199, 0.25);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-banner::after {
+    content: "🚄⚡⏱️";
+    position: absolute;
+    right: -10px;
+    bottom: -15px;
+    font-size: 5rem;
+    opacity: 0.15;
+    pointer-events: none;
+  }
+  .hero-content h1 {
+    font-size: 2.1rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .hero-content p {
+    font-size: 1.05rem;
+    color: #E0F2FE;
+    max-width: 620px;
+    line-height: 1.5;
+  }
+  .hero-mascot {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(6px);
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  .mascot-avatar {
+    font-size: 2.8rem;
+    animation: floatMascot 3s ease-in-out infinite;
+  }
+  @keyframes floatMascot {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .mascot-bubble {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #FFF;
+  }
+
+  .stage-nav {
+    max-width: 1040px;
+    margin: 16px auto;
+    padding: 0 16px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .stage-tab {
+    flex: 1;
+    min-width: 140px;
+    background: #FFFFFF;
+    border: 2px solid #E2E8F0;
+    border-radius: var(--radius-md);
+    padding: 12px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .stage-tab:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+  }
+  .stage-tab.active {
+    background: #F0F9FF;
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+  }
+  .stage-tab-num {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .stage-tab-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
+  .main-container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  .section-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    padding: 28px;
+    margin-bottom: 24px;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-header {
+    border-bottom: 2px solid #F1F5F9;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .concept-box {
+    background: #F8FAFC;
+    border-left: 5px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin-bottom: 20px;
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+  .concept-box strong {
+    color: var(--primary-dark);
+  }
+  .concept-highlight {
+    background: #FEF3C7;
+    color: #92400E;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  /* 互動實驗室 */
+  .lab-widget {
+    background: #FFFFFF;
+    border: 2px dashed #7DD3FC;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .train-sim-track {
+    width: 100%;
+    height: 70px;
+    background: #E2E8F0;
+    border-radius: 35px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 2px solid #CBD5E1;
+  }
+  .train-sprite {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2.2rem;
+    transition: left 0.5s ease-out;
+  }
+  .slider-row {
+    margin-bottom: 14px;
+  }
+  .slider-row label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .slider-row input[type="range"] {
+    width: 100%;
+    accent-color: var(--primary);
+  }
+  .speed-metrics {
+    background: #F0F9FF;
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    margin-top: 14px;
+    border: 1px solid #BAE6FD;
+  }
+  .metrics-line {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--primary-dark);
+  }
+
+  .quiz-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 16px;
+  }
+  .quiz-item {
+    background: #FFFFFF;
+    border: 2px solid #E2E8F0;
+    border-radius: var(--radius-md);
+    padding: 20px;
+    transition: all 0.2s ease;
+  }
+  .quiz-item.correct-item {
+    border-color: #10B981;
+    background: #F0FDF4;
+  }
+  .quiz-item.wrong-item {
+    border-color: #F87171;
+    background: #FEF2F2;
+  }
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .quiz-qnum {
+    background: #E2E8F0;
+    color: #334155;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 800;
+  }
+  .quiz-text {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1E293B;
+    flex: 1;
+    line-height: 1.6;
+  }
+  .quiz-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .quiz-opt-btn {
+    background: #F8FAFC;
+    border: 2px solid #CBD5E1;
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .quiz-opt-btn:hover:not(:disabled) {
+    background: #F1F5F9;
+    border-color: var(--primary-light);
+    transform: translateY(-1px);
+  }
+  .quiz-opt-btn.correct-opt {
+    background: #10B981 !important;
+    border-color: #059669 !important;
+    color: #FFF !important;
+  }
+  .quiz-opt-btn.wrong-opt {
+    background: #EF4444 !important;
+    border-color: #DC2626 !important;
+    color: #FFF !important;
+  }
+  .quiz-explain {
+    background: #EFF6FF;
+    border-left: 4px solid #3B82F6;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 14px;
+    font-size: 0.95rem;
+    color: #1E3A8A;
+    display: none;
+    line-height: 1.6;
+  }
+
+  .card-footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid #F1F5F9;
+    padding-top: 18px;
+  }
+  .btn-next-stage {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: #FFF;
+    border: none;
+    padding: 12px 26px;
+    border-radius: var(--radius-md);
+    font-size: 1.05rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
+  }
+  .btn-next-stage:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(2, 132, 199, 0.3);
+  }
+
+  .badge-showcase {
+    text-align: center;
+    padding: 30px 10px;
+  }
+  .medal-icon {
+    font-size: 5rem;
+    margin-bottom: 16px;
+    animation: medalBounce 1.5s infinite alternate ease-in-out;
+  }
+  @keyframes medalBounce {
+    from { transform: scale(1); }
+    to { transform: scale(1.1) rotate(5deg); }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    padding: 16px;
+  }
+  .modal-overlay.open {
+    display: flex;
+  }
+  .modal-content {
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    max-width: 540px;
+    width: 100%;
+    padding: 28px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: modalPop 0.25s ease-out;
+    position: relative;
+  }
+  @keyframes modalPop {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .modal-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #94A3B8;
+  }
+  .modal-close:hover { color: #334155; }
+  .modal-body {
+    font-size: 1rem;
+    color: #334155;
+    line-height: 1.7;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  @media (max-width: 768px) {
+    .hero-content h1 { font-size: 1.6rem; }
+    .hero-banner { padding: 22px 18px; }
+    .section-card { padding: 18px; }
+    .quiz-options { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-navbar">
+  <div class="nav-left">
+    <a href="portal.html" class="back-btn">
+      <span>🏰 返回傳送門</span>
+    </a>
+    <div class="nav-brand">
+      <span>🚄 速率奇境</span>
+      <span class="badge-tag">6上 第⑦單元</span>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="stat-pill">
+      <span>⭐ 能量:</span>
+      <span id="scoreText">0</span>
+    </div>
+    <div class="stat-pill" style="background:#ECFDF5; border-color:#A7F3D0; color:#065F46;">
+      <span>🔥 連擊:</span>
+      <span id="comboText">0</span>
+    </div>
+    <button class="btn-icon" onclick="openGlossary()" title="知識寶典">📖</button>
+    <button class="btn-icon" id="soundBtn" onclick="toggleSound()" title="音效切換">🔊</button>
+  </div>
+</header>
+
+<section class="hero-container">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <h1>秘魯高鐵奇境：速率魔法特快車</h1>
+      <p>從南美洲馬丘比丘印加古道與臺灣高鐵 288km/h 出發，精通速率三大定義、公式金三角、時速分速秒速換算、平均速率防陷阱與相遇追趕問題！</p>
+    </div>
+    <div class="hero-mascot">
+      <div class="mascot-avatar">🚄</div>
+      <div class="mascot-bubble" id="mascotMessage">歡迎搭乘速率魔法特快車！準備啟程了嗎？</div>
+    </div>
+  </div>
+</section>
+
+<nav class="stage-nav" id="stageTabs">
+  <div class="stage-tab active" onclick="gotoStage(0)">
+    <span class="stage-tab-num">Stage 0</span>
+    <span class="stage-tab-title">馬丘比丘前哨站</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(1)">
+    <span class="stage-tab-num">Stage 1</span>
+    <span class="stage-tab-title">速率意義與三大單位</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(2)">
+    <span class="stage-tab-num">Stage 2</span>
+    <span class="stage-tab-title">公式金三角互推</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(3)">
+    <span class="stage-tab-num">Stage 3</span>
+    <span class="stage-tab-title">速率單位秒換算</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(4)">
+    <span class="stage-tab-num">Stage 4</span>
+    <span class="stage-tab-title">速率應用與相遇問題</span>
+  </div>
+  <div class="stage-tab" onclick="gotoStage(5)">
+    <span class="stage-tab-num">Stage 5</span>
+    <span class="stage-tab-title">大會考與資優殿堂</span>
+  </div>
+</nav>
+
+<main class="main-container" id="stageContainer">
+</main>
+
+<div class="modal-overlay" id="castleModalOverlay" onclick="closeCastleModalOnBackdrop(event)">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">
+        <span id="castleModalIcon">💡</span>
+        <span id="castleModalTitle">系統提示</span>
+      </div>
+      <button class="modal-close" onclick="closeCastleModal()">✕</button>
+    </div>
+    <div class="modal-body" id="castleModalBody">
+    </div>
+  </div>
+</div>
+
+<script>
+let audioCtx = null;
+let soundEnabled = true;
+
+function initAudio() {
+  if (!audioCtx) {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (AudioContext) audioCtx = new AudioContext();
+  }
+  if (audioCtx && audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+}
+
+function playTone(freq, type = 'sine', duration = 0.15, vol = 0.25) {
+  if (!soundEnabled) return;
+  try {
+    initAudio();
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  } catch(e) {}
+}
+
+function playSound(name) {
+  if (!soundEnabled) return;
+  if (name === 'correct') {
+    playTone(523.25, 'triangle', 0.1, 0.2);
+    setTimeout(() => playTone(659.25, 'triangle', 0.1, 0.2), 80);
+    setTimeout(() => playTone(783.99, 'triangle', 0.2, 0.25), 160);
+  } else if (name === 'wrong') {
+    playTone(260, 'sawtooth', 0.15, 0.25);
+    setTimeout(() => playTone(196, 'sawtooth', 0.25, 0.3), 120);
+  } else if (name === 'level_clear') {
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((f, idx) => {
+      setTimeout(() => playTone(f, 'sine', 0.2, 0.3), idx * 100);
+    });
+  } else if (name === 'click') {
+    playTone(400, 'sine', 0.05, 0.1);
+  }
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  const btn = document.getElementById('soundBtn');
+  btn.textContent = soundEnabled ? '🔊' : '🔇';
+  showCastleModal('音效設定', soundEnabled ? '音效已開啟 🔊' : '音效已靜音 🔇', '🎵');
+}
+
+function showCastleModal(title, bodyHtml, icon = '💡', onClose = null) {
+  const overlay = document.getElementById('castleModalOverlay');
+  if (!overlay) return;
+  document.getElementById('castleModalTitle').textContent = title;
+  document.getElementById('castleModalBody').innerHTML = bodyHtml;
+  document.getElementById('castleModalIcon').textContent = icon;
+  overlay.classList.add('open');
+  window._castleModalOnClose = onClose;
+}
+
+function closeCastleModal() {
+  const overlay = document.getElementById('castleModalOverlay');
+  if (overlay) overlay.classList.remove('open');
+  if (typeof window._castleModalOnClose === 'function') {
+    const cb = window._castleModalOnClose;
+    window._castleModalOnClose = null;
+    cb();
+  }
+}
+
+function closeCastleModalOnBackdrop(e) {
+  if (e.target && e.target.id === 'castleModalOverlay') {
+    closeCastleModal();
+  }
+}
+
+window.alert = function(msg) {
+  showCastleModal('系統提示', `<div style="text-align:left; white-space:pre-line;">${msg}</div>`, '💡');
+};
+
+let userScore = 0;
+let userCombo = 0;
+let currentStage = 0;
+
+function addScore(pts = 10) {
+  userCombo++;
+  const bonus = Math.floor(userCombo / 3) * 5;
+  userScore += (pts + bonus);
+  document.getElementById('scoreText').textContent = userScore;
+  document.getElementById('comboText').textContent = userCombo;
+  if (userCombo >= 3) {
+    updateMascot(`🔥 疾馳！達成 ${userCombo} 連擊！額外加 ${bonus} 分！`);
+  }
+}
+
+function resetCombo() {
+  userCombo = 0;
+  document.getElementById('comboText').textContent = userCombo;
+}
+
+function updateMascot(msg) {
+  const el = document.getElementById('mascotMessage');
+  if (el) el.textContent = msg;
+}
+
+function shuffleArray(arr) {
+  const newArr = [...arr];
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+}
+
+const stageData = [
+  // Stage 0: 暖身與馬丘比丘
+  {
+    title: "馬丘比丘前哨站：印加古道與時間換算",
+    icon: "🇵🇪",
+    concept: `
+      <strong>從數學看世界・南美洲秘魯印加帝國：</strong><br>
+      秘魯位於南美洲西部，著名的印加古道通往「天空之城」馬丘比丘。古代印加帝國沒有馬匹或車輛，而是靠身手敏捷的信使「查斯基 (Chasqui)」沿著驛道接力奔跑傳遞軍情！<br>
+      • 徒步登山到山頂要花 140 分鐘，也就是 <strong>2 小時 20 分鐘</strong>（因為 1 小時 ＝ 60 分鐘，140 ÷ 60 ＝ 2 餘 20）。<br>
+      • <strong>時間基本換算：</strong><br>
+        1 日 ＝ 24 小時 ＝ 1440 分鐘；1 小時 ＝ 60 分鐘 ＝ 3600 秒；1 分鐘 ＝ 60 秒。
+    `,
+    quizzes: [
+      {
+        q: "徒步登上秘魯馬丘比丘花了 140 分鐘，也可以說花了幾小時幾分鐘？",
+        options: ["2 小時 20 分鐘", "1 小時 40 分鐘", "2 小時 40 分鐘", "1 小時 20 分鐘"],
+        ans: "2 小時 20 分鐘",
+        explain: "140 ÷ 60 = 2 餘 20，因此是 2 小時 20 分鐘。"
+      },
+      {
+        q: "100 秒鐘等於幾分鐘幾秒鐘？",
+        options: ["1 分鐘 40 秒鐘", "1 分鐘 60 秒鐘", "1 分鐘 20 秒鐘", "2 分鐘 40 秒鐘"],
+        ans: "1 分鐘 40 秒鐘",
+        explain: "100 ÷ 60 = 1 餘 40，因此是 1 分鐘 40 秒鐘。"
+      },
+      {
+        q: "一天（1 日）共有多少分鐘？",
+        options: ["1440 分鐘", "720 分鐘", "3600 分鐘", "86400 分鐘"],
+        ans: "1440 分鐘",
+        explain: "1 日 = 24 小時，24 × 60 = 1440 分鐘。"
+      }
+    ]
+  },
+
+  // Stage 1: 認識速率與三大單位 (7-1)
+  {
+    title: "第一關：認識速率與三大單位 (7-1 速率)",
+    icon: "⏱️",
+    concept: `
+      <strong>1. 速率的意義：</strong><br>
+      用來表示<strong>物體移動快慢</strong>的物理量。在國小階段指的都是「平均速率」。<br>
+      • 時間相同時比距離：距離越長，速率越快。<br>
+      • 距離相同時比時間：時間越短，速率越快。<br>
+      • 當距離與時間都不相同時，求出「<strong>單位時間所走的距離</strong>」來比較！<br>
+      <div class="concept-highlight" style="display:inline-block; margin:6px 0; font-size:1.05rem;">
+        速率 ＝ 距離 ÷ 時間
+      </div><br>
+      <strong>2. 三種常見速率單位：</strong><br>
+      • <strong>時速（公里/時，km/h）：</strong>平均每 1 小時所走的距離（公里）。<br>
+      • <strong>分速（公尺/分，m/min）：</strong>平均每 1 分鐘所走的距離（公尺）。<br>
+      • <strong>秒速（公尺/秒，m/s）：</strong>平均每 1 秒鐘所走的距離（公尺）。
+    `,
+    hasTrainLab: true,
+    quizzes: [
+      {
+        q: "臺北到花蓮的距離約 160 公里，開車花了 2.5 小時，平均 1 小時行駛幾公里（時速多少）？",
+        options: ["64 公里/時", "60 公里/時", "80 公里/時", "75 公里/時"],
+        ans: "64 公里/時",
+        explain: "速率 = 距離 ÷ 時間 = 160 ÷ 2.5 = 64 公里/時。"
+      },
+      {
+        q: "嘉義到澎湖約 64 公里，客輪航行花了 1又1/3 小時（即 4/3 小時），客輪的時速是幾公里？",
+        options: ["48 公里/時", "52 公里/時", "64 公里/時", "36 公里/時"],
+        ans: "48 公里/時",
+        explain: "速率 = 64 ÷ (4/3) = 64 × (3/4) = 48 公里/時。"
+      },
+      {
+        q: "一隻鴕鳥跑了 180 公尺花了 10 秒鐘，這隻鴕鳥的秒速是多少公尺/秒？",
+        options: ["18 公尺/秒", "1800 公尺/秒", "10 公尺/秒", "18 公里/時"],
+        ans: "18 公尺/秒",
+        explain: "秒速 = 180 ÷ 10 = 18 公尺/秒。"
+      }
+    ]
+  },
+
+  // Stage 2: 距離、時間與速率公式金三角 (7-2)
+  {
+    title: "第二關：距離、時間與速率公式金三角 (7-2)",
+    icon: "📐",
+    concept: `
+      <strong>牢記「路程公式金三角」，一題破解三大未知數：</strong><br>
+      <div style="background:#E0F2FE; padding:12px; border-radius:8px; font-size:1.1rem; font-weight:800; color:#0369A1; text-align:center; margin:8px 0;">
+        ▲ 距離在上方，速率與時間在下方<br>
+        ① 距離 ＝ 速率 × 時間<br>
+        ② 時間 ＝ 距離 ÷ 速率<br>
+        ③ 速率 ＝ 距離 ÷ 時間
+      </div><br>
+      • <strong>例題：</strong>自行車時速 20 公里，騎了 4 小時，共行駛多少公里？<br>
+        距離 ＝ 20 × 4 ＝ 80 公里。<br>
+      • <strong>例題：</strong>騎機車時速 50 公里，要行駛 150 公里需要多少時間？<br>
+        時間 ＝ 150 ÷ 50 ＝ 3 小時。
+    `,
+    quizzes: [
+      {
+        q: "立生騎自行車環島，以時速 20 公里連續騎了 4 小時，他一共騎了多少公里？",
+        options: ["80 公里", "5 公里", "100 公里", "60 公里"],
+        ans: "80 公里",
+        explain: "距離 = 速率 × 時間 = 20 × 4 = 80 公里。"
+      },
+      {
+        q: "秀芳以時速 50 公里騎機車旅遊，要行駛 175 公里需要花費多少時間？",
+        options: ["3.5 小時 (或 3小時30分)", "3 小時", "4 小時", "2.5 小時"],
+        ans: "3.5 小時 (或 3小時30分)",
+        explain: "時間 = 距離 ÷ 速率 = 175 ÷ 50 = 3.5 小時（3 小時 30 分鐘）。"
+      },
+      {
+        q: "高鐵列車時速 288 公里，從臺中開往臺北距離約 144 公里，需要行駛多少時間？",
+        options: ["0.5 小時 (30分鐘)", "1 小時", "0.25 小時 (15分鐘)", "2 小時"],
+        ans: "0.5 小時 (30分鐘)",
+        explain: "時間 = 144 ÷ 288 = 0.5 小時 = 30 分鐘。"
+      }
+    ]
+  },
+
+  // Stage 3: 速率單位秒換算 (7-2)
+  {
+    title: "第三關：速率單位秒換算 (時速 ↔ 分速 ↔ 秒速)",
+    icon: "🔄",
+    concept: `
+      <strong>速率單位換算黃金守則：</strong><br>
+      • <strong>由大單位換到小單位（除以 60）：</strong><br>
+        時速 (km/h) ➔ 分速 (km/min)（÷ 60）➔ 分速 (m/min)（× 1000）➔ 秒速 (m/s)（÷ 60）<br>
+      • <strong>由小單位換到大單位（乘以 60）：</strong><br>
+        秒速 (m/s) ➔ 分速 (m/min)（× 60）➔ 時速 (km/h)（× 60，再 ÷ 1000）<br>
+      • <strong>高鐵時速 288 公里換算實例（課本 P102）：</strong><br>
+        1. 分速 ＝ 288 ÷ 60 ＝ 4.8 公里/分 ＝ <strong>4800 公尺/分</strong>。<br>
+        2. 秒速 ＝ 4800 ÷ 60 ＝ <strong>80 公尺/秒</strong>！
+    `,
+    hasConvertTool: true,
+    quizzes: [
+      {
+        q: "臺灣高鐵列車時速 288 公里/時，換算成「秒速」是多少公尺/秒？",
+        options: ["80 公尺/秒", "48 公尺/秒", "120 公尺/秒", "28.8 公尺/秒"],
+        ans: "80 公尺/秒",
+        explain: "288 km/h = 288000 m/h。分速 = 288000 ÷ 60 = 4800 m/min。秒速 = 4800 ÷ 60 = 80 m/s。"
+      },
+      {
+        q: "飛人博爾特的跑步秒速是 10 公尺/秒，換算成「時速」是多少公里/時？",
+        options: ["36 公里/時", "60 公里/時", "10 公里/時", "24 公里/時"],
+        ans: "36 公里/時",
+        explain: "分速 = 10 × 60 = 600 公尺/分。時速 = 600 × 60 = 36000 公尺/時 = 36 公里/時。"
+      },
+      {
+        q: "海豚游泳速率是 0.5 公里/分，飛魚游泳速率是 10 公尺/秒，哪一種動物游泳較快？",
+        options: ["飛魚比較快", "海豚比較快", "一樣快", "無法比較"],
+        ans: "飛魚比較快",
+        explain: "海豚分速 0.5 公里/分 = 500 公尺/分。飛魚分速 = 10 × 60 = 600 公尺/分。因為 600 > 500，所以飛魚比較快。"
+      }
+    ]
+  },
+
+  // Stage 4: 速率應用與經典題型 (7-3)
+  {
+    title: "第四關：速率應用與經典相遇追趕題 (7-3)",
+    icon: "🏃",
+    concept: `
+      <strong>1. 平均速率防陷阱（超高頻失分點！）：</strong><br>
+      <div class="concept-highlight" style="display:inline-block; margin:6px 0; font-size:1.05rem;">
+        平均速率 ＝ 總距離 ÷ 總時間（絕對不可直接將兩個速率相加除以 2！）
+      </div><br>
+      • <strong>例題：</strong>上山時速 1.8km 走 3h（距離 5.4km），下山時速 2.7km 走 2h（距離 5.4km）。<br>
+        總距離 ＝ 5.4 ＋ 5.4 ＝ 10.8km，總時間 ＝ 3 ＋ 2 ＝ 5h。<br>
+        平均速率 ＝ 10.8 ÷ 5 ＝ <strong>2.16 公里/時</strong>！<br>
+      <strong>2. 相向而行（相遇問題）：</strong><br>
+      兩人面對面走，每分鐘拉近距離 ＝ (甲速率 ＋ 乙速率)。相遇時間 ＝ 總距離 ÷ (速率和)。<br>
+      <strong>3. 同向而行（追趕問題）：</strong><br>
+      兩人同向跑，每分鐘拉開距離 ＝ (快者速率 － 慢者速率)。距離差 ＝ 速率差 × 時間。
+    `,
+    quizzes: [
+      {
+        q: "淑芬登山，上山以時速 1.8 公里走了 3 小時，下山以時速 2.7 公里走了 2 小時。淑芬登山的「平均速率」是幾公里/時？",
+        options: ["2.16 公里/時", "2.25 公里/時", "2.0 公里/時", "2.4 公里/時"],
+        ans: "2.16 公里/時",
+        explain: "上山距離 = 1.8×3 = 5.4km，下山距離 = 2.7×2 = 5.4km。總距離 = 10.8km，總時間 = 3+2 = 5h。平均速率 = 10.8 ÷ 5 = 2.16 km/h。"
+      },
+      {
+        q: "甲乙兩地相距 108 公里，晉瑄以時速 21 公里從甲地出發，正成以時速 15 公里從乙地相向而行。幾小時後兩人會相遇？",
+        options: ["3 小時", "2.5 小時", "4 小時", "3.6 小時"],
+        ans: "3 小時",
+        explain: "時速和 = 21 + 15 = 36 公里/時。相遇時間 = 總距離 ÷ 速率和 = 108 ÷ 36 = 3 小時。"
+      },
+      {
+        q: "裕玲跑步分速 85 公尺，榮彥跑步分速 106 公尺。兩人同時同地同方向出發，10 分鐘後兩人會相距幾公尺？",
+        options: ["210 公尺", "1910 公尺", "21 公尺", "315 公尺"],
+        ans: "210 公尺",
+        explain: "每分鐘拉開 106 - 85 = 21 公尺。10 分鐘後相距 = 21 × 10 = 210 公尺。"
+      },
+      {
+        q: "公園外圍一圈 3500 公尺，正賢和蕙如分別以分速 130m 和 120m，同時從入口反方向慢跑，幾分鐘後兩人會相遇？",
+        options: ["14 分鐘", "12 分鐘", "15 分鐘", "20 分鐘"],
+        ans: "14 分鐘",
+        explain: "速率和 = 130 + 120 = 250 公尺/分。相遇時間 = 3500 ÷ 250 = 14 分鐘。"
+      }
+    ]
+  },
+
+  // Stage 5: 大會考與資優殿堂 (練習 7 全攻略)
+  {
+    title: "第五關：大會考與資優殿堂 (練習 7 全攻略)",
+    icon: "🏆",
+    concept: `
+      <strong>本關整合課本 P106~P107 練習 7 精選試題與資優思維挑戰：</strong><br>
+      • <strong>考題精隨：</strong>兩段不同路程的平均速率計算。<br>
+      • <strong>單位統一陷阱：</strong>高速鐵路一列車分速 2.5km/min，另一列車時速 130km/h，必須先換算為相同時間單位才能相加！
+    `,
+    quizzes: [
+      {
+        q: "甲到乙路程 48 公里花了 1 小時，乙到丙路程 60 公里花了 2 小時。開車從甲地到丙地的「平均速率」是多少公里/時？",
+        options: ["36 公里/時", "39 公里/時", "30 公里/時", "48 公里/時"],
+        ans: "36 公里/時",
+        explain: "總距離 = 48 + 60 = 108 公里。總時間 = 1 + 2 = 3 小時。平均速率 = 108 ÷ 3 = 36 公里/時。"
+      },
+      {
+        q: "高鐵總長 350 公里。測試時南港站以「分速 2.5 公里」往南發車，左營站以「時速 130 公里」往北發車，兩列車幾小時後相遇？",
+        options: ["1.25 小時", "1.5 小時", "1.2 小時", "2 小時"],
+        ans: "1.25 小時",
+        explain: "南港列車時速 = 2.5 × 60 = 150 公里/時。兩車速率和 = 150 + 130 = 280 公里/時。相遇時間 = 350 ÷ 280 = 1.25 小時（1 小時 15 分鐘）。"
+      },
+      {
+        q: "一匹馬 5.5 小時跑了 99 公里，這匹馬的「時速是幾公里」？「分速是幾公尺」？",
+        options: ["時速 18 公里，分速 300 公尺", "時速 18 公里，分速 180 公尺", "時速 20 公里，分速 300 公尺", "時速 15 公里，分速 250 公尺"],
+        ans: "時速 18 公里，分速 300 公尺",
+        explain: "時速 = 99 ÷ 5.5 = 18 公里/時。分速 = 18000 公尺 ÷ 60 = 300 公尺/分。"
+      },
+      {
+        q: "兩隻狗奔跑分速分別為 650 公尺與 750 公尺，兩隻狗同時同地反方向跑開，1/4 小時（15 分鐘）後相距多少公尺？",
+        options: ["21000 公尺 (21公里)", "1400 公尺", "15000 公尺", "10500 公尺"],
+        ans: "21000 公尺 (21公里)",
+        explain: "1/4 小時 = 15 分鐘。每分鐘分開 650 + 750 = 1400 公尺。15 分鐘後相距 = 1400 × 15 = 21000 公尺（21 公里）。"
+      }
+    ]
+  }
+];
+
+const glossaryTerms = [
+  { term: "速率 (Speed)", def: "物體在單位時間內所移動的距離。公式：速率 ＝ 距離 ÷ 時間。" },
+  { term: "時速 (km/h)", def: "物體平均每 1 小時所移動的距離（公里）。" },
+  { term: "分速 (m/min)", def: "物體平均每 1 分鐘所移動的距離（公尺）。" },
+  { term: "秒速 (m/s)", def: "物體平均每 1 秒鐘所移動的距離（公尺）。" },
+  { term: "平均速率 (Average Speed)", def: "全程總距離除以全程總時間。公式：平均速率 ＝ 總距離 ÷ 總時間。" },
+  { term: "相遇問題 (Encounter Problem)", def: "兩物體相向而行時，相遇時間 ＝ 總距離 ÷ (速率和)。" }
+];
+
+function renderStage(stageIdx) {
+  currentStage = stageIdx;
+  const container = document.getElementById('stageContainer');
+  const tabs = document.querySelectorAll('.stage-tab');
+  tabs.forEach((tab, i) => {
+    tab.classList.toggle('active', i === stageIdx);
+  });
+
+  const data = stageData[stageIdx];
+  if (!data) return;
+
+  let html = `
+    <div class="section-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <span>${data.icon}</span>
+          <span>${data.title}</span>
+        </h2>
+        <span class="badge-tag">Stage ${stageIdx} / 5</span>
+      </div>
+
+      <div class="concept-box">
+        ${data.concept}
+      </div>
+  `;
+
+  if (data.hasTrainLab) {
+    html += `
+      <div class="lab-widget">
+        <h3 style="margin-bottom:12px; color:var(--primary-dark); display:flex; align-items:center; gap:8px;">
+          <span>🚄</span><span>極速特快車・速率動態儀表板</span>
+        </h3>
+        <p style="color:var(--text-muted); margin-bottom:14px;">
+          調整行駛「距離」與「時間」，觀看特快車動態奔馳，即時換算時速、分速與秒速！
+        </p>
+        <div class="train-sim-track">
+          <div id="trainSprite" class="train-sprite">🚄💨</div>
+        </div>
+        <div class="slider-row">
+          <label>
+            <span>行駛距離 (公里)</span>
+            <span id="trainDistVal" style="color:var(--primary); font-weight:800;">160 公里</span>
+          </label>
+          <input type="range" id="trainDistSlider" min="20" max="400" step="10" value="160" oninput="updateTrainSim()">
+        </div>
+        <div class="slider-row">
+          <label>
+            <span>行駛時間 (小時)</span>
+            <span id="trainTimeVal" style="color:#D97706; font-weight:800;">2.0 小時</span>
+          </label>
+          <input type="range" id="trainTimeSlider" min="0.5" max="5.0" step="0.5" value="2.0" oninput="updateTrainSim()">
+        </div>
+        <div class="speed-metrics">
+          <div class="metrics-line" id="metricSpeedKmh">時速 ＝ 160 ÷ 2 ＝ 80 公里/時</div>
+          <div class="metrics-line" id="metricSpeedMmin" style="color:#0369A1;">分速 ＝ 1333.33 公尺/分</div>
+          <div class="metrics-line" id="metricSpeedMs" style="color:#047857;">秒速 ＝ 22.22 公尺/秒</div>
+        </div>
+      </div>
+    `;
+  }
+
+  if (data.hasConvertTool) {
+    html += `
+      <div class="lab-widget">
+        <h3 style="margin-bottom:12px; color:var(--primary-dark); display:flex; align-items:center; gap:8px;">
+          <span>🔄</span><span>速率單位一鍵秒換算工具</span>
+        </h3>
+        <p style="color:var(--text-muted); margin-bottom:14px;">
+          輸入時速 (km/h)，自動逐步展開換算成「分速」與「秒速」的運算過程！
+        </p>
+        <div style="display:flex; gap:12px; align-items:center; margin-bottom:14px; flex-wrap:wrap;">
+          <input type="number" id="convertKmhInput" value="288" style="padding:10px 14px; border:2px solid #BAE6FD; border-radius:10px; font-size:1.1rem; width:140px; font-weight:700;">
+          <span style="font-weight:700;">公里/時</span>
+          <button class="btn-next-stage" style="padding:10px 18px;" onclick="doConvertSpeed()">✨ 開始換算</button>
+        </div>
+        <div id="convertResult" style="background:#F0F9FF; border:1px solid #BAE6FD; border-radius:10px; padding:14px; font-size:1.05rem; line-height:1.7;">
+        </div>
+      </div>
+    `;
+  }
+
+  html += `
+      <h3 style="margin:24px 0 10px; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+        <span>✏️</span><span>闖關即時測驗 (選項自動隨機化)</span>
+      </h3>
+      <div class="quiz-list" id="stageQuizList">
+  `;
+
+  data.quizzes.forEach((quiz, qIdx) => {
+    const shuffledOptions = shuffleArray(quiz.options);
+    html += `
+      <div class="quiz-item" id="quizCard_${stageIdx}_${qIdx}">
+        <div class="quiz-header">
+          <span class="quiz-qnum">題目 ${qIdx + 1}</span>
+          <div class="quiz-text">${quiz.q}</div>
+        </div>
+        <div class="quiz-options">
+          ${shuffledOptions.map(opt => `
+            <button class="quiz-opt-btn" onclick="checkAnswer(${stageIdx}, ${qIdx}, this, '${encodeURIComponent(opt)}', '${encodeURIComponent(quiz.ans)}')">
+              ${opt}
+            </button>
+          `).join('')}
+        </div>
+        <div class="quiz-explain" id="explain_${stageIdx}_${qIdx}">
+          <strong>💡 詳解分析：</strong> ${quiz.explain}
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+      </div>
+      <div class="card-footer">
+        <button class="back-btn" onclick="prevStage()">⬅️ 上一關</button>
+        <button class="btn-next-stage" onclick="nextStage()">
+          ${stageIdx === 5 ? '前往榮譽殿堂 🏆' : '前往下一關 ➡️'}
+        </button>
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = html;
+  window.scrollTo({ top: 180, behavior: 'smooth' });
+
+  if (data.hasTrainLab) {
+    updateTrainSim();
+  }
+  if (data.hasConvertTool) {
+    doConvertSpeed();
+  }
+}
+
+function updateTrainSim() {
+  const d = parseFloat(document.getElementById('trainDistSlider').value);
+  const t = parseFloat(document.getElementById('trainTimeSlider').value);
+
+  document.getElementById('trainDistVal').textContent = `${d} 公里`;
+  document.getElementById('trainTimeVal').textContent = `${t.toFixed(1)} 小時`;
+
+  const speedKmh = d / t;
+  const speedMmin = (speedKmh * 1000) / 60;
+  const speedMs = speedMmin / 60;
+
+  document.getElementById('metricSpeedKmh').textContent = 
+    `時速 ＝ 距離 ÷ 時間 ＝ ${d} ÷ ${t} ＝ ${speedKmh.toFixed(2)} 公里/時`;
+  document.getElementById('metricSpeedMmin').textContent = 
+    `分速 ＝ ${speedKmh.toFixed(2)} × 1000 ÷ 60 ＝ ${speedMmin.toFixed(2)} 公尺/分`;
+  document.getElementById('metricSpeedMs').textContent = 
+    `秒速 ＝ ${speedMmin.toFixed(2)} ÷ 60 ＝ ${speedMs.toFixed(2)} 公尺/秒`;
+
+  const sprite = document.getElementById('trainSprite');
+  if (sprite) {
+    const posPercent = Math.min(85, Math.max(5, (speedKmh / 300) * 80));
+    sprite.style.left = `${posPercent}%`;
+  }
+}
+
+function doConvertSpeed() {
+  const inputEl = document.getElementById('convertKmhInput');
+  const resEl = document.getElementById('convertResult');
+  if (!inputEl || !resEl) return;
+
+  const kmh = parseFloat(inputEl.value);
+  if (isNaN(kmh) || kmh <= 0) {
+    resEl.innerHTML = '<span style="color:#EF4444;">⚠️ 請輸入大於 0 的有效數值！</span>';
+    return;
+  }
+
+  const mh = kmh * 1000;
+  const mmin = mh / 60;
+  const ms = mmin / 60;
+
+  resEl.innerHTML = `
+    <strong>📌 原始時速：${kmh} 公里/時 (km/h)</strong><br>
+    🔹 <strong>步驟一（換算分速）：</strong><br>
+    ${kmh} 公里/時 ＝ ${mh} 公尺/時 ➔ ${mh} ÷ 60 ＝ <strong>${mmin.toFixed(2)} 公尺/分</strong><br>
+    🔹 <strong>步驟二（換算秒速）：</strong><br>
+    ${mmin.toFixed(2)} 公尺/分 ÷ 60 ＝ <strong>${ms.toFixed(2)} 公尺/秒</strong><br>
+    🎉 <strong>換算速查：</strong>1 秒鐘前進 ${ms.toFixed(2)} 公尺，1 分鐘前進 ${mmin.toFixed(2)} 公尺！
+  `;
+}
+
+function checkAnswer(stageIdx, qIdx, btn, encodedSelected, encodedCorrect) {
+  const selected = decodeURIComponent(encodedSelected);
+  const correct = decodeURIComponent(encodedCorrect);
+  const card = document.getElementById(`quizCard_${stageIdx}_${qIdx}`);
+  const explain = document.getElementById(`explain_${stageIdx}_${qIdx}`);
+  const allBtns = card.querySelectorAll('.quiz-opt-btn');
+
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if (decodeURIComponent(b.getAttribute('onclick').split("'")[7]) === correct) {
+      b.classList.add('correct-opt');
+    }
+  });
+
+  if (selected === correct) {
+    btn.classList.add('correct-opt');
+    card.classList.add('correct-item');
+    playSound('correct');
+    addScore(10);
+    updateMascot('🎯 太神速了！觀念掌握完全到位！');
+  } else {
+    btn.classList.add('wrong-opt');
+    card.classList.add('wrong-item');
+    playSound('wrong');
+    resetCombo();
+    updateMascot('⚡ 差一點點，看看解題算式，馬上學會！');
+  }
+
+  explain.style.display = 'block';
+}
+
+function gotoStage(idx) {
+  playSound('click');
+  renderStage(idx);
+}
+
+function nextStage() {
+  if (currentStage < 5) {
+    playSound('level_clear');
+    if (typeof confetti === 'function') {
+      confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
+    }
+    renderStage(currentStage + 1);
+  } else {
+    renderFinal();
+  }
+}
+
+function prevStage() {
+  if (currentStage > 0) {
+    playSound('click');
+    renderStage(currentStage - 1);
+  } else {
+    showCastleModal('提示', '已經是第一關囉！', '🏰');
+  }
+}
+
+function renderFinal() {
+  playSound('level_clear');
+  if (typeof confetti === 'function') {
+    confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+  }
+  const container = document.getElementById('stageContainer');
+  const tabs = document.querySelectorAll('.stage-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+
+  container.innerHTML = `
+    <div class="section-card badge-showcase">
+      <div class="medal-icon">🏅</div>
+      <h2 style="font-size:2rem; font-weight:900; color:var(--primary-dark); margin-bottom:12px;">
+        恭喜完成【速率奇境】全部挑戰！
+      </h2>
+      <p style="font-size:1.15rem; color:var(--text-muted); max-width:600px; margin:0 auto 24px;">
+        你已完全掌握速率定義、時速分速秒速換算、路程公式金三角、平均速率防陷阱與相遇追趕問題！獲頒「<strong>時空極速領航者</strong>」榮譽勳章！
+      </p>
+      <div style="display:flex; justify-content:center; gap:16px; margin-bottom:28px;">
+        <div class="stat-pill" style="font-size:1.1rem; padding:8px 20px;">
+          <span>⭐ 最終總得分：</span><strong style="color:#B45309;">${userScore} 分</strong>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:center; gap:16px;">
+        <button class="btn-next-stage" onclick="gotoStage(0)">🔄 再次挑戰複習</button>
+        <a href="portal.html" class="back-btn" style="padding:10px 24px; font-size:1.05rem;">🏰 返回傳送門</a>
+      </div>
+    </div>
+  `;
+  window.scrollTo({ top: 180, behavior: 'smooth' });
+}
+
+function openGlossary() {
+  playSound('click');
+  let body = '<div style="display:flex; flex-direction:column; gap:14px;">';
+  glossaryTerms.forEach(t => {
+    body += `
+      <div style="background:#F0F9FF; border-left:4px solid var(--primary); padding:10px 14px; border-radius:0 8px 8px 0;">
+        <div style="font-weight:800; color:var(--primary-dark); margin-bottom:4px;">${t.term}</div>
+        <div style="font-size:0.95rem; color:#334155;">${t.def}</div>
+      </div>
+    `;
+  });
+  body += '</div>';
+  showCastleModal('速率單元・核心知識寶典', body, '📖');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderStage(0);
+});
+</script>
+</body>
+</html>
