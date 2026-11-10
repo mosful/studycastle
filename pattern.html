@@ -517,6 +517,43 @@
     .section-card { padding: 18px; }
     .quiz-options { grid-template-columns: 1fr; }
   }
+
+  /* 🎮 街機遊戲：規律解碼機械獸之戰 */
+  .pattern-arcade-box {
+    max-width: 1100px;
+    margin: 20px auto 30px;
+    background: linear-gradient(135deg, #1E1B4B 0%, #3730A3 100%);
+    border: 3px solid #818CF8;
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    color: #FFFFFF;
+    box-shadow: 0 12px 30px rgba(30, 27, 75, 0.4);
+  }
+  .emp-code-grid {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .btn-emp-code {
+    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
+    color: white;
+    border: 2px solid #C7D2FE;
+    font-size: 1.25rem;
+    font-weight: 800;
+    padding: 14px 24px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(79, 70, 229, 0.4);
+    transition: all 0.2s;
+  }
+  .btn-emp-code:hover {
+    transform: translateY(-5px) scale(1.06);
+    background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%);
+    box-shadow: 0 12px 24px rgba(79, 70, 229, 0.7);
+  }
+    
 </style>
 </head>
 <body>
@@ -585,6 +622,34 @@
   </div>
 </nav>
 
+
+<!-- 🎮 街機遊戲競技場：規律解碼機械獸之戰 -->
+<div class="pattern-arcade-box" id="patternArcadeGame">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-bottom: 2px solid rgba(255,255,255,0.15); padding-bottom: 12px; margin-bottom: 16px;">
+    <div style="font-size: 1.4rem; font-weight: 900; color: #FDE047; display: flex; align-items: center; gap: 10px;">
+      <span>🧩</span>
+      <span>規律解碼：神盾機械獸密碼大作戰！</span>
+    </div>
+    <div style="display: flex; gap: 14px; font-family: 'Fredoka', sans-serif; font-size: 1.15rem; font-weight: 700;">
+      <span style="background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 999px;">
+        破解數：<span id="patternHacks" style="color: #34D399;">0</span>
+      </span>
+      <span style="background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 999px;">
+        得分：<span id="patternScore" style="color: #FBBF24;">0</span>
+      </span>
+    </div>
+  </div>
+
+  <div style="background: rgba(15, 23, 42, 0.6); border-radius: var(--radius-md); padding: 20px; text-align: center; border: 2px dashed #818CF8;">
+    <div style="font-size: 1.25rem; font-weight: 800; color: #C7D2FE;" id="patternMissionText">
+      🧩 機械護盾加密：【 3, 7, 11, 15, ？ 】，求下一個數字發射 EMP 脈衝！
+    </div>
+    <div class="emp-code-grid" id="patternCodesRack">
+      <!-- 密碼按鈕動態生成 -->
+    </div>
+  </div>
+</div>
+    
 <main class="main-container" id="stageContainer">
 </main>
 
@@ -1258,7 +1323,62 @@ function openGlossary() {
   showCastleModal('數量關係・核心知識寶典', body, '📖');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+
+  // --- 🎮 規律解碼 EMP 脈衝控制器 ---
+  let patternScore = 0;
+  let patternHacks = 0;
+  let currentPatternAns = "";
+
+  const PATTERN_MISSIONS = [
+    { q: "🧩 機械護盾密碼：數列【 3, 7, 11, 15, ？ 】，下一個數字是？", a: "19", wrongs: ["18", "20", "21"] },
+    { q: "🧩 併桌規律：1張桌坐4人，每多併1張桌多坐2人，n張桌子可坐幾人？", a: "2n ＋ 2 人", wrongs: ["4n 人", "2n ＋ 4 人", "n ＋ 4 人"] },
+    { q: "🧩 正方形隊形：空心正方形每邊排 10 人，四個頂點皆有人，共需幾人？", a: "36 人", wrongs: ["40 人", "38 人", "32 人"] },
+    { q: "🧩 火車座位週期：1排4位（1,2靠窗，3,4靠走道），座號 25 號是？", a: "靠窗位 (餘數1)", wrongs: ["靠走道 (餘數3)", "靠走道 (整除)", "車廂中間"] }
+  ];
+
+  function nextPatternRound() {
+    const m = PATTERN_MISSIONS[Math.floor(Math.random() * PATTERN_MISSIONS.length)];
+    currentPatternAns = m.a;
+    document.getElementById('patternMissionText').textContent = m.q;
+
+    const rack = document.getElementById('patternCodesRack');
+    rack.innerHTML = '';
+
+    const pool = [m.a, ...m.wrongs];
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+
+    pool.forEach(text => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-emp-code';
+      btn.textContent = `⚡ ${text}`;
+      btn.onclick = () => fireEmpPulse(text === currentPatternAns, btn);
+      rack.appendChild(btn);
+    });
+  }
+
+  function fireEmpPulse(isCorrect, btnEl) {
+    if (isCorrect) {
+      playSound('correct');
+      patternHacks++;
+      patternScore += 140;
+      document.getElementById('patternHacks').textContent = patternHacks;
+      document.getElementById('patternScore').textContent = patternScore;
+
+      btnEl.style.background = '#22C55E';
+      btnEl.style.transform = 'scale(1.2)';
+      setTimeout(() => nextPatternRound(), 350);
+    } else {
+      playSound('wrong');
+      btnEl.style.background = '#EF4444';
+      setTimeout(() => btnEl.style.background = '', 400);
+    }
+  }
+    
+  document.addEventListener('DOMContentLoaded', () => {
+    nextPatternRound();
   renderStage(0);
 });
 </script>

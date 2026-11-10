@@ -508,6 +508,82 @@
         .btn-reset:hover {
             transform: scale(1.05);
         }
+    
+        /* 🎮 水井打地鼠：容量神捕手 */
+        .mole-arcade-box {
+            background: linear-gradient(135deg, #064E3B 0%, #065F46 100%);
+            color: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: 0 15px 35px rgba(6, 78, 59, 0.35);
+            border: 3px solid #34D399;
+        }
+
+        .mole-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .mole-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 650px;
+            margin: 20px auto;
+        }
+
+        .mole-hole {
+            background: #022C22;
+            border: 3px solid #059669;
+            border-radius: 50% 50% 20% 20%;
+            height: 110px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            box-shadow: inset 0 10px 20px rgba(0,0,0,0.6);
+        }
+
+        .mole-creature {
+            width: 80%;
+            height: 85%;
+            background: #B45309;
+            border-radius: 50% 50% 10% 10%;
+            position: absolute;
+            bottom: -100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: bottom 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid #FCD34D;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+        }
+
+        .mole-creature.up {
+            bottom: 0%;
+        }
+
+        .mole-badge {
+            background: #FFFFFF;
+            color: #064E3B;
+            font-size: 0.85rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-top: 4px;
+            white-space: nowrap;
+        }
+    
     </style>
 </head>
 <body>
@@ -696,6 +772,33 @@
         </section>
 
         <!-- 練習 7 實戰評量題庫 -->
+        
+        <!-- 🎮 街機遊戲：水井打地鼠（容量神捕手） -->
+        <section class="mole-arcade-box" id="capacityMoleSection">
+            <div class="mole-header">
+                <div style="font-size: 1.6rem; font-weight: 900; color: #FDE047; display: flex; align-items: center; gap: 10px;">
+                    <span>🐹</span>
+                    <span>水井打地鼠：容量神捕手！</span>
+                </div>
+                <div style="display: flex; gap: 14px; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; font-weight: 700;">
+                    <span style="background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 999px;">
+                        🎯 目標：<span id="moleTargetText" style="color: #6EE7B7;">1000 mL (1 L)</span>
+                    </span>
+                    <span style="background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 999px;">
+                        得分：<span id="moleScore" style="color: #FBBF24;">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 1rem; opacity: 0.9;">
+                👀 仔細看！只有手持<strong>符合目標容量</strong>的地鼠才是正確的，快速點擊捕捉它，小心別抓錯囉！
+            </p>
+
+            <div class="mole-grid" id="moleGrid">
+                <!-- 9 個地鼠洞 -->
+            </div>
+        </section>
+    
         <section class="quiz-section">
             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
                 <div>
@@ -1046,7 +1149,99 @@
             window.scrollTo({ top: document.querySelector('.quiz-section').offsetTop - 80, behavior: 'smooth' });
         }
 
+        
+        // --- 🎮 水井打地鼠容量遊戲控制器 ---
+        let moleScore = 0;
+        let moleCurrentTarget = { text: "1 公升 (1 L)", value: 1000 };
+        const CAPACITY_TARGETS = [
+            { text: "1 公升 (1 L)", value: 1000 },
+            { text: "2 公升 50 毫升", value: 2050 },
+            { text: "1500 毫升 (1.5 L)", value: 1500 },
+            { text: "500 毫升 (半公升)", value: 500 },
+            { text: "3 公升 400 毫升", value: 3400 }
+        ];
+
+        function initMoleGame() {
+            const grid = document.getElementById('moleGrid');
+            grid.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
+                const hole = document.createElement('div');
+                hole.className = 'mole-hole';
+                hole.innerHTML = `
+                    <div class="mole-creature" id="mole_${i}" onclick="whackMole(${i})">
+                        <span style="font-size: 2rem;">🐹</span>
+                        <span class="mole-badge" id="moleBadge_${i}">1000 mL</span>
+                    </div>
+                `;
+                grid.appendChild(hole);
+            }
+            changeMoleTarget();
+            setInterval(popupRandomMole, 1200);
+        }
+
+        function changeMoleTarget() {
+            const t = CAPACITY_TARGETS[Math.floor(Math.random() * CAPACITY_TARGETS.length)];
+            moleCurrentTarget = t;
+            document.getElementById('moleTargetText').textContent = t.text;
+        }
+
+        function popupRandomMole() {
+            const holeIdx = Math.floor(Math.random() * 9);
+            const moleEl = document.getElementById(`mole_${holeIdx}`);
+            const badgeEl = document.getElementById(`moleBadge_${holeIdx}`);
+
+            if (!moleEl) return;
+
+            const isCorrect = Math.random() > 0.45;
+            let val = 0;
+            let label = "";
+
+            if (isCorrect) {
+                val = moleCurrentTarget.value;
+                label = `${val} mL`;
+            } else {
+                val = moleCurrentTarget.value + (Math.random() > 0.5 ? 200 : -200);
+                if (val <= 0) val = 300;
+                label = `${val} mL`;
+            }
+
+            badgeEl.textContent = label;
+            moleEl.dataset.val = val;
+            moleEl.classList.add('up');
+
+            setTimeout(() => {
+                moleEl.classList.remove('up');
+            }, 950);
+        }
+
+        function whackMole(idx) {
+            const moleEl = document.getElementById(`mole_${idx}`);
+            if (!moleEl.classList.contains('up')) return;
+
+            const val = parseInt(moleEl.dataset.val, 10);
+            if (val === moleCurrentTarget.value) {
+                playSound('correct');
+                moleScore += 100;
+                document.getElementById('moleScore').textContent = moleScore;
+                moleEl.style.transform = 'scale(0.85)';
+                setTimeout(() => {
+                    moleEl.style.transform = '';
+                    moleEl.classList.remove('up');
+                }, 150);
+
+                if (moleScore % 300 === 0) {
+                    changeMoleTarget();
+                }
+            } else {
+                playSound('wrong');
+                moleScore = Math.max(0, moleScore - 30);
+                document.getElementById('moleScore').textContent = moleScore;
+                moleEl.classList.remove('up');
+            }
+        }
+    
         window.addEventListener('DOMContentLoaded', () => {
+            initMoleGame();
             initQuiz();
         });
     </script>

@@ -536,6 +536,43 @@
     .section-card { padding: 18px; }
     .quiz-options { grid-template-columns: 1fr; }
   }
+
+  /* 🎮 街機遊戲：極速方程式賽車超車賽 */
+  .speed-arcade-box {
+    max-width: 1100px;
+    margin: 20px auto 30px;
+    background: linear-gradient(135deg, #18181B 0%, #27272A 100%);
+    border: 3px solid #EAB308;
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    color: #FFFFFF;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  }
+  .nitro-buttons-grid {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .btn-nitro {
+    background: linear-gradient(135deg, #EAB308 0%, #CA8A04 100%);
+    color: #000000;
+    border: 2px solid #FEF08A;
+    font-size: 1.25rem;
+    font-weight: 900;
+    padding: 14px 24px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(234, 179, 8, 0.4);
+    transition: all 0.2s;
+  }
+  .btn-nitro:hover {
+    transform: translateY(-5px) scale(1.06);
+    background: linear-gradient(135deg, #FACC15 0%, #EAB308 100%);
+    box-shadow: 0 12px 24px rgba(234, 179, 8, 0.7);
+  }
+    
 </style>
 </head>
 <body>
@@ -604,6 +641,34 @@
   </div>
 </nav>
 
+
+<!-- 🎮 街機遊戲競技場：極速方程式賽車超車賽 -->
+<div class="speed-arcade-box" id="speedArcadeGame">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-bottom: 2px solid rgba(255,255,255,0.15); padding-bottom: 12px; margin-bottom: 16px;">
+    <div style="font-size: 1.4rem; font-weight: 900; color: #FDE047; display: flex; align-items: center; gap: 10px;">
+      <span>🏎️</span>
+      <span>極速方程式：速率超車衝刺大獎賽！</span>
+    </div>
+    <div style="display: flex; gap: 14px; font-family: 'Fredoka', sans-serif; font-size: 1.15rem; font-weight: 700;">
+      <span style="background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 999px;">
+        超車數：<span id="speedOvertakes" style="color: #34D399;">0</span> 輛
+      </span>
+      <span style="background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 999px;">
+        得分：<span id="speedScore" style="color: #FBBF24;">0</span>
+      </span>
+    </div>
+  </div>
+
+  <div style="background: rgba(0, 0, 0, 0.7); border-radius: var(--radius-md); padding: 20px; text-align: center; border: 2px dashed #EAB308;">
+    <div style="font-size: 1.25rem; font-weight: 800; color: #FEF08A;" id="speedRaceMissionText">
+      🏎️ 前方敵車阻擋！距離 180 公里需花 3 小時，請求出【時速】啟動氮氣噴射超車！
+    </div>
+    <div class="nitro-buttons-grid" id="speedButtonsRack">
+      <!-- 氮氣加速選項動態生成 -->
+    </div>
+  </div>
+</div>
+    
 <main class="main-container" id="stageContainer">
 </main>
 
@@ -1272,7 +1337,62 @@ function openGlossary() {
   showCastleModal('速率單元・核心知識寶典', body, '📖');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+
+  // --- 🎮 極速賽車超車控制器 ---
+  let speedScore = 0;
+  let speedOvertakes = 0;
+  let currentSpeedAns = "";
+
+  const SPEED_RACE_MISSIONS = [
+    { q: "🏎️ 距離 180 公里花費 3 小時，求【時速】發動超車！", a: "時速 60 公里", wrongs: ["時速 50 公里", "時速 90 公里", "時速 540 公里"] },
+    { q: "🏎️ 跑車以時速 80 公里行駛 2.5 小時，共跑了多少【距離】？", a: "200 公里", wrongs: ["160 公里", "32 公里", "240 公里"] },
+    { q: "🏎️ 分速 300 公尺換算成【秒速】是多少公尺？", a: "秒速 5 公尺", wrongs: ["秒速 50 公尺", "秒速 30 公尺", "秒速 18 公尺"] },
+    { q: "🏎️ 秒速 20 公尺換算成【時速】是多少公里？", a: "時速 72 公里", wrongs: ["時速 120 公里", "時速 36 公里", "時速 20 公里"] }
+  ];
+
+  function nextSpeedRound() {
+    const m = SPEED_RACE_MISSIONS[Math.floor(Math.random() * SPEED_RACE_MISSIONS.length)];
+    currentSpeedAns = m.a;
+    document.getElementById('speedRaceMissionText').textContent = m.q;
+
+    const rack = document.getElementById('speedButtonsRack');
+    rack.innerHTML = '';
+
+    const pool = [m.a, ...m.wrongs];
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+
+    pool.forEach(text => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-nitro';
+      btn.textContent = `🚀 ${text}`;
+      btn.onclick = () => activateNitro(text === currentSpeedAns, btn);
+      rack.appendChild(btn);
+    });
+  }
+
+  function activateNitro(isCorrect, btnEl) {
+    if (isCorrect) {
+      playSound('correct');
+      speedOvertakes++;
+      speedScore += 150;
+      document.getElementById('speedOvertakes').textContent = speedOvertakes;
+      document.getElementById('speedScore').textContent = speedScore;
+
+      btnEl.style.background = '#22C55E';
+      btnEl.style.transform = 'scale(1.2) translateY(-10px)';
+      setTimeout(() => nextSpeedRound(), 350);
+    } else {
+      playSound('wrong');
+      btnEl.style.background = '#EF4444';
+      setTimeout(() => btnEl.style.background = '', 400);
+    }
+  }
+    
+  document.addEventListener('DOMContentLoaded', () => {
+    nextSpeedRound();
   renderStage(0);
 });
 </script>

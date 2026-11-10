@@ -449,6 +449,70 @@
         .btn-reset:hover {
             transform: scale(1.05);
         }
+    
+        /* 🎮 雷達打靶：圓心半徑守護戰 */
+        .radar-arcade-box {
+            background: linear-gradient(135deg, #3B0764 0%, #581C87 100%);
+            color: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: 0 15px 35px rgba(59, 7, 100, 0.4);
+            border: 3px solid #C084FC;
+        }
+
+        .radar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .radar-screen {
+            background: #1E1B4B;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            min-height: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 2px solid #A855F7;
+            overflow: hidden;
+        }
+
+        .radar-targets-grid {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-radar-target {
+            background: rgba(255, 255, 255, 0.1);
+            color: #F5D0FE;
+            border: 2px solid #C084FC;
+            padding: 14px 24px;
+            border-radius: 999px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-radar-target:hover {
+            background: #9333EA;
+            color: white;
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.8);
+        }
+    
     </style>
 </head>
 <body>
@@ -609,6 +673,35 @@
         </section>
 
         <!-- 練習 9 實戰評量題庫 -->
+        
+        <!-- 🎮 街機遊戲：圓心半徑雷達打靶 -->
+        <section class="radar-arcade-box" id="circleRadarSection">
+            <div class="radar-header">
+                <div style="font-size: 1.6rem; font-weight: 900; color: #FDE047; display: flex; align-items: center; gap: 10px;">
+                    <span>🎯</span>
+                    <span>雷達鎖定打靶：圓心半徑守護戰！</span>
+                </div>
+                <div style="display: flex; gap: 14px; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; font-weight: 700;">
+                    <span style="background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 999px;">
+                        擊落：<span id="radarHits" style="color: #34D399;">0</span> 架
+                    </span>
+                    <span style="background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 999px;">
+                        得分：<span id="radarScore" style="color: #FBBF24;">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="radar-screen">
+                <div style="font-size: 1.3rem; font-weight: 900; color: #F5D0FE; text-align: center;" id="radarPrompt">
+                    📡 雷達偵測敵機：敵機【半徑 6 公分】，求直徑發射雷射鎖定！
+                </div>
+
+                <div class="radar-targets-grid" id="radarTargetsGrid">
+                    <!-- 動態生成雷達鎖定標靶 -->
+                </div>
+            </div>
+        </section>
+    
         <section class="quiz-section">
             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
                 <div>
@@ -980,7 +1073,62 @@
             window.scrollTo({ top: document.querySelector('.quiz-section').offsetTop - 80, behavior: 'smooth' });
         }
 
+        
+        // --- 🎮 圓心半徑雷達打靶遊戲控制器 ---
+        let radarScore = 0;
+        let radarHits = 0;
+        let currentRadarAns = "";
+
+        const RADAR_MISSIONS = [
+            { q: "📡 敵機【半徑 6 公分】，求【直徑】以鎖定擊落！", a: "12 公分", wrongs: ["3 公分", "6 公分", "18 公分"] },
+            { q: "📡 敵機【直徑 10 公分】，求【半徑】以啟動電磁護盾！", a: "5 公分", wrongs: ["20 公分", "10 公分", "2 公分"] },
+            { q: "📡 要畫出【直徑 8 公分】的圓形防護罩，圓規兩腳張開多少？", a: "4 公分", wrongs: ["8 公分", "16 公分", "2 公分"] },
+            { q: "📡 圓形紙片對折再對折，展開後兩摺痕的交點叫作？", a: "圓心", wrongs: ["直徑", "半徑", "圓周"] },
+            { q: "📡 圓內通過圓心且最長的線段是哪一條？", a: "直徑", wrongs: ["半徑", "弧線", "任意弦"] }
+        ];
+
+        function nextRadarRound() {
+            const m = RADAR_MISSIONS[Math.floor(Math.random() * RADAR_MISSIONS.length)];
+            currentRadarAns = m.a;
+            document.getElementById('radarPrompt').textContent = m.q;
+
+            const grid = document.getElementById('radarTargetsGrid');
+            grid.innerHTML = '';
+
+            const options = [m.a, ...m.wrongs];
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-radar-target';
+                btn.textContent = `🎯 ${opt}`;
+                btn.onclick = () => fireRadarLaser(opt === currentRadarAns, btn);
+                grid.appendChild(btn);
+            });
+        }
+
+        function fireRadarLaser(isCorrect, btnEl) {
+            if (isCorrect) {
+                playSound('correct');
+                radarHits++;
+                radarScore += 120;
+                document.getElementById('radarHits').textContent = radarHits;
+                document.getElementById('radarScore').textContent = radarScore;
+
+                btnEl.style.background = '#22C55E';
+                setTimeout(() => nextRadarRound(), 400);
+            } else {
+                playSound('wrong');
+                btnEl.style.background = '#EF4444';
+                setTimeout(() => btnEl.style.background = '', 400);
+            }
+        }
+    
         window.addEventListener('DOMContentLoaded', () => {
+            nextRadarRound();
             updateCircle(4);
             initQuiz();
         });

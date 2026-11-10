@@ -440,6 +440,71 @@
         .btn-reset:hover {
             transform: scale(1.05);
         }
+    
+        /* 🎮 披薩射擊大作戰：分數神射手 */
+        .shooter-arcade-box {
+            background: linear-gradient(135deg, #7C2D12 0%, #9A3412 100%);
+            color: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: 0 15px 35px rgba(124, 45, 18, 0.35);
+            border: 3px solid #FB923C;
+        }
+
+        .shooter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .shooting-gallery {
+            background: rgba(28, 25, 23, 0.7);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            min-height: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 2px dashed #FDBA74;
+        }
+
+        .target-targets-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .target-pizza-card {
+            background: #FFFFFF;
+            color: #7C2D12;
+            padding: 16px 22px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 3px solid #F97316;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+            min-width: 120px;
+        }
+
+        .target-pizza-card:hover {
+            transform: scale(1.1) translateY(-6px);
+            box-shadow: 0 12px 24px rgba(249, 115, 22, 0.5);
+            border-color: #FBBF24;
+        }
+    
     </style>
 </head>
 <body>
@@ -611,6 +676,35 @@
         </section>
 
         <!-- 練習 8 實戰評量題庫 -->
+        
+        <!-- 🎮 街機遊戲：披薩射擊大作戰 -->
+        <section class="shooter-arcade-box" id="fractionShooterSection">
+            <div class="shooter-header">
+                <div style="font-size: 1.6rem; font-weight: 900; color: #FDE047; display: flex; align-items: center; gap: 10px;">
+                    <span>🍕</span>
+                    <span>披薩切片射擊大作戰：分數神射手！</span>
+                </div>
+                <div style="display: flex; gap: 14px; font-family: 'Fredoka', sans-serif; font-size: 1.2rem; font-weight: 700;">
+                    <span style="background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 999px;">
+                        連擊：<span id="shooterCombo" style="color: #34D399;">0</span>
+                    </span>
+                    <span style="background: rgba(255,255,255,0.15); padding: 6px 14px; border-radius: 999px;">
+                        得分：<span id="shooterScore" style="color: #FBBF24;">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="shooting-gallery">
+                <div style="font-size: 1.2rem; font-weight: 800; color: #FED7AA;" id="shooterMissionPrompt">
+                    🎯 任務指令：請射擊等於【八分之五】的披薩！
+                </div>
+
+                <div class="target-targets-row" id="shooterTargetsRow">
+                    <!-- 動態生成披薩射擊目標 -->
+                </div>
+            </div>
+        </section>
+    
         <section class="quiz-section">
             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
                 <div>
@@ -988,7 +1082,75 @@
             window.scrollTo({ top: document.querySelector('.quiz-section').offsetTop - 80, behavior: 'smooth' });
         }
 
+        
+        // --- 🎮 披薩分數射擊遊戲控制器 ---
+        let shooterScore = 0;
+        let shooterCombo = 0;
+        let currentTargetFraction = { num: 5, den: 8 };
+
+        const FRACTION_MISSIONS = [
+            { text: "八分之五 (5/8)", num: 5, den: 8 },
+            { text: "四分之三 (3/4)", num: 3, den: 4 },
+            { text: "等於 1 的完整披薩 (8/8)", num: 8, den: 8 },
+            { text: "十分之七 (7/10)", num: 7, den: 10 },
+            { text: "二分之一 (1/2)", num: 1, den: 2 }
+        ];
+
+        function nextShooterRound() {
+            const mission = FRACTION_MISSIONS[Math.floor(Math.random() * FRACTION_MISSIONS.length)];
+            currentTargetFraction = mission;
+            document.getElementById('shooterMissionPrompt').textContent = `🎯 任務指令：請射擊等於【${mission.text}】的披薩！`;
+
+            const row = document.getElementById('shooterTargetsRow');
+            row.innerHTML = '';
+
+            const correctObj = { text: `${mission.num}/${mission.den}`, isCorrect: true };
+            const distractors = [
+                { text: `${Math.max(1, mission.num - 1)}/${mission.den}`, isCorrect: false },
+                { text: `${mission.num}/${mission.den + 2}`, isCorrect: false },
+                { text: `${mission.num + 1}/${mission.den}`, isCorrect: false }
+            ];
+
+            const pool = [correctObj, ...distractors];
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+
+            pool.forEach(t => {
+                const card = document.createElement('div');
+                card.className = 'target-pizza-card';
+                card.innerHTML = `
+                    <span style="font-size: 2.2rem;">🍕</span>
+                    <span style="font-size: 1.4rem; font-weight: 900; margin-top: 6px;">${t.text}</span>
+                `;
+                card.onclick = () => shootTarget(t.isCorrect, card);
+                row.appendChild(card);
+            });
+        }
+
+        function shootTarget(isCorrect, cardEl) {
+            if (isCorrect) {
+                playSound('correct');
+                shooterCombo++;
+                shooterScore += 100 + (shooterCombo * 25);
+                document.getElementById('shooterScore').textContent = shooterScore;
+                document.getElementById('shooterCombo').textContent = shooterCombo;
+
+                cardEl.style.transform = 'scale(1.25) rotate(15deg)';
+                cardEl.style.background = '#DCFCE7';
+                setTimeout(() => nextShooterRound(), 450);
+            } else {
+                playSound('wrong');
+                shooterCombo = 0;
+                document.getElementById('shooterCombo').textContent = '0';
+                cardEl.style.background = '#FEE2E2';
+                setTimeout(() => cardEl.style.background = '', 400);
+            }
+        }
+    
         window.addEventListener('DOMContentLoaded', () => {
+            nextShooterRound();
             renderPizza();
             initQuiz();
         });

@@ -518,6 +518,43 @@
     .section-card { padding: 18px; }
     .quiz-options { grid-template-columns: 1fr; }
   }
+
+  /* 🎮 街機遊戲：終極生活素養巨龍討伐戰 */
+  .dragon-arcade-box {
+    max-width: 1100px;
+    margin: 20px auto 30px;
+    background: linear-gradient(135deg, #064E3B 0%, #065F46 100%);
+    border: 3px solid #10B981;
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    color: #FFFFFF;
+    box-shadow: 0 12px 30px rgba(6, 78, 59, 0.4);
+  }
+  .dragon-actions-grid {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .btn-dragon-strike {
+    background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+    color: white;
+    border: 2px solid #A7F3D0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    padding: 14px 24px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(16, 185, 129, 0.4);
+    transition: all 0.2s;
+  }
+  .btn-dragon-strike:hover {
+    transform: translateY(-5px) scale(1.06);
+    background: linear-gradient(135deg, #047857 0%, #059669 100%);
+    box-shadow: 0 12px 24px rgba(16, 185, 129, 0.7);
+  }
+    
 </style>
 </head>
 <body>
@@ -594,6 +631,34 @@
   </div>
 </nav>
 
+
+<!-- 🎮 街機遊戲競技場：終極生活素養巨龍討伐戰 -->
+<div class="dragon-arcade-box" id="dragonArcadeGame">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-bottom: 2px solid rgba(255,255,255,0.15); padding-bottom: 12px; margin-bottom: 16px;">
+    <div style="font-size: 1.4rem; font-weight: 900; color: #FDE047; display: flex; align-items: center; gap: 10px;">
+      <span>🐉</span>
+      <span>素養競技場：終極生活素養巨龍討伐戰！</span>
+    </div>
+    <div style="display: flex; gap: 14px; font-family: 'Fredoka', sans-serif; font-size: 1.15rem; font-weight: 700;">
+      <span style="background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 999px;">
+        屠龍功勳：<span id="dragonStrikes" style="color: #34D399;">0</span> 次
+      </span>
+      <span style="background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 999px;">
+        聖殿積分：<span id="dragonScore" style="color: #FBBF24;">0</span>
+      </span>
+    </div>
+  </div>
+
+  <div style="background: rgba(15, 23, 42, 0.6); border-radius: var(--radius-md); padding: 20px; text-align: center; border: 2px dashed #10B981;">
+    <div style="font-size: 1.25rem; font-weight: 800; color: #A7F3D0;" id="dragonMissionText">
+      🐉 巨龍咆哮：【大披薩直徑 12 吋 600 元，小披薩直徑 6 吋 200 元，誰的 CP 值高？】
+    </div>
+    <div class="dragon-actions-grid" id="dragonActionsRack">
+      <!-- 決策按鈕動態生成 -->
+    </div>
+  </div>
+</div>
+    
 <main class="main-container" id="stageContainer">
 </main>
 
@@ -1169,7 +1234,62 @@ function openGlossary() {
   showCastleModal('跨領域素養・核心知識寶典', body, '📖');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+
+  // --- 🎮 素養巨龍戰鬥控制器 ---
+  let dragonScore = 0;
+  let dragonStrikes = 0;
+  let currentDragonAns = "";
+
+  const DRAGON_MISSIONS = [
+    { q: "🐉 大披薩直徑 12 吋 600 元，小披薩直徑 6 吋 200 元，誰的性價比 (CP值) 高？", a: "大披薩（面積是 4 倍，價格僅 3 倍）", wrongs: ["小披薩（價格便宜）", "兩者 CP 值一樣", "無法比較"] },
+    { q: "🐉 男生 16 人、女生 8 人分組，每組男女生人數一樣多且剛好分完，最多分幾組？", a: "最多分 8 組 (每組男2女1)", wrongs: ["最多分 4 組", "最多分 16 組", "最多分 2 組"] },
+    { q: "🐉 體重 48 公斤，身高 1.5 公尺，計算 BMI ＝ 48 ÷ (1.5 × 1.5) 約為多少？", a: "約 21.3 (健康體位)", wrongs: ["約 16.0 (過輕)", "約 28.5 (肥胖)", "約 32.0"] },
+    { q: "🐉 騎自行車時速 15 公里，前往 30 公里外的森林公園，需騎多久？", a: "2 小時", wrongs: ["1.5 小時", "3 小時", "45 分鐘"] }
+  ];
+
+  function nextDragonRound() {
+    const m = DRAGON_MISSIONS[Math.floor(Math.random() * DRAGON_MISSIONS.length)];
+    currentDragonAns = m.a;
+    document.getElementById('dragonMissionText').textContent = m.q;
+
+    const rack = document.getElementById('dragonActionsRack');
+    rack.innerHTML = '';
+
+    const pool = [m.a, ...m.wrongs];
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+
+    pool.forEach(text => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-dragon-strike';
+      btn.textContent = `🗡️ ${text}`;
+      btn.onclick = () => strikeDragon(text === currentDragonAns, btn);
+      rack.appendChild(btn);
+    });
+  }
+
+  function strikeDragon(isCorrect, btnEl) {
+    if (isCorrect) {
+      playSound('correct');
+      dragonStrikes++;
+      dragonScore += 160;
+      document.getElementById('dragonStrikes').textContent = dragonStrikes;
+      document.getElementById('dragonScore').textContent = dragonScore;
+
+      btnEl.style.background = '#22C55E';
+      btnEl.style.transform = 'scale(1.15)';
+      setTimeout(() => nextDragonRound(), 350);
+    } else {
+      playSound('wrong');
+      btnEl.style.background = '#EF4444';
+      setTimeout(() => btnEl.style.background = '', 400);
+    }
+  }
+    
+  document.addEventListener('DOMContentLoaded', () => {
+    nextDragonRound();
   renderStage(0);
 });
 </script>

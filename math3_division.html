@@ -510,6 +510,156 @@
         .btn-reset:hover {
             transform: scale(1.05);
         }
+    
+        /* 🎮 街機遊戲區：除法怪獸大討伐 */
+        .arcade-container {
+            background: linear-gradient(135deg, #1E1B4B 0%, #312E81 100%);
+            color: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: 0 15px 35px rgba(30, 27, 75, 0.4);
+            border: 3px solid #818CF8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arcade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .arcade-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #FBBF24;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .arcade-stats {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 6px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .battle-arena {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border: 2px dashed rgba(129, 140, 248, 0.4);
+        }
+
+        .monster-box {
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .monster-avatar {
+            font-size: 5rem;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+            animation: monsterFloat 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes monsterFloat {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-12px) scale(1.05); }
+        }
+
+        .monster-hp-bar {
+            width: 200px;
+            height: 14px;
+            background: #475569;
+            border-radius: 999px;
+            margin: 10px auto;
+            overflow: hidden;
+            border: 2px solid #FFFFFF;
+        }
+
+        .monster-hp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #22C55E 0%, #EF4444 100%);
+            width: 100%;
+            transition: width 0.3s;
+        }
+
+        .monster-math-bubble {
+            background: #FFFFFF;
+            color: #1E1B4B;
+            padding: 10px 24px;
+            border-radius: 999px;
+            font-size: 1.8rem;
+            font-weight: 900;
+            display: inline-block;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            border: 3px solid #F59E0B;
+        }
+
+        .cannons-rack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: center;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 10px;
+        }
+
+        .btn-cannon {
+            background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
+            color: white;
+            border: 2px solid #A5B4FC;
+            font-size: 1.4rem;
+            font-weight: 800;
+            padding: 14px 28px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+            transition: all 0.15s;
+            flex: 1;
+            min-width: 110px;
+        }
+
+        .btn-cannon:hover:not(:disabled) {
+            transform: translateY(-4px) scale(1.05);
+            background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%);
+            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.6);
+        }
+
+        .hit-effect {
+            animation: hitShake 0.4s;
+        }
+
+        @keyframes hitShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-15px) rotate(-5deg); }
+            40%, 80% { transform: translateX(15px) rotate(5deg); }
+        }
+    
     </style>
 </head>
 <body>
@@ -701,6 +851,40 @@
         </section>
 
         <!-- 練習 6 實戰評量題庫 -->
+        
+        <!-- 🎮 街機遊戲：除法怪獸大討伐 -->
+        <section class="arcade-container" id="divisionGameSection">
+            <div class="arcade-header">
+                <div class="arcade-title">
+                    <span>👾</span>
+                    <span>城堡防衛戰：除法怪獸大討伐！</span>
+                </div>
+                <div class="arcade-stats">
+                    <span class="stat-badge">擊倒數：<span id="monsterKills" style="color:#FBBF24;">0</span> 隻</span>
+                    <span class="stat-badge">連擊：<span id="monsterCombo" style="color:#34D399;">0</span> Combo</span>
+                    <span class="stat-badge">得分：<span id="monsterScore" style="color:#F472B6;">0</span></span>
+                </div>
+            </div>
+
+            <div class="battle-arena">
+                <div class="monster-box" id="monsterBox">
+                    <div class="monster-avatar" id="monsterAvatar">👾</div>
+                    <div class="monster-hp-bar">
+                        <div class="monster-hp-fill" id="monsterHpFill"></div>
+                    </div>
+                    <div class="monster-math-bubble" id="monsterMathBubble">24 ÷ 6 ＝ ？</div>
+                </div>
+
+                <div style="font-size: 0.95rem; opacity: 0.85; margin-bottom: 12px;">
+                    🎯 點選下方正確魔法砲彈，擊退襲擊城堡的除法怪獸！
+                </div>
+
+                <div class="cannons-rack" id="cannonButtons">
+                    <!-- 按鈕動態渲染 -->
+                </div>
+            </div>
+        </section>
+    
         <section class="quiz-section">
             <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
                 <div>
@@ -1069,7 +1253,123 @@
             window.scrollTo({ top: document.querySelector('.quiz-section').offsetTop - 80, behavior: 'smooth' });
         }
 
+        
+        // --- 🎮 除法怪獸大討伐遊戲控制器 ---
+        const DIVISION_MONSTERS = ["👾", "👹", "🦇", "🐙", "🦖", "🐉"];
+        let monsterScore = 0;
+        let monsterKills = 0;
+        let monsterCombo = 0;
+        let currentMonsterAns = 0;
+        let monsterHp = 100;
+
+        function spawnNextMonster() {
+            const avatarEl = document.getElementById('monsterAvatar');
+            const mathEl = document.getElementById('monsterMathBubble');
+            const hpFill = document.getElementById('monsterHpFill');
+            const cannonContainer = document.getElementById('cannonButtons');
+
+            // 隨機怪獸外觀
+            const randomAvatar = DIVISION_MONSTERS[Math.floor(Math.random() * DIVISION_MONSTERS.length)];
+            avatarEl.textContent = randomAvatar;
+            monsterHp = 100;
+            hpFill.style.width = '100%';
+
+            // 題庫隨機產生：十十乘法範圍除法或有餘數除法
+            const isRemainder = Math.random() > 0.6;
+            let qText = "";
+            let correctVal = "";
+            let distractors = [];
+
+            if (!isRemainder) {
+                // 整除題
+                const divisor = Math.floor(Math.random() * 8) + 2; // 2 ~ 9
+                const quotient = Math.floor(Math.random() * 8) + 2; // 2 ~ 9
+                const dividend = divisor * quotient;
+                qText = `${dividend} ÷ ${divisor} ＝ ？`;
+                correctVal = `${quotient}`;
+                currentMonsterAns = correctVal;
+
+                distractors = [
+                    `${quotient + 1}`,
+                    `${Math.max(1, quotient - 1)}`,
+                    `${quotient + 2}`
+                ];
+            } else {
+                // 有餘數題
+                const divisor = Math.floor(Math.random() * 6) + 3; // 3 ~ 8
+                const quotient = Math.floor(Math.random() * 6) + 2; // 2 ~ 7
+                const remainder = Math.floor(Math.random() * (divisor - 1)) + 1; // 1 ~ (divisor-1)
+                const dividend = (divisor * quotient) + remainder;
+                qText = `${dividend} ÷ ${divisor} ＝ ？`;
+                correctVal = `${quotient} 餘 ${remainder}`;
+                currentMonsterAns = correctVal;
+
+                distractors = [
+                    `${quotient + 1} 餘 ${remainder}`,
+                    `${quotient} 餘 ${Math.max(1, remainder - 1)}`,
+                    `${Math.max(1, quotient - 1)} 餘 ${remainder}`
+                ];
+            }
+
+            mathEl.textContent = qText;
+
+            // 混淆選項並隨機打亂
+            const allOptions = [correctVal, ...distractors.slice(0, 3)];
+            for (let i = allOptions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [allOptions[i], allOptions[j]] = [allOptions[j], allOptions[i]];
+            }
+
+            cannonContainer.innerHTML = '';
+            allOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-cannon';
+                btn.textContent = opt;
+                btn.onclick = () => fireCannon(opt, btn);
+                cannonContainer.appendChild(btn);
+            });
+        }
+
+        function fireCannon(selectedOpt, btnEl) {
+            const monsterBox = document.getElementById('monsterBox');
+            const hpFill = document.getElementById('monsterHpFill');
+
+            if (selectedOpt === currentMonsterAns) {
+                // 答對暴擊
+                playSound('correct');
+                monsterCombo++;
+                monsterScore += 100 + (monsterCombo * 20);
+                monsterKills++;
+
+                monsterBox.classList.add('hit-effect');
+                setTimeout(() => monsterBox.classList.remove('hit-effect'), 400);
+
+                hpFill.style.width = '0%';
+                document.getElementById('monsterKills').textContent = monsterKills;
+                document.getElementById('monsterCombo').textContent = monsterCombo;
+                document.getElementById('monsterScore').textContent = monsterScore;
+
+                // 禁用按鈕防止連續點擊
+                const buttons = document.querySelectorAll('.btn-cannon');
+                buttons.forEach(b => b.disabled = true);
+
+                setTimeout(() => {
+                    spawnNextMonster();
+                }, 600);
+            } else {
+                // 答錯怪獸防禦反擊
+                playSound('wrong');
+                monsterCombo = 0;
+                document.getElementById('monsterCombo').textContent = '0';
+                btnEl.style.background = '#EF4444';
+                setTimeout(() => {
+                    btnEl.style.background = '';
+                }, 400);
+            }
+        }
+    
         window.addEventListener('DOMContentLoaded', () => {
+            spawnNextMonster();
             initQuiz();
         });
     </script>

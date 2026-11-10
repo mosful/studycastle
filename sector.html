@@ -548,6 +548,42 @@
     .section-card { padding: 18px; }
     .quiz-options { grid-template-columns: 1fr; }
   }
+
+  /* 🎮 街機遊戲：扇形切切樂 */
+  .sector-arcade-box {
+    max-width: 1100px;
+    margin: 20px auto 30px;
+    background: linear-gradient(135deg, #831843 0%, #9D174D 100%);
+    border: 3px solid #F472B6;
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    color: #FFFFFF;
+    box-shadow: 0 12px 30px rgba(131, 24, 67, 0.35);
+  }
+  .slash-targets-grid {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .btn-slash {
+    background: linear-gradient(135deg, #EC4899 0%, #F43F5E 100%);
+    color: white;
+    border: 2px solid #FBCFE8;
+    font-size: 1.25rem;
+    font-weight: 800;
+    padding: 14px 24px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+    transition: all 0.2s;
+  }
+  .btn-slash:hover {
+    transform: translateY(-5px) scale(1.06);
+    box-shadow: 0 12px 24px rgba(244, 63, 94, 0.6);
+  }
+    
 </style>
 </head>
 <body>
@@ -620,6 +656,34 @@
 </nav>
 
 <!-- 主內容卡片區域 -->
+
+<!-- 🎮 街機遊戲競技場：扇形切切樂 -->
+<div class="sector-arcade-box" id="sectorArcadeGame">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-bottom: 2px solid rgba(255,255,255,0.15); padding-bottom: 12px; margin-bottom: 16px;">
+    <div style="font-size: 1.4rem; font-weight: 900; color: #FDE047; display: flex; align-items: center; gap: 10px;">
+      <span>⚔️</span>
+      <span>扇形切切樂：圓心角神劍守護者！</span>
+    </div>
+    <div style="display: flex; gap: 14px; font-family: 'Fredoka', sans-serif; font-size: 1.15rem; font-weight: 700;">
+      <span style="background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 999px;">
+        連擊：<span id="sectorCombo" style="color: #34D399;">0</span>
+      </span>
+      <span style="background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 999px;">
+        得分：<span id="sectorScore" style="color: #FBBF24;">0</span>
+      </span>
+    </div>
+  </div>
+
+  <div style="background: rgba(15, 23, 42, 0.6); border-radius: var(--radius-md); padding: 20px; text-align: center; border: 2px dashed #F472B6;">
+    <div style="font-size: 1.25rem; font-weight: 800; color: #FDE047;" id="sectorMissionText">
+      ⚔️ 敵襲！請拔劍斬擊【圓心角 90° 的 1/4 圓】怪獸！
+    </div>
+    <div class="slash-targets-grid" id="sectorTargetsRack">
+      <!-- 扇形怪獸動態生成 -->
+    </div>
+  </div>
+</div>
+    
 <main class="main-container" id="stageContainer">
   <!-- 動態渲染各關卡內容 -->
 </main>
@@ -1318,7 +1382,64 @@ function openGlossary() {
 }
 
 // ── 頁面初始化 ──
-document.addEventListener('DOMContentLoaded', () => {
+
+  // --- 🎮 扇形神劍斬擊控制器 ---
+  let sectorScore = 0;
+  let sectorCombo = 0;
+  let currentSectorAns = "";
+
+  const SECTOR_MISSIONS = [
+    { q: "⚔️ 請拔劍斬擊【圓心角 90° 的 1/4 圓】怪獸！", a: "90° (1/4 圓)", wrongs: ["180° (半圓)", "120° (1/3 圓)", "60° (1/6 圓)"] },
+    { q: "⚔️ 請拔劍斬擊【圓心角 180° 的平角半圓】怪獸！", a: "180° (半圓)", wrongs: ["90° (1/4 圓)", "270° (3/4 圓)", "45° (1/8 圓)"] },
+    { q: "⚔️ 請拔劍斬擊【圓心角 120° 的 1/3 圓】怪獸！", a: "120° (1/3 圓)", wrongs: ["90° (1/4 圓)", "60° (1/6 圓)", "150° 扇形"] },
+    { q: "⚔️ 扇形周長公式為何？請精準出刀！", a: "半徑 × 2 ＋ 弧長", wrongs: ["半徑 × 2", "只有弧長", "直徑 × 3.14"] }
+  ];
+
+  function nextSectorRound() {
+    const m = SECTOR_MISSIONS[Math.floor(Math.random() * SECTOR_MISSIONS.length)];
+    currentSectorAns = m.a;
+    document.getElementById('sectorMissionText').textContent = m.q;
+
+    const rack = document.getElementById('sectorTargetsRack');
+    rack.innerHTML = '';
+
+    const pool = [m.a, ...m.wrongs];
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+
+    pool.forEach(text => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-slash';
+      btn.textContent = `⚔️ ${text}`;
+      btn.onclick = () => slashSector(text === currentSectorAns, btn);
+      rack.appendChild(btn);
+    });
+  }
+
+  function slashSector(isCorrect, btnEl) {
+    if (isCorrect) {
+      playSound('correct');
+      sectorCombo++;
+      sectorScore += 120 + (sectorCombo * 25);
+      document.getElementById('sectorScore').textContent = sectorScore;
+      document.getElementById('sectorCombo').textContent = sectorCombo;
+
+      btnEl.style.transform = 'scale(1.2) rotate(10deg)';
+      btnEl.style.background = '#22C55E';
+      setTimeout(() => nextSectorRound(), 350);
+    } else {
+      playSound('wrong');
+      sectorCombo = 0;
+      document.getElementById('sectorCombo').textContent = '0';
+      btnEl.style.background = '#EF4444';
+      setTimeout(() => btnEl.style.background = '', 400);
+    }
+  }
+    
+  document.addEventListener('DOMContentLoaded', () => {
+    nextSectorRound();
   renderStage(0);
 });
 </script>
