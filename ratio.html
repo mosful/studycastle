@@ -1535,14 +1535,49 @@ function openGlossary() {
 
   const BALLOON_MISSIONS = [
     { raw: "12 : 18", ans: "2 : 3", wrongs: ["3 : 2", "1 : 2", "4 : 6"] },
-    { raw: "25 : 35", ans: "5 : 7", wrongs: ["7 : 5", "5 : 6", "1 : 3"] },
-    { raw: "0.8 : 1.2", ans: "2 : 3", wrongs: ["4 : 5", "3 : 2", "1 : 4"] },
-    { raw: "3/4 : 1/2", ans: "3 : 2", wrongs: ["2 : 3", "3 : 4", "1 : 2"] },
-    { raw: "40 : 100", ans: "2 : 5", wrongs: ["4 : 10", "1 : 2", "5 : 2"] }
-  ];
+    { raw: "25 : 35", ans: "5 : 7", wrongs: ["7 : 5", "5 : 6", "1 : 7"] },
+    { raw: "0.8 : 1.2", ans: "2 : 3", wrongs: ["4 : 6", "8 : 12", "3 : 2"] },
+    { raw: "1/3 : 1/4", ans: "4 : 3", wrongs: ["3 : 4", "1 : 1", "7 : 12"] },
+    { raw: "48 : 64", ans: "3 : 4", wrongs: ["4 : 3", "6 : 8", "2 : 3"] },
+    { raw: "15 : 20", ans: "3 : 4", wrongs: ["4 : 3", "1 : 2", "5 : 6"] },
+    { raw: "16 : 24", ans: "2 : 3", wrongs: ["3 : 2", "4 : 5", "1 : 3"] },
+    { raw: "21 : 28", ans: "3 : 4", wrongs: ["4 : 3", "7 : 9", "2 : 3"] },
+    { raw: "30 : 45", ans: "2 : 3", wrongs: ["3 : 2", "1 : 2", "5 : 9"] },
+    { raw: "36 : 48", ans: "3 : 4", wrongs: ["4 : 3", "2 : 3", "5 : 7"] },
+    { raw: "50 : 75", ans: "2 : 3", wrongs: ["3 : 2", "1 : 3", "4 : 5"] },
+    { raw: "14 : 49", ans: "2 : 7", wrongs: ["7 : 2", "1 : 7", "3 : 7"] },
+    { raw: "18 : 27", ans: "2 : 3", wrongs: ["3 : 2", "6 : 9", "1 : 3"] },
+    { raw: "40 : 60", ans: "2 : 3", wrongs: ["3 : 2", "4 : 5", "1 : 2"] },
+    { raw: "24 : 36", ans: "2 : 3", wrongs: ["3 : 2", "4 : 6", "1 : 2"] },
+    { raw: "0.5 : 1.5", ans: "1 : 3", wrongs: ["3 : 1", "1 : 2", "2 : 5"] },
+    { raw: "0.6 : 0.9", ans: "2 : 3", wrongs: ["3 : 2", "6 : 9", "1 : 2"] },
+    { raw: "2/5 : 3/5", ans: "2 : 3", wrongs: ["3 : 2", "5 : 6", "1 : 2"] },
+    { raw: "1/2 : 1/6", ans: "3 : 1", wrongs: ["1 : 3", "2 : 6", "1 : 1"] },
+    { raw: "3/4 : 1/2", ans: "3 : 2", wrongs: ["2 : 3", "3 : 4", "6 : 8"] }
+];
+
+let balloonDeck = [];
+let lastBalloonRaw = "";
+
+function getNextBalloonMission() {
+    if (balloonDeck.length === 0) {
+        balloonDeck = [...BALLOON_MISSIONS];
+        for (let i = balloonDeck.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [balloonDeck[i], balloonDeck[j]] = [balloonDeck[j], balloonDeck[i]];
+        }
+        if (lastBalloonRaw && balloonDeck[balloonDeck.length - 1].raw === lastBalloonRaw && balloonDeck.length > 1) {
+            const swapIdx = Math.floor(Math.random() * (balloonDeck.length - 1));
+            [balloonDeck[balloonDeck.length - 1], balloonDeck[swapIdx]] = [balloonDeck[swapIdx], balloonDeck[balloonDeck.length - 1]];
+        }
+    }
+    const m = balloonDeck.pop();
+    lastBalloonRaw = m.raw;
+    return m;
+}
 
   function nextBalloonRound() {
-    const m = BALLOON_MISSIONS[Math.floor(Math.random() * BALLOON_MISSIONS.length)];
+    const m = getNextBalloonMission();
     currentBalloonTarget = m.ans;
     document.getElementById('balloonMissionText').textContent = `🎯 請射擊與【 ${m.raw} 】相等的【最簡整數比】氣球！`;
 

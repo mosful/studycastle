@@ -627,20 +627,101 @@
             svg.appendChild(bar);
         }
 
-        // --- 街機遊戲 ---
+                // --- 街機遊戲：微距神射手（動態長度換算與情境庫 + 歷史防重複緩衝區） ---
         let measScore = 0;
         let measHits = 0;
         let currentMeasAns = "";
+        let measHistory = [];
 
-        const MEAS_MISSIONS = [
-            { q: "🎯【 6 公分 8 毫米 】換算成多少毫米？", a: "68 毫米", wrongs: ["608 毫米", "86 毫米", "680 毫米"] },
-            { q: "🎯【 95 毫米 】換算成幾公分幾毫米？", a: "9 公分 5 毫米", wrongs: ["95 公分", "90 公分 5 毫米", "5 公分 9 毫米"] },
-            { q: "🎯 斷尺從 4 公分量到 8 公分 5 毫米，物體長度是多少？", a: "4 公分 5 毫米", wrongs: ["8 公分 5 毫米", "12 公分 5 毫米", "45 公分"] },
-            { q: "🎯 10 個 1 毫米合起來是多少？", a: "1 公分 (1 cm)", wrongs: ["10 公分", "100 公分", "1 毫米"] }
-        ];
+        function generateMeasMission() {
+            let mission = null;
+            let attempts = 0;
+
+            while (attempts < 50) {
+                attempts++;
+                const mode = Math.floor(Math.random() * 4);
+                let q = "", a = "", wrongs = [];
+
+                if (mode === 0) {
+                    const cm = Math.floor(Math.random() * 15) + 2;
+                    const mm = Math.floor(Math.random() * 9) + 1;
+                    const totalMm = cm * 10 + mm;
+                    q = `【 ${cm} 公分 ${mm} 毫米 】換算成多少毫米？`;
+                    a = `${totalMm} 毫米`;
+                    wrongs = [
+                        `${cm * 100 + mm} 毫米`,
+                        `${mm * 10 + cm} 毫米`,
+                        `${totalMm + 10} 毫米`
+                    ];
+                } else if (mode === 1) {
+                    const cm = Math.floor(Math.random() * 15) + 2;
+                    const mm = Math.floor(Math.random() * 9) + 1;
+                    const totalMm = cm * 10 + mm;
+                    q = `【 ${totalMm} 毫米 】相當於幾公分幾毫米？`;
+                    a = `${cm} 公分 ${mm} 毫米`;
+                    wrongs = [
+                        `${mm} 公分 ${cm} 毫米`,
+                        `${cm} 公分 ${mm + 1} 毫米`,
+                        `${cm + 1} 公分 ${mm} 毫米`
+                    ];
+                } else if (mode === 2) {
+                    const isAdd = Math.random() > 0.5;
+                    const cm1 = Math.floor(Math.random() * 8) + 2;
+                    const mm1 = Math.floor(Math.random() * 5) + 1;
+                    const cm2 = Math.floor(Math.random() * 5) + 1;
+                    const mm2 = Math.floor(Math.random() * 4) + 1;
+
+                    if (isAdd) {
+                        const sumMm = (cm1 + cm2) * 10 + (mm1 + mm2);
+                        const ansCm = Math.floor(sumMm / 10);
+                        const ansMm = sumMm % 10;
+                        q = `【 ${cm1}cm ${mm1}mm ＋ ${cm2}cm ${mm2}mm 】＝ ？`;
+                        a = `${ansCm} 公分 ${ansMm} 毫米`;
+                        wrongs = [
+                            `${ansCm + 1} 公分 ${ansMm} 毫米`,
+                            `${ansCm} 公分 ${ansMm + 2} 毫米`,
+                            `${ansCm - 1} 公分 ${ansMm} 毫米`
+                        ];
+                    } else {
+                        const total1 = cm1 * 10 + mm1;
+                        const total2 = cm2 * 10 + mm2;
+                        const diffMm = total1 - total2;
+                        const ansCm = Math.floor(diffMm / 10);
+                        const ansMm = diffMm % 10;
+                        q = `【 ${cm1}cm ${mm1}mm － ${cm2}cm ${mm2}mm 】＝ ？`;
+                        a = `${ansCm} 公分 ${ansMm} 毫米`;
+                        wrongs = [
+                            `${ansCm + 1} 公分 ${ansMm} 毫米`,
+                            `${ansCm} 公分 ${ansMm + 3} 毫米`,
+                            `${ansCm - 1} 公分 ${ansMm} 毫米`
+                        ];
+                    }
+                } else {
+                    const conceptPool = [
+                        { q: "直尺上 1 公分中間細分成幾個小格？", a: "10 個小格", wrongs: ["5 個小格", "100 個小格", "12 個小格"] },
+                        { q: "直尺上的每一個最小刻度是多長？", a: "1 毫米 (mm)", wrongs: ["1 公分", "1 公釐", "1 公尺"] },
+                        { q: "10 毫米（mm）等於多少公分（cm）？", a: "1 公分", wrongs: ["10 公分", "100 公分", "0.1 公分"] },
+                        { q: "若用尺量橡皮擦，一端對齊 2cm，另一端在 6cm 5mm，長度是？", a: "4 公分 5 毫米", wrongs: ["6 公分 5 毫米", "2 公分 5 毫米", "8 公分 5 毫米"] },
+                        { q: "量測一本數學課本的厚度，最適合使用哪種單位？", a: "毫米 (mm)", wrongs: ["公尺 (m)", "公里 (km)", "公升 (L)"] }
+                    ];
+                    const cp = conceptPool[Math.floor(Math.random() * conceptPool.length)];
+                    q = cp.q;
+                    a = cp.a;
+                    wrongs = cp.wrongs;
+                }
+
+                if (!measHistory.includes(q)) {
+                    measHistory.push(q);
+                    if (measHistory.length > 20) measHistory.shift();
+                    mission = { q, a, wrongs };
+                    break;
+                }
+            }
+            return mission;
+        }
 
         function nextMeasRound() {
-            const m = MEAS_MISSIONS[Math.floor(Math.random() * MEAS_MISSIONS.length)];
+            const m = generateMeasMission();
             currentMeasAns = m.a;
             document.getElementById('measMissionText').textContent = `🎯 雷達偵測：${m.q}`;
 
@@ -674,7 +755,6 @@
             } else {
                 playSound('wrong');
                 btnEl.style.background = '#EF4444';
-                setTimeout(() => btnEl.style.background = '', 400);
             }
         }
 

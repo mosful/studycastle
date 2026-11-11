@@ -1390,13 +1390,41 @@ function openGlossary() {
 
   const SECTOR_MISSIONS = [
     { q: "⚔️ 請拔劍斬擊【圓心角 90° 的 1/4 圓】怪獸！", a: "90° (1/4 圓)", wrongs: ["180° (半圓)", "120° (1/3 圓)", "60° (1/6 圓)"] },
-    { q: "⚔️ 請拔劍斬擊【圓心角 180° 的平角半圓】怪獸！", a: "180° (半圓)", wrongs: ["90° (1/4 圓)", "270° (3/4 圓)", "45° (1/8 圓)"] },
-    { q: "⚔️ 請拔劍斬擊【圓心角 120° 的 1/3 圓】怪獸！", a: "120° (1/3 圓)", wrongs: ["90° (1/4 圓)", "60° (1/6 圓)", "150° 扇形"] },
-    { q: "⚔️ 扇形周長公式為何？請精準出刀！", a: "半徑 × 2 ＋ 弧長", wrongs: ["半徑 × 2", "只有弧長", "直徑 × 3.14"] }
-  ];
+    { q: "⚔️ 請拔劍斬擊【圓心角 180° 的半圓】怪獸！", a: "180° (半圓)", wrongs: ["90° (1/4 圓)", "270° (3/4 圓)", "360° (整圓)"] },
+    { q: "⚔️ 請拔劍斬擊【圓心角 60° 的 1/6 圓】怪獸！", a: "60° (1/6 圓)", wrongs: ["30° (1/12 圓)", "90° (1/4 圓)", "120° (1/3 圓)"] },
+    { q: "⚔️ 請拔劍斬擊【圓心角 120° 的 1/3 圓】怪獸！", a: "120° (1/3 圓)", wrongs: ["60° (1/6 圓)", "240° (2/3 圓)", "90° (1/4 圓)"] },
+    { q: "⚔️ 請拔劍斬擊【圓心角 45° 的 1/8 圓】怪獸！", a: "45° (1/8 圓)", wrongs: ["90° (1/4 圓)", "30° (1/12 圓)", "60° (1/6 圓)"] },
+    { q: "⚔️ 請拔劍斬擊【圓心角 72° 的 1/5 圓】怪獸！", a: "72° (1/5 圓)", wrongs: ["36° (1/10 圓)", "60° (1/6 圓)", "108° (3/10 圓)"] },
+    { q: "⚔️ 請拔劍斬擊【圓心角 270° 的 3/4 圓】怪獸！", a: "270° (3/4 圓)", wrongs: ["180° (半圓)", "300° (5/6 圓)", "90° (1/4 圓)"] },
+    { q: "⚔️ 扇形的周長除了弧長之外，還必須加上什麼？", a: "2 條半徑", wrongs: ["1 條直徑", "圓心角", "圓周長"] },
+    { q: "⚔️ 一個完整圓的圓心角是多少度？", a: "360°", wrongs: ["180°", "270°", "720°"] },
+    { q: "⚔️ 半徑 10 公分、圓心角 180° 的扇形面積是整圓的幾倍？", a: "1/2 倍", wrongs: ["1/4 倍", "2 倍", "1/3 倍"] },
+    { q: "⚔️ 扇形是由哪三條邊界圍成的封閉圖形？", a: "2 條半徑與 1 段弧", wrongs: ["1 條直徑與 1 段弧", "3 條半徑", "2 條直徑"] },
+    { q: "⚔️ 同樣半徑下，圓心角越大，扇形的弧長和面積會？", a: "越大", wrongs: ["越小", "不變", "不一定"] }
+];
+
+let sectorDeck = [];
+let lastSectorQuestion = "";
+
+function getNextSectorMission() {
+    if (sectorDeck.length === 0) {
+        sectorDeck = [...SECTOR_MISSIONS];
+        for (let i = sectorDeck.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [sectorDeck[i], sectorDeck[j]] = [sectorDeck[j], sectorDeck[i]];
+        }
+        if (lastSectorQuestion && sectorDeck[sectorDeck.length - 1].q === lastSectorQuestion && sectorDeck.length > 1) {
+            const swapIdx = Math.floor(Math.random() * (sectorDeck.length - 1));
+            [sectorDeck[sectorDeck.length - 1], sectorDeck[swapIdx]] = [sectorDeck[swapIdx], sectorDeck[sectorDeck.length - 1]];
+        }
+    }
+    const m = sectorDeck.pop();
+    lastSectorQuestion = m.q;
+    return m;
+}
 
   function nextSectorRound() {
-    const m = SECTOR_MISSIONS[Math.floor(Math.random() * SECTOR_MISSIONS.length)];
+    const m = getNextSectorMission();
     currentSectorAns = m.a;
     document.getElementById('sectorMissionText').textContent = m.q;
 

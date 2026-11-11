@@ -1084,20 +1084,60 @@
 
         
         // --- 🎮 披薩分數射擊遊戲控制器 ---
+                // --- 街機遊戲：披薩神射手（25題超大分數庫 + Deck Queue 防重複） ---
         let shooterScore = 0;
         let shooterCombo = 0;
-        let currentTargetFraction = { num: 5, den: 8 };
+        let currentTargetFraction = null;
+        let fractionDeck = [];
+        let lastFractionText = "";
 
         const FRACTION_MISSIONS = [
-            { text: "八分之五 (5/8)", num: 5, den: 8 },
+            { text: "二分之一 (1/2)", num: 1, den: 2 },
+            { text: "三分之一 (1/3)", num: 1, den: 3 },
+            { text: "三分之二 (2/3)", num: 2, den: 3 },
+            { text: "四分之一 (1/4)", num: 1, den: 4 },
+            { text: "四分之二 (2/4)", num: 2, den: 4 },
             { text: "四分之三 (3/4)", num: 3, den: 4 },
-            { text: "等於 1 的完整披薩 (8/8)", num: 8, den: 8 },
+            { text: "完整披薩 1 (4/4)", num: 4, den: 4 },
+            { text: "五分之一 (1/5)", num: 1, den: 5 },
+            { text: "五分之二 (2/5)", num: 2, den: 5 },
+            { text: "五分之三 (3/5)", num: 3, den: 5 },
+            { text: "五分之四 (4/5)", num: 4, den: 5 },
+            { text: "完整披薩 1 (5/5)", num: 5, den: 5 },
+            { text: "六分之一 (1/6)", num: 1, den: 6 },
+            { text: "六分之三 (3/6)", num: 3, den: 6 },
+            { text: "六分之五 (5/6)", num: 5, den: 6 },
+            { text: "完整披薩 1 (6/6)", num: 6, den: 6 },
+            { text: "八分之一 (1/8)", num: 1, den: 8 },
+            { text: "八分之三 (3/8)", num: 3, den: 8 },
+            { text: "八分之五 (5/8)", num: 5, den: 8 },
+            { text: "八分之七 (7/8)", num: 7, den: 8 },
+            { text: "完整披薩 1 (8/8)", num: 8, den: 8 },
+            { text: "十分之三 (3/10)", num: 3, den: 10 },
             { text: "十分之七 (7/10)", num: 7, den: 10 },
-            { text: "二分之一 (1/2)", num: 1, den: 2 }
+            { text: "十分之九 (9/10)", num: 9, den: 10 },
+            { text: "完整披薩 1 (10/10)", num: 10, den: 10 }
         ];
 
+        function getNextFractionMission() {
+            if (fractionDeck.length === 0) {
+                fractionDeck = [...FRACTION_MISSIONS];
+                for (let i = fractionDeck.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [fractionDeck[i], fractionDeck[j]] = [fractionDeck[j], fractionDeck[i]];
+                }
+                if (lastFractionText && fractionDeck[fractionDeck.length - 1].text === lastFractionText && fractionDeck.length > 1) {
+                    const swapIdx = Math.floor(Math.random() * (fractionDeck.length - 1));
+                    [fractionDeck[fractionDeck.length - 1], fractionDeck[swapIdx]] = [fractionDeck[swapIdx], fractionDeck[fractionDeck.length - 1]];
+                }
+            }
+            const m = fractionDeck.pop();
+            lastFractionText = m.text;
+            return m;
+        }
+
         function nextShooterRound() {
-            const mission = FRACTION_MISSIONS[Math.floor(Math.random() * FRACTION_MISSIONS.length)];
+            const mission = getNextFractionMission();
             currentTargetFraction = mission;
             document.getElementById('shooterMissionPrompt').textContent = `🎯 任務指令：請射擊等於【${mission.text}】的披薩！`;
 
@@ -1148,7 +1188,7 @@
                 setTimeout(() => cardEl.style.background = '', 400);
             }
         }
-    
+
         window.addEventListener('DOMContentLoaded', () => {
             nextShooterRound();
             renderPizza();

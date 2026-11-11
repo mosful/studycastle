@@ -1242,13 +1242,37 @@ function openGlossary() {
 
   const DRAGON_MISSIONS = [
     { q: "🐉 大披薩直徑 12 吋 600 元，小披薩直徑 6 吋 200 元，誰的性價比 (CP值) 高？", a: "大披薩（面積是 4 倍，價格僅 3 倍）", wrongs: ["小披薩（價格便宜）", "兩者 CP 值一樣", "無法比較"] },
-    { q: "🐉 男生 16 人、女生 8 人分組，每組男女生人數一樣多且剛好分完，最多分幾組？", a: "最多分 8 組 (每組男2女1)", wrongs: ["最多分 4 組", "最多分 16 組", "最多分 2 組"] },
-    { q: "🐉 體重 48 公斤，身高 1.5 公尺，計算 BMI ＝ 48 ÷ (1.5 × 1.5) 約為多少？", a: "約 21.3 (健康體位)", wrongs: ["約 16.0 (過輕)", "約 28.5 (肥胖)", "約 32.0"] },
-    { q: "🐉 騎自行車時速 15 公里，前往 30 公里外的森林公園，需騎多久？", a: "2 小時", wrongs: ["1.5 小時", "3 小時", "45 分鐘"] }
-  ];
+    { q: "🐉 兩條圓柱水管，甲管直徑是乙管的 2 倍，水流速度相同時，甲管每秒流量是乙管的幾倍？", a: "4 倍（截面積是半徑平方比）", wrongs: ["2 倍", "8 倍", "1/2 倍"] },
+    { q: "🐉 地圖比例尺 1 : 25000，地圖上相距 4 公分，實際地面距離是多少公里？", a: "1 公里 (100000 cm)", wrongs: ["2.5 公里", "10 公里", "0.25 公里"] },
+    { q: "🐉 汽車以時速 90 公里行駛，從台北到新竹 75 公里需要幾分鐘？", a: "50 分鐘", wrongs: ["45 分鐘", "60 分鐘", "75 分鐘"] },
+    { q: "🐉 百貨公司週年慶：甲方案「全面 8 折」，乙方案「買四送一」，哪個折扣幅度大？", a: "兩個方案折扣完全一樣（皆為8折）", wrongs: ["甲方案較便宜", "乙方案較便宜", "買四送一是75折"] },
+    { q: "🐉 一件衣服先定價漲 20%，再打 8 折出售，最後售價和原定價相比？", a: "比原價便宜 4% (0.96倍)", wrongs: ["回到原價", "比原價貴 4%", "比原價便宜 2%"] },
+    { q: "🐉 圓形時鐘的分針長 10 公分，從 1 點走到 1 點 30 分，分針尖端移動了多少公分？(π以3.14計)", a: "31.4 公分 (半圓圓周)", wrongs: ["62.8 公分", "15.7 公分", "100 公分"] },
+    { q: "🐉 甲、乙兩數的比是 5 : 3，若兩數的和是 160，甲數是多少？", a: "100", wrongs: ["60", "80", "120"] }
+];
+
+let dragonDeck = [];
+let lastDragonQuestion = "";
+
+function getNextDragonMission() {
+    if (dragonDeck.length === 0) {
+        dragonDeck = [...DRAGON_MISSIONS];
+        for (let i = dragonDeck.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [dragonDeck[i], dragonDeck[j]] = [dragonDeck[j], dragonDeck[i]];
+        }
+        if (lastDragonQuestion && dragonDeck[dragonDeck.length - 1].q === lastDragonQuestion && dragonDeck.length > 1) {
+            const swapIdx = Math.floor(Math.random() * (dragonDeck.length - 1));
+            [dragonDeck[dragonDeck.length - 1], dragonDeck[swapIdx]] = [dragonDeck[swapIdx], dragonDeck[dragonDeck.length - 1]];
+        }
+    }
+    const m = dragonDeck.pop();
+    lastDragonQuestion = m.q;
+    return m;
+}
 
   function nextDragonRound() {
-    const m = DRAGON_MISSIONS[Math.floor(Math.random() * DRAGON_MISSIONS.length)];
+    const m = getNextDragonMission();
     currentDragonAns = m.a;
     document.getElementById('dragonMissionText').textContent = m.q;
 

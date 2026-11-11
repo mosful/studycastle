@@ -615,20 +615,69 @@
             playSound('correct');
         }
 
-        // --- 街機遊戲 ---
+                // --- 街機遊戲：連鎖閃電乘法特訓（動態乘法生成 + 歷史防重複緩衝區） ---
         let multScore = 0;
         let multHits = 0;
         let currentMultAns = "";
+        let multHistory = [];
 
-        const MULT_MISSIONS = [
-            { q: "⚡【 40 × 6 ＝ ？ 】", a: "240", wrongs: ["2400", "24", "260"] },
-            { q: "⚡【 200 × 5 ＝ ？ 】", a: "1000", wrongs: ["100", "10000", "700"] },
-            { q: "⚡【 35 × 4 ＝ ？ 】", a: "140", wrongs: ["120", "150", "145"] },
-            { q: "⚡【 105 × 6 ＝ ？ 】", a: "630", wrongs: ["600", "650", "6030"] }
-        ];
+        function generateMultMission() {
+            let mission = null;
+            let attempts = 0;
+
+            while (attempts < 50) {
+                attempts++;
+                const mode = Math.floor(Math.random() * 4);
+                let q = "", a = "", wrongs = [];
+
+                if (mode === 0) {
+                    const tens = (Math.floor(Math.random() * 8) + 2) * 10;
+                    const digit = Math.floor(Math.random() * 8) + 2;
+                    const prod = tens * digit;
+                    q = `【 ${tens} × ${digit} ＝ ？ 】`;
+                    a = `${prod}`;
+                    wrongs = [`${prod * 10}`, `${prod / 10}`, `${prod + 10}`];
+                } else if (mode === 1) {
+                    const aNum = Math.floor(Math.random() * 40) + 12;
+                    const bNum = Math.floor(Math.random() * 7) + 2;
+                    const prod = aNum * bNum;
+                    q = `【 ${aNum} × ${bNum} ＝ ？ 】`;
+                    a = `${prod}`;
+                    wrongs = [`${prod + 10}`, `${prod - 10}`, `${prod + bNum}`];
+                } else if (mode === 2) {
+                    const aNum = Math.floor(Math.random() * 200) + 105;
+                    const bNum = Math.floor(Math.random() * 5) + 2;
+                    const prod = aNum * bNum;
+                    q = `【 ${aNum} × ${bNum} ＝ ？ 】`;
+                    a = `${prod}`;
+                    wrongs = [`${prod + 100}`, `${prod - 50}`, `${prod + 20}`];
+                } else {
+                    const isZero = Math.random() > 0.5;
+                    if (isZero) {
+                        const anyN = Math.floor(Math.random() * 500) + 50;
+                        q = `【 ${anyN} × 0 ＝ ？ 】`;
+                        a = "0";
+                        wrongs = [`${anyN}`, "1", "10"];
+                    } else {
+                        const anyN = Math.floor(Math.random() * 500) + 50;
+                        q = `【 1 × ${anyN} ＝ ？ 】`;
+                        a = `${anyN}`;
+                        wrongs = ["1", "0", `${anyN + 1}`];
+                    }
+                }
+
+                if (!multHistory.includes(q)) {
+                    multHistory.push(q);
+                    if (multHistory.length > 20) multHistory.shift();
+                    mission = { q, a, wrongs };
+                    break;
+                }
+            }
+            return mission;
+        }
 
         function nextMultRound() {
-            const m = MULT_MISSIONS[Math.floor(Math.random() * MULT_MISSIONS.length)];
+            const m = generateMultMission();
             currentMultAns = m.a;
             document.getElementById('multMissionText').textContent = `⚡ 閃電能量蓄力：${m.q} 請求引爆！`;
 
@@ -662,7 +711,6 @@
             } else {
                 playSound('wrong');
                 btnEl.style.background = '#EF4444';
-                setTimeout(() => btnEl.style.background = '', 400);
             }
         }
 

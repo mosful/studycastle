@@ -637,20 +637,67 @@
             playSound('correct');
         }
 
-        // --- 街機遊戲 ---
+                // --- 街機遊戲：直角防衛戰（超大32題庫 + Deck Queue 洗牌發牌防重複） ---
         let geomScore = 0;
         let geomHits = 0;
         let currentGeomAns = "";
+        let geomDeck = [];
+        let lastGeomQuestion = "";
 
         const GEOM_MISSIONS = [
-            { q: "📐【 4 個邊一樣長，4 個角都是直角 】是什麼形狀？", a: "正方形", wrongs: ["長方形", "圓形", "三角形"] },
-            { q: "📐【 對邊一樣長，4 個角都是直角 】是什麼形狀？", a: "長方形", wrongs: ["正方形", "平行四邊形", "梯形"] },
-            { q: "📐 決定一個角的大小的關鍵是什麼？", a: "兩邊張開的程度", wrongs: ["兩邊畫的長度", "頂點的大小", "圖形的顏色"] },
-            { q: "📐 比直角還要小的角稱作什麼？", a: "銳角", wrongs: ["鈍角", "平角", "圓形"] }
+            { q: "【 4 個邊一樣長，4 個角都是直角 】是什麼形狀？", a: "正方形", wrongs: ["長方形", "圓形", "三角形"] },
+            { q: "【 對邊一樣長，4 個角都是直角 】是什麼形狀？", a: "長方形", wrongs: ["正方形", "平行四邊形", "梯形"] },
+            { q: "決定一個角的大小的關鍵是什麼？", a: "兩邊張開的程度", wrongs: ["兩邊畫的長度", "頂點的大小", "圖形的顏色"] },
+            { q: "比直角還要小的角稱作什麼？", a: "銳角", wrongs: ["鈍角", "平角", "圓形"] },
+            { q: "比直角大、但比平角小的角稱作什麼？", a: "鈍角", wrongs: ["銳角", "直角", "三角形"] },
+            { q: "一個標準的角是由什麼組成的？", a: "1 個頂點和 2 條邊", wrongs: ["2 個頂點和 1 條邊", "3 條邊", "只有 1 個頂點"] },
+            { q: "時鐘在 3 點整時，時針和分針形成什麼角？", a: "直角", wrongs: ["銳角", "鈍角", "平角"] },
+            { q: "時鐘在 9 點整時，時針和分針形成什麼角？", a: "直角", wrongs: ["銳角", "鈍角", "平角"] },
+            { q: "時鐘在 1 點整時，時針和分針形成什麼角？", a: "銳角", wrongs: ["直角", "鈍角", "平角"] },
+            { q: "時鐘在 2 點整時，時針和分針形成什麼角？", a: "銳角", wrongs: ["直角", "鈍角", "平角"] },
+            { q: "時鐘在 4 點整時，時針和分針形成什麼角？", a: "鈍角", wrongs: ["銳角", "直角", "平角"] },
+            { q: "時鐘在 5 點整時，時針和分針形成什麼角？", a: "鈍角", wrongs: ["銳角", "直角", "平角"] },
+            { q: "時鐘在 6 點整時，時針和分針成一條直線，是什麼角？", a: "平角", wrongs: ["直角", "銳角", "鈍角"] },
+            { q: "教室黑板的表面四個角都是什麼角？", a: "直角", wrongs: ["銳角", "鈍角", "平角"] },
+            { q: "正方形有幾個邊？幾個頂點？幾個角？", a: "4 邊、4 頂點、4 角", wrongs: ["3 邊 3 頂點", "4 邊 2 頂點", "5 邊 5 頂點"] },
+            { q: "長方形的四個角有什麼特徵？", a: "4 個角都是直角", wrongs: ["2 個直角 2 個銳角", "4 個都是銳角", "4 個都是鈍角"] },
+            { q: "一副三角板中，每一塊三角板有幾個直角？", a: "1 個直角", wrongs: ["2 個直角", "3 個直角", "沒有直角"] },
+            { q: "三角板中除了直角以外的另外兩個角是什麼角？", a: "都是銳角", wrongs: ["都是鈍角", "一個直角一個鈍角", "都是平角"] },
+            { q: "國小數學課本封面的四個角是什麼角？", a: "直角", wrongs: ["銳角", "鈍角", "平角"] },
+            { q: "把正方形色紙對角摺一半，會得到什麼三角形？", a: "直角三角形", wrongs: ["正三角形", "鈍角三角形", "長方形"] },
+            { q: "在角落標記「∟」小方框符號代表什麼角？", a: "直角", wrongs: ["銳角", "鈍角", "平角"] },
+            { q: "若把角的兩條邊畫得更長，這個角會？", a: "大小不變", wrongs: ["變大", "變小", "變成直角"] },
+            { q: "檢驗一個角是不是直角，可以用哪種工具最方便？", a: "三角板的直角", wrongs: ["圓規", "橡皮擦", "鉛筆筆芯"] },
+            { q: "我國的國旗形狀通常是什麼幾何圖形？", a: "長方形", wrongs: ["正方形", "梯形", "圓形"] },
+            { q: "四個角都是直角，且相鄰兩邊一樣長的圖形是？", a: "正方形", wrongs: ["長方形", "菱形", "梯形"] },
+            { q: "長方形上下兩條邊的長度關係是？", a: "對邊一樣長", wrongs: ["上邊比較長", "下邊比較長", "四邊都不同長"] },
+            { q: "剪刀慢慢張開時，兩刀刃之間的角會？", a: "越來越大", wrongs: ["越來越小", "保持不變", "突然變直角"] },
+            { q: "圓形有幾個邊和幾個角？", a: "0 個邊、0 個角", wrongs: ["1 邊 1 角", "4 邊 4 角", "無限多個角"] },
+            { q: "一個三角形裡面最多可以有幾個直角？", a: "最多 1 個", wrongs: ["2 個", "3 個", "4 個"] },
+            { q: "正方形每邊長 5 公分，四個邊合起來是多少公分？", a: "20 公分", wrongs: ["10 公分", "25 公分", "15 公分"] },
+            { q: "長方形長 6 公分、寬 4 公分，四個角都是什麼角？", a: "直角", wrongs: ["銳角", "鈍角", "平角"] },
+            { q: "兩條互相垂直交叉的直線，交點處形成了幾個直角？", a: "4 個直角", wrongs: ["1 個直角", "2 個直角", "3 個直角"] }
         ];
 
+        function getNextGeomMission() {
+            if (geomDeck.length === 0) {
+                geomDeck = [...GEOM_MISSIONS];
+                for (let i = geomDeck.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [geomDeck[i], geomDeck[j]] = [geomDeck[j], geomDeck[i]];
+                }
+                if (lastGeomQuestion && geomDeck[geomDeck.length - 1].q === lastGeomQuestion && geomDeck.length > 1) {
+                    const swapIdx = Math.floor(Math.random() * (geomDeck.length - 1));
+                    [geomDeck[geomDeck.length - 1], geomDeck[swapIdx]] = [geomDeck[swapIdx], geomDeck[geomDeck.length - 1]];
+                }
+            }
+            const m = geomDeck.pop();
+            lastGeomQuestion = m.q;
+            return m;
+        }
+
         function nextGeomRound() {
-            const m = GEOM_MISSIONS[Math.floor(Math.random() * GEOM_MISSIONS.length)];
+            const m = getNextGeomMission();
             currentGeomAns = m.a;
             document.getElementById('geomMissionText').textContent = `📐 幾何謎題：${m.q}`;
 
@@ -684,7 +731,6 @@
             } else {
                 playSound('wrong');
                 btnEl.style.background = '#EF4444';
-                setTimeout(() => btnEl.style.background = '', 400);
             }
         }
 

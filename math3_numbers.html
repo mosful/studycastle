@@ -658,19 +658,98 @@
         }
 
         // --- 街機遊戲：黑洞數字捕捉戰 ---
+                // --- 街機遊戲：宇宙黑洞數字捕捉戰（動態無限隨機題庫 + 歷史防重複緩衝區） ---
         let blackholeScore = 0;
         let blackholeHits = 0;
         let currentBlackholeAns = "";
+        let blackholeHistory = [];
 
-        const BLACKHOLE_MISSIONS = [
-            { q: "🛸【 4 個千、0 個百、6 個十、2 個一 】合起來是多少？", a: "4062", wrongs: ["4620", "4026", "4602"] },
-            { q: "🛸【 8 個千、3 個百、0 個十、5 個一 】讀作什麼？", a: "八千三百零五", wrongs: ["八千三百五十", "八千零三十五", "八千三百五"] },
-            { q: "🛸 比較大小：【 6020 】與【 6200 】，誰比較大？", a: "6200 比較大", wrongs: ["6020 比較大", "兩數一樣大", "無法比較"] },
-            { q: "🛸 10 個一千合起來是多少？", a: "10000 (一萬)", wrongs: ["1000 (一千)", "100000 (十萬)", "100 (一百)"] }
-        ];
+        function generateBlackholeMission() {
+            let mission = null;
+            let attempts = 0;
+
+            while (attempts < 50) {
+                attempts++;
+                const mode = Math.floor(Math.random() * 5);
+                let q = "", a = "", wrongs = [];
+
+                if (mode === 0) {
+                    const th = Math.floor(Math.random() * 9) + 1;
+                    const h = Math.floor(Math.random() * 10);
+                    const t = Math.floor(Math.random() * 10);
+                    const u = Math.floor(Math.random() * 10);
+                    const num = th * 1000 + h * 100 + t * 10 + u;
+                    q = `🛸【 ${th} 個千、${h} 個百、${t} 個十、${u} 個一 】合起來是多少？`;
+                    a = `${num}`;
+                    wrongs = [
+                        `${th * 1000 + t * 100 + h * 10 + u}`,
+                        `${th * 1000 + h * 100 + u * 10 + t}`,
+                        `${(th + 1) * 1000 + h * 100 + t * 10 + u}`
+                    ];
+                } else if (mode === 1) {
+                    const base = (Math.floor(Math.random() * 80) + 10) * 100;
+                    const isPlus = Math.random() > 0.5;
+                    if (isPlus) {
+                        const target = base - 1;
+                        q = `🛸【 比 ${target} 多 1 】的數是多少？`;
+                        a = `${base}`;
+                        wrongs = [`${target + 2}`, `${base + 10}`, `${target - 1}`];
+                    } else {
+                        q = `🛸【 比 ${base} 少 1 】的數是多少？`;
+                        a = `${base - 1}`;
+                        wrongs = [`${base - 10}`, `${base + 1}`, `${base - 2}`];
+                    }
+                } else if (mode === 2) {
+                    const thousands = Math.floor(Math.random() * 8) + 1;
+                    const hundreds = Math.floor(Math.random() * 8) + 1;
+                    const tens = Math.floor(Math.random() * 8) + 1;
+                    const total = thousands * 1000 + hundreds * 100 + tens * 10;
+                    q = `🛸【 ${thousands} 張千元鈔、${hundreds} 個百元、${tens} 個拾元 】合起來共幾元？`;
+                    a = `${total} 元`;
+                    wrongs = [
+                        `${thousands * 1000 + tens * 100 + hundreds * 10} 元`,
+                        `${total + 100} 元`,
+                        `${total - 10} 元`
+                    ];
+                } else if (mode === 3) {
+                    const num = Math.floor(Math.random() * 8000) + 1000;
+                    const digits = [
+                        { name: "千位", val: Math.floor(num / 1000) },
+                        { name: "百位", val: Math.floor((num % 1000) / 100) },
+                        { name: "十位", val: Math.floor((num % 100) / 10) },
+                        { name: "個位", val: num % 10 }
+                    ];
+                    const pick = digits[Math.floor(Math.random() * digits.length)];
+                    q = `🛸 數字【 ${num} 】的「${pick.name}」數字是多少？`;
+                    a = `${pick.val}`;
+                    const wrongSet = new Set();
+                    digits.forEach(d => { if (d.val !== pick.val) wrongSet.add(`${d.val}`); });
+                    while (wrongSet.size < 3) {
+                        const r = Math.floor(Math.random() * 10);
+                        if (r !== pick.val) wrongSet.add(`${r}`);
+                    }
+                    wrongs = Array.from(wrongSet).slice(0, 3);
+                } else {
+                    const n1 = (Math.floor(Math.random() * 80) + 15) * 100 + Math.floor(Math.random() * 90) + 5;
+                    const n2 = n1 + (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 300) + 10);
+                    const bigger = Math.max(n1, n2);
+                    q = `🛸 比較兩個數：【 ${n1} 】與【 ${n2} 】，哪一個比較大？`;
+                    a = `${bigger}`;
+                    wrongs = [`${Math.min(n1, n2)}`, "一樣大", "無法比較"];
+                }
+
+                if (!blackholeHistory.includes(q)) {
+                    blackholeHistory.push(q);
+                    if (blackholeHistory.length > 20) blackholeHistory.shift();
+                    mission = { q, a, wrongs };
+                    break;
+                }
+            }
+            return mission;
+        }
 
         function nextBlackholeRound() {
-            const m = BLACKHOLE_MISSIONS[Math.floor(Math.random() * BLACKHOLE_MISSIONS.length)];
+            const m = generateBlackholeMission();
             currentBlackholeAns = m.a;
             document.getElementById('blackholeMissionText').textContent = m.q;
 

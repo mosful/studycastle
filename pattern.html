@@ -1331,13 +1331,41 @@ function openGlossary() {
 
   const PATTERN_MISSIONS = [
     { q: "🧩 機械護盾密碼：數列【 3, 7, 11, 15, ？ 】，下一個數字是？", a: "19", wrongs: ["18", "20", "21"] },
-    { q: "🧩 併桌規律：1張桌坐4人，每多併1張桌多坐2人，n張桌子可坐幾人？", a: "2n ＋ 2 人", wrongs: ["4n 人", "2n ＋ 4 人", "n ＋ 4 人"] },
-    { q: "🧩 正方形隊形：空心正方形每邊排 10 人，四個頂點皆有人，共需幾人？", a: "36 人", wrongs: ["40 人", "38 人", "32 人"] },
-    { q: "🧩 火車座位週期：1排4位（1,2靠窗，3,4靠走道），座號 25 號是？", a: "靠窗位 (餘數1)", wrongs: ["靠走道 (餘數3)", "靠走道 (整除)", "車廂中間"] }
-  ];
+    { q: "🧩 併桌規律：1張桌坐4人，每多併1張桌多坐2人，n張桌子可坐幾人？", a: "2n ＋ 2", wrongs: ["4n", "2n", "4n － 2"] },
+    { q: "🧩 植樹規律：兩端都種樹，全長 50 公尺，每 10 公尺種 1 棵，共需幾棵？", a: "6 棵", wrongs: ["5 棵", "4 棵", "10 棵"] },
+    { q: "🧩 敲鐘規律：時鐘 4 點敲 4 下花 6 秒，8 點敲 8 下花幾秒？", a: "14 秒", wrongs: ["12 秒", "16 秒", "10 秒"] },
+    { q: "🧩 數列密碼：【 2, 6, 18, 54, ？ 】，下一個數字是？", a: "162", wrongs: ["108", "150", "216"] },
+    { q: "🧩 數列密碼：【 1, 4, 9, 16, 25, ？ 】，下一個數字是？", a: "36", wrongs: ["30", "35", "49"] },
+    { q: "🧩 封閉池塘周圍植樹：周長 100 公尺，每 10 公尺種 1 棵，共需幾棵？", a: "10 棵", wrongs: ["9 棵", "11 棵", "12 棵"] },
+    { q: "🧩 正方形點陣圖：第 1 層 1 個點，第 2 層 4 個點，第 5 層有幾個點？", a: "25 個", wrongs: ["20 個", "16 個", "30 個"] },
+    { q: "🧩 爬樓梯規律：從 1 樓到 4 樓走 48 階，每層樓梯階數相同，1 到 6 樓需幾階？", a: "80 階", wrongs: ["72 階", "96 階", "60 階"] },
+    { q: "🧩 剪繩規律：把一條繩子剪 4 刀，會剪成幾段？", a: "5 段", wrongs: ["4 段", "3 段", "6 段"] },
+    { q: "🧩 火柴棒排正方形：排 1 個用 4 根，每多排 1 個共用 1 邊，排 10 個用幾根？", a: "31 根 (3n+1)", wrongs: ["40 根", "30 根", "28 根"] },
+    { q: "🧩 規律數列：【 100, 95, 90, 85, ？ 】，下一個數字是？", a: "80", wrongs: ["75", "82", "70"] }
+];
+
+let patternDeck = [];
+let lastPatternQuestion = "";
+
+function getNextPatternMission() {
+    if (patternDeck.length === 0) {
+        patternDeck = [...PATTERN_MISSIONS];
+        for (let i = patternDeck.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [patternDeck[i], patternDeck[j]] = [patternDeck[j], patternDeck[i]];
+        }
+        if (lastPatternQuestion && patternDeck[patternDeck.length - 1].q === lastPatternQuestion && patternDeck.length > 1) {
+            const swapIdx = Math.floor(Math.random() * (patternDeck.length - 1));
+            [patternDeck[patternDeck.length - 1], patternDeck[swapIdx]] = [patternDeck[swapIdx], patternDeck[patternDeck.length - 1]];
+        }
+    }
+    const m = patternDeck.pop();
+    lastPatternQuestion = m.q;
+    return m;
+}
 
   function nextPatternRound() {
-    const m = PATTERN_MISSIONS[Math.floor(Math.random() * PATTERN_MISSIONS.length)];
+    const m = getNextPatternMission();
     currentPatternAns = m.a;
     document.getElementById('patternMissionText').textContent = m.q;
 

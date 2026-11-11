@@ -1076,19 +1076,59 @@
         
         // --- 🎮 圓心半徑雷達打靶遊戲控制器 ---
         let radarScore = 0;
+                // --- 街機遊戲：雷達打靶圓形守護戰（25題超大題庫 + Deck Queue 發牌防重複） ---
         let radarHits = 0;
         let currentRadarAns = "";
+        let radarDeck = [];
+        let lastRadarQuestion = "";
 
         const RADAR_MISSIONS = [
+            { q: "📡 敵機【半徑 4 公分】，求【直徑】以鎖定擊落！", a: "8 公分", wrongs: ["2 公分", "4 公分", "16 公分"] },
+            { q: "📡 敵機【半徑 5 公分】，求【直徑】以鎖定擊落！", a: "10 公分", wrongs: ["2.5 公分", "5 公分", "15 公分"] },
             { q: "📡 敵機【半徑 6 公分】，求【直徑】以鎖定擊落！", a: "12 公分", wrongs: ["3 公分", "6 公分", "18 公分"] },
-            { q: "📡 敵機【直徑 10 公分】，求【半徑】以啟動電磁護盾！", a: "5 公分", wrongs: ["20 公分", "10 公分", "2 公分"] },
-            { q: "📡 要畫出【直徑 8 公分】的圓形防護罩，圓規兩腳張開多少？", a: "4 公分", wrongs: ["8 公分", "16 公分", "2 公分"] },
-            { q: "📡 圓形紙片對折再對折，展開後兩摺痕的交點叫作？", a: "圓心", wrongs: ["直徑", "半徑", "圓周"] },
-            { q: "📡 圓內通過圓心且最長的線段是哪一條？", a: "直徑", wrongs: ["半徑", "弧線", "任意弦"] }
+            { q: "📡 敵機【半徑 7 公分】，求【直徑】以鎖定擊落！", a: "14 公分", wrongs: ["3.5 公分", "7 公分", "21 公分"] },
+            { q: "📡 敵機【半徑 9 公分】，求【直徑】以鎖定擊落！", a: "18 公分", wrongs: ["4.5 公分", "9 公分", "27 公分"] },
+            { q: "📡 敵機【半徑 12 公分】，求【直徑】以鎖定擊落！", a: "24 公分", wrongs: ["6 公分", "12 公分", "36 公分"] },
+            { q: "📡 偵測敵軍【直徑 10 公分】，求【半徑】以設定防護罩！", a: "5 公分", wrongs: ["20 公分", "10 公分", "2.5 公分"] },
+            { q: "📡 偵測敵軍【直徑 14 公分】，求【半徑】以設定防護罩！", a: "7 公分", wrongs: ["28 公分", "14 公分", "3.5 公分"] },
+            { q: "📡 偵測敵軍【直徑 16 公分】，求【半徑】以設定防護罩！", a: "8 公分", wrongs: ["32 公分", "16 公分", "4 公分"] },
+            { q: "📡 偵測敵軍【直徑 20 公分】，求【半徑】以設定防護罩！", a: "10 公分", wrongs: ["40 公分", "20 公分", "5 公分"] },
+            { q: "📡 偵測敵軍【直徑 28 公分】，求【半徑】以設定防護罩！", a: "14 公分", wrongs: ["56 公分", "28 公分", "7 公分"] },
+            { q: "📡 圓規兩腳張開 5 公分所畫出來的圓，【直徑】是多少？", a: "10 公分", wrongs: ["5 公分", "2.5 公分", "20 公分"] },
+            { q: "📡 圓規兩腳張開 8 公分所畫出來的圓，【半徑】是多少？", a: "8 公分", wrongs: ["16 公分", "4 公分", "24 公分"] },
+            { q: "📡 通過圓心，兩端都在圓上的直線段稱作什麼？", a: "直徑", wrongs: ["半徑", "圓周", "圓心"] },
+            { q: "📡 從圓心到圓上任意一點的線段稱作什麼？", a: "半徑", wrongs: ["直徑", "切線", "弧線"] },
+            { q: "📡 在同一個圓裡面，最長的一條線段是什麼？", a: "直徑", wrongs: ["半徑", "任意弦", "半徑的3倍"] },
+            { q: "📡 在同一個圓裡，可以畫出幾條半徑和直徑？", a: "無限多條", wrongs: ["只有 1 條", "只有 2 條", "只有 4 條"] },
+            { q: "📡 決定一個圓的「中心位置」的是哪一個點？", a: "圓心", wrongs: ["直徑", "半徑", "圓周"] },
+            { q: "📡 決定一個圓的「大小」的關鍵是什麼？", a: "半徑的長短", wrongs: ["圓心的位置", "畫圓的顏色", "圓心符號"] },
+            { q: "📡 同一個圓裡面，直徑的長度是半徑的幾倍？", a: "2 倍", wrongs: ["3 倍", "一半", "4 倍"] },
+            { q: "📡 同一個圓裡面，半徑的長度是直徑的幾分之幾？", a: "一半 (1/2)", wrongs: ["2 倍", "三分之一", "相等"] },
+            { q: "📡 用圓規畫圓時，固定在紙上不動的那隻腳針尖是？", a: "圓心", wrongs: ["半徑", "直徑", "圓周"] },
+            { q: "📡 如果要畫出直徑 12 公分的圓，圓規兩腳應張開幾公分？", a: "6 公分", wrongs: ["12 公分", "24 公分", "3 公分"] },
+            { q: "📡 如果要畫出直徑 18 公分的圓，圓規兩腳應張開幾公分？", a: "9 公分", wrongs: ["18 公分", "36 公分", "4.5 公分"] },
+            { q: "📡 一個圓的直徑是 30 公分，它的半徑是多少公分？", a: "15 公分", wrongs: ["60 公分", "30 公分", "10 公分"] }
         ];
 
+        function getNextRadarMission() {
+            if (radarDeck.length === 0) {
+                radarDeck = [...RADAR_MISSIONS];
+                for (let i = radarDeck.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [radarDeck[i], radarDeck[j]] = [radarDeck[j], radarDeck[i]];
+                }
+                if (lastRadarQuestion && radarDeck[radarDeck.length - 1].q === lastRadarQuestion && radarDeck.length > 1) {
+                    const swapIdx = Math.floor(Math.random() * (radarDeck.length - 1));
+                    [radarDeck[radarDeck.length - 1], radarDeck[swapIdx]] = [radarDeck[swapIdx], radarDeck[radarDeck.length - 1]];
+                }
+            }
+            const m = radarDeck.pop();
+            lastRadarQuestion = m.q;
+            return m;
+        }
+
         function nextRadarRound() {
-            const m = RADAR_MISSIONS[Math.floor(Math.random() * RADAR_MISSIONS.length)];
+            const m = getNextRadarMission();
             currentRadarAns = m.a;
             document.getElementById('radarPrompt').textContent = m.q;
 
@@ -1126,7 +1166,7 @@
                 setTimeout(() => btnEl.style.background = '', 400);
             }
         }
-    
+
         window.addEventListener('DOMContentLoaded', () => {
             nextRadarRound();
             updateCircle(4);

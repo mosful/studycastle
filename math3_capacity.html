@@ -1153,36 +1153,53 @@
         // --- 🎮 水井打地鼠容量遊戲控制器 ---
         let moleScore = 0;
         let moleCurrentTarget = { text: "1 公升 (1 L)", value: 1000 };
+        // --- 街機遊戲：水井打地鼠容量神捕手（20題超大容量庫 + Deck Queue 防重複） ---
+        let moleDeck = [];
+        let lastMoleText = "";
+
         const CAPACITY_TARGETS = [
             { text: "1 公升 (1 L)", value: 1000 },
-            { text: "2 公升 50 毫升", value: 2050 },
-            { text: "1500 毫升 (1.5 L)", value: 1500 },
+            { text: "2 公升 (2 L)", value: 2000 },
+            { text: "3 公升 (3 L)", value: 3000 },
             { text: "500 毫升 (半公升)", value: 500 },
-            { text: "3 公升 400 毫升", value: 3400 }
+            { text: "1500 毫升 (1L 500mL)", value: 1500 },
+            { text: "2050 毫升 (2L 50mL)", value: 2050 },
+            { text: "3 公升 400 毫升", value: 3400 },
+            { text: "4 公升 20 毫升", value: 4020 },
+            { text: "5 公升 8 毫升", value: 5008 },
+            { text: "6 公升 300 毫升", value: 6300 },
+            { text: "7500 毫升 (7L 500mL)", value: 7500 },
+            { text: "8000 毫升 (8 L)", value: 8000 },
+            { text: "9 公升 90 毫升", value: 9090 },
+            { text: "250 毫升 (四分之一公升)", value: 250 },
+            { text: "1 公升 800 毫升", value: 1800 },
+            { text: "2 公升 750 毫升", value: 2750 },
+            { text: "3005 毫升 (3L 5mL)", value: 3005 },
+            { text: "4500 毫升 (4L 500mL)", value: 4500 },
+            { text: "5 公升 600 毫升", value: 5600 },
+            { text: "10 公升 (10 L)", value: 10000 }
         ];
 
-        function initMoleGame() {
-            const grid = document.getElementById('moleGrid');
-            grid.innerHTML = '';
-            for (let i = 0; i < 9; i++) {
-                const hole = document.createElement('div');
-                hole.className = 'mole-hole';
-                hole.innerHTML = `
-                    <div class="mole-creature" id="mole_${i}" onclick="whackMole(${i})">
-                        <span style="font-size: 2rem;">🐹</span>
-                        <span class="mole-badge" id="moleBadge_${i}">1000 mL</span>
-                    </div>
-                `;
-                grid.appendChild(hole);
+        function getNextMoleTarget() {
+            if (moleDeck.length === 0) {
+                moleDeck = [...CAPACITY_TARGETS];
+                for (let i = moleDeck.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [moleDeck[i], moleDeck[j]] = [moleDeck[j], moleDeck[i]];
+                }
+                if (lastMoleText && moleDeck[moleDeck.length - 1].text === lastMoleText && moleDeck.length > 1) {
+                    const swapIdx = Math.floor(Math.random() * (moleDeck.length - 1));
+                    [moleDeck[moleDeck.length - 1], moleDeck[swapIdx]] = [moleDeck[swapIdx], moleDeck[moleDeck.length - 1]];
+                }
             }
-            changeMoleTarget();
-            setInterval(popupRandomMole, 1200);
+            const t = moleDeck.pop();
+            lastMoleText = t.text;
+            return t;
         }
 
         function changeMoleTarget() {
-            const t = CAPACITY_TARGETS[Math.floor(Math.random() * CAPACITY_TARGETS.length)];
-            moleCurrentTarget = t;
-            document.getElementById('moleTargetText').textContent = t.text;
+            moleCurrentTarget = getNextMoleTarget();
+            document.getElementById('moleTargetPrompt').textContent = `🎯 目標容量：請捕捉【 ${moleCurrentTarget.text} 】的地鼠！`;
         }
 
         function popupRandomMole() {

@@ -636,19 +636,57 @@
         }
 
         // --- 街機遊戲 ---
+                // --- 街機遊戲：算術砲台防衛戰（動態無限加減算式 + 歷史防重複緩衝區） ---
         let cannonScore = 0;
         let cannonKills = 0;
         let currentCannonAns = "";
+        let cannonHistory = [];
 
-        const CANNON_MISSIONS = [
-            { q: "🏰【 2500 ＋ 1700 ＝ ？ 】", a: "4200", wrongs: ["3200", "4100", "4300"] },
-            { q: "🏰【 5000 － 1800 ＝ ？ 】", a: "3200", wrongs: ["4200", "3800", "3100"] },
-            { q: "🏰【 3426 ＋ 2518 ＝ ？ 】", a: "5944", wrongs: ["5934", "6944", "5844"] },
-            { q: "🏰【 4002 － 1560 ＝ ？ 】", a: "2442", wrongs: ["2542", "2462", "3442"] }
-        ];
+        function generateCannonMission() {
+            let mission = null;
+            let attempts = 0;
+
+            while (attempts < 50) {
+                attempts++;
+                const isAddition = Math.random() > 0.5;
+                let q = "", a = "", wrongs = [];
+
+                if (isAddition) {
+                    const aNum = Math.floor(Math.random() * 4000) + 1200;
+                    const bNum = Math.floor(Math.random() * 4000) + 1100;
+                    const sum = aNum + bNum;
+                    q = `【 ${aNum} ＋ ${bNum} ＝ ？ 】`;
+                    a = `${sum}`;
+                    wrongs = [
+                        `${sum + 100}`,
+                        `${sum - 10}`,
+                        `${sum - 100}`
+                    ];
+                } else {
+                    const aNum = Math.floor(Math.random() * 5000) + 4000;
+                    const bNum = Math.floor(Math.random() * 3000) + 1000;
+                    const diff = aNum - bNum;
+                    q = `【 ${aNum} － ${bNum} ＝ ？ 】`;
+                    a = `${diff}`;
+                    wrongs = [
+                        `${diff + 100}`,
+                        `${diff - 100}`,
+                        `${diff + 10}`
+                    ];
+                }
+
+                if (!cannonHistory.includes(q)) {
+                    cannonHistory.push(q);
+                    if (cannonHistory.length > 20) cannonHistory.shift();
+                    mission = { q, a, wrongs };
+                    break;
+                }
+            }
+            return mission;
+        }
 
         function nextCannonRound() {
-            const m = CANNON_MISSIONS[Math.floor(Math.random() * CANNON_MISSIONS.length)];
+            const m = generateCannonMission();
             currentCannonAns = m.a;
             document.getElementById('cannonMissionText').textContent = `🏰 敵軍攻城！${m.q} 請求發射精準砲彈！`;
 

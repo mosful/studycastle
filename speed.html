@@ -1345,13 +1345,44 @@ function openGlossary() {
 
   const SPEED_RACE_MISSIONS = [
     { q: "🏎️ 距離 180 公里花費 3 小時，求【時速】發動超車！", a: "時速 60 公里", wrongs: ["時速 50 公里", "時速 90 公里", "時速 540 公里"] },
-    { q: "🏎️ 跑車以時速 80 公里行駛 2.5 小時，共跑了多少【距離】？", a: "200 公里", wrongs: ["160 公里", "32 公里", "240 公里"] },
-    { q: "🏎️ 分速 300 公尺換算成【秒速】是多少公尺？", a: "秒速 5 公尺", wrongs: ["秒速 50 公尺", "秒速 30 公尺", "秒速 18 公尺"] },
-    { q: "🏎️ 秒速 20 公尺換算成【時速】是多少公里？", a: "時速 72 公里", wrongs: ["時速 120 公里", "時速 36 公里", "時速 20 公里"] }
-  ];
+    { q: "🏎️ 跑車以時速 100 公里行駛 2.5 小時，共跑了多少公里？", a: "250 公里", wrongs: ["200 公里", "40 公里", "225 公里"] },
+    { q: "🏎️ 獵豹 4 秒奔跑 120 公尺，求【秒速】啟動獵殺模式！", a: "秒速 30 公尺", wrongs: ["秒速 40 公尺", "秒速 480 公尺", "秒速 25 公尺"] },
+    { q: "🏎️ 分速 600 公尺換算成【時速】是多少公里？", a: "時速 36 公里", wrongs: ["時速 60 公里", "時速 6 公里", "時速 10 公里"] },
+    { q: "🏎️ 秒速 25 公尺換算成【時速】是多少公里？", a: "時速 90 公里", wrongs: ["時速 25 公里", "時速 150 公里", "時速 60 公里"] },
+    { q: "🏎️ 時速 72 公里換算成【秒速】是多少公尺？", a: "秒速 20 公尺", wrongs: ["秒速 72 公尺", "秒速 12 公尺", "秒速 30 公尺"] },
+    { q: "🏎️ 距離 240 公里，時速 80 公里需要行駛幾小時？", a: "3 小時", wrongs: ["2 小時", "4 小時", "3.5 小時"] },
+    { q: "🏎️ 高鐵時速 300 公里，行駛 1.5 小時的距離是多少？", a: "450 公里", wrongs: ["400 公里", "350 公里", "500 公里"] },
+    { q: "🏎️ 小明跑步秒速 6 公尺，跑 180 公尺花費幾秒？", a: "30 秒", wrongs: ["20 秒", "25 秒", "35 秒"] },
+    { q: "🏎️ 腳踏車分速 250 公尺，騎 12 分鐘共前進多少公尺？", a: "3000 公尺 (3km)", wrongs: ["2500 公尺", "3500 公尺", "1200 公尺"] },
+    { q: "🏎️ 聲音在空氣中秒速約 340 公尺，看到閃電後 3 秒聽到雷聲，距離約？", a: "1020 公尺", wrongs: ["680 公尺", "340 公尺", "1360 公尺"] },
+    { q: "🏎️ 時速 108 公里換算成【分速】是多少公尺？", a: "分速 1800 公尺", wrongs: ["分速 1080 公尺", "分速 600 公尺", "分速 300 公尺"] },
+    { q: "🏎️ 距離一定時，所花的時間越少，速率會？", a: "越快", wrongs: ["越慢", "不變", "歸零"] },
+    { q: "🏎️ 時間一定時，行駛的距離越長，速率會？", a: "越快", wrongs: ["越慢", "不變", "不一定"] },
+    { q: "🏎️ 速率 × 時間等於什麼？", a: "距離", wrongs: ["加速度", "分速", "平均值"] }
+];
+
+let speedDeck = [];
+let lastSpeedQuestion = "";
+
+function getNextSpeedMission() {
+    if (speedDeck.length === 0) {
+        speedDeck = [...SPEED_RACE_MISSIONS];
+        for (let i = speedDeck.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [speedDeck[i], speedDeck[j]] = [speedDeck[j], speedDeck[i]];
+        }
+        if (lastSpeedQuestion && speedDeck[speedDeck.length - 1].q === lastSpeedQuestion && speedDeck.length > 1) {
+            const swapIdx = Math.floor(Math.random() * (speedDeck.length - 1));
+            [speedDeck[speedDeck.length - 1], speedDeck[swapIdx]] = [speedDeck[swapIdx], speedDeck[speedDeck.length - 1]];
+        }
+    }
+    const m = speedDeck.pop();
+    lastSpeedQuestion = m.q;
+    return m;
+}
 
   function nextSpeedRound() {
-    const m = SPEED_RACE_MISSIONS[Math.floor(Math.random() * SPEED_RACE_MISSIONS.length)];
+    const m = getNextSpeedMission();
     currentSpeedAns = m.a;
     document.getElementById('speedRaceMissionText').textContent = m.q;
 
