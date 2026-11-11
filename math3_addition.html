@@ -1,1544 +1,907 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>四位數加減法大挑戰 ➕ | 3上數學 第②單元</title>
-    <!-- Favicon 網站圖示 -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <link rel="alternate icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20128%20128%22%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22bgGrad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%233B82F6%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%2250%25%22%20stop-color%3D%22%236366F1%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%238B5CF6%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22goldGrad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23FDE047%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23EAB308%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3ClinearGradient%20id%3D%22wallGrad%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%220%25%22%20y2%3D%22100%25%22%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%23FFFFFF%22%20/%3E%0A%20%20%20%20%20%20%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%23E2E8F0%22%20/%3E%0A%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%3Cfilter%20id%3D%22glow%22%20x%3D%22-20%25%22%20y%3D%22-20%25%22%20width%3D%22140%25%22%20height%3D%22140%25%22%3E%0A%20%20%20%20%20%20%3CfeDropShadow%20dx%3D%220%22%20dy%3D%224%22%20stdDeviation%3D%224%22%20flood-color%3D%22%23000000%22%20flood-opacity%3D%220.25%22/%3E%0A%20%20%20%20%3C/filter%3E%0A%20%20%3C/defs%3E%0A%0A%20%20%3C%21--%20%E5%9C%93%E8%A7%92%E6%BC%B8%E5%B1%A4%E8%83%8C%E6%99%AF%E5%BA%95%E5%9C%96%20--%3E%0A%20%20%3Crect%20width%3D%22128%22%20height%3D%22128%22%20rx%3D%2236%22%20fill%3D%22url%28%23bgGrad%29%22%20/%3E%0A%0A%20%20%3C%21--%20%E5%85%A7%E9%83%A8%E8%A3%9D%E9%A3%BE%E5%A4%96%E6%A1%86%20--%3E%0A%20%20%3Crect%20x%3D%225%22%20y%3D%225%22%20width%3D%22118%22%20height%3D%22118%22%20rx%3D%2231%22%20fill%3D%22none%22%20stroke%3D%22%23FFFFFF%22%20stroke-width%3D%222.5%22%20stroke-opacity%3D%220.3%22%20/%3E%0A%0A%20%20%3C%21--%20%E5%9F%8E%E5%A0%A1%E5%89%AA%E5%BD%B1%E4%B8%BB%E9%AB%94%20%28%E7%B2%BE%E7%B7%BB%E5%B9%BE%E4%BD%95%E5%90%91%E9%87%8F%E8%A8%AD%E8%A8%88%29%20--%3E%0A%20%20%3Cg%20filter%3D%22url%28%23glow%29%22%3E%0A%20%20%20%20%3C%21--%20%E5%9F%8E%E5%A0%A1%E5%BA%95%E5%BA%A7%E8%88%87%E4%B8%BB%E7%89%86%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M%2028%20102%20L%20100%20102%20L%20100%2064%20L%2086%2064%20L%2086%2072%20L%2076%2072%20L%2076%2064%20L%2052%2064%20L%2052%2072%20L%2042%2072%20L%2042%2064%20L%2028%2064%20Z%22%20fill%3D%22url%28%23wallGrad%29%22%20/%3E%0A%0A%20%20%20%20%3C%21--%20%E5%9F%8E%E5%9E%9B%E9%BD%92%20%28Battlement%29%20--%3E%0A%20%20%20%20%3Crect%20x%3D%2228%22%20y%3D%2256%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22url%28%23wallGrad%29%22%20/%3E%0A%20%20%20%20%3Crect%20x%3D%2244%22%20y%3D%2256%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22url%28%23wallGrad%29%22%20/%3E%0A%20%20%20%20%3Crect%20x%3D%2274%22%20y%3D%2256%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22url%28%23wallGrad%29%22%20/%3E%0A%20%20%20%20%3Crect%20x%3D%2290%22%20y%3D%2256%22%20width%3D%2210%22%20height%3D%228%22%20fill%3D%22url%28%23wallGrad%29%22%20/%3E%0A%0A%20%20%20%20%3C%21--%20%E4%B8%AD%E5%A4%AE%E9%AB%98%E5%A1%94%E5%A1%94%E8%BA%AB%20--%3E%0A%20%20%20%20%3Crect%20x%3D%2248%22%20y%3D%2244%22%20width%3D%2232%22%20height%3D%2228%22%20fill%3D%22url%28%23wallGrad%29%22%20/%3E%0A%20%20%20%20%3Crect%20x%3D%2248%22%20y%3D%2238%22%20width%3D%228%22%20height%3D%226%22%20fill%3D%22url%28%23wallGrad%29%22%20/%3E%0A%20%20%20%20%3Crect%20x%3D%2260%22%20y%3D%2238%22%20width%3D%228%22%20height%3D%226%22%20fill%3D%22url%28%23wallGrad%29%22%20/%3E%0A%20%20%20%20%3Crect%20x%3D%2272%22%20y%3D%2238%22%20width%3D%228%22%20height%3D%226%22%20fill%3D%22url%28%23wallGrad%29%22%20/%3E%0A%0A%20%20%20%20%3C%21--%20%E4%B8%AD%E5%A4%AE%E5%A1%94%E9%A0%82%E5%B1%8B%E9%A0%82%20%28%E9%8C%90%E5%BD%A2%E9%87%91%E9%BB%83%E5%B0%96%E9%A0%82%29%20--%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2264%2C18%2044%2C38%2084%2C38%22%20fill%3D%22url%28%23goldGrad%29%22%20/%3E%0A%0A%20%20%20%20%3C%21--%20%E5%B7%A6%E5%8F%B3%E5%A1%94%E5%B0%96%E9%A0%82%20--%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2233%2C42%2024%2C56%2042%2C56%22%20fill%3D%22url%28%23goldGrad%29%22%20/%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2295%2C42%2086%2C56%20104%2C56%22%20fill%3D%22url%28%23goldGrad%29%22%20/%3E%0A%0A%20%20%20%20%3C%21--%20%E9%A0%82%E7%AB%AF%E6%97%97%E5%B9%9F%20%28%E9%BB%83%E9%87%91%E9%A3%84%E6%8F%9A%E6%97%97%29%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M%2064%2018%20L%2064%2010%20L%2076%2014%20L%2064%2018%20Z%22%20fill%3D%22%23FDE047%22%20/%3E%0A%20%20%20%20%3Cline%20x1%3D%2264%22%20y1%3D%2218%22%20x2%3D%2264%22%20y2%3D%228%22%20stroke%3D%22%23FDE047%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20/%3E%0A%0A%20%20%20%20%3C%21--%20%E5%9F%8E%E5%A0%A1%E6%8B%B1%E9%96%80%20%28%E6%9A%97%E8%89%B2%E5%85%A5%E5%8F%A3%29%20--%3E%0A%20%20%20%20%3Cpath%20d%3D%22M%2054%20102%20L%2054%2084%20C%2054%2078%2C%2074%2078%2C%2074%2084%20L%2074%20102%20Z%22%20fill%3D%22%23334155%22%20/%3E%0A%20%20%20%20%3Cpath%20d%3D%22M%2058%20102%20L%2058%2086%20C%2058%2082%2C%2070%2082%2C%2070%2086%20L%2070%20102%20Z%22%20fill%3D%22%231E293B%22%20/%3E%0A%0A%20%20%20%20%3C%21--%20%E5%A1%94%E6%A8%93%E7%AA%97%E6%88%B6%20--%3E%0A%20%20%20%20%3Crect%20x%3D%2261%22%20y%3D%2248%22%20width%3D%226%22%20height%3D%229%22%20rx%3D%223%22%20fill%3D%22%2364748B%22%20/%3E%0A%20%20%20%20%3Crect%20x%3D%2234%22%20y%3D%2274%22%20width%3D%225%22%20height%3D%228%22%20rx%3D%222.5%22%20fill%3D%22%2394A3B8%22%20/%3E%0A%20%20%20%20%3Crect%20x%3D%2289%22%20y%3D%2274%22%20width%3D%225%22%20height%3D%228%22%20rx%3D%222.5%22%20fill%3D%22%2394A3B8%22%20/%3E%0A%0A%20%20%20%20%3C%21--%20%E9%96%83%E4%BA%AE%E6%98%9F%E5%85%89%E8%A3%9D%E9%A3%BE%20--%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2298%2C22%20100%2C28%20106%2C30%20100%2C32%2098%2C38%2096%2C32%2090%2C30%2096%2C28%22%20fill%3D%22%23FDE047%22%20/%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2226%2C26%2027%2C30%2031%2C31%2027%2C32%2026%2C36%2025%2C32%2021%2C31%2025%2C30%22%20fill%3D%22%23FDE047%22%20opacity%3D%220.85%22%20/%3E%0A%20%20%3C/g%3E%0A%3C/svg%3E">
-    <link rel="apple-touch-icon" href="favicon.svg">
-    <!-- Favicon 網站圖示 -->
-    
-    
-    <link rel="apple-touch-icon" href="favicon.svg">
-<meta name="description" content="互動數學遊戲：四位數加減法。練習進位加法與借位減法，闖關城堡大冒險！">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka:wght@600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.2/confetti.browser.min.js">
-// ── 通用現代化彈窗 (CastleModal) ──
-function showCastleModal(title, messageHtml, icon = '🎉', onClose = null) {
-  let overlay = document.getElementById('castleModalOverlay');
-  if (!overlay) return;
-  document.getElementById('castleModalTitle').textContent = title;
-  document.getElementById('castleModalBody').innerHTML = messageHtml;
-  document.getElementById('castleModalIcon').textContent = icon;
-  overlay.classList.add('open');
-  window._castleModalOnClose = onClose;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>國小 3 上數學 第 2 單元：四位數的加減法 | 學習城堡</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #EA580C;
+            --primary-dark: #C2410C;
+            --primary-bg: #FFEDD5;
+            --accent: #E11D48;
+            --accent-bg: #FFE4E6;
+            --amber: #D97706;
+            --text-dark: #1C1917;
+            --text-gray: #57534E;
+            --card-bg: #FFFFFF;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 10px;
+            --shadow: 0 10px 25px -5px rgba(234, 88, 12, 0.12), 0 8px 10px -6px rgba(234, 88, 12, 0.1);
+            --shadow-hover: 0 20px 30px -10px rgba(234, 88, 12, 0.22);
+        }
 
-function closeCastleModal() {
-  const overlay = document.getElementById('castleModalOverlay');
-  if (overlay) overlay.classList.remove('open');
-  if (typeof window._castleModalOnClose === 'function') {
-    const cb = window._castleModalOnClose;
-    window._castleModalOnClose = null;
-    cb();
-  }
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-function closeCastleModalOnBackdrop(e) {
-  if (e.target && e.target.id === 'castleModalOverlay') {
-    closeCastleModal();
-  }
-}
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 80px;
+            line-height: 1.6;
+        }
 
-// 防禦性覆蓋原生 alert，全面導向自訂 Modal
-window.alert = function(msg) {
-  showCastleModal('系統提示', `<div style="text-align:left; white-space:pre-line;">${msg}</div>`, '💡');
-};
+        .header-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 14px 24px;
+            border-bottom: 1px solid rgba(254, 215, 170, 0.8);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-</script>
-<style>
-:root {
-  --castle-black: #071A0C;
-  --castle-deep: #0F2311;
-  --castle-mid: #1A3A1F;
-  --castle-green: #166534;
-  --castle-bright: #22C55E;
-  --castle-gold: #FCD34D;
-  --castle-stone: #94A3B8;
-  --correct-green: #10B981;
-  --wrong-red: #F43F5E;
-  --star-white: #F1F5F9;
-  --glass-bg: rgba(255,255,255,0.06);
-  --glass-border: rgba(255,255,255,0.14);
-  --shadow-glow: 0 0 30px rgba(34,197,94,0.25);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { -webkit-text-size-adjust: 100%; }
-body {
-  min-height: 100vh; min-height: 100dvh; overflow-x: hidden;
-  background:
-    radial-gradient(ellipse at 20% 10%, rgba(34,197,94,0.18) 0%, transparent 45%),
-    radial-gradient(ellipse at 80% 90%, rgba(16,185,129,0.12) 0%, transparent 45%),
-    linear-gradient(160deg, var(--castle-black) 0%, var(--castle-deep) 45%, var(--castle-mid) 100%);
-  font-family: 'Noto Sans TC', sans-serif;
-  color: var(--star-white);
-  display: flex; justify-content: center;
-  padding: 12px 10px;
-  padding-left: max(10px, env(safe-area-inset-left));
-  padding-right: max(10px, env(safe-area-inset-right));
-  padding-bottom: max(60px, calc(env(safe-area-inset-bottom) + 40px));
-  -webkit-tap-highlight-color: transparent; user-select: none; position: relative;
-}
-/* 城堡背景磚塊裝飾 */
-.castle-bg { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-.battlements {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
-  background: repeating-linear-gradient(90deg, rgba(34,197,94,0.08) 0px, rgba(34,197,94,0.08) 40px, transparent 40px, transparent 60px);
-  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='80'%3E%3Crect x='0' y='30' width='40' height='50' fill='white'/%3E%3Crect x='44' y='0' width='16' height='80' fill='white'/%3E%3C/svg%3E");
-  mask-repeat: repeat-x; mask-size: 60px 80px;
-}
-.torch { position: absolute; font-size: 1.5rem; animation: torchFlicker 1.5s ease-in-out infinite; }
-@keyframes torchFlicker { 0%,100% { opacity: 0.8; transform: scale(1); } 50% { opacity: 1; transform: scale(1.15); } }
-.top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; gap: 8px; position: relative; z-index: 1; }
-.nav-btn {
-  display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
-  background: var(--glass-bg); border: 1.5px solid var(--glass-border); border-radius: 20px;
-  color: var(--star-white); font-weight: 700; font-size: 0.9rem; text-decoration: none;
-  backdrop-filter: blur(8px); cursor: pointer; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s; font-family: 'Noto Sans TC', sans-serif;
-}
-.nav-btn:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
-.unit-badge {
-  font-size: 0.8rem; font-weight: 700; padding: 6px 14px; border-radius: 16px;
-  background: linear-gradient(135deg, var(--castle-green), var(--castle-bright));
-  border: 1px solid rgba(255,255,255,0.2); color: #FFF;
-}
-.app { width: 100%; max-width: 780px; position: relative; z-index: 1; }
-.screen { display: none; } .screen.active { display: block; }
-/* ── 開始畫面 ── */
-.start-card {
-  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 28px;
-  padding: 36px 28px; text-align: center; backdrop-filter: blur(16px); box-shadow: var(--shadow-glow);
-}
-.hero-emoji { font-size: 5rem; display: block; margin-bottom: 10px; animation: castleFloat 3s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(34,197,94,0.6)); }
-@keyframes castleFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-.game-title {
-  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: clamp(1.8rem,4vw,2.8rem); font-weight: 800;
-  background: linear-gradient(135deg, #4ADE80 0%, #86EFAC 50%, var(--castle-gold) 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; line-height: 1.2;
-}
-.game-subtitle { color: rgba(255,255,255,0.6); font-size: 1rem; margin-bottom: 28px; }
-.type-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
-.type-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 16px 12px; text-align: center; }
-.type-card .tc-emoji { font-size: 2rem; display: block; margin-bottom: 6px; }
-.type-card .tc-name { font-family: 'Fredoka',sans-serif; font-weight: 700; font-size: 1rem; color: var(--castle-gold); display: block; margin-bottom: 4px; }
-.type-card .tc-desc { font-size: 0.78rem; color: rgba(255,255,255,0.5); line-height: 1.4; }
-.stage-list { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
-.stage-pip {
-  padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 700;
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.7);
-}
-.start-btn {
-  width: 100%; max-width: 340px; padding: 18px 30px; border: none; border-radius: 50px;
-  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 1.3rem; font-weight: 800; cursor: pointer;
-  background: linear-gradient(135deg, var(--castle-green) 0%, #15803D 50%, var(--castle-bright) 100%);
-  color: #FFF; box-shadow: 0 8px 0 rgba(22,101,52,0.5), 0 12px 30px rgba(34,197,94,0.4); transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s, visibility 0.15s;
-}
-.start-btn:hover { transform: translateY(-3px); box-shadow: 0 11px 0 rgba(22,101,52,0.5), 0 16px 36px rgba(34,197,94,0.5); }
-.start-btn:active { transform: translateY(5px); box-shadow: 0 3px 0 rgba(22,101,52,0.5); }
-/* ── HUD ── */
-.game-hud { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-.hud-score { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 8px 16px; font-family: 'Baloo 2',sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--castle-gold); display: flex; align-items: center; gap: 6px; backdrop-filter: blur(8px); }
-.combo-badge-game { background: linear-gradient(135deg, #FF9E00, #FF0054); border-radius: 16px; padding: 6px 12px; font-weight: 800; font-size: 0.9rem; color: #FFF; display: none; align-items: center; gap: 4px; }
-.combo-badge-game.show { display: flex; animation: comboPop 0.4s ease; }
-@keyframes comboPop { 0% { transform: scale(1.4); } 100% { transform: scale(1); } }
-.stage-info { margin-left: auto; font-size: 0.85rem; color: rgba(255,255,255,0.7); font-weight: 700; }
-.progress-bar-wrap { width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; margin-bottom: 14px; overflow: hidden; }
-.progress-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--castle-green), var(--castle-bright), var(--castle-gold)); transition: width 0.4s; }
-.timer-bar-wrap { width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; margin-bottom: 18px; overflow: hidden; }
-.timer-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--correct-green), #34D399); transition: width 0.1s linear, background 0.3s; }
-.timer-bar-fill.urgent { background: linear-gradient(90deg, #FF4500, var(--wrong-red)); }
-/* ── 題目卡片（豎式算術）── */
-.question-card {
-  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px;
-  padding: 24px 20px; text-align: center; margin-bottom: 18px; backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-glow); transition: border-color 0.3s;
-}
-.question-card.correct { border-color: var(--correct-green); box-shadow: 0 0 30px rgba(16,185,129,0.35); }
-.question-card.wrong { border-color: var(--wrong-red); box-shadow: 0 0 30px rgba(244,63,94,0.35); }
-.q-label { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 700; background: rgba(255,255,255,0.08); border-radius: 12px; padding: 4px 12px; margin-bottom: 14px; color: rgba(255,255,255,0.7); }
-.q-type-badge { display: inline-block; font-size: 0.75rem; font-weight: 700; border-radius: 10px; padding: 3px 10px; margin-bottom: 16px; }
-.badge-add { background: rgba(34,197,94,0.3); color: #86EFAC; border: 1px solid rgba(34,197,94,0.4); }
-.badge-sub { background: rgba(249,115,22,0.3); color: #FDBA74; border: 1px solid rgba(249,115,22,0.4); }
-/* 豎式算術 */
-.vertical-eq {
-  display: inline-flex; flex-direction: column; align-items: flex-end;
-  font-family: 'Baloo 2', monospace; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 800;
-  color: #FFF; margin: 0 auto 12px; letter-spacing: 0.05em; background: rgba(0,0,0,0.2);
-  border-radius: 16px; padding: 16px 24px;
-}
-.ve-num { color: #FFF; }
-.ve-op-row { display: flex; align-items: center; gap: 10px; }
-.ve-op { color: var(--castle-gold); min-width: 1.5em; text-align: left; }
-.ve-b { color: #FFF; }
-.ve-line { width: 100%; height: 3px; background: rgba(255,255,255,0.4); margin: 8px 0; border-radius: 2px; }
-.ve-ans { color: var(--castle-gold); font-size: clamp(2rem,5.5vw,3.2rem); }
-.feedback-icon { font-size: 2.5rem; display: none; animation: feedbackB 0.4s ease; margin-top: 8px; }
-.feedback-icon.show { display: block; }
-@keyframes feedbackB { 0% { transform: scale(0.5); opacity: 0; } 60% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
-.correct-tip { font-size: 0.88rem; color: rgba(255,255,255,0.55); margin-top: 6px; display: none; }
-.correct-tip.show { display: block; }
-/* ── 選項 ── */
-.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-.opt-btn {
-  padding: 16px 10px; border: 2px solid var(--glass-border); border-radius: 16px;
-  font-size: clamp(1.1rem,3vw,1.4rem); font-weight: 700;
-  font-family: 'Baloo 2','Noto Sans TC',sans-serif; cursor: pointer; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
-  background: rgba(255,255,255,0.05); color: var(--star-white); backdrop-filter: blur(8px);
-}
-.opt-btn:hover:not(:disabled) { border-color: var(--castle-bright); background: rgba(34,197,94,0.2); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(34,197,94,0.3); }
-.opt-btn:disabled { cursor: not-allowed; }
-.opt-btn.correct-ans { border-color: var(--correct-green); background: rgba(16,185,129,0.25); color: #6EE7B7; }
-.opt-btn.wrong-ans { border-color: var(--wrong-red); background: rgba(244,63,94,0.2); color: #FCA5A5; }
-.question-counter { text-align: center; font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-top: 14px; font-weight: 700; }
-.question-dots { display: flex; justify-content: center; gap: 6px; margin-top: 6px; }
-.q-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: color 0.3s, background-color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s, opacity 0.3s, visibility 0.3s; }
-.q-dot.answered-correct { background: var(--correct-green); }
-.q-dot.answered-wrong { background: var(--wrong-red); }
-.q-dot.current { background: var(--castle-gold); transform: scale(1.3); }
-/* ── 過關 / 結果 ── */
-.clear-card, .result-card {
-  background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 28px;
-  padding: 36px 28px; text-align: center; backdrop-filter: blur(16px); box-shadow: var(--shadow-glow);
-}
-.clear-emoji { font-size: 5rem; display: block; margin-bottom: 10px; animation: castleFloat 3s ease-in-out infinite; }
-.clear-title {
-  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 2rem; font-weight: 800;
-  background: linear-gradient(135deg, #4ADE80, #86EFAC, var(--castle-gold));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 12px 0 8px;
-}
-.stat-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin: 20px 0; }
-.stat-box { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 12px 20px; text-align: center; }
-.stat-box .sb-v { font-family: 'Baloo 2',sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--castle-gold); display: block; }
-.stat-box .sb-l { font-size: 0.78rem; color: rgba(255,255,255,0.55); }
-.next-btn {
-  padding: 16px 36px; border: none; border-radius: 50px;
-  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 1.2rem; font-weight: 800; cursor: pointer;
-  background: linear-gradient(135deg, var(--castle-green), var(--castle-bright)); color: #FFF; margin-top: 10px;
-  box-shadow: 0 6px 0 rgba(22,101,52,0.5), 0 10px 25px rgba(34,197,94,0.35); transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s, visibility 0.15s;
-}
-.next-btn:hover { transform: translateY(-3px); }
-.next-btn:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(22,101,52,0.5); }
-.stars-row { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
-.star-icon { font-size: 2.8rem; filter: grayscale(1) opacity(0.3); transition: color 0.5s, background-color 0.5s, border-color 0.5s, box-shadow 0.5s, transform 0.5s, opacity 0.5s, visibility 0.5s; }
-.star-icon.lit { filter: none; animation: starPop 0.5s ease; }
-@keyframes starPop { 0% { transform: scale(0); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
-.final-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 28px; }
-.final-stat { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 14px 10px; text-align: center; }
-.final-stat .fs-v { font-family: 'Baloo 2',sans-serif; font-size: 1.8rem; font-weight: 800; color: var(--castle-gold); display: block; }
-.final-stat .fs-l { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 2px; }
-.high-banner { background: rgba(252,211,77,0.1); border: 1px solid rgba(252,211,77,0.3); border-radius: 16px; padding: 12px 20px; margin-bottom: 20px; font-weight: 700; color: var(--castle-gold); display: flex; align-items: center; justify-content: center; gap: 8px; }
-.btn-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.replay-btn {
-  padding: 14px 28px; border: none; border-radius: 50px;
-  font-family: 'Baloo 2','Noto Sans TC',sans-serif; font-size: 1.1rem; font-weight: 800; cursor: pointer;
-  background: linear-gradient(135deg, var(--castle-green), var(--castle-bright)); color: #FFF;
-  box-shadow: 0 6px 0 rgba(22,101,52,0.45); transition: color 0.15s, background-color 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.15s, opacity 0.15s, visibility 0.15s;
-}
-.replay-btn:hover { transform: translateY(-3px); }
-.portal-btn {
-  padding: 14px 24px; border-radius: 50px; font-family: 'Baloo 2','Noto Sans TC',sans-serif;
-  font-size: 1rem; font-weight: 700; cursor: pointer; background: rgba(255,255,255,0.08);
-  border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
-  text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
-}
-.portal-btn:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
-@media (max-width: 480px) { .type-cards { grid-template-columns: 1fr; } .ve-ans,.ve-num,.ve-b { font-size: 1.8rem; } }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-dark);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: var(--primary-bg);
+            transition: all 0.2s;
+        }
 
-/* 觸控與 iPad / 手機全面適配 */
-button, .opt-btn, .start-btn, .next-btn, .nav-btn, .replay-btn, .portal-btn {
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-}
-.opt-btn {
-  min-height: 56px;
-  padding: 16px 12px;
-}
-.device-support-badge {
-  margin-top: 14px;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
+        .back-btn:hover {
+            background: #FED7AA;
+            transform: translateX(-3px);
+        }
 
-/* ── 倒數計時開關與 HUD 按鈕樣式 ── */
-.timer-setting-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.16);
-  border-radius: 20px;
-  padding: 12px 18px;
-  margin: 18px 0 16px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-}
-.timer-setting-card:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.12);
-}
-.timer-setting-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-align: left;
-}
-.timer-setting-icon {
-  font-size: 1.8rem;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.timer-setting-title {
-  font-size: 0.98rem;
-  font-weight: 800;
-  color: #FFFFFF;
-  letter-spacing: 0.5px;
-}
-.timer-setting-subtitle {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.65);
-  margin-top: 2px;
-}
-.switch-toggle {
-  position: relative;
-  display: inline-block;
-  width: 52px;
-  height: 28px;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-.switch-toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.slider-round {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
-  border-radius: 34px;
-  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.slider-round:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 3px;
-  bottom: 2.5px;
-  background-color: #FFFFFF;
-  border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  transition: color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.switch-toggle input:checked + .slider-round {
-  background: linear-gradient(135deg, #10B981, #059669);
-  border-color: #34D399;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-}
-.switch-toggle input:checked + .slider-round:before {
-  transform: translateX(24px);
-}
-.hud-timer-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 6px 14px;
-  color: #FFFFFF;
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
-  backdrop-filter: blur(6px);
-}
-.hud-timer-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: translateY(-1px);
-}
-.hud-timer-btn.active {
-  background: rgba(16, 185, 129, 0.2);
-  border-color: #10B981;
-  color: #A7F3D0;
-}
-.timer-mode-pill {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-  margin-left: 6px;
-}
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
 
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #9A3412 0%, #EA580C 50%, #C2410C 100%);
+            color: white;
+            padding: 40px 32px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
 
-/* ── 現代化通用 CastleModal 彈窗 ── */
-.castle-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.72);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  z-index: 99999;
-  opacity: 0;
-  visibility: hidden;
-  transition: color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.castle-modal-overlay.open {
-  opacity: 1;
-  visibility: visible;
-}
-.castle-modal-box {
-  background: #FFFFFF;
-  border: 2px solid #E2E8F0;
-  border-radius: 28px;
-  max-width: 460px;
-  width: 100%;
-  padding: 28px 24px 24px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
-  transform: scale(0.9) translateY(15px);
-  transition: color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  text-align: center;
-  position: relative;
-  box-sizing: border-box;
-}
-.castle-modal-overlay.open .castle-modal-box {
-  transform: scale(1) translateY(0);
-}
-.castle-modal-icon {
-  font-size: 3.6rem;
-  display: block;
-  margin-bottom: 8px;
-  line-height: 1;
-  animation: modalPop 0.45s ease;
-}
-@keyframes modalPop {
-  0% { transform: scale(0.4); opacity: 0; }
-  70% { transform: scale(1.15); }
-  100% { transform: scale(1); opacity: 1; }
-}
-.castle-modal-title {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: #0F172A;
-  margin-bottom: 12px;
-  font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
-  letter-spacing: 0.3px;
-}
-.castle-modal-body {
-  font-size: 1rem;
-  color: #334155;
-  line-height: 1.6;
-  margin-bottom: 22px;
-}
-.castle-modal-btn {
-  background: linear-gradient(135deg, #3B82F6, #6366F1);
-  color: #FFFFFF;
-  border: none;
-  border-radius: 50px;
-  padding: 12px 34px;
-  font-size: 1.05rem;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35);
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
-  font-family: inherit;
-}
-.castle-modal-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(59, 130, 246, 0.48);
-}
-.castle-modal-btn:active {
-  transform: translateY(1px);
-}
-.castle-modal-close-btn {
-  position: absolute;
-  top: 16px;
-  right: 18px;
-  background: #F1F5F9;
-  border: none;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #64748B;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
-}
-.castle-modal-close-btn:hover {
-  background: #E2E8F0;
-  color: #0F172A;
-}
+        .hero::after {
+            content: "➕";
+            font-size: 130px;
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            opacity: 0.2;
+            pointer-events: none;
+        }
 
-</style>
-    <meta name="theme-color" content="#F5F7FC">
-    <link rel="stylesheet" href="study-castle-ui.css">
-    <script src="study-castle-ui.js" defer></script>
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            opacity: 0.95;
+            max-width: 650px;
+        }
+
+        /* Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid #FED7AA;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--primary-bg);
+            padding-bottom: 12px;
+        }
+
+        .card-icon {
+            font-size: 1.6rem;
+            background: var(--primary-bg);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .highlight-box {
+            background: var(--primary-bg);
+            border-left: 5px solid var(--primary);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 14px 0;
+            font-weight: 500;
+        }
+
+        .alert-box {
+            background: #FEF2F2;
+            border-left: 5px solid var(--accent);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 14px 0;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
+        /* 直式加減計算機 */
+        .interactive-tool {
+            background: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: var(--shadow);
+            border: 2px solid #FED7AA;
+        }
+
+        .tool-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .vertical-calc-box {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            background: #FFFBF5;
+            padding: 24px;
+            border-radius: var(--radius-md);
+            border: 1px dashed #FDBA74;
+        }
+
+        .math-vertical-display {
+            font-family: 'Fredoka', monospace;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: right;
+            padding: 16px 28px;
+            background: #FFFFFF;
+            border-radius: 12px;
+            border: 2px solid #FED7AA;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            line-height: 1.3;
+        }
+
+        /* 街機遊戲 */
+        .arcade-container {
+            background: linear-gradient(135deg, #451A03 0%, #78350F 100%);
+            color: #FFFFFF;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 36px;
+            box-shadow: 0 15px 35px rgba(69, 26, 3, 0.4);
+            border: 3px solid #F59E0B;
+        }
+
+        .arcade-btn-grid {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
+        .btn-arcade {
+            background: linear-gradient(135deg, #EA580C 0%, #D97706 100%);
+            color: white;
+            border: 2px solid #FDE68A;
+            font-size: 1.25rem;
+            font-weight: 800;
+            padding: 14px 26px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(234, 88, 12, 0.4);
+            transition: all 0.2s;
+        }
+
+        .btn-arcade:hover {
+            transform: translateY(-4px) scale(1.05);
+            background: linear-gradient(135deg, #C2410C 0%, #B45309 100%);
+        }
+
+        /* 練習區 Quiz */
+        .quiz-section {
+            margin-top: 40px;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            border: 1px solid #FED7AA;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .quiz-badge {
+            background: #FFEDD5;
+            color: #C2410C;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .quiz-question {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        @media (min-width: 640px) {
+            .quiz-options {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .opt-btn {
+            background: #F8FAFC;
+            border: 2px solid #E2E8F0;
+            border-radius: var(--radius-md);
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .opt-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            background: var(--primary-bg);
+            transform: translateY(-2px);
+        }
+
+        .opt-btn.correct {
+            background: #DCFCE7 !important;
+            border-color: #22C55E !important;
+            color: #15803D !important;
+        }
+
+        .opt-btn.wrong {
+            background: #FEE2E2 !important;
+            border-color: #EF4444 !important;
+            color: #B91C1C !important;
+        }
+
+        .feedback-box {
+            display: none;
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .feedback-correct {
+            background: #F0FDF4;
+            border-left: 4px solid #22C55E;
+            color: #166534;
+        }
+
+        .feedback-wrong {
+            background: #FEF2F2;
+            border-left: 4px solid #EF4444;
+            color: #991B1B;
+        }
+
+        .quiz-summary-card {
+            background: linear-gradient(135deg, #78350F 0%, #EA580C 100%);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            text-align: center;
+            margin-top: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .summary-score {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 12px 0;
+            color: #FDE047;
+        }
+
+        .btn-reset {
+            background: #FFFFFF;
+            color: var(--primary-dark);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: all 0.2s;
+            margin-top: 14px;
+        }
+
+        .btn-reset:hover {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
-<div class="castle-bg" id="castleBg">
-  <div class="battlements"></div>
-</div>
-<div class="app">
-  <div class="top-bar">
-    <a href="portal.html" class="nav-btn">🏠 學習樂園</a>
-      <button class="nav-btn" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;border-color:rgba(255,255,255,0.4);" onclick="openWbModal()">
-        <span>📑</span>
-        <span>作業簿隨堂考 (第4~6回)</span>
-      </button>
-    <span class="unit-badge">🏰 3上・第②單元</span>
-  </div>
 
-  <!-- 開始畫面 -->
-  <div class="screen active" id="startScreen">
-    <div class="start-card">
-      <span class="hero-emoji">🏰</span>
-      <h1 class="game-title">四位數加減法<br>城堡大冒險</h1>
-      <p class="game-subtitle">3上數學 第②單元 ｜ 征服進位與借位！</p>
-      <div class="type-cards">
-        <div class="type-card">
-          <span class="tc-emoji">➕</span>
-          <span class="tc-name">進位加法</span>
-          <span class="tc-desc">四位數相加，學習進位技巧</span>
+    <header class="header-nav">
+        <a href="portal.html" class="back-btn">
+            <span>🏰</span> 回學習城堡首頁
+        </a>
+        <div style="font-weight: 800; color: var(--primary-dark); font-size: 1rem;">
+            國小 3 上數學・第 2 單元
         </div>
-        <div class="type-card">
-          <span class="tc-emoji">➖</span>
-          <span class="tc-name">借位減法</span>
-          <span class="tc-desc">四位數相減，掌握借位計算</span>
+    </header>
+
+    <div class="container">
+        <!-- Hero 區塊 -->
+        <section class="hero">
+            <span class="hero-badge">國小 3 上數學・第 ② 單元 (115 官方全新課綱)</span>
+            <h1>➕ 四位數加減法大挑戰：進位退位與生活估算</h1>
+            <p>
+                歡迎來到加減魔法工坊！熟練四位數直式對齊計算，攻克「滿十進一」與「借一當十」的連續進退位難關，掌握被減數有 0 的借位絕招，變身精明的加減估算高手！
+            </p>
+        </section>
+
+        <!-- 4 大核心觀念卡片 -->
+        <div class="grid-2">
+            <!-- 觀念 1 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">📥</div>
+                    <span>2-1 四位數加法與連續進位</span>
+                </div>
+                <p>三、四位數加法直式計算心法：</p>
+                <div class="highlight-box">
+                    • <strong>位值對齊：</strong>個位對個位、十位對十位、百位對百位、千位對千位。<br>
+                    • <strong>滿十進一：</strong>哪一位相加滿十，就向前一位進 1。<br>
+                    • 例：<code>2856 ＋ 1475 ＝ 4331</code>（個位、十位、百位皆連續進位）。
+                </div>
+            </div>
+
+            <!-- 觀念 2 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">📤</div>
+                    <span>2-2 四位數減法與借位絕技</span>
+                </div>
+                <p>減法不夠減時必須向前一位借 1：</p>
+                <div class="highlight-box">
+                    • <strong>借一當十：</strong>借 1 個十變成 10 個一；借 1 個百變成 10 個十。<br>
+                    • <strong>連續借位陷阱題：</strong><br>
+                    <code>5000 － 1348 ＝ 3652</code><br>
+                    千位借 1 變 10 個百，再借 1 變 9 個百與 10 個十，再借 1 變 9 個十與 10 個一！
+                </div>
+            </div>
+
+            <!-- 觀念 3 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">🔄</div>
+                    <span>2-3 兩步驟加減生活應用</span>
+                </div>
+                <p>日常生活中的多重運算情境：</p>
+                <div class="highlight-box">
+                    • <strong>先加後減：</strong>帶了 3000 元，買衣服花 1250 元，買鞋子花 980 元，還剩多少元？<br>
+                    算式：<code>3000 － 1250 － 980 ＝ 770（元）</code><br>
+                    • <strong>比多比少：</strong>甲有 4500 元，比乙多 680 元，乙有多少元？<br>
+                    算式：<code>4500 － 680 ＝ 3820（元）</code>
+                </div>
+            </div>
+
+            <!-- 觀念 4 -->
+            <div class="card">
+                <div class="card-title">
+                    <div class="card-icon">🎯</div>
+                    <span>2-4 加減快速估算技巧</span>
+                </div>
+                <p>在買東西或預算評估時，不需要精確計算：</p>
+                <div class="highlight-box">
+                    • 將數字<strong>取概數到百位</strong>：<br>
+                    電視機 5890 元（大約 5900 元），音響 2120 元（大約 2100 元）。<br>
+                    估算大約需要：<code>5900 ＋ 2100 ＝ 8000（元）</code>。
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="stage-list">
-        <span class="stage-pip">🛖 關1：無進借位</span>
-        <span class="stage-pip">⚔️ 關2：進位加法</span>
-        <span class="stage-pip">🛡️ 關3：借位減法</span>
-        <span class="stage-pip">🔥 關4：混合挑戰</span>
-        <span class="stage-pip">👑 關5：王者對決</span>
-      </div>
-      <button class="start-btn" id="startBtn">🏰 攻破城堡！開始冒險！</button>
-      <p id="startHintDesc" style="margin-top:14px;color:rgba(255,255,255,0.65);font-size:0.82rem;font-weight:600;">共 5 關 × 每關 8 題 ｜ 🧘 自主學習無時間限制 ｜ 答對 6/8 即可晉級</p>
-      <div class="device-support-badge">
-        📱 支援 iPad / 平板、手機與電腦 ｜ 觸控大按鈕好操作
-      </div>
+
+        <!-- 互動工具：直式加減模擬器 -->
+        <section class="interactive-tool">
+            <div class="tool-title">
+                <span>🧮</span>
+                <span>四位數直式加減互動演算機</span>
+            </div>
+            <div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+                <input type="number" id="calcNum1" value="3856" class="tool-input" style="width: 110px; font-size: 1.2rem; font-weight: 800; padding: 8px;">
+                <select id="calcOp" style="font-size: 1.3rem; font-weight: 900; padding: 6px 12px; border-radius: 8px;">
+                    <option value="+">＋</option>
+                    <option value="-">－</option>
+                </select>
+                <input type="number" id="calcNum2" value="1475" class="tool-input" style="width: 110px; font-size: 1.2rem; font-weight: 800; padding: 8px;">
+                <button onclick="runVerticalCalc()" style="background: var(--primary); color: white; border: none; padding: 10px 20px; font-weight: 800; border-radius: 8px; cursor: pointer;">
+                    立即計算直式
+                </button>
+            </div>
+
+            <div class="vertical-calc-box">
+                <div class="math-vertical-display" id="vertMathDisplay">
+                    &nbsp;&nbsp;3856<br>
+                    ＋&nbsp;1475<br>
+                    <hr style="border: 2px solid #000; margin: 4px 0;">
+                    &nbsp;&nbsp;5331
+                </div>
+                <div style="font-size: 1.1rem; color: #78350F; font-weight: 700;" id="vertMathExpl">
+                    個位 6＋5＝11（進1寫1）<br>
+                    十位 5＋7＋1＝13（進1寫3）<br>
+                    百位 8＋4＋1＝13（進1寫3）<br>
+                    千位 3＋1＋1＝5 → 答案是 5331
+                </div>
+            </div>
+        </section>
+
+        <!-- 🎮 街機遊戲：算術砲台防禦戰 -->
+        <section class="arcade-container" id="additionArcadeSection">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-bottom: 2px solid rgba(255,255,255,0.15); padding-bottom: 14px; margin-bottom: 16px;">
+                <div style="font-size: 1.5rem; font-weight: 900; color: #FDE047; display: flex; align-items: center; gap: 10px;">
+                    <span>🏰</span>
+                    <span>算術砲台：四位數加減防禦戰！</span>
+                </div>
+                <div style="display: flex; gap: 14px; font-family: 'Fredoka', sans-serif; font-size: 1.15rem; font-weight: 700;">
+                    <span style="background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 999px;">
+                        消滅敵軍：<span id="cannonKills" style="color: #34D399;">0</span>
+                    </span>
+                    <span style="background: rgba(255,255,255,0.15); padding: 4px 12px; border-radius: 999px;">
+                        得分：<span id="cannonScore" style="color: #FBBF24;">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <div style="background: rgba(0,0,0,0.6); border-radius: var(--radius-md); padding: 22px; text-align: center; border: 2px dashed #F59E0B;">
+                <div style="font-size: 1.25rem; font-weight: 800; color: #FED7AA;" id="cannonMissionText">
+                    🏰 敵軍攻城！【 2500 ＋ 1700 ＝ ？ 】請求發射精準砲彈！
+                </div>
+                <div class="arcade-btn-grid" id="cannonButtonsRack">
+                    <!-- 動態按鈕 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 練習 2 實戰題庫 -->
+        <section class="quiz-section">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+                <div>
+                    <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--primary-dark);">🎯 練習 2：四位數加減法挑戰</h2>
+                    <p style="color: var(--text-gray);">取材自課本 P17~P32、連續進退位、中間有 0 減法與生活估算！</p>
+                </div>
+                <span style="font-weight: 700; color: var(--primary-dark); background: var(--primary-bg); padding: 6px 14px; border-radius: 999px;">
+                    共 10 題
+                </span>
+            </div>
+
+            <div id="quizContainer">
+                <!-- 題目由 JS 動態渲染 -->
+            </div>
+
+            <div id="quizSummary" class="quiz-summary-card" style="display: none;">
+                <h2>🎉 挑戰完成！算術大師勳章解鎖</h2>
+                <div class="summary-score" id="finalScore">0 分</div>
+                <p id="summaryMessage" style="font-size: 1.1rem; opacity: 0.95;"></p>
+                <button class="btn-reset" onclick="resetQuiz()">🔄 再挑戰一次</button>
+            </div>
+        </section>
     </div>
-  </div>
 
-  <!-- 遊戲畫面 -->
-  <div class="screen" id="gameScreen">
-    <div class="game-hud">
-      <div class="hud-score">⚔️ <span id="scoreDisplay">0</span></div>
-      <div class="combo-badge-game" id="comboBadge">🔥 <span id="comboCount">2</span>x COMBO!</div>
-      <div class="stage-info" id="stageInfo">關1：無進借位</div>
-    </div>
-    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar" style="width:0%"></div></div>
-    <div class="timer-bar-wrap"><div class="timer-bar-fill" id="timerBar" style="width:100%"></div></div>
-    <div class="question-card" id="questionCard">
-      <div class="q-label" id="qLabel">🏰 第 1 關</div>
-      <div class="q-type-badge badge-add" id="qTypeBadge">➕ 加法</div>
-      <div class="vertical-eq" id="vertEq">
-        <div class="ve-num" id="veA">1234</div>
-        <div class="ve-op-row"><span class="ve-op" id="veOp">+</span><span class="ve-b" id="veB">5678</span></div>
-        <div class="ve-line"></div>
-        <div class="ve-ans">？</div>
-      </div>
-      <div class="feedback-icon" id="feedbackIcon"></div>
-      <div class="correct-tip" id="correctTip"></div>
-    </div>
-    <div class="options-grid" id="optionsGrid"></div>
-    <div class="question-counter">第 <span id="qNum">1</span> / 8 題</div>
-    <div class="question-dots" id="questionDots"></div>
-  </div>
+    <script>
+        // --- Web Audio API ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
 
-  <!-- 過關畫面 -->
-  <div class="screen" id="clearScreen">
-    <div class="clear-card">
-      <span class="clear-emoji" id="clearEmoji">🏆</span>
-      <div class="clear-title" id="clearTitle">第一關完成！</div>
-      <p style="color:rgba(255,255,255,0.6);margin-bottom:16px;" id="clearMsg">繼續前進！</p>
-      <div class="stat-row">
-        <div class="stat-box"><span class="sb-v" id="clearCorrect">0</span><span class="sb-l">答對題數</span></div>
-        <div class="stat-box"><span class="sb-v" id="clearScore">0</span><span class="sb-l">本關得分</span></div>
-        <div class="stat-box"><span class="sb-v" id="clearCombo">0</span><span class="sb-l">最高連擊</span></div>
-      </div>
-      <button class="next-btn" id="nextBtn">→ 繼續前進 🌟</button>
-    </div>
-  </div>
-
-  <!-- 結果畫面 -->
-  <div class="screen" id="resultScreen">
-    <div class="result-card">
-      <span class="hero-emoji" id="resultEmoji">🏆</span>
-      <div class="clear-title" id="resultTitle">城堡攻略完成！</div>
-      <p class="game-subtitle" id="resultSub">你是真正的算術騎士！</p>
-      <div class="stars-row">
-        <span class="star-icon">⭐</span><span class="star-icon">⭐</span><span class="star-icon">⭐</span>
-      </div>
-      <div class="high-banner" id="highBanner" style="display:none">🏆 新紀錄！<span id="highVal">0</span> 分！</div>
-      <div class="final-stats">
-        <div class="final-stat"><span class="fs-v" id="fScore">0</span><div class="fs-l">總得分</div></div>
-        <div class="final-stat"><span class="fs-v" id="fCorrect">0</span><div class="fs-l">答對題數</div></div>
-        <div class="final-stat"><span class="fs-v" id="fCombo">0</span><div class="fs-l">最高連擊</div></div>
-      </div>
-      <div class="btn-row">
-        <button class="replay-btn" id="replayBtn">🔄 再闖一次！</button>
-        <a href="portal.html" class="portal-btn">🏠 返回學習樂園</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-const STAGES = [
-  { id:1, name:"無進借位",   emoji:"🛖", addCarry:false, subBorrow:false, range:[1000,4499] },
-  { id:2, name:"進位加法",   emoji:"⚔️", addCarry:true,  subBorrow:false, range:[1000,5999] },
-  { id:3, name:"借位減法",   emoji:"🛡️", addCarry:false, subBorrow:true,  range:[2000,7999] },
-  { id:4, name:"混合挑戰",   emoji:"🔥", addCarry:true,  subBorrow:true,  range:[1000,8999] },
-  { id:5, name:"王者對決",   emoji:"👑", addCarry:true,  subBorrow:true,  range:[3000,9999] }
-];
-const QPR=8, TIMER=25, PASS=6;
-let st={stage:0,qi:0,score:0,combo:0,maxCombo:0,total:0,stageCorrect:0,stageScore:0,qs:[],cur:null,timer:null,tLeft:TIMER,answered:false,ans:[]};
-
-document.addEventListener('DOMContentLoaded',()=>{
-  initBg();
-  document.getElementById('startBtn').addEventListener('click',startGame);
-  document.getElementById('replayBtn').addEventListener('click',()=>showScreen('startScreen'));
-});
-
-function initBg(){
-  const bg=document.getElementById('castleBg');
-  const torches=['🔦','🕯️','🔥'];
-  for(let i=0;i<4;i++){
-    const t=document.createElement('div'); t.className='torch';
-    t.textContent=torches[i%torches.length];
-    t.style.cssText=`left:${10+i*25}%;bottom:${50+Math.random()*30}%;animation-delay:${i*0.4}s;`;
-    bg.appendChild(t);
-  }
-}
-
-function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
-function shuffle(a){const r=[...a];for(let i=r.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
-
-function hasCarry(a,b){ // 加法是否進位
-  const digits=[[a%10,b%10],[Math.floor(a/10)%10,Math.floor(b/10)%10],[Math.floor(a/100)%10,Math.floor(b/100)%10],[Math.floor(a/1000)%10,Math.floor(b/1000)%10]];
-  let carry=0;
-  for(const[x,y]of digits){const s=x+y+carry;carry=s>=10?1:0;if(carry)return true;}
-  return false;
-}
-function hasBorrow(a,b){ // 減法是否借位（a>=b)
-  const digits=[[a%10,b%10],[Math.floor(a/10)%10,Math.floor(b/10)%10],[Math.floor(a/100)%10,Math.floor(b/100)%10],[Math.floor(a/1000)%10,Math.floor(b/1000)%10]];
-  let borrow=0;
-  for(const[x,y]of digits){const d=x-borrow-y;borrow=d<0?1:0;if(borrow)return true;}
-  return false;
-}
-
-function genQ(stageIdx){
-  const s=STAGES[stageIdx];
-  const[min,max]=s.range;
-  const isAdd=Math.random()>0.5;
-  let a,b,correct,attempts=0;
-  if(isAdd){
-    do{
-      a=randInt(min,Math.min(max,4999));b=randInt(1000,Math.min(4999,max));
-      const carry=hasCarry(a,b);
-      if(s.addCarry===undefined||s.addCarry===carry||(s.id>=4))break;
-      attempts++;
-    }while(attempts<100);
-    correct=a+b;
-    if(correct>9999){b=9999-a;correct=a+b;}
-  } else {
-    do{
-      a=randInt(Math.min(min+1000,max),max);b=randInt(min,a-1);
-      const borrow=hasBorrow(a,b);
-      if(s.subBorrow===undefined||s.subBorrow===borrow||(s.id>=4))break;
-      attempts++;
-    }while(attempts<100);
-    correct=a-b;
-  }
-  // 生成錯誤選項
-  const offsets=shuffle([1,10,100,1000,-1,-10,-100,-1000,2,20,200]);
-  const wrongs=[];
-  for(const off of offsets){
-    const w=correct+off;
-    if(w>0&&w!==correct&&w<=9999&&!wrongs.includes(w))wrongs.push(w);
-    if(wrongs.length>=3)break;
-  }
-  while(wrongs.length<3){const w=correct+randInt(-500,500);if(w>0&&w!==correct&&!wrongs.includes(w))wrongs.push(w);}
-  return{isAdd,a,b,correct,options:shuffle([correct,wrongs[0],wrongs[1],wrongs[2]]),explanation:`${a} ${isAdd?'+':'-'} ${b} = ${correct}`};
-}
-
-function genQuestions(si){return Array.from({length:QPR},()=>genQ(si));}
-
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
-
-function startGame(){
-  st={stage:0,qi:0,score:0,combo:0,maxCombo:0,total:0,stageCorrect:0,stageScore:0,qs:[],cur:null,timer:null,tLeft:TIMER,answered:false,ans:[]};
-  loadStage(0);showScreen('gameScreen');
-}
-
-function loadStage(si){
-  const s=STAGES[si];
-  st.stage=si;st.qi=0;st.stageCorrect=0;st.stageScore=0;st.ans=[];
-  st.qs=genQuestions(si);
-  document.getElementById('stageInfo').textContent=`${s.emoji} 關${s.id}：${s.name}`;
-  updateProgress();loadQ();
-}
-
-function loadQ(){
-  const q=st.qs[st.qi]; st.cur=q; st.answered=false; st.tLeft=TIMER;
-  const card=document.getElementById('questionCard');
-  card.className='question-card';
-  document.getElementById('feedbackIcon').className='feedback-icon';
-  document.getElementById('correctTip').className='correct-tip';
-  const s=STAGES[st.stage];
-  document.getElementById('qLabel').textContent=`${s.emoji} 第 ${s.id} 關`;
-  const badge=document.getElementById('qTypeBadge');
-  badge.className=q.isAdd?'q-type-badge badge-add':'q-type-badge badge-sub';
-  badge.textContent=q.isAdd?'➕ 加法':'➖ 減法';
-  document.getElementById('veA').textContent=String(q.a);
-  document.getElementById('veOp').textContent=q.isAdd?'+':'−';
-  document.getElementById('veB').textContent=String(q.b);
-  // 渲染選項
-  const grid=document.getElementById('optionsGrid'); grid.innerHTML='';
-  q.options.forEach(opt=>{
-    const btn=document.createElement('button'); btn.className='opt-btn'; btn.textContent=String(opt);
-    btn.addEventListener('click',()=>handleAns(opt===q.correct,btn,q.correct));
-    grid.appendChild(btn);
-  });
-  document.getElementById('qNum').textContent=st.qi+1;
-  updateDots();startTimer();
-}
-
-function handleAns(isOk,clickedBtn,correct){
-  if(st.answered)return; st.answered=true; stopTimer();
-  const card=document.getElementById('questionCard');
-  document.querySelectorAll('.opt-btn').forEach(b=>{b.disabled=true;if(parseInt(b.textContent)===correct)b.classList.add('correct-ans');});
-  if(!isOk)clickedBtn.classList.add('wrong-ans');
-  const fb=document.getElementById('feedbackIcon');
-  const tip=document.getElementById('correctTip');
-  if(isOk){
-    card.classList.add('correct');fb.textContent='✅';fb.classList.add('show');
-    st.combo++;st.maxCombo=Math.max(st.maxCombo,st.combo);st.stageCorrect++;st.total++;
-    const tBonus=st.tLeft>18?60:st.tLeft>12?30:0;
-    const cBonus=st.combo>=3?(st.combo-2)*25:0;
-    const pts=100+tBonus+cBonus; st.score+=pts; st.stageScore+=pts;
-    showCombo();
-  } else {
-    card.classList.add('wrong');fb.textContent='❌';fb.classList.add('show');
-    st.combo=0;hideComboBadge();
-    tip.textContent=`正確答案：${st.cur.explanation}`;tip.classList.add('show');
-  }
-  st.ans.push(isOk); updateScore(); updateDots();
-  setTimeout(()=>{st.qi++;if(st.qi>=QPR)endStage();else loadQ();},1500);
-}
-
-function endStage(){
-  stopTimer();
-  const si=st.stage;
-  const s=STAGES[si];
-  const passed=st.stageCorrect>=PASS;
-  const emojis=['🛖','⚔️','🛡️','🔥','👑'];
-  document.getElementById('clearEmoji').textContent=emojis[si]||'🏆';
-  document.getElementById('clearTitle').textContent=`${s.name}完成！`;
-  document.getElementById('clearCorrect').textContent=`${st.stageCorrect}/8`;
-  document.getElementById('clearScore').textContent=st.stageScore;
-  document.getElementById('clearCombo').textContent=st.maxCombo;
-  if(passed){
-    document.getElementById('clearMsg').textContent=si<4?`太棒了！繼續前進${si<4?'！':''}🏆`:'所有城堡已攻略！你是算術騎士！';
-  } else {
-    document.getElementById('clearMsg').textContent=`加油！只答對 ${st.stageCorrect}/8，再試一次！`;
-  }
-  const nb=document.getElementById('nextBtn');
-  if(si>=4){nb.textContent='🏆 查看最終成果！';nb.onclick=()=>showResult();}
-  else if(!passed){nb.textContent='🔄 重新挑戰本關';nb.onclick=()=>{loadStage(si);showScreen('gameScreen');};}
-  else{nb.textContent=`→ 前往${STAGES[si+1].name} ${STAGES[si+1].emoji}`;nb.onclick=()=>{loadStage(si+1);showScreen('gameScreen');};}
-  showScreen('clearScreen');
-  if(passed) setTimeout(()=>{ try{ fireConfetti(); }catch(e){} }, 50);
-}
-
-function showResult(){
-  const total=STAGES.length*QPR, pct=st.total/total;
-  const[emoji,title,sub]=pct>=0.9?['🏆','算術王者！','所有城堡已攻略！你是最強的算術騎士！']:pct>=0.75?['⚔️','英勇騎士！','成績非常優秀！繼續努力就能成為王者！']:pct>=0.6?['🛡️','勇敢戰士！','還不錯！多練習幾次就能更上一層樓！']:['🛖','城堡學徒','繼續加油！城堡大冒險還在等你！'];
-  document.getElementById('resultEmoji').textContent=emoji;
-  document.getElementById('resultTitle').textContent=title;
-  document.getElementById('resultSub').textContent=sub;
-  document.getElementById('fScore').textContent=st.score;
-  document.getElementById('fCorrect').textContent=`${st.total}/${total}`;
-  document.getElementById('fCombo').textContent=st.maxCombo;
-  const stars=pct>=0.9?3:pct>=0.7?2:pct>=0.5?1:0;
-  document.querySelectorAll('.star-icon').forEach((s,i)=>{s.classList.remove('lit');if(i<stars)setTimeout(()=>s.classList.add('lit'),i*300+300);});
-  const prev=parseInt(localStorage.getItem('math3_addition_best')||'0');
-  if(st.score>prev){localStorage.setItem('math3_addition_best',st.score);document.getElementById('highVal').textContent=st.score;document.getElementById('highBanner').style.display='flex';}
-  else document.getElementById('highBanner').style.display='none';
-  showScreen('resultScreen');
-  if(pct>=0.75) setTimeout(()=>{ try{ fireConfetti(); }catch(e){} }, 50);
-}
-
-
-// ── 倒數計時偏好開關 (預設關閉，防禦性自主學習模式) ──
-let timerEnabled = false;
-
-function toggleTimerSetting(forcedVal) {
-  if (typeof forcedVal === 'boolean') {
-    timerEnabled = forcedVal;
-  } else {
-    timerEnabled = !timerEnabled;
-  }
-
-  // 同步開始畫面 UI
-  const chk = document.getElementById('timerCheckbox');
-  if (chk) chk.checked = timerEnabled;
-  
-  const icon = document.getElementById('startTimerIcon');
-  const sub = document.getElementById('startTimerSub');
-  const hintDesc = document.getElementById('startHintDesc');
-  if (hintDesc) {
-    hintDesc.textContent = timerEnabled 
-      ? '共 5 關 × 每關 8 題 ｜ ⚡ 限時 25 秒挑戰 ｜ 答對 6/8 即可晉級'
-      : '共 5 關 × 每關 8 題 ｜ 🧘 自主學習無時間限制 ｜ 答對 6/8 即可晉級';
-  }
-
-  if (icon) icon.textContent = timerEnabled ? '⚡' : '🧘';
-  if (sub) sub.textContent = timerEnabled ? '已開啟（每題 25 秒限時挑戰）' : '已關閉（無時間壓力，放鬆思考計算）';
-
-  // 同步 HUD 頂部按鈕
-  const hudBtn = document.getElementById('hudTimerBtn');
-  const hudText = document.getElementById('hudTimerText');
-  if (hudBtn && hudText) {
-    if (timerEnabled) {
-      hudBtn.classList.add('active');
-      hudText.textContent = '計時：開啟 ⚡';
-    } else {
-      hudBtn.classList.remove('active');
-      hudText.textContent = '計時：關閉 🧘';
-    }
-  }
-
-  // 同步控制計時進度條
-  const timerBar = document.getElementById('timerBar');
-  if (!timerEnabled) {
-    stopTimer();
-    if (timerBar) {
-      timerBar.style.width = '100%';
-      timerBar.classList.remove('urgent');
-    }
-  } else {
-    // 若在答題畫面且尚未作答，重新啟動計時
-    startTimer();
-  }
-}
-
-// 初始化開關狀態
-document.addEventListener('DOMContentLoaded', () => {
-  toggleTimerSetting(false);
-});
-
-function startTimer(){
-  if (!timerEnabled) {
-    stopTimer();
-    const bar = document.getElementById('timerBar');
-    if (bar) { bar.style.width = '100%'; bar.classList.remove('urgent'); }
-    return;
-  }
-  st.tLeft=TIMER; updateTimerBar(1); clearInterval(st.timer);
-  st.timer=setInterval(()=>{st.tLeft--;updateTimerBar(st.tLeft/TIMER);if(st.tLeft<=0){clearInterval(st.timer);timeOut();}},1000);
-}
-function stopTimer(){clearInterval(st.timer);}
-function updateTimerBar(r){const bar=document.getElementById('timerBar');bar.style.width=`${r*100}%`;if(r<0.3)bar.classList.add('urgent');else bar.classList.remove('urgent');}
-function timeOut(){
-  if(st.answered)return; st.answered=true;
-  document.getElementById('questionCard').classList.add('wrong');
-  document.getElementById('feedbackIcon').textContent='⏰'; document.getElementById('feedbackIcon').classList.add('show');
-  st.combo=0; hideComboBadge();
-  document.getElementById('correctTip').textContent=`時間到！正確答案：${st.cur.explanation}`; document.getElementById('correctTip').classList.add('show');
-  document.querySelectorAll('.opt-btn').forEach(b=>{b.disabled=true;if(parseInt(b.textContent)===st.cur.correct)b.classList.add('correct-ans');});
-  st.ans.push(false); updateDots();
-  setTimeout(()=>{st.qi++;if(st.qi>=QPR)endStage();else loadQ();},1800);
-}
-function updateScore(){document.getElementById('scoreDisplay').textContent=st.score;}
-function updateProgress(){
-  const total=STAGES.length*QPR, done=st.stage*QPR+st.qi;
-  document.getElementById('progressBar').style.width=`${(done/total)*100}%`;
-}
-function updateDots(){
-  const dots=document.getElementById('questionDots'); dots.innerHTML='';
-  for(let i=0;i<QPR;i++){
-    const d=document.createElement('div'); d.className='q-dot';
-    if(i<st.ans.length)d.classList.add(st.ans[i]?'answered-correct':'answered-wrong');
-    else if(i===st.qi)d.classList.add('current');
-    dots.appendChild(d);
-  }
-}
-function showCombo(){const b=document.getElementById('comboBadge');if(st.combo>=2){document.getElementById('comboCount').textContent=st.combo;b.classList.add('show');};}
-function hideComboBadge(){document.getElementById('comboBadge').classList.remove('show');}
-function fireConfetti(){
-  if(typeof confetti !== 'function') return;
-  try {
-    confetti({particleCount:120,spread:80,origin:{y:0.5},colors:['#4ADE80','#22C55E','#FCD34D','#FFF','#10B981']});
-    setTimeout(()=>confetti({particleCount:60,spread:100,origin:{x:0.2,y:0.6}}),350);
-    setTimeout(()=>confetti({particleCount:60,spread:100,origin:{x:0.8,y:0.6}}),600);
-  } catch(e){ console.warn('confetti error:', e); }
-}
-
-// ── 通用現代化彈窗 (CastleModal) ──
-function showCastleModal(title, messageHtml, icon = '🎉', onClose = null) {
-  let overlay = document.getElementById('castleModalOverlay');
-  if (!overlay) return;
-  document.getElementById('castleModalTitle').textContent = title;
-  document.getElementById('castleModalBody').innerHTML = messageHtml;
-  document.getElementById('castleModalIcon').textContent = icon;
-  overlay.classList.add('open');
-  window._castleModalOnClose = onClose;
-}
-
-function closeCastleModal() {
-  const overlay = document.getElementById('castleModalOverlay');
-  if (overlay) overlay.classList.remove('open');
-  if (typeof window._castleModalOnClose === 'function') {
-    const cb = window._castleModalOnClose;
-    window._castleModalOnClose = null;
-    cb();
-  }
-}
-
-function closeCastleModalOnBackdrop(e) {
-  if (e.target && e.target.id === 'castleModalOverlay') {
-    closeCastleModal();
-  }
-}
-
-// 防禦性覆蓋原生 alert，全面導向自訂 Modal
-window.alert = function(msg) {
-  showCastleModal('系統提示', `<div style="text-align:left; white-space:pre-line;">${msg}</div>`, '💡');
-};
-
-</script>
-
-<!-- 作業簿隨堂測驗 Modal -->
-<div class="wb-modal-overlay" id="wbModalOverlay">
-  <div class="wb-modal-content">
-    <div class="wb-header">
-      <div class="wb-title">📑 3上數學 作業簿隨堂測驗（第 2 單元・四位數的加減）</div>
-      <button class="wb-close-btn" onclick="closeWbModal()">✕</button>
-    </div>
-    <div class="wb-tabs" id="wbTabs">
-      <button class="wb-tab active" data-rev="4" onclick="switchWbRev(4)">第 4 回 (2-1 四位數的加法)</button>
-<button class="wb-tab " data-rev="5" onclick="switchWbRev(5)">第 5 回 (2-2 四位數的減法)</button>
-<button class="wb-tab " data-rev="6" onclick="switchWbRev(6)">第 6 回 (2-3 加減應用、2-4 四位數的加減估算)</button>
-
-    </div>
-    <div id="wbQuizBody"></div>
-    <div class="wb-submit-bar">
-      <div class="wb-score-text" id="wbScoreDisp">狀態：做題中（未交卷）</div>
-      <div style="display:flex; gap:10px;">
-        <button class="wb-btn-reset" onclick="resetWbQuiz()">🔄 重填</button>
-        <button class="wb-btn-submit" onclick="gradeWbQuiz()">📝 交卷批改並看詳解</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- 作業簿隨堂測驗樣式 -->
-<style>
-.wb-modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(11, 25, 44, 0.85);
-  backdrop-filter: blur(8px);
-  z-index: 1000;
-  overflow-y: auto;
-  padding: 20px 12px 60px;
-}
-.wb-modal-overlay.open { display: block; }
-.wb-modal-content {
-  background: #FFFDF5;
-  border: 3px solid #F59E0B;
-  border-radius: 24px;
-  max-width: 820px;
-  margin: 0 auto;
-  padding: 24px 20px;
-  color: #1E293B;
-  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
-}
-.wb-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid #E2E8F0;
-  padding-bottom: 12px;
-  margin-bottom: 16px;
-}
-.wb-title { font-size: 20px; font-weight: 800; color: #1E293B; display: flex; align-items: center; gap: 8px; }
-.wb-close-btn {
-  width: 38px; height: 38px; border-radius: 50%; border: 2px solid #1E293B; background: #FFF;
-  font-weight: 900; font-size: 18px; cursor: pointer; color: #1E293B;
-}
-.wb-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-.wb-tab {
-  flex: 1; min-width: 140px; padding: 10px 14px; border-radius: 12px; border: 2px solid #CBD5E1;
-  background: #FFF; font-weight: 800; font-size: 13.5px; cursor: pointer; color: #64748B;
-  text-align: center; transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
-}
-.wb-tab.active { background: #F59E0B; border-color: #D97706; color: #FFF; box-shadow: 0 4px 0 #D97706; }
-.wb-sec-card { background: #FFF; border: 2px solid #E2E8F0; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
-.wb-sec-title { font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 12px; border-bottom: 1.5px dashed #CBD5E1; padding-bottom: 6px; }
-.wb-q-item { background: #FEF3C7; border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 2px solid #FDE68A; transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease; position: relative; }
-.wb-q-item.is-correct { border: 3px solid #10B981 !important; background: #ECFDF5 !important; }
-.wb-q-item.is-wrong { border: 3px solid #EF4444 !important; background: #FEF2F2 !important; }
-.wb-q-badge {
-  display: inline-block; padding: 3px 10px; border-radius: 8px; font-size: 13px; font-weight: 800; margin-bottom: 8px;
-}
-.wb-q-badge.correct { background: #10B981; color: #FFF; }
-.wb-q-badge.wrong { background: #EF4444; color: #FFF; }
-
-.wb-q-text { font-size: 15.5px; font-weight: 700; line-height: 1.6; margin-bottom: 10px; color: #1E293B; }
-
-/* 作業簿選項大按鈕網格 (直接點選) */
-.wb-opt-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 10px;
-  margin-top: 8px;
-}
-.wb-opt-btn {
-  background: #FFFFFF;
-  border: 2px solid #0284C7;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-size: 15px;
-  font-weight: 800;
-  color: #0F172A;
-  cursor: pointer;
-  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease, opacity 0.15s ease, visibility 0.15s ease;
-  text-align: center;
-  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.15);
-  user-select: none;
-}
-.wb-opt-btn:hover {
-  background: #EFF6FF;
-  border-color: #2563EB;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
-}
-.wb-opt-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
-}
-.wb-opt-btn.selected {
-  background: #F59E0B !important;
-  border-color: #D97706 !important;
-  color: #FFFFFF !important;
-  box-shadow: 0 4px 0 #D97706 !important;
-  transform: scale(1.02);
-}
-
-/* 批改鮮明顏色：選對 (翠綠色)、選錯 (鮮紅色)、正確答案提示 (綠色虛線) */
-.wb-opt-btn.opt-correct {
-  background: linear-gradient(135deg, #10B981, #059669) !important;
-  color: #FFFFFF !important;
-  border: 3px solid #047857 !important;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.6) !important;
-  transform: scale(1.03);
-}
-.wb-opt-btn.opt-wrong {
-  background: linear-gradient(135deg, #EF4444, #DC2626) !important;
-  color: #FFFFFF !important;
-  border: 3px solid #991B1B !important;
-  box-shadow: 0 0 12px rgba(239, 68, 68, 0.6) !important;
-  transform: scale(1.03);
-}
-.wb-opt-btn.opt-should-be {
-  background: #D1FAE5 !important;
-  color: #065F46 !important;
-  border: 3px dashed #10B981 !important;
-  font-weight: 900 !important;
-}
-
-.wb-sol-panel { display: none; background: #F0FDF4; border: 2px solid #86EFAC; border-radius: 10px; padding: 12px; margin-top: 12px; font-size: 14px; }
-.wb-sol-panel.show { display: block; }
-.wb-sol-steps { font-family: 'Noto Sans TC', sans-serif; background: #FFF; padding: 8px 12px; border-radius: 6px; margin: 6px 0; white-space: pre-wrap; color: #0F172A; font-weight: 700; line-height: 1.6; }
-.wb-sol-ans { color: #059669; font-weight: 900; font-size: 15px; }
-.wb-submit-bar {
-  position: sticky; bottom: 0; background: #FFFDF5; border-top: 2px solid #E2E8F0;
-  padding: 14px 0 0; display: flex; justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 10px; z-index: 10;
-}
-.wb-score-text { font-size: 18px; font-weight: 800; color: #0F172A; }
-.wb-btn-submit {
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-  border: none; color: #FFF; font-weight: 800; font-size: 15px; padding: 10px 24px;
-  border-radius: 12px; cursor: pointer; box-shadow: 0 4px 0 #047857;
-}
-.wb-btn-reset {
-  background: #F1F5F9; border: 2px solid #CBD5E1; color: #334155; font-weight: 800; font-size: 14px;
-  padding: 10px 18px; border-radius: 12px; cursor: pointer;
-}
-@media (max-width: 480px) {
-  .wb-opt-grid { grid-template-columns: 1fr; }
-}
-
-/* ── 倒數計時開關與 HUD 按鈕樣式 ── */
-.timer-setting-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.16);
-  border-radius: 20px;
-  padding: 12px 18px;
-  margin: 18px 0 16px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-}
-.timer-setting-card:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.12);
-}
-.timer-setting-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-align: left;
-}
-.timer-setting-icon {
-  font-size: 1.8rem;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.timer-setting-title {
-  font-size: 0.98rem;
-  font-weight: 800;
-  color: #FFFFFF;
-  letter-spacing: 0.5px;
-}
-.timer-setting-subtitle {
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.65);
-  margin-top: 2px;
-}
-.switch-toggle {
-  position: relative;
-  display: inline-block;
-  width: 52px;
-  height: 28px;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-.switch-toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.slider-round {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
-  border-radius: 34px;
-  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.slider-round:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 3px;
-  bottom: 2.5px;
-  background-color: #FFFFFF;
-  border-radius: 50%;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  transition: color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.switch-toggle input:checked + .slider-round {
-  background: linear-gradient(135deg, #10B981, #059669);
-  border-color: #34D399;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-}
-.switch-toggle input:checked + .slider-round:before {
-  transform: translateX(24px);
-}
-.hud-timer-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 6px 14px;
-  color: #FFFFFF;
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
-  backdrop-filter: blur(6px);
-}
-.hud-timer-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: translateY(-1px);
-}
-.hud-timer-btn.active {
-  background: rgba(16, 185, 129, 0.2);
-  border-color: #10B981;
-  color: #A7F3D0;
-}
-.timer-mode-pill {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.7);
-  margin-left: 6px;
-}
-
-
-/* ── 現代化通用 CastleModal 彈窗 ── */
-.castle-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.72);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  z-index: 99999;
-  opacity: 0;
-  visibility: hidden;
-  transition: color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.castle-modal-overlay.open {
-  opacity: 1;
-  visibility: visible;
-}
-.castle-modal-box {
-  background: #FFFFFF;
-  border: 2px solid #E2E8F0;
-  border-radius: 28px;
-  max-width: 460px;
-  width: 100%;
-  padding: 28px 24px 24px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
-  transform: scale(0.9) translateY(15px);
-  transition: color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  text-align: center;
-  position: relative;
-  box-sizing: border-box;
-}
-.castle-modal-overlay.open .castle-modal-box {
-  transform: scale(1) translateY(0);
-}
-.castle-modal-icon {
-  font-size: 3.6rem;
-  display: block;
-  margin-bottom: 8px;
-  line-height: 1;
-  animation: modalPop 0.45s ease;
-}
-@keyframes modalPop {
-  0% { transform: scale(0.4); opacity: 0; }
-  70% { transform: scale(1.15); }
-  100% { transform: scale(1); opacity: 1; }
-}
-.castle-modal-title {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: #0F172A;
-  margin-bottom: 12px;
-  font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
-  letter-spacing: 0.3px;
-}
-.castle-modal-body {
-  font-size: 1rem;
-  color: #334155;
-  line-height: 1.6;
-  margin-bottom: 22px;
-}
-.castle-modal-btn {
-  background: linear-gradient(135deg, #3B82F6, #6366F1);
-  color: #FFFFFF;
-  border: none;
-  border-radius: 50px;
-  padding: 12px 34px;
-  font-size: 1.05rem;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35);
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease, visibility 0.2s ease;
-  font-family: inherit;
-}
-.castle-modal-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(59, 130, 246, 0.48);
-}
-.castle-modal-btn:active {
-  transform: translateY(1px);
-}
-.castle-modal-close-btn {
-  position: absolute;
-  top: 16px;
-  right: 18px;
-  background: #F1F5F9;
-  border: none;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #64748B;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s, opacity 0.2s, visibility 0.2s;
-}
-.castle-modal-close-btn:hover {
-  background: #E2E8F0;
-  color: #0F172A;
-}
-
-</style>
-
-
-<script>
-const WB_DATA_u2 = {"unit_id": 2, "title": "四位數的加減", "description": "四位數直式加法、四位數直式減法、加減應用與估算", "reviews": [{"review_id": 4, "range": "2-1 四位數的加法", "page": "P.9-10", "sections": [{"section_title": "一、用直式算算看（加法計算）", "type": "addition_calc", "items": [{"q": "(1) 2750 + 54 = ？", "ans": "2804", "options": ["2854", "2704", "3290", "2804"], "steps": "個位 0+4=4；十位 5+5=10 進1；百位 7+1=8；千位 2。合為 2804。"}, {"q": "(2) 1980 + 337 = ？", "ans": "2317", "options": ["2217", "2317", "1317", "2327"], "steps": "個位 0+7=7；十位 8+3=11 進1；百位 9+3+1=13 進1；千位 1+1=2。合為 2317。"}, {"q": "(3) 75 + 3536 = ？", "ans": "3611", "options": ["4611", "3601", "3511", "3611"], "steps": "個位 5+6=11 進1；十位 7+3+1=11 進1；百位 5+1=6；千位 3。合為 3611。"}, {"q": "(4) 4332 + 2369 = ？", "ans": "6701", "options": ["6711", "6702", "6691", "6701"], "steps": "個位 2+9=11 進1；十位 3+6+1=10 進1；百位 3+3+1=7；千位 4+2=6。合為 6701。"}, {"q": "(5) 6532 + 3457 = ？", "ans": "9989", "options": ["9889", "9989", "10089", "9979"], "steps": "個位 2+7=9；十位 3+5=8；百位 5+4=9；千位 6+3=9。合為 9989。"}, {"q": "(6) 5093 + 2908 = ？", "ans": "8001", "options": ["8001", "7901", "8011", "7991"], "steps": "個位 3+8=11 進1；十位 9+0+1=10 進1；百位 0+9+1=10 進1；千位 5+2+1=8。合為 8001。"}, {"q": "(7) 6076 + 824 = ？", "ans": "6900", "options": ["6910", "7000", "6900", "6800"], "steps": "個位 6+4=10 進1；十位 7+2+1=10 進1；百位 0+8+1=9；千位 6。合為 6900。"}, {"q": "(8) 2005 + 7855 = ？", "ans": "9860", "options": ["9760", "9850", "9870", "9860"], "steps": "個位 5+5=10 進1；十位 0+5+1=6；百位 0+8=8；千位 2+7=9。合為 9860。"}, {"q": "(9) 4999 + 3254 = ？", "ans": "8253", "options": ["8153", "8243", "8253", "8353"], "steps": "個位 9+4=13 進1；十位 9+5+1=15 進1；百位 9+2+1=12 進1；千位 4+3+1=8。合為 8253。"}]}, {"section_title": "二、在直式空格中填入適當數字", "type": "fill_digits", "items": [{"q": "(1) 直式加法：187[ ] + 7[ ]5 = 2[ ]09，三個方格由上到下分別填入什麼數字？", "ans": "4、3、6", "options": ["5、3、7", "4、3、6", "4、2、6", "3、3、5"], "steps": "個位 [ ]+5=9 => 填4；十位 7+[ ] 進位到個位有0 => 7+3=10，十位寫0進1，[ ]填3；百位 8+7+1=16，百位寫6進1，[ ]填6。填入4、3、6。"}, {"q": "(2) 直式加法：1[ ]4[ ] + 2[ ]5 = 1368，三個方格填入什麼數字？", "ans": "1、3、2", "options": ["1、4、2", "2、3、1", "0、3、2", "1、3、2"], "steps": "個位 [ ]+5=8 => 填3；十位 4+[ ]=6 => 填2；百位 [ ]+2=3 => 填1。依序填入 1、3、2。"}]}, {"section_title": "三、生活應用題", "type": "word_problems", "items": [{"q": "(1) 花卉博覽會昨天湧入 4367 人參觀，今天 3899 人參觀，這兩天參觀人數共有幾個人？", "ans": "8266人", "options": ["7266人", "8256人", "8166人", "8266人"], "steps": "4367 + 3899 = 8266（人）。"}, {"q": "(2) 哥哥購買登山裝備，禦寒外套 5720 元，登山鞋 3688 元，他共要付幾元？", "ans": "9408元", "options": ["9308元", "9418元", "8408元", "9408元"], "steps": "5720 + 3688 = 9408（元）。"}, {"q": "(3) 果農今天上午採收 3275 顆蜜棗，下午採收 2514 顆蜜棗，今天合計採收了幾顆蜜棗？", "ans": "5789顆", "options": ["5689顆", "5789顆", "5889顆", "5799顆"], "steps": "3275 + 2514 = 5789（顆）。"}, {"q": "(4) 姐姐七月份打工賺 4630 元，八月份比七月份多賺 370 元，八月份打工賺幾元？", "ans": "5000元", "options": ["5000元", "4990元", "5100元", "4900元"], "steps": "4630 + 370 = 5000（元）。"}, {"q": "(5) 旺記今天賣出 2765 個鳳梨酥，店裡還剩下 35 個鳳梨酥，原本店裡有幾個鳳梨酥？", "ans": "2800個", "options": ["2810個", "2790個", "2800個", "2700個"], "steps": "2765 + 35 = 2800（個）。"}]}]}, {"review_id": 5, "range": "2-2 四位數的減法", "page": "P.11-12", "sections": [{"section_title": "一、用直式算算看（減法計算）", "type": "subtraction_calc", "items": [{"q": "(1) 2790 - 2373 = ？", "ans": "417", "options": ["417", "407", "517", "427"], "steps": "個位借位 10-3=7；十位 8-7=1；百位 7-3=4；千位 2-2=0。得 417。"}, {"q": "(2) 3924 - 1862 = ？", "ans": "2062", "options": ["2062", "1062", "2162", "2052"], "steps": "個位 4-2=2；十位借位 12-6=6；百位 8-8=0；千位 3-1=2。得 2062。"}, {"q": "(3) 9373 - 3187 = ？", "ans": "6186", "options": ["5186", "6196", "6286", "6186"], "steps": "個位借位 13-7=6；十位借位 16-8=8；百位 2-1=1；千位 9-3=6。得 6186。"}, {"q": "(4) 7005 - 6284 = ？", "ans": "721", "options": ["721", "731", "711", "821"], "steps": "個位 5-4=1；十位退位 10-8=2；百位 9-2=7；千位 6-6=0。得 721。"}, {"q": "(5) 6586 - 4728 = ？", "ans": "1858", "options": ["1848", "1758", "1868", "1858"], "steps": "個位借位 16-8=8；十位 7-2=5；百位借位 15-7=8；千位 5-4=1。得 1858。"}, {"q": "(6) 1208 - 798 = ？", "ans": "410", "options": ["510", "400", "420", "410"], "steps": "個位 8-8=0；十位借位 10-9=1；百位借位 11-7=4。得 410。"}, {"q": "(7) 5306 - 37 = ？", "ans": "5269", "options": ["5369", "5279", "5269", "5169"], "steps": "個位借位 16-7=9；十位 9-3=6；百位 2；千位 5。得 5269。"}, {"q": "(8) 4832 - 1955 = ？", "ans": "2877", "options": ["2977", "3877", "2877", "2887"], "steps": "個位借位 12-5=7；十位借位 12-5=7；百位借位 17-9=8；千位 3-1=2。得 2877。"}, {"q": "(9) 8000 - 1899 = ？", "ans": "6101", "options": ["6111", "7101", "6101", "6201"], "steps": "連續退位：個位 10-9=1；十位 9-9=0；百位 9-8=1；千位 7-1=6。得 6101。"}]}, {"section_title": "二、生活應用題", "type": "word_problems", "items": [{"q": "(1) 小芬摺了 1053 顆紙星星，她要再摺幾顆才會有 1200 顆？", "ans": "147顆", "options": ["147顆", "157顆", "247顆", "137顆"], "steps": "1200 - 1053 = 147（顆）。"}, {"q": "(2) 旺旺商行買進 1162 個雞蛋，賣出 75 個，還剩下幾個雞蛋？", "ans": "1087個", "options": ["1077個", "1087個", "1097個", "1113個"], "steps": "1162 - 75 = 1087（個）。"}, {"q": "(3) 微波爐售價 5000 元，果汁機售價 1190 元，微波爐售價比果汁機多幾元？", "ans": "3810元", "options": ["3910元", "3710元", "4810元", "3810元"], "steps": "5000 - 1190 = 3810（元）。"}, {"q": "(4) 快樂國小有 946 個女學生和 1009 個男學生，男學生比女學生多幾個人？", "ans": "63個", "options": ["63個", "163個", "73個", "53個"], "steps": "1009 - 946 = 63（個）。"}, {"q": "(5) 媽媽買了 485 元的牛肉，付 1000 元，可找回幾元？", "ans": "515元", "options": ["525元", "505元", "615元", "515元"], "steps": "1000 - 485 = 515（元）。"}]}]}, {"review_id": 6, "range": "2-3 加減應用、2-4 四位數的加減估算", "page": "P.13-14", "sections": [{"section_title": "一、加減應用題（線段圖與列式）", "type": "word_problems", "items": [{"q": "(1) 媽媽原有 5000 元，買了一件洋裝後，還剩下 2150 元，這件洋裝是多少元？", "ans": "2850元", "options": ["2950元", "2750元", "3850元", "2850元"], "steps": "5000 - 2150 = 2850（元）。"}, {"q": "(2) 花園裡種了一些玫瑰，再種 135 棵，全部就有 2000 棵玫瑰，花園裡原來種了幾棵玫瑰？", "ans": "1865棵", "options": ["2135棵", "1965棵", "1865棵", "1875棵"], "steps": "2000 - 135 = 1865（棵）。"}, {"q": "(3) 小香存了 4859 元，她再存 728 元就和小玉存的一樣多，小玉存了幾元？", "ans": "5587元", "options": ["4131元", "5487元", "5597元", "5587元"], "steps": "4859 + 728 = 5587（元）。"}, {"q": "(4) 一個氣炸鍋售價 7650 元，比一個萬用鍋多 1851 元，一個萬用鍋售價是多少元？", "ans": "5799元", "options": ["5699元", "9501元", "5799元", "5899元"], "steps": "7650 - 1851 = 5799（元）。"}]}, {"section_title": "二、估算題：連連看找出最接近的數", "type": "estimation_match", "items": [{"q": "(1) 1878 + 3101 最接近哪個數？", "ans": "5000", "options": ["4000", "3000", "5000", "2000"], "steps": "1878 ≈ 1900，3101 ≈ 3100，1900 + 3100 = 5000（或 2000 + 3000 = 5000）。"}, {"q": "(2) 8970 - 7043 最接近哪個數？", "ans": "2000", "options": ["3000", "1000", "4000", "2000"], "steps": "8970 ≈ 9000，7043 ≈ 7000，9000 - 7000 = 2000。"}, {"q": "(3) 7189 - 4064 最接近哪個數？", "ans": "3000", "options": ["5000", "2000", "4000", "3000"], "steps": "7189 ≈ 7000，4064 ≈ 4000，7000 - 4000 = 3000。"}, {"q": "(4) 2038 + 1956 最接近哪個數？", "ans": "4000", "options": ["2000", "4000", "5000", "3000"], "steps": "2038 ≈ 2000，1956 ≈ 2000，2000 + 2000 = 4000。"}]}, {"section_title": "三、看圖回答估算問題", "type": "word_problems", "items": [{"q": "(1) 商品售價：電腦螢幕 4949元、相機 8970元、吉他 6950元、溜冰鞋 1899元。爸爸皮夾裡有 9050 元，買了一台電腦螢幕後，皮夾最多還剩下幾張千元鈔票？", "ans": "4張", "options": ["4張", "3張", "2張", "5張"], "steps": "9050 - 4949 = 4101元。4101元中最多有 4 張千元鈔票。"}, {"q": "(2) 真真買了一雙溜冰鞋(1899元)和一把吉他(6950元)，付錢時只有千元鈔票，她最少要拿出幾張千元鈔票才夠？", "ans": "9張", "options": ["10張", "9張", "8張", "7張"], "steps": "1899 + 6950 = 8849元。8849元超過8000元，最少需要拿出 9 張千元鈔票（9000元）才夠付。"}, {"q": "(3) 媽媽身上有 7180 元，幫弟弟買溜冰鞋(1899元)後，她最多還剩下幾張千元鈔票？", "ans": "5張", "options": ["5張", "2張", "4張", "3張"], "steps": "7180 - 1899 = 5281元。5281元最多包含 5 張千元鈔票。"}, {"q": "(4) 下面哪一個值最接近「相機(8970元)和電腦螢幕(4949元)」的售價相差金額？", "ans": "4000元", "options": ["5000元", "4000元", "3000元"], "steps": "相機約 9000 元，電腦螢幕約 5000 元，9000 - 5000 = 4000元。"}]}]}]};
-
-let wbCurrentRevId = 4;
-let wbAnswers = {};
-
-function openWbModal() {
-  if(typeof playSound === 'function') playSound('click');
-  document.getElementById('wbModalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  switchWbRev(4);
-}
-function closeWbModal() {
-  document.getElementById('wbModalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function switchWbRev(revId) {
-  wbCurrentRevId = revId;
-  wbAnswers = {};
-  document.querySelectorAll('.wb-tab').forEach(t => {
-    t.classList.toggle('active', parseInt(t.getAttribute('data-rev')) === revId);
-  });
-  document.getElementById('wbScoreDisp').textContent = '狀態：做題中（未交卷）';
-  renderWbQuizBody();
-}
-
-function wbPick(itemId, val, btnEl) {
-  if(typeof playSound === 'function') playSound('click');
-  wbAnswers[itemId] = val;
-  const parent = btnEl.closest('.wb-opt-grid');
-  if (parent) {
-    parent.querySelectorAll('.wb-opt-btn').forEach(b => b.classList.remove('selected'));
-    btnEl.classList.add('selected');
-  }
-}
-
-function renderWbQuizBody() {
-  const rev = WB_DATA_u2.reviews.find(r => r.review_id === wbCurrentRevId);
-  const container = document.getElementById('wbQuizBody');
-  if (!rev) return;
-
-  let html = '';
-  rev.sections.forEach((sec, sIdx) => {
-    html += `<div class="wb-sec-card">
-      <div class="wb-sec-title">📌 ${sec.section_title}</div>`;
-
-    sec.items.forEach((item, iIdx) => {
-      const itemId = `u2_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
-      const qTitle = item.q;
-      const opts = (item.options ? [...item.options] : [item.ans]).sort(() => Math.random() - 0.5);
-
-      html += `
-        <div class="wb-q-item">
-          <div class="wb-q-text">${qTitle}</div>
-          <div class="wb-opt-grid">
-            ${opts.map(opt => `
-              <button type="button" class="wb-opt-btn ${wbAnswers[itemId] === opt ? 'selected' : ''}" onclick="wbPick('${itemId}', '${opt}', this)">
-                ${opt}
-              </button>
-            `).join('')}
-          </div>
-          <div class="wb-sol-panel" id="sol_${itemId}">
-            <div class="wb-sol-steps">${item.steps || item.explanation || ''}</div>
-            <div class="wb-sol-ans">標準答案：${item.ans}</div>
-          </div>
-        </div>`;
-    });
-
-    html += '</div>';
-  });
-  container.innerHTML = html;
-}
-
-function gradeWbQuiz() {
-  const rev = WB_DATA_u2.reviews.find(r => r.review_id === wbCurrentRevId);
-  let total = 0, correct = 0;
-
-  rev.sections.forEach((sec, sIdx) => {
-    sec.items.forEach((item, iIdx) => {
-      total++;
-      const itemId = `u2_r${wbCurrentRevId}_s${sIdx}_${iIdx}`;
-      const userVal = wbAnswers[itemId] || '';
-      let isRight = false;
-
-      const targetAns = item.ans;
-      const cleanUser = userVal.replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
-      const cleanAns = String(targetAns).replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
-
-      if (cleanUser === cleanAns || cleanUser.includes(cleanAns) || userVal === targetAns) {
-        isRight = true;
-      }
-
-      if (isRight) correct++;
-
-      const panel = document.getElementById(`sol_${itemId}`);
-      const qItem = panel ? panel.closest('.wb-q-item') : null;
-      
-      if (qItem) {
-        qItem.classList.remove('is-correct', 'is-wrong');
-        qItem.classList.add(isRight ? 'is-correct' : 'is-wrong');
-        
-        const oldBadge = qItem.querySelector('.wb-q-badge');
-        if (oldBadge) oldBadge.remove();
-        
-        const badge = document.createElement('div');
-        badge.className = `wb-q-badge ${isRight ? 'correct' : 'wrong'}`;
-        badge.innerHTML = isRight ? '✓ 答對了！' : (userVal ? '✕ 答錯了！' : '⚠️ 未作答！');
-        qItem.insertBefore(badge, qItem.firstChild);
-
-        const btns = qItem.querySelectorAll('.wb-opt-btn');
-        btns.forEach(btn => {
-          btn.classList.remove('opt-correct', 'opt-wrong', 'opt-should-be');
-          const btnVal = btn.textContent.trim();
-          const cleanBtn = btnVal.replace(/[\s\*xX×]/g, '').replace(/公分|公尺|毫米|顆|張|枝|片|盒|元|個|人|塊|罐|分鐘|公克|m|cm|mm/g, '');
-          
-          if (btnVal === userVal) {
-            if (isRight) {
-              btn.classList.add('opt-correct');
-              btn.innerHTML = `✓ ${btnVal}`;
-            } else {
-              btn.classList.add('opt-wrong');
-              btn.innerHTML = `✕ ${btnVal}`;
+            if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(783.99, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(146.83, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.35);
             }
-          } else if ((cleanBtn === cleanAns || btnVal === targetAns) && !isRight) {
-            btn.classList.add('opt-should-be');
-            btn.innerHTML = `★ 正解：${btnVal}`;
-          }
+        }
+
+        // --- 直式加減計算機 ---
+        function runVerticalCalc() {
+            const n1 = parseInt(document.getElementById('calcNum1').value, 10) || 0;
+            const n2 = parseInt(document.getElementById('calcNum2').value, 10) || 0;
+            const op = document.getElementById('calcOp').value;
+
+            let ans = 0;
+            if (op === '+') {
+                ans = n1 + n2;
+            } else {
+                ans = n1 - n2;
+            }
+
+            document.getElementById('vertMathDisplay').innerHTML = `
+                &nbsp;&nbsp;${n1}<br>
+                ${op}&nbsp;${n2}<br>
+                <hr style="border: 2px solid #000; margin: 4px 0;">
+                &nbsp;&nbsp;${ans}
+            `;
+            document.getElementById('vertMathExpl').innerHTML = `
+                ${n1} ${op} ${n2} ＝ <strong>${ans}</strong><br>
+                提醒：計算時請務必從「個位」開始對齊依序計算！
+            `;
+            playSound('correct');
+        }
+
+        // --- 街機遊戲 ---
+        let cannonScore = 0;
+        let cannonKills = 0;
+        let currentCannonAns = "";
+
+        const CANNON_MISSIONS = [
+            { q: "🏰【 2500 ＋ 1700 ＝ ？ 】", a: "4200", wrongs: ["3200", "4100", "4300"] },
+            { q: "🏰【 5000 － 1800 ＝ ？ 】", a: "3200", wrongs: ["4200", "3800", "3100"] },
+            { q: "🏰【 3426 ＋ 2518 ＝ ？ 】", a: "5944", wrongs: ["5934", "6944", "5844"] },
+            { q: "🏰【 4002 － 1560 ＝ ？ 】", a: "2442", wrongs: ["2542", "2462", "3442"] }
+        ];
+
+        function nextCannonRound() {
+            const m = CANNON_MISSIONS[Math.floor(Math.random() * CANNON_MISSIONS.length)];
+            currentCannonAns = m.a;
+            document.getElementById('cannonMissionText').textContent = `🏰 敵軍攻城！${m.q} 請求發射精準砲彈！`;
+
+            const rack = document.getElementById('cannonButtonsRack');
+            rack.innerHTML = '';
+
+            const pool = [m.a, ...m.wrongs];
+            for (let i = pool.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pool[i], pool[j]] = [pool[j], pool[i]];
+            }
+
+            pool.forEach(text => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-arcade';
+                btn.textContent = `💥 ${text}`;
+                btn.onclick = () => fireCannon(text === currentCannonAns, btn);
+                rack.appendChild(btn);
+            });
+        }
+
+        function fireCannon(isCorrect, btnEl) {
+            if (isCorrect) {
+                playSound('correct');
+                cannonKills++;
+                cannonScore += 100;
+                document.getElementById('cannonKills').textContent = cannonKills;
+                document.getElementById('cannonScore').textContent = cannonScore;
+                btnEl.style.background = '#22C55E';
+                setTimeout(() => nextCannonRound(), 350);
+            } else {
+                playSound('wrong');
+                btnEl.style.background = '#EF4444';
+                setTimeout(() => btnEl.style.background = '', 400);
+            }
+        }
+
+        // --- 練習 2 題庫 ---
+        const QUIZ_RAW_DATA = [
+            {
+                id: 1,
+                tag: "不進位加法",
+                q: "計算 3214 ＋ 4562 ＝ ？",
+                opts: ["7776", "7786", "7676", "8776"],
+                ans: 0,
+                exp: "個位 4+2=6，十位 1+6=7，百位 2+5=7，千位 3+4=7，答案為 7776。"
+            },
+            {
+                id: 2,
+                tag: "連續進位加法",
+                q: "計算 2856 ＋ 1475 ＝ ？",
+                opts: ["4331", "4231", "4321", "3331"],
+                ans: 0,
+                exp: "個位 6+5=11(進1寫1)，十位 5+7+1=13(進1寫3)，百位 8+4+1=13(進1寫3)，千位 2+1+1=4，結果為 4331。"
+            },
+            {
+                id: 3,
+                tag: "連續借位減法",
+                q: "計算 5000 － 1348 ＝ ？",
+                opts: ["3652", "3752", "4652", "3662"],
+                ans: 0,
+                exp: "0 不夠減向千位連續借位：10-8=2，9-4=5，9-3=6，4-1=3，答案為 3652。"
+            },
+            {
+                id: 4,
+                tag: "生活兩步驟加法",
+                q: "甲書局賣出 1250 本筆記本，乙書局比甲書局多賣出 480 本，兩家書局共賣出幾本筆記本？",
+                opts: ["2980 本", "1730 本", "2730 本", "2880 本"],
+                ans: 0,
+                exp: "乙書局賣出：1250 ＋ 480 ＝ 1730 本。兩家合起來：1250 ＋ 1730 ＝ 2980 本。"
+            },
+            {
+                id: 5,
+                tag: "生活減法應用",
+                q: "一臺洗衣機原價 8500 元，週年慶特價促銷便宜 1650 元，特價是多少元？",
+                opts: ["6850 元", "6950 元", "7150 元", "6800 元"],
+                ans: 0,
+                exp: "8500 － 1650 ＝ 6850 元。"
+            },
+            {
+                id: 6,
+                tag: "加法估算",
+                q: "小美買了一件 1980 元的外套和一雙 1020 元的球鞋，大約共要多少元？",
+                opts: ["約 3000 元", "約 4000 元", "約 2000 元", "約 3500 元"],
+                ans: 0,
+                exp: "1980 大約是 2000，1020 大約是 1000，2000 ＋ 1000 ＝ 3000 元。"
+            },
+            {
+                id: 7,
+                tag: "中間有0的減法",
+                q: "計算 4005 － 1827 ＝ ？",
+                opts: ["2178", "2278", "2188", "3178"],
+                ans: 0,
+                exp: "4005 － 1827 ＝ 2178。"
+            },
+            {
+                id: 8,
+                tag: "兩步驟連減問題",
+                q: "媽媽帶了 5000 元出門，買菜花了 1380 元，買衣服花了 2150 元，媽媽還剩下多少元？",
+                opts: ["1470 元", "1570 元", "2470 元", "1370 元"],
+                ans: 0,
+                exp: "5000 － 1380 － 2150 ＝ 1470 元。"
+            },
+            {
+                id: 9,
+                tag: "估算夠不夠",
+                q: "爸爸帶了 6000 元，想買一臺 3890 元的吸塵器和一臺 2250 元的微波爐，他的錢夠不夠？",
+                opts: [
+                    "不夠（大約需要 6140 元）",
+                    "夠（剛好 6000 元）",
+                    "夠（大約只要 5000 元）",
+                    "無法判斷"
+                ],
+                ans: 0,
+                exp: "3890 ＋ 2250 ＝ 6140 元。6140 ＞ 6000，因此爸爸帶的錢不夠！"
+            },
+            {
+                id: 10,
+                tag: "加減驗算觀念",
+                q: "小明計算「4500 － 1800 ＝ 2700」，他想驗算自己算得對不對，下列哪一個算式是正確的驗算方法？",
+                opts: [
+                    "2700 ＋ 1800",
+                    "4500 ＋ 2700",
+                    "2700 － 1800",
+                    "4500 ＋ 1800"
+                ],
+                ans: 0,
+                exp: "減法的驗算方式是：差 ＋ 減數 ＝ 被減數（2700 ＋ 1800 ＝ 4500）。"
+            }
+        ];
+
+        // Fisher-Yates 隨機打亂
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        let processedQuiz = [];
+        let userAnswers = {};
+
+        function initQuiz() {
+            processedQuiz = QUIZ_RAW_DATA.map((item, idx) => {
+                const optionObjects = item.opts.map((optText, optIdx) => ({
+                    text: optText,
+                    isCorrect: optIdx === item.ans
+                }));
+                const shuffledOpts = shuffleArray([...optionObjects]);
+                const newCorrectIndex = shuffledOpts.findIndex(o => o.isCorrect);
+
+                return {
+                    id: item.id,
+                    displayNum: idx + 1,
+                    tag: item.tag,
+                    q: item.q,
+                    options: shuffledOpts.map(o => o.text),
+                    correctIndex: newCorrectIndex,
+                    exp: item.exp
+                };
+            });
+
+            renderQuiz();
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            userAnswers = {};
+
+            processedQuiz.forEach((qItem) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                card.id = `quizCard_${qItem.id}`;
+
+                const optHtml = qItem.options.map((opt, oIdx) => `
+                    <button class="opt-btn" onclick="selectOption(${qItem.id}, ${oIdx})">
+                        <span>(${String.fromCharCode(65 + oIdx)})</span>
+                        <span>${opt}</span>
+                    </button>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="quiz-header">
+                        <span class="quiz-badge">${qItem.tag}</span>
+                        <span style="font-weight: 700; color: var(--text-gray);">第 ${qItem.displayNum} / 10 題</span>
+                    </div>
+                    <div class="quiz-question">${qItem.displayNum}. ${qItem.q}</div>
+                    <div class="quiz-options" id="optGroup_${qItem.id}">
+                        ${optHtml}
+                    </div>
+                    <div class="feedback-box" id="feedback_${qItem.id}"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(qId, selectedIdx) {
+            if (userAnswers[qId] !== undefined) return;
+            userAnswers[qId] = selectedIdx;
+
+            const qItem = processedQuiz.find(q => q.id === qId);
+            const optGroup = document.getElementById(`optGroup_${qId}`);
+            const buttons = optGroup.getElementsByClassName('opt-btn');
+            const feedbackEl = document.getElementById(`feedback_${qId}`);
+
+            Array.from(buttons).forEach(btn => btn.disabled = true);
+
+            const isCorrect = (selectedIdx === qItem.correctIndex);
+            if (isCorrect) {
+                buttons[selectedIdx].classList.add('correct');
+                feedbackEl.className = 'feedback-box feedback-correct';
+                feedbackEl.style.display = 'block';
+                feedbackEl.innerHTML = `<strong>🎉 太棒了！回答正確！</strong><br>${qItem.exp}`;
+                playSound('correct');
+            } else {
+                buttons[selectedIdx].classList.add('wrong');
+                buttons[qItem.correctIndex].classList.add('correct');
+                feedbackEl.className = 'feedback-box feedback-wrong';
+                feedbackEl.style.display = 'block';
+                feedbackEl.innerHTML = `<strong>💡 差一點點！正確答案是 (${String.fromCharCode(65 + qItem.correctIndex)}) ${qItem.options[qItem.correctIndex]}</strong><br>${qItem.exp}`;
+                playSound('wrong');
+            }
+
+            checkAllAnswered();
+        }
+
+        function checkAllAnswered() {
+            if (Object.keys(userAnswers).length === processedQuiz.length) {
+                let correctCount = 0;
+                processedQuiz.forEach(q => {
+                    if (userAnswers[q.id] === q.correctIndex) correctCount++;
+                });
+                const score = correctCount * 10;
+                const summaryCard = document.getElementById('quizSummary');
+                document.getElementById('finalScore').textContent = `${score} 分`;
+                document.getElementById('summaryMessage').textContent = score >= 80 ? "🌟 表現優異！你已經完全掌握四位數加減法與估算！" : "💪 再接再厲，多練習直式對齊與進退位一定能更上一層樓！";
+                summaryCard.style.display = 'block';
+                summaryCard.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function resetQuiz() {
+            document.getElementById('quizSummary').style.display = 'none';
+            initQuiz();
+            window.scrollTo({ top: document.querySelector('.quiz-section').offsetTop - 80, behavior: 'smooth' });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initQuiz();
+            nextCannonRound();
         });
-      }
-
-      if (panel) {
-        panel.classList.add('show');
-        panel.style.borderLeft = isRight ? '6px solid #10B981' : '6px solid #EF4444';
-      }
-    });
-  });
-
-  const score = Math.round((correct / total) * 100);
-  document.getElementById('wbScoreDisp').innerHTML = `得分：<b>${score} 分</b> (${correct} / ${total} 題正確)`;
-  if (score >= 80) {
-    if(typeof playSound === 'function') playSound('correct');
-    if (typeof confetti === 'function') confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-  } else {
-    if(typeof playSound === 'function') playSound('wrong');
-  }
-    const modalIcon = score === 100 ? '👑' : (score >= 80 ? '🎉' : (score >= 60 ? '👍' : '💪'));
-  const modalTitle = score === 100 ? '太厲害了！滿分過關' : (score >= 80 ? '表現優異！批改完成' : '隨堂測驗批改完成！');
-  const wrongCount = total - correct;
-  const modalHtml = `
-    <div style="font-size:2.5rem; font-weight:900; color:#2563EB; margin:6px 0 12px; font-family:'Fredoka','Baloo 2',sans-serif; text-shadow:0 2px 8px rgba(37,99,235,0.2);">${score} <span style="font-size:1.2rem; font-weight:700;">分</span></div>
-    <div style="background:#F8FAFC; border:1.5px solid #E2E8F0; border-radius:18px; padding:14px 16px; margin-bottom:16px; font-size:0.95rem; text-align:left; line-height:1.7;">
-      <div>📊 <b>測驗題數</b>：共 <b>${total}</b> 題</div>
-      <div>✅ <b>答對題數</b>：<b style="color:#059669;">${correct}</b> 題</div>
-      <div>${wrongCount > 0 ? `❌ <b>待訂正題數</b>：<b style="color:#DC2626;">${wrongCount}</b> 題` : '🌟 <b>全部答對，完美全對通關！</b>'}</div>
-      <div style="margin-top:10px; padding-top:8px; border-top:1px dashed #CBD5E1; color:#64748B; font-size:0.84rem;">
-        💡 <b>提示</b>：題目卡片已標上答題狀態，<b>綠色</b>為正確、<b>紅色</b>為答錯，詳細步驟解題已為你展開！
-      </div>
-    </div>
-  `;
-  showCastleModal(modalTitle, modalHtml, modalIcon);
-}
-
-function resetWbQuiz() {
-  wbAnswers = {};
-  renderWbQuizBody();
-  document.getElementById('wbScoreDisp').textContent = '狀態：做題中（未交卷）';
-}
-
-// ── 通用現代化彈窗 (CastleModal) ──
-function showCastleModal(title, messageHtml, icon = '🎉', onClose = null) {
-  let overlay = document.getElementById('castleModalOverlay');
-  if (!overlay) return;
-  document.getElementById('castleModalTitle').textContent = title;
-  document.getElementById('castleModalBody').innerHTML = messageHtml;
-  document.getElementById('castleModalIcon').textContent = icon;
-  overlay.classList.add('open');
-  window._castleModalOnClose = onClose;
-}
-
-function closeCastleModal() {
-  const overlay = document.getElementById('castleModalOverlay');
-  if (overlay) overlay.classList.remove('open');
-  if (typeof window._castleModalOnClose === 'function') {
-    const cb = window._castleModalOnClose;
-    window._castleModalOnClose = null;
-    cb();
-  }
-}
-
-function closeCastleModalOnBackdrop(e) {
-  if (e.target && e.target.id === 'castleModalOverlay') {
-    closeCastleModal();
-  }
-}
-
-// 防禦性覆蓋原生 alert，全面導向自訂 Modal
-window.alert = function(msg) {
-  showCastleModal('系統提示', `<div style="text-align:left; white-space:pre-line;">${msg}</div>`, '💡');
-};
-
-</script>
-
-
-<!-- 通用現代化 CastleModal 彈窗 (取代系統原生 alert) -->
-<div id="castleModalOverlay" class="castle-modal-overlay" onclick="closeCastleModalOnBackdrop(event)">
-  <div class="castle-modal-box">
-    <button type="button" class="castle-modal-close-btn" onclick="closeCastleModal()" title="關閉">✕</button>
-    <span class="castle-modal-icon" id="castleModalIcon">🎉</span>
-    <h3 class="castle-modal-title" id="castleModalTitle">隨堂測驗批改完成</h3>
-    <div class="castle-modal-body" id="castleModalBody"></div>
-    <div class="castle-modal-footer">
-      <button type="button" class="castle-modal-btn" onclick="closeCastleModal()">我知道了 ➔</button>
-    </div>
-  </div>
-</div>
-
+    </script>
 </body>
 </html>
